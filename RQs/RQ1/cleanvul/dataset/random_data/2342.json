@@ -1,0 +1,15 @@
+{
+  "id": 2342,
+  "language": "Java",
+  "commit_url": "https://github.com/fosslight/fosslight/commit/fe967e9eb1e8323e2a829cd3b501c60748e20ead",
+  "commit_sha": "fe967e9eb1e8323e2a829cd3b501c60748e20ead",
+  "commit_msg": "Fix the vulnerability that public array is assigned to private variable\n\nChange behavior that public array is assigned to private variable into\nbehavior that copy is assigned to private variable.\n\nSigned-off-by: yugeeklab <yugeeklab@gmail.com>",
+  "pr_url": "https://github.com/fosslight/fosslight/pull/267",
+  "pr_info": "Change behavior that public array is assigned to private variable into\r\nbehavior that copy is assigned to private variable.\r\n\r\nSigned-off-by: yugeeklab <yugeeklab@gmail.com>\r\n\r\n## Description\r\n<!-- \r\nPlease describe what this PR do.\r\n -->\r\n\r\n\r\n## Type of change\r\n<!--\r\nPlease insert 'x' one of the type of change.\r\n -->\r\n- [ ] Bug fix (non-breaking change which fixes an issue)\r\n- [ ] New feature (non-breaking change which adds functionality)\r\n- [ ] Documentation update\r\n- [x] Refactoring, Maintenance\r\n- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)\r\n",
+  "file_name": "src/main/java/oss/fosslight/domain/ReportCombean.java",
+  "func_name": "setSheetNums",
+  "func_before": "public void setSheetNums(String[] sheetNums) {\n\t\tthis.sheetNums = sheetNums;\n\t}",
+  "func_after": "public void setSheetNums(String[] sheetNums) {\n\t\tthis.sheetNums = sheetNums != null ? sheetNums.clone() : null;\n\t}",
+  "diff_func": "--- func_before\n+++ func_after\n public void setSheetNums(String[] sheetNums) {\n-\t\tthis.sheetNums = sheetNums;\n+\t\tthis.sheetNums = sheetNums != null ? sheetNums.clone() : null;\n \t}",
+  "diff_source": "custom"
+}

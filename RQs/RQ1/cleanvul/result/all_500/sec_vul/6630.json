@@ -1,0 +1,18 @@
+{
+  "id": 6630,
+  "language": "C/C++",
+  "commit_url": "https://github.com/git/git/commit/34fa79a6cde56d6d428ab0d3160cb094ebad3305",
+  "commit_sha": "34fa79a6cde56d6d428ab0d3160cb094ebad3305",
+  "commit_msg": "prefer memcpy to strcpy\n\nWhen we already know the length of a string (e.g., because\nwe just malloc'd to fit it), it's nicer to use memcpy than\nstrcpy, as it makes it more obvious that we are not going to\noverflow the buffer (because the size we pass matches the\nsize in the allocation).\n\nThis also eliminates calls to strcpy, which make auditing\nthe code base harder.\n\nSigned-off-by: Jeff King <peff@peff.net>\nSigned-off-by: Junio C Hamano <gitster@pobox.com>",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "revision.c",
+  "func_name": "path_name",
+  "func_before": "char *path_name(const struct name_path *path, const char *name)\n{\n\tconst struct name_path *p;\n\tchar *n, *m;\n\tint nlen = strlen(name);\n\tint len = nlen + 1;\n\n\tfor (p = path; p; p = p->up) {\n\t\tif (p->elem_len)\n\t\t\tlen += p->elem_len + 1;\n\t}\n\tn = xmalloc(len);\n\tm = n + len - (nlen + 1);\n\tstrcpy(m, name);\n\tfor (p = path; p; p = p->up) {\n\t\tif (p->elem_len) {\n\t\t\tm -= p->elem_len + 1;\n\t\t\tmemcpy(m, p->elem, p->elem_len);\n\t\t\tm[p->elem_len] = '/';\n\t\t}\n\t}\n\treturn n;\n}",
+  "func_after": "char *path_name(const struct name_path *path, const char *name)\n{\n\tconst struct name_path *p;\n\tchar *n, *m;\n\tint nlen = strlen(name);\n\tint len = nlen + 1;\n\n\tfor (p = path; p; p = p->up) {\n\t\tif (p->elem_len)\n\t\t\tlen += p->elem_len + 1;\n\t}\n\tn = xmalloc(len);\n\tm = n + len - (nlen + 1);\n\tmemcpy(m, name, nlen + 1);\n\tfor (p = path; p; p = p->up) {\n\t\tif (p->elem_len) {\n\t\t\tm -= p->elem_len + 1;\n\t\t\tmemcpy(m, p->elem, p->elem_len);\n\t\t\tm[p->elem_len] = '/';\n\t\t}\n\t}\n\treturn n;\n}",
+  "diff_func": "--- func_before\n+++ func_after\n char *path_name(const struct name_path *path, const char *name)\n {\n \tconst struct name_path *p;\n \tchar *n, *m;\n \tint nlen = strlen(name);\n \tint len = nlen + 1;\n \n \tfor (p = path; p; p = p->up) {\n \t\tif (p->elem_len)\n \t\t\tlen += p->elem_len + 1;\n \t}\n \tn = xmalloc(len);\n \tm = n + len - (nlen + 1);\n-\tstrcpy(m, name);\n+\tmemcpy(m, name, nlen + 1);\n \tfor (p = path; p; p = p->up) {\n \t\tif (p->elem_len) {\n \t\t\tm -= p->elem_len + 1;\n \t\t\tmemcpy(m, p->elem, p->elem_len);\n \t\t\tm[p->elem_len] = '/';\n \t\t}\n \t}\n \treturn n;\n }",
+  "diff_source": "custom",
+  "Bug Filter": "** Security Vulnerability Fix  \n**Confidence Score:** 1.0",
+  "Bug Filter Confidence": 1.0,
+  "Bug Filter Response": "\n\nThe patch replaces `strcpy` with `memcpy`, ensuring that the correct number of bytes are copied to prevent buffer overflow, thus mitigating a potential security vulnerability.\n\n**Final Classification:** Security Vulnerability Fix  \n**Confidence Score:** 1.0"
+}

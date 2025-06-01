@@ -1,0 +1,15 @@
+{
+  "id": 1072,
+  "language": "Java",
+  "commit_url": "https://github.com/gudzpoz/luajava/commit/83505ac0aaba37ed1b6434677bd4fd681b391926",
+  "commit_sha": "83505ac0aaba37ed1b6434677bd4fd681b391926",
+  "commit_msg": "Fixed Lua stack overflow: causing memory corruption",
+  "pr_url": "https://github.com/gudzpoz/luajava/pull/11",
+  "pr_info": "1. Project renamed into LuaJava\r\n2. Test full coverage (at least the Java interface part (luajava))\r\n3. Lua5.[1..4] support, as well as for LuaJIT\r\n4. More documentation and a dedicated VuePress site",
+  "file_name": "luajava/src/main/java/party/iroiro/luajava/AbstractLua.java",
+  "func_name": "toMap",
+  "func_before": "@Override\n    public @Nullable Map<?, ?> toMap(int index) {\n        Object obj = toJavaObject(index);\n        if (obj instanceof Map) {\n            return ((Map<?, ?>) obj);\n        }\n        if (C.lua_istable(L, index) == 1) {\n            C.lua_pushnil(L);\n            Map<Object, Object> map = new HashMap<>();\n            while (C.lua_next(L, -2) != 0) {\n                Object k = toObject(-2);\n                Object v = toObject(-1);\n                if (k != null && v != null) {\n                    map.put(k, v);\n                }\n                pop(1);\n            }\n            return map;\n        }\n        return null;\n    }",
+  "func_after": "@Override\n    public @Nullable Map<?, ?> toMap(int index) {\n        Object obj = toJavaObject(index);\n        if (obj instanceof Map) {\n            return ((Map<?, ?>) obj);\n        }\n        checkStack(2);\n        if (C.lua_istable(L, index) == 1) {\n            C.lua_pushnil(L);\n            Map<Object, Object> map = new HashMap<>();\n            while (C.lua_next(L, -2) != 0) {\n                Object k = toObject(-2);\n                Object v = toObject(-1);\n                if (k != null && v != null) {\n                    map.put(k, v);\n                }\n                pop(1);\n            }\n            return map;\n        }\n        return null;\n    }",
+  "diff_func": "--- func_before\n+++ func_after\n @Override\n     public @Nullable Map<?, ?> toMap(int index) {\n         Object obj = toJavaObject(index);\n         if (obj instanceof Map) {\n             return ((Map<?, ?>) obj);\n         }\n+        checkStack(2);\n         if (C.lua_istable(L, index) == 1) {\n             C.lua_pushnil(L);\n             Map<Object, Object> map = new HashMap<>();\n             while (C.lua_next(L, -2) != 0) {\n                 Object k = toObject(-2);\n                 Object v = toObject(-1);\n                 if (k != null && v != null) {\n                     map.put(k, v);\n                 }\n                 pop(1);\n             }\n             return map;\n         }\n         return null;\n     }",
+  "diff_source": "custom"
+}

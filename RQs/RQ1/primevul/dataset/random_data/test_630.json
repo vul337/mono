@@ -1,0 +1,23 @@
+{
+  "id": 630,
+  "language": "c",
+  "cwe": "",
+  "commit_url": "https://github.com/vilcon/vim-local-copy/commit/44db8213d38c39877d2148eff6a72f4beccfb94e",
+  "commit_sha": "44db8213d38c39877d2148eff6a72f4beccfb94e",
+  "commit_msg": "patch 8.2.4219: reading before the start of the line\n\nProblem:    Reading before the start of the line.\nSolution:   Check boundary before trying to read the character.",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "src/register.c",
+  "func_name": "",
+  "raw_func_from_json": "yank_copy_line(struct block_def *bd, long y_idx, int exclude_trailing_space)\n{\n    char_u\t*pnew;\n\n    if (exclude_trailing_space)\n\tbd->endspaces = 0;\n    if ((pnew = alloc(bd->startspaces + bd->endspaces + bd->textlen + 1))\n\t\t\t\t\t\t\t\t      == NULL)\n\treturn FAIL;\n    y_current->y_array[y_idx] = pnew;\n    vim_memset(pnew, ' ', (size_t)bd->startspaces);\n    pnew += bd->startspaces;\n    mch_memmove(pnew, bd->textstart, (size_t)bd->textlen);\n    pnew += bd->textlen;\n    vim_memset(pnew, ' ', (size_t)bd->endspaces);\n    pnew += bd->endspaces;\n    if (exclude_trailing_space)\n    {\n\tint s = bd->textlen + bd->endspaces;\n\n\twhile (VIM_ISWHITE(*(bd->textstart + s - 1)) && s > 0)\n\t{\n\t    s = s - (*mb_head_off)(bd->textstart, bd->textstart + s - 1) - 1;\n\t    pnew--;\n\t}\n    }\n    *pnew = NUL;\n    return OK;\n}",
+  "diff_func": "@@ -1474,7 +1474,7 @@ yank_copy_line(struct block_def *bd, long y_idx, int exclude_trailing_space)\n     {\n \tint s = bd->textlen + bd->endspaces;\n \n-\twhile (VIM_ISWHITE(*(bd->textstart + s - 1)) && s > 0)\n+\twhile (s > 0 && VIM_ISWHITE(*(bd->textstart + s - 1)))\n \t{\n \t    s = s - (*mb_head_off)(bd->textstart, bd->textstart + s - 1) - 1;\n \t    pnew--;",
+  "func": "yank_copy_line(struct block_def *bd, long y_idx, int exclude_trailing_space)\n{\n    char_u\t*pnew;\n\n    if (exclude_trailing_space)\n\tbd->endspaces = 0;\n    if ((pnew = alloc(bd->startspaces + bd->endspaces + bd->textlen + 1))\n\t\t\t\t\t\t\t\t      == NULL)\n\treturn FAIL;\n    y_current->y_array[y_idx] = pnew;\n    vim_memset(pnew, ' ', (size_t)bd->startspaces);\n    pnew += bd->startspaces;\n    mch_memmove(pnew, bd->textstart, (size_t)bd->textlen);\n    pnew += bd->textlen;\n    vim_memset(pnew, ' ', (size_t)bd->endspaces);\n    pnew += bd->endspaces;\n    if (exclude_trailing_space)\n    {\n\tint s = bd->textlen + bd->endspaces;\n\n\twhile (VIM_ISWHITE(*(bd->textstart + s - 1)) && s > 0)\n\t{\n\t    s = s - (*mb_head_off)(bd->textstart, bd->textstart + s - 1) - 1;\n\t    pnew--;\n\t}\n    }\n    *pnew = NUL;\n    return OK;\n}",
+  "project": "vim",
+  "hash": 246228854524410019724598079825181397279,
+  "size": 29,
+  "commit_id": "44db8213d38c39877d2148eff6a72f4beccfb94e",
+  "message": "patch 8.2.4219: reading before the start of the line\n\nProblem:    Reading before the start of the line.\nSolution:   Check boundary before trying to read the character.",
+  "target": 1,
+  "dataset": "other",
+  "idx": 196578
+}

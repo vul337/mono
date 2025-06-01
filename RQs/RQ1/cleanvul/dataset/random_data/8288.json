@@ -1,0 +1,15 @@
+{
+  "id": 8288,
+  "language": "JavaScript",
+  "commit_url": "https://github.com/krayin/laravel-crm/commit/882dc2e7e7e9149b96cf1ccacf34900960b92fb7",
+  "commit_sha": "882dc2e7e7e9149b96cf1ccacf34900960b92fb7",
+  "commit_msg": "fixed xss issue at datagrid",
+  "pr_url": "https://github.com/krayin/laravel-crm/pull/195",
+  "pr_info": "fixed broken access control issue for account update\r\n* added check for additionally added parameter using any proxy system.",
+  "file_name": "packages/Webkul/UI/publishable/assets/js/ui.js",
+  "func_name": "Fn",
+  "func_before": "function Fn(e,t,n){return null!=e?e:null!=t?t:n}",
+  "func_after": "function Fn(e,t,n){return!e||Nt.indexOf(e)===new Date(t[0],t[1],t[2]).getDay()||(v(n).weekdayMismatch=!0,n._isValid=!1,!1)}",
+  "diff_func": "--- func_before\n+++ func_after\n-function Fn(e,t,n){return null!=e?e:null!=t?t:n}\n+function Fn(e,t,n){return!e||Nt.indexOf(e)===new Date(t[0],t[1],t[2]).getDay()||(v(n).weekdayMismatch=!0,n._isValid=!1,!1)}",
+  "diff_source": "custom"
+}

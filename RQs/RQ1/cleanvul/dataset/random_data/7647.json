@@ -1,0 +1,15 @@
+{
+  "id": 7647,
+  "language": "JavaScript",
+  "commit_url": "https://github.com/yuda-lyu/w-zip/commit/d7039d034e02fa358e6656565157cedf5fa83288",
+  "commit_sha": "d7039d034e02fa358e6656565157cedf5fa83288",
+  "commit_msg": "fix: change output to filename for Disclosure/DoS/RCE",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "dist/w-zip.umd.js",
+  "func_name": "apply",
+  "func_before": "function Me(t){return De.apply(this,arguments)}",
+  "func_after": "function Me(t){if(!Oe(t))return\"\";var r=function(t){if(!Oe(t))return{path:\"\",isRoot:!1};for(;t.indexOf(\"\\\\\\\\\")>=0;)t=t.replace(\"\\\\\\\\\",\"\\\\\");for(;t.indexOf(\"//\")>=0;)t=t.replace(\"//\",\"/\");if(\":\"===$e(t,1))return{path:\"\".concat(t,\"\\\\\"),isRoot:!0};if(\"\\\\\"===$e(t,1)){var r=Ce(t,1);return\":\"===$e(r,1)?{path:t,isRoot:!0}:{path:r,isRoot:!1}}if(\"/\"===$e(t,1)){var e=Ce(t,1);return 0===oe(e)?{path:t,isRoot:!0}:{path:e,isRoot:!1}}return{path:t,isRoot:!1}}(t);if(r.isRoot)return r.path;var e=r.path;try{e=e.split(\"\\\\\").pop().split(\"/\").pop()}catch(t){}return e}",
+  "diff_func": "--- func_before\n+++ func_after\n-function Me(t){return De.apply(this,arguments)}\n+function Me(t){if(!Oe(t))return\"\";var r=function(t){if(!Oe(t))return{path:\"\",isRoot:!1};for(;t.indexOf(\"\\\\\\\\\")>=0;)t=t.replace(\"\\\\\\\\\",\"\\\\\");for(;t.indexOf(\"//\")>=0;)t=t.replace(\"//\",\"/\");if(\":\"===$e(t,1))return{path:\"\".concat(t,\"\\\\\"),isRoot:!0};if(\"\\\\\"===$e(t,1)){var r=Ce(t,1);return\":\"===$e(r,1)?{path:t,isRoot:!0}:{path:r,isRoot:!1}}if(\"/\"===$e(t,1)){var e=Ce(t,1);return 0===oe(e)?{path:t,isRoot:!0}:{path:e,isRoot:!1}}return{path:t,isRoot:!1}}(t);if(r.isRoot)return r.path;var e=r.path;try{e=e.split(\"\\\\\").pop().split(\"/\").pop()}catch(t){}return e}",
+  "diff_source": "custom"
+}

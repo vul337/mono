@@ -1,0 +1,18 @@
+{
+  "id": 4488,
+  "language": "C/C++",
+  "commit_url": "https://github.com/bluez/bluez/commit/9e6889d3b9d8f4dcc1ba57e6345d1efb2fbe1e77",
+  "commit_sha": "9e6889d3b9d8f4dcc1ba57e6345d1efb2fbe1e77",
+  "commit_msg": "gatt: Fix potential buffer out-of-bound\n\nWhen client features is read check if the offset is within the cli_feat\nbounds.\n\nFixes: https://github.com/bluez/bluez/issues/70",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "src/gatt-database.c",
+  "func_name": "cli_feat_read_cb",
+  "func_before": "static void cli_feat_read_cb(struct gatt_db_attribute *attrib,\n\t\t\t\t\tunsigned int id, uint16_t offset,\n\t\t\t\t\tuint8_t opcode, struct bt_att *att,\n\t\t\t\t\tvoid *user_data)\n{\n\tstruct btd_gatt_database *database = user_data;\n\tstruct device_state *state;\n\tuint8_t ecode = 0;\n\tconst uint8_t *value = NULL;\n\tsize_t len = 0;\n\n\tDBG(\"Client Features read\");\n\n\tstate = get_device_state(database, att);\n\tif (!state) {\n\t\tecode = BT_ATT_ERROR_UNLIKELY;\n\t\tgoto done;\n\t}\n\n\tlen = sizeof(state->cli_feat) - offset;\n\tvalue = len ? &state->cli_feat[offset] : NULL;\n\ndone:\n\tgatt_db_attribute_read_result(attrib, id, ecode, value, len);\n}",
+  "func_after": "static void cli_feat_read_cb(struct gatt_db_attribute *attrib,\n\t\t\t\t\tunsigned int id, uint16_t offset,\n\t\t\t\t\tuint8_t opcode, struct bt_att *att,\n\t\t\t\t\tvoid *user_data)\n{\n\tstruct btd_gatt_database *database = user_data;\n\tstruct device_state *state;\n\tuint8_t ecode = 0;\n\tconst uint8_t *value = NULL;\n\tsize_t len = 0;\n\n\tDBG(\"Client Features read\");\n\n\tstate = get_device_state(database, att);\n\tif (!state) {\n\t\tecode = BT_ATT_ERROR_UNLIKELY;\n\t\tgoto done;\n\t}\n\n\tif (offset >= sizeof(state->cli_feat)) {\n\t\tecode = BT_ATT_ERROR_INVALID_OFFSET;\n\t\tgoto done;\n\t}\n\n\tlen = sizeof(state->cli_feat) - offset;\n\tvalue = len ? &state->cli_feat[offset] : NULL;\n\ndone:\n\tgatt_db_attribute_read_result(attrib, id, ecode, value, len);\n}",
+  "diff_func": "--- func_before\n+++ func_after\n static void cli_feat_read_cb(struct gatt_db_attribute *attrib,\n \t\t\t\t\tunsigned int id, uint16_t offset,\n \t\t\t\t\tuint8_t opcode, struct bt_att *att,\n \t\t\t\t\tvoid *user_data)\n {\n \tstruct btd_gatt_database *database = user_data;\n \tstruct device_state *state;\n \tuint8_t ecode = 0;\n \tconst uint8_t *value = NULL;\n \tsize_t len = 0;\n \n \tDBG(\"Client Features read\");\n \n \tstate = get_device_state(database, att);\n \tif (!state) {\n \t\tecode = BT_ATT_ERROR_UNLIKELY;\n \t\tgoto done;\n \t}\n \n+\tif (offset >= sizeof(state->cli_feat)) {\n+\t\tecode = BT_ATT_ERROR_INVALID_OFFSET;\n+\t\tgoto done;\n+\t}\n+\n \tlen = sizeof(state->cli_feat) - offset;\n \tvalue = len ? &state->cli_feat[offset] : NULL;\n \n done:\n \tgatt_db_attribute_read_result(attrib, id, ecode, value, len);\n }",
+  "diff_source": "custom",
+  "Bug Filter": "Security Vulnerability Fix\n\nConfidence Score: 0.95",
+  "Bug Filter Confidence": 0.95,
+  "Bug Filter Response": "\n\n**Final Output:**\n\nAnalysis: The patch addresses a buffer overflow vulnerability by adding an offset check before accessing the cli_feat array. This prevents unauthorized memory access, which could be exploited to cause system compromise.\n\nFinal Classification: Security Vulnerability Fix\n\nConfidence Score: 0.95"
+}

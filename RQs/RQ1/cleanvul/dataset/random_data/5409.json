@@ -1,0 +1,15 @@
+{
+  "id": 5409,
+  "language": "C/C++",
+  "commit_url": "https://github.com/torvalds/linux/commit/0bfc96cb77224736dfa35c3c555d37b3646ef35e",
+  "commit_sha": "0bfc96cb77224736dfa35c3c555d37b3646ef35e",
+  "commit_msg": "block: fail SCSI passthrough ioctls on partition devices\n\nLinux allows executing the SG_IO ioctl on a partition or LVM volume, and\nwill pass the command to the underlying block device.  This is\nwell-known, but it is also a large security problem when (via Unix\npermissions, ACLs, SELinux or a combination thereof) a program or user\nneeds to be granted access only to part of the disk.\n\nThis patch lets partitions forward a small set of harmless ioctls;\nothers are logged with printk so that we can see which ioctls are\nactually sent.  In my tests only CDROM_GET_CAPABILITY actually occurred.\nOf course it was being sent to a (partition on a) hard disk, so it would\nhave failed with ENOTTY and the patch isn't changing anything in\npractice.  Still, I'm treating it specially to avoid spamming the logs.\n\nIn principle, this restriction should include programs running with\nCAP_SYS_RAWIO.  If for example I let a program access /dev/sda2 and\n/dev/sdb, it still should not be able to read/write outside the\nboundaries of /dev/sda2 independent of the capabilities.  However, for\nnow programs with CAP_SYS_RAWIO will still be allowed to send the\nioctls.  Their actions will still be logged.\n\nThis patch does not affect the non-libata IDE driver.  That driver\nhowever already tests for bd != bd->bd_contains before issuing some\nioctl; it could be restricted further to forbid these ioctls even for\nprograms running with CAP_SYS_ADMIN/CAP_SYS_RAWIO.\n\nCc: linux-scsi@vger.kernel.org\nCc: Jens Axboe <axboe@kernel.dk>\nCc: James Bottomley <JBottomley@parallels.com>\nSigned-off-by: Paolo Bonzini <pbonzini@redhat.com>\n[ Make it also print the command name when warning - Linus ]\nSigned-off-by: Linus Torvalds <torvalds@linux-foundation.org>",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "block/scsi_ioctl.c",
+  "func_name": "scsi_cmd_blk_ioctl",
+  "func_before": "int scsi_cmd_blk_ioctl(struct block_device *bd, fmode_t mode,\n\t\t       unsigned int cmd, void __user *arg)\n{\n\treturn scsi_cmd_ioctl(bd->bd_disk->queue, bd->bd_disk, mode, cmd, arg);\n}",
+  "func_after": "int scsi_cmd_blk_ioctl(struct block_device *bd, fmode_t mode,\n\t\t       unsigned int cmd, void __user *arg)\n{\n\tint ret;\n\n\tret = scsi_verify_blk_ioctl(bd, cmd);\n\tif (ret < 0)\n\t\treturn ret;\n\n\treturn scsi_cmd_ioctl(bd->bd_disk->queue, bd->bd_disk, mode, cmd, arg);\n}",
+  "diff_func": "--- func_before\n+++ func_after\n int scsi_cmd_blk_ioctl(struct block_device *bd, fmode_t mode,\n \t\t       unsigned int cmd, void __user *arg)\n {\n+\tint ret;\n+\n+\tret = scsi_verify_blk_ioctl(bd, cmd);\n+\tif (ret < 0)\n+\t\treturn ret;\n+\n \treturn scsi_cmd_ioctl(bd->bd_disk->queue, bd->bd_disk, mode, cmd, arg);\n }",
+  "diff_source": "custom"
+}

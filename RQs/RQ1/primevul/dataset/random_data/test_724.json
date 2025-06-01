@@ -1,0 +1,23 @@
+{
+  "id": 724,
+  "language": "c",
+  "cwe": "",
+  "commit_url": "https://github.com/HKL-Kevin/msm8998-mainline/commit/6c342ce2239c182c2428ce5a44cb32330434ae6e",
+  "commit_sha": "6c342ce2239c182c2428ce5a44cb32330434ae6e",
+  "commit_msg": "mctp: serial: Cancel pending work from ndo_uninit handler\n\nWe cannot do the cancel_work_sync from after the unregister_netdev, as\nthe dev pointer is no longer valid, causing a uaf on ldisc unregister\n(or device close).\n\nInstead, do the cancel_work_sync from the ndo_uninit op, where the dev\nstill exists, but the queue has stopped.\n\nFixes: 7bd9890f3d74 (\"mctp: serial: cancel tx work on ldisc close\")\nReported-by: Luo Likang <luolikang@nsfocus.com>\nTested-by: Luo Likang <luolikang@nsfocus.com>\nSigned-off-by: Jeremy Kerr <jk@codeconstruct.com.au>\nLink: https://lore.kernel.org/r/20220211011552.1861886-1-jk@codeconstruct.com.au\nSigned-off-by: Jakub Kicinski <kuba@kernel.org>",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "drivers/net/mctp/mctp-serial.c",
+  "func_name": "",
+  "raw_func_from_json": "static void mctp_serial_close(struct tty_struct *tty)\n{\n\tstruct mctp_serial *dev = tty->disc_data;\n\tint idx = dev->idx;\n\n\tunregister_netdev(dev->netdev);\n\tcancel_work_sync(&dev->tx_work);\n\tida_free(&mctp_serial_ida, idx);\n}",
+  "diff_func": "@@ -403,8 +403,16 @@ static void mctp_serial_tty_receive_buf(struct tty_struct *tty,\n \t\tmctp_serial_push(dev, c[i]);\n }\n \n+static void mctp_serial_uninit(struct net_device *ndev)\n+{\n+\tstruct mctp_serial *dev = netdev_priv(ndev);\n+\n+\tcancel_work_sync(&dev->tx_work);\n+}\n+\n static const struct net_device_ops mctp_serial_netdev_ops = {\n \t.ndo_start_xmit = mctp_serial_tx,\n+\t.ndo_uninit = mctp_serial_uninit,\n };\n \n static void mctp_serial_setup(struct net_device *ndev)\n@@ -483,7 +491,6 @@ static void mctp_serial_close(struct tty_struct *tty)\n \tint idx = dev->idx;\n \n \tunregister_netdev(dev->netdev);\n-\tcancel_work_sync(&dev->tx_work);\n \tida_free(&mctp_serial_ida, idx);\n }\n ",
+  "func": "static void mctp_serial_close(struct tty_struct *tty)\n{\n\tstruct mctp_serial *dev = tty->disc_data;\n\tint idx = dev->idx;\n\n\tunregister_netdev(dev->netdev);\n\tcancel_work_sync(&dev->tx_work);\n\tida_free(&mctp_serial_ida, idx);\n}",
+  "project": "linux",
+  "hash": 38292062647437607669587167983842602858,
+  "size": 9,
+  "commit_id": "6c342ce2239c182c2428ce5a44cb32330434ae6e",
+  "message": "mctp: serial: Cancel pending work from ndo_uninit handler\n\nWe cannot do the cancel_work_sync from after the unregister_netdev, as\nthe dev pointer is no longer valid, causing a uaf on ldisc unregister\n(or device close).\n\nInstead, do the cancel_work_sync from the ndo_uninit op, where the dev\nstill exists, but the queue has stopped.\n\nFixes: 7bd9890f3d74 (\"mctp: serial: cancel tx work on ldisc close\")\nReported-by: Luo Likang <luolikang@nsfocus.com>\nTested-by: Luo Likang <luolikang@nsfocus.com>\nSigned-off-by: Jeremy Kerr <jk@codeconstruct.com.au>\nLink: https://lore.kernel.org/r/20220211011552.1861886-1-jk@codeconstruct.com.au\nSigned-off-by: Jakub Kicinski <kuba@kernel.org>",
+  "target": 1,
+  "dataset": "other",
+  "idx": 197718
+}

@@ -1,0 +1,23 @@
+{
+  "id": 650,
+  "language": "cc",
+  "cwe": "",
+  "commit_url": "https://github.com/percona/percona-xtrabackup/commit/7742f875bb289a874246fb4653b7cd9f14b588fe",
+  "commit_sha": "7742f875bb289a874246fb4653b7cd9f14b588fe",
+  "commit_msg": "PXB-2722 password is written into xtrabackup_info\nhttps://jira.percona.com/browse/PXB-2722\n\nAnalysis:\npassword passed with -p option is written into backup tool_command in xtrabackup_info\n\nFix:\nmask password before writting into xtrabackup_info",
+  "pr_url": "https://github.com/percona/percona-xtrabackup/pull/1277",
+  "pr_info": "https://jira.percona.com/browse/PXB-2722\r\n\r\nAnalysis:\r\npassword passed with -p option is written into backup tool_command in xtrabackup_info\r\n\r\nFix:\r\nmask password before writting into xtrabackup_info",
+  "file_name": "storage/innobase/xtrabackup/src/backup_mysql.cc",
+  "func_name": "",
+  "raw_func_from_json": "char *make_argv(char *buf, size_t len, int argc, char **argv)\n{\n\tsize_t left= len;\n\tconst char *arg;\n\n\tbuf[0]= 0;\n\t++argv; --argc;\n\twhile (argc > 0 && left > 0)\n\t{\n\t\targ = *argv;\n\t\tif (strncmp(*argv, \"--password\", strlen(\"--password\")) == 0) {\n\t\t\targ = \"--password=...\";\n\t\t}\n\t\tif (strncmp(*argv, \"--encrypt-key\",\n\t\t\t\tstrlen(\"--encrypt-key\")) == 0) {\n\t\t\targ = \"--encrypt-key=...\";\n\t\t}\n\t\tif (strncmp(*argv, \"--encrypt_key\",\n\t\t\t\tstrlen(\"--encrypt_key\")) == 0) {\n\t\t\targ = \"--encrypt_key=...\";\n\t\t}\n\t\tif (strncmp(*argv, \"--transition-key\",\n\t\t\t\tstrlen(\"--transition-key\")) == 0) {\n\t\t\targ = \"--transition-key=...\";\n\t\t}\n\t\tif (strncmp(*argv, \"--transition_key\",\n\t\t\t\tstrlen(\"--transition_key\")) == 0) {\n\t\t\targ = \"--transition_key=...\";\n\t\t}\n\t\tleft-= ut_snprintf(buf + len - left, left,\n\t\t\t\"%s%c\", arg, argc > 1 ? ' ' : 0);\n\t\t++argv; --argc;\n\t}\n\n\treturn buf;\n}",
+  "diff_func": "@@ -2088,6 +2088,9 @@ char *make_argv(char *buf, size_t len, int argc, char **argv)\n \t\tif (strncmp(*argv, \"--password\", strlen(\"--password\")) == 0) {\n \t\t\targ = \"--password=...\";\n \t\t}\n+\t\tif (strncmp(*argv, \"-p\", strlen(\"-p\")) == 0) {\n+\t\t\targ = \"-p...\";\n+\t\t}\n \t\tif (strncmp(*argv, \"--encrypt-key\",\n \t\t\t\tstrlen(\"--encrypt-key\")) == 0) {\n \t\t\targ = \"--encrypt-key=...\";",
+  "func": "char *make_argv(char *buf, size_t len, int argc, char **argv)\n{\n\tsize_t left= len;\n\tconst char *arg;\n\n\tbuf[0]= 0;\n\t++argv; --argc;\n\twhile (argc > 0 && left > 0)\n\t{\n\t\targ = *argv;\n\t\tif (strncmp(*argv, \"--password\", strlen(\"--password\")) == 0) {\n\t\t\targ = \"--password=...\";\n\t\t}\n\t\tif (strncmp(*argv, \"--encrypt-key\",\n\t\t\t\tstrlen(\"--encrypt-key\")) == 0) {\n\t\t\targ = \"--encrypt-key=...\";\n\t\t}\n\t\tif (strncmp(*argv, \"--encrypt_key\",\n\t\t\t\tstrlen(\"--encrypt_key\")) == 0) {\n\t\t\targ = \"--encrypt_key=...\";\n\t\t}\n\t\tif (strncmp(*argv, \"--transition-key\",\n\t\t\t\tstrlen(\"--transition-key\")) == 0) {\n\t\t\targ = \"--transition-key=...\";\n\t\t}\n\t\tif (strncmp(*argv, \"--transition_key\",\n\t\t\t\tstrlen(\"--transition_key\")) == 0) {\n\t\t\targ = \"--transition_key=...\";\n\t\t}\n\t\tleft-= ut_snprintf(buf + len - left, left,\n\t\t\t\"%s%c\", arg, argc > 1 ? ' ' : 0);\n\t\t++argv; --argc;\n\t}\n\n\treturn buf;\n}",
+  "project": "percona-xtrabackup",
+  "hash": 132710794129423427640045943674520634467,
+  "size": 36,
+  "commit_id": "7742f875bb289a874246fb4653b7cd9f14b588fe",
+  "message": "PXB-2722 password is written into xtrabackup_info\nhttps://jira.percona.com/browse/PXB-2722\n\nAnalysis:\npassword passed with -p option is written into backup tool_command in xtrabackup_info\n\nFix:\nmask password before writting into xtrabackup_info",
+  "target": 1,
+  "dataset": "other",
+  "idx": 196792
+}

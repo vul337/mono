@@ -1,0 +1,15 @@
+{
+  "id": 8203,
+  "language": "JavaScript",
+  "commit_url": "https://github.com/livewire/livewire/commit/5d887316f2aaf83c0e380ac5e72766f19700fa3b",
+  "commit_sha": "5d887316f2aaf83c0e380ac5e72766f19700fa3b",
+  "commit_msg": "Stop caching csrf token in case of using wire:navigate across different sessions",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "dist/livewire.js",
+  "func_name": "getCsrfToken",
+  "func_before": "function getCsrfToken() {\n    if (csrf)\n      return csrf;\n    if (document.querySelector(\"[data-csrf]\")) {\n      csrf = document.querySelector(\"[data-csrf]\").getAttribute(\"data-csrf\");\n      return csrf;\n    }\n    if (window.livewireScriptConfig[\"csrf\"] ?? false) {\n      csrf = window.livewireScriptConfig[\"csrf\"];\n      return csrf;\n    }\n    throw \"Livewire: No CSRF token detected\";\n  }",
+  "func_after": "function getCsrfToken() {\n    if (document.querySelector(\"[data-csrf]\")) {\n      return document.querySelector(\"[data-csrf]\").getAttribute(\"data-csrf\");\n    }\n    if (window.livewireScriptConfig[\"csrf\"] ?? false) {\n      return window.livewireScriptConfig[\"csrf\"];\n    }\n    throw \"Livewire: No CSRF token detected\";\n  }",
+  "diff_func": "--- func_before\n+++ func_after\n function getCsrfToken() {\n-    if (csrf)\n-      return csrf;\n     if (document.querySelector(\"[data-csrf]\")) {\n-      csrf = document.querySelector(\"[data-csrf]\").getAttribute(\"data-csrf\");\n+      return document.querySelector(\"[data-csrf]\").getAttribute(\"data-csrf\");\n-      return csrf;\n     }\n     if (window.livewireScriptConfig[\"csrf\"] ?? false) {\n-      csrf = window.livewireScriptConfig[\"csrf\"];\n+      return window.livewireScriptConfig[\"csrf\"];\n-      return csrf;\n     }\n     throw \"Livewire: No CSRF token detected\";\n   }",
+  "diff_source": "custom"
+}

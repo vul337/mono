@@ -1,0 +1,21 @@
+{
+  "id": 885,
+  "language": "c",
+  "cwe": "CWE-125",
+  "commit_url": "https://github.com/IntroversionSoftware/gamelibs-libarchive/commit/fa7438a0ff4033e4741c807394a9af6207940d71",
+  "commit_sha": "fa7438a0ff4033e4741c807394a9af6207940d71",
+  "commit_msg": "Do something sensible for empty strings to make fuzzers happy.",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "libarchive/archive_read_support_format_xar.c",
+  "func_name": "",
+  "raw_func_from_json": "atol8(const char *p, size_t char_cnt)\n {\n \tint64_t l;\n \tint digit;\n \tl = 0;\n \twhile (char_cnt-- > 0) {\n \t\tif (*p >= '0' && *p <= '7')\n\t\t\tdigit = *p - '0';\n\t\telse\n\t\t\tbreak;\n\t\tp++;\n\t\tl <<= 3;\n\t\tl |= digit;\n\t}\n\treturn (l);\n}\n",
+  "diff_func": "@@ -1040,6 +1040,9 @@ atol10(const char *p, size_t char_cnt)\n \tuint64_t l;\n \tint digit;\n \n+\tif (char_cnt == 0)\n+\t\treturn (0);\n+\n \tl = 0;\n \tdigit = *p - '0';\n \twhile (digit >= 0 && digit < 10  && char_cnt-- > 0) {\n@@ -1054,7 +1057,10 @@ atol8(const char *p, size_t char_cnt)\n {\n \tint64_t l;\n \tint digit;\n-        \n+\n+\tif (char_cnt == 0)\n+\t\treturn (0);\n+\n \tl = 0;\n \twhile (char_cnt-- > 0) {\n \t\tif (*p >= '0' && *p <= '7')",
+  "project": "libarchive",
+  "commit_id": "fa7438a0ff4033e4741c807394a9af6207940d71",
+  "target": 1,
+  "func": "atol8(const char *p, size_t char_cnt)\n {\n \tint64_t l;\n \tint digit;\n \tl = 0;\n \twhile (char_cnt-- > 0) {\n \t\tif (*p >= '0' && *p <= '7')\n\t\t\tdigit = *p - '0';\n\t\telse\n\t\t\tbreak;\n\t\tp++;\n\t\tl <<= 3;\n\t\tl |= digit;\n\t}\n\treturn (l);\n}\n",
+  "big_vul_idx": 180940,
+  "idx": 2476,
+  "hash": 223379998720734366501523041321530169470
+}

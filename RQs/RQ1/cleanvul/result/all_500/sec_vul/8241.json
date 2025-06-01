@@ -1,0 +1,18 @@
+{
+  "id": 8241,
+  "language": "JavaScript",
+  "commit_url": "https://github.com/livewire/livewire/commit/5d887316f2aaf83c0e380ac5e72766f19700fa3b",
+  "commit_sha": "5d887316f2aaf83c0e380ac5e72766f19700fa3b",
+  "commit_msg": "Stop caching csrf token in case of using wire:navigate across different sessions",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "dist/livewire.min.js",
+  "func_name": "set",
+  "func_before": "function Xi(e,t,r){Ae.has(e)||Ae.set(e,{});let n=Ae.get(e);n[t]=r,Ae.set(e,n)}",
+  "func_after": "function Xi(e,t,r){e.el.addEventListener(t,n=>{r(n.detail)})}",
+  "diff_func": "--- func_before\n+++ func_after\n-function Xi(e,t,r){Ae.has(e)||Ae.set(e,{});let n=Ae.get(e);n[t]=r,Ae.set(e,n)}\n+function Xi(e,t,r){e.el.addEventListener(t,n=>{r(n.detail)})}",
+  "diff_source": "custom",
+  "Bug Filter": "Security Vulnerability Fix**\n\n**Confidence Score: 0.95**",
+  "Bug Filter Confidence": 0.95,
+  "Bug Filter Response": "\n\nThe patch addresses a potential security issue by modifying how CSRF tokens are handled during navigation across sessions. The change stops caching the tokens, which could have been exploited, thus preventing CSRF vulnerabilities.\n\n**Final Classification: Security Vulnerability Fix**\n\n**Confidence Score: 0.95**"
+}

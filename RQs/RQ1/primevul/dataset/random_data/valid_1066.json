@@ -1,0 +1,21 @@
+{
+  "id": 1066,
+  "language": "cpp",
+  "cwe": "CWE-120",
+  "commit_url": "https://github.com/rohan-flutterint/serenity/commit/c9f25bca048443e317f1994ba9b106f2386688c3",
+  "commit_sha": "c9f25bca048443e317f1994ba9b106f2386688c3",
+  "commit_msg": "LibTextCodec: Make UTF16BEDecoder read only up to an even offset\n\nReading up to the end of the input string of odd length results in\nan out-of-bounds read",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "Userland/Libraries/LibTextCodec/Decoder.cpp",
+  "func_name": "",
+  "raw_func_from_json": "String UTF16BEDecoder::to_utf8(const StringView& input)\n{\n    StringBuilder builder(input.length() / 2);\n    for (size_t i = 0; i < input.length(); i += 2) {\n        u16 code_point = (input[i] << 8) | input[i + 1];\n        builder.append_code_point(code_point);\n    }\n    return builder.to_string();\n}",
+  "diff_func": "@@ -183,7 +183,8 @@ String UTF8Decoder::to_utf8(const StringView& input)\n String UTF16BEDecoder::to_utf8(const StringView& input)\n {\n     StringBuilder builder(input.length() / 2);\n-    for (size_t i = 0; i < input.length(); i += 2) {\n+    size_t utf16_length = input.length() - (input.length() % 2);\n+    for (size_t i = 0; i < utf16_length; i += 2) {\n         u16 code_point = (input[i] << 8) | input[i + 1];\n         builder.append_code_point(code_point);\n     }",
+  "project": "serenity",
+  "commit_id": "c9f25bca048443e317f1994ba9b106f2386688c3",
+  "target": 1,
+  "func": "String UTF16BEDecoder::to_utf8(const StringView& input)\n{\n    StringBuilder builder(input.length() / 2);\n    for (size_t i = 0; i < input.length(); i += 2) {\n        u16 code_point = (input[i] << 8) | input[i + 1];\n        builder.append_code_point(code_point);\n    }\n    return builder.to_string();\n}",
+  "idx": 217239,
+  "hash": 267515062059261157996667906553021221826,
+  "dataset": "other"
+}

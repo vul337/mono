@@ -1,0 +1,21 @@
+{
+  "id": 631,
+  "language": "c",
+  "cwe": "CWE-254",
+  "commit_url": "https://github.com/viaembedded/arm-soc/commit/db29a9508a9246e77087c5531e45b2c88ec6988b",
+  "commit_sha": "db29a9508a9246e77087c5531e45b2c88ec6988b",
+  "commit_msg": "netfilter: conntrack: disable generic tracking for known protocols\n\nGiven following iptables ruleset:\n\n-P FORWARD DROP\n-A FORWARD -m sctp --dport 9 -j ACCEPT\n-A FORWARD -p tcp --dport 80 -j ACCEPT\n-A FORWARD -p tcp -m conntrack -m state ESTABLISHED,RELATED -j ACCEPT\n\nOne would assume that this allows SCTP on port 9 and TCP on port 80.\nUnfortunately, if the SCTP conntrack module is not loaded, this allows\n*all* SCTP communication, to pass though, i.e. -p sctp -j ACCEPT,\nwhich we think is a security issue.\n\nThis is because on the first SCTP packet on port 9, we create a dummy\n\"generic l4\" conntrack entry without any port information (since\nconntrack doesn't know how to extract this information).\n\nAll subsequent packets that are unknown will then be in established\nstate since they will fallback to proto_generic and will match the\n'generic' entry.\n\nOur originally proposed version [1] completely disabled generic protocol\ntracking, but Jozsef suggests to not track protocols for which a more\nsuitable helper is available, hence we now mitigate the issue for in\ntree known ct protocol helpers only, so that at least NAT and direction\ninformation will still be preserved for others.\n\n [1] http://www.spinics.net/lists/netfilter-devel/msg33430.html\n\nJoint work with Daniel Borkmann.\n\nSigned-off-by: Florian Westphal <fw@strlen.de>\nSigned-off-by: Daniel Borkmann <dborkman@redhat.com>\nAcked-by: Jozsef Kadlecsik <kadlec@blackhole.kfki.hu>\nSigned-off-by: Pablo Neira Ayuso <pablo@netfilter.org>",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "net/netfilter/nf_conntrack_proto_generic.c",
+  "func_name": "",
+  "raw_func_from_json": " static bool generic_new(struct nf_conn *ct, const struct sk_buff *skb,\n \t\t\tunsigned int dataoff, unsigned int *timeouts)\n {\n\treturn true;\n }\n",
+  "diff_func": "@@ -14,6 +14,30 @@\n \n static unsigned int nf_ct_generic_timeout __read_mostly = 600*HZ;\n \n+static bool nf_generic_should_process(u8 proto)\n+{\n+\tswitch (proto) {\n+#ifdef CONFIG_NF_CT_PROTO_SCTP_MODULE\n+\tcase IPPROTO_SCTP:\n+\t\treturn false;\n+#endif\n+#ifdef CONFIG_NF_CT_PROTO_DCCP_MODULE\n+\tcase IPPROTO_DCCP:\n+\t\treturn false;\n+#endif\n+#ifdef CONFIG_NF_CT_PROTO_GRE_MODULE\n+\tcase IPPROTO_GRE:\n+\t\treturn false;\n+#endif\n+#ifdef CONFIG_NF_CT_PROTO_UDPLITE_MODULE\n+\tcase IPPROTO_UDPLITE:\n+\t\treturn false;\n+#endif\n+\tdefault:\n+\t\treturn true;\n+\t}\n+}\n+\n static inline struct nf_generic_net *generic_pernet(struct net *net)\n {\n \treturn &net->ct.nf_ct_proto.generic;\n@@ -67,7 +91,7 @@ static int generic_packet(struct nf_conn *ct,\n static bool generic_new(struct nf_conn *ct, const struct sk_buff *skb,\n \t\t\tunsigned int dataoff, unsigned int *timeouts)\n {\n-\treturn true;\n+\treturn nf_generic_should_process(nf_ct_protonum(ct));\n }\n \n #if IS_ENABLED(CONFIG_NF_CT_NETLINK_TIMEOUT)",
+  "project": "linux",
+  "commit_id": "db29a9508a9246e77087c5531e45b2c88ec6988b",
+  "target": 1,
+  "func": " static bool generic_new(struct nf_conn *ct, const struct sk_buff *skb,\n \t\t\tunsigned int dataoff, unsigned int *timeouts)\n {\n\treturn true;\n }\n",
+  "big_vul_idx": 179981,
+  "idx": 1634,
+  "hash": 94206534282979965342403284698414779449
+}

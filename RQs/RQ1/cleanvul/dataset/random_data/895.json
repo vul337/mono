@@ -1,0 +1,15 @@
+{
+  "id": 895,
+  "language": "Java",
+  "commit_url": "https://github.com/patzly/doodle-android/commit/b8fb524d6e4ec45857c74065d5ebd134667c9e1f",
+  "commit_sha": "b8fb524d6e4ec45857c74065d5ebd134667c9e1f",
+  "commit_msg": "Fix Implicit Internal Intent Vulnerability and fix crash caused by non-display intent",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "app/src/main/java/xyz/zedler/patrick/doodle/activity/MainActivity.java",
+  "func_name": "requestSettingsRefresh",
+  "func_before": "public void requestSettingsRefresh() {\n    Intent intent = new Intent();\n    intent.setAction(ACTION.SETTINGS_CHANGED);\n    sendBroadcast(intent);\n  }",
+  "func_after": "public void requestSettingsRefresh() {\n    Intent intent = new Intent();\n    intent.setPackage(getPackageName());\n    intent.setAction(ACTION.SETTINGS_CHANGED);\n    sendBroadcast(intent);\n  }",
+  "diff_func": "--- func_before\n+++ func_after\n public void requestSettingsRefresh() {\n     Intent intent = new Intent();\n+    intent.setPackage(getPackageName());\n     intent.setAction(ACTION.SETTINGS_CHANGED);\n     sendBroadcast(intent);\n   }",
+  "diff_source": "custom"
+}

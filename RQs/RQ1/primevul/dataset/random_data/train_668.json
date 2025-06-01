@@ -1,0 +1,21 @@
+{
+  "id": 668,
+  "language": "c",
+  "cwe": "CWE-190",
+  "commit_url": "https://github.com/oddconcepts/liboddgd/commit/40bec0f38f50e8510f5bb71a82f516d46facde03",
+  "commit_sha": "40bec0f38f50e8510f5bb71a82f516d46facde03",
+  "commit_msg": "Merge branch 'pull-request/296'",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "src/gd_webp.c",
+  "func_name": "",
+  "raw_func_from_json": "BGD_DECLARE(void) gdImageWebpCtx (gdImagePtr im, gdIOCtx * outfile, int quality)\n{\n\tuint8_t *argb;\n\tint x, y;\n\tuint8_t *p;\n\tuint8_t *out;\n\tsize_t out_size;\n\n\tif (im == NULL) {\n\t\treturn;\n\t}\n\n\tif (!gdImageTrueColor(im)) {\n\t\tgd_error(\"Paletter image not supported by webp\");\n\t\treturn;\n\t}\n\n\tif (quality == -1) {\n \t\tquality = 80;\n \t}\n \n \targb = (uint8_t *)gdMalloc(gdImageSX(im) * 4 * gdImageSY(im));\n \tif (!argb) {\n \t\treturn;\n\t}\n\tp = argb;\n\tfor (y = 0; y < gdImageSY(im); y++) {\n\t\tfor (x = 0; x < gdImageSX(im); x++) {\n\t\t\tregister int c;\n\t\t\tregister char a;\n\t\t\tc = im->tpixels[y][x];\n\t\t\ta = gdTrueColorGetAlpha(c);\n\t\t\tif (a == 127) {\n\t\t\t\ta = 0;\n\t\t\t} else {\n\t\t\t\ta = 255 - ((a << 1) + (a >> 6));\n\t\t\t}\n\t\t\t*(p++) = gdTrueColorGetRed(c);\n\t\t\t*(p++) = gdTrueColorGetGreen(c);\n\t\t\t*(p++) = gdTrueColorGetBlue(c); \n\t\t\t*(p++) = a;\n\t\t}\n\t}\n\tout_size = WebPEncodeRGBA(argb, gdImageSX(im), gdImageSY(im), gdImageSX(im) * 4, quality, &out);\n\tif (out_size == 0) {\n\t\tgd_error(\"gd-webp encoding failed\");\n\t\tgoto freeargb;\n\t}\n\tgdPutBuf(out, out_size, outfile);\n\tfree(out);\n\nfreeargb:\n\tgdFree(argb);\n}\n",
+  "diff_func": "@@ -199,6 +199,14 @@ BGD_DECLARE(void) gdImageWebpCtx (gdImagePtr im, gdIOCtx * outfile, int quality)\n \t\tquality = 80;\n \t}\n \n+\tif (overflow2(gdImageSX(im), 4)) {\n+\t\treturn;\n+\t}\n+\n+\tif (overflow2(gdImageSX(im) * 4, gdImageSY(im))) {\n+\t\treturn;\n+\t}\n+\n \targb = (uint8_t *)gdMalloc(gdImageSX(im) * 4 * gdImageSY(im));\n \tif (!argb) {\n \t\treturn;",
+  "project": "libgd",
+  "commit_id": "40bec0f38f50e8510f5bb71a82f516d46facde03",
+  "target": 1,
+  "func": "BGD_DECLARE(void) gdImageWebpCtx (gdImagePtr im, gdIOCtx * outfile, int quality)\n{\n\tuint8_t *argb;\n\tint x, y;\n\tuint8_t *p;\n\tuint8_t *out;\n\tsize_t out_size;\n\n\tif (im == NULL) {\n\t\treturn;\n\t}\n\n\tif (!gdImageTrueColor(im)) {\n\t\tgd_error(\"Paletter image not supported by webp\");\n\t\treturn;\n\t}\n\n\tif (quality == -1) {\n \t\tquality = 80;\n \t}\n \n \targb = (uint8_t *)gdMalloc(gdImageSX(im) * 4 * gdImageSY(im));\n \tif (!argb) {\n \t\treturn;\n\t}\n\tp = argb;\n\tfor (y = 0; y < gdImageSY(im); y++) {\n\t\tfor (x = 0; x < gdImageSX(im); x++) {\n\t\t\tregister int c;\n\t\t\tregister char a;\n\t\t\tc = im->tpixels[y][x];\n\t\t\ta = gdTrueColorGetAlpha(c);\n\t\t\tif (a == 127) {\n\t\t\t\ta = 0;\n\t\t\t} else {\n\t\t\t\ta = 255 - ((a << 1) + (a >> 6));\n\t\t\t}\n\t\t\t*(p++) = gdTrueColorGetRed(c);\n\t\t\t*(p++) = gdTrueColorGetGreen(c);\n\t\t\t*(p++) = gdTrueColorGetBlue(c); \n\t\t\t*(p++) = a;\n\t\t}\n\t}\n\tout_size = WebPEncodeRGBA(argb, gdImageSX(im), gdImageSY(im), gdImageSX(im) * 4, quality, &out);\n\tif (out_size == 0) {\n\t\tgd_error(\"gd-webp encoding failed\");\n\t\tgoto freeargb;\n\t}\n\tgdPutBuf(out, out_size, outfile);\n\tfree(out);\n\nfreeargb:\n\tgdFree(argb);\n}\n",
+  "big_vul_idx": 180099,
+  "idx": 1732,
+  "hash": 134338295145600236113384686894277871480
+}

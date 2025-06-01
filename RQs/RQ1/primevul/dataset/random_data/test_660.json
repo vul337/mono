@@ -1,0 +1,23 @@
+{
+  "id": 660,
+  "language": "c",
+  "cwe": "",
+  "commit_url": "https://github.com/ibouazizi/gpac-mvhevc/commit/b43f9d1a4b4e33d08edaef6d313e6ce4bdf554d3",
+  "commit_sha": "b43f9d1a4b4e33d08edaef6d313e6ce4bdf554d3",
+  "commit_msg": "fixed #2223",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "src/filters/reframe_nalu.c",
+  "func_name": "",
+  "raw_func_from_json": "static void naludmx_set_dolby_vision(GF_NALUDmxCtx *ctx)\n{\n\tu8 dv_cfg[24];\n\n\tswitch (ctx->dv_mode) {\n\tcase DVMODE_NONE:\n\tcase DVMODE_CLEAN:\n\t\treturn;\n\t//auto mode, wait until we have RPU or EL to signal profile\n\tcase DVMODE_AUTO:\n\t\tif (!ctx->nb_dv_rpu && !ctx->nb_dv_el) return;\n\t\tbreak;\n\t}\n\n\tu32 dv_level = gf_dolby_vision_level(ctx->width, ctx->height, ctx->cur_fps.num, ctx->cur_fps.den, ctx->codecid);\n\n\tif (ctx->dv_profile==8) {\n\t\tif (!ctx->dv_compatid) {\n\t\t\tGF_LOG(GF_LOG_WARNING, GF_LOG_MEDIA, (\"[%s] DV profile 8 used but dv_compatid not set, defaulting to bt709 (=2)\\n\", ctx->log_name));\n\t\t\tctx->dv_compatid = 2;\n\t\t}\n\t}\n\n\tmemset(dv_cfg, 0, sizeof(u8)*24);\n\tGF_BitStream *bs = gf_bs_new(dv_cfg, 24, GF_BITSTREAM_WRITE);\n\tgf_bs_write_u8(bs, 1); //version major\n\tgf_bs_write_u8(bs, 0); //version minor\n\tgf_bs_write_int(bs, ctx->dv_profile, 7);\n\tgf_bs_write_int(bs, dv_level, 6);\n\tgf_bs_write_int(bs, ctx->nb_dv_rpu ? 1 : 0, 1); //rpu present\n\tgf_bs_write_int(bs, ctx->nb_dv_el ? 1 : 0, 1); //el present\n\tgf_bs_write_int(bs, 1, 1); //bl_present_flag always true, we don't split streams\n\tgf_bs_write_int(bs, ctx->dv_compatid, 4);\n\t//the rest is zero-reserved\n\tgf_bs_write_int(bs, 0, 28);\n\tgf_bs_write_u32(bs, 0);\n\tgf_bs_write_u32(bs, 0);\n\tgf_bs_write_u32(bs, 0);\n\tgf_bs_write_u32(bs, 0);\n\tgf_bs_del(bs);\n\tgf_filter_pid_set_property(ctx->opid, GF_PROP_PID_DOLBY_VISION, &PROP_DATA(dv_cfg, 24));\n}",
+  "diff_func": "@@ -1599,7 +1599,9 @@ static void naludmx_update_clli_mdcv(GF_NALUDmxCtx *ctx, Bool reset_crc)\n static void naludmx_set_dolby_vision(GF_NALUDmxCtx *ctx)\n {\n \tu8 dv_cfg[24];\n-\n+\tif (!ctx->opid)\n+\t\treturn;\n+\t\t\n \tswitch (ctx->dv_mode) {\n \tcase DVMODE_NONE:\n \tcase DVMODE_CLEAN:",
+  "func": "static void naludmx_set_dolby_vision(GF_NALUDmxCtx *ctx)\n{\n\tu8 dv_cfg[24];\n\n\tswitch (ctx->dv_mode) {\n\tcase DVMODE_NONE:\n\tcase DVMODE_CLEAN:\n\t\treturn;\n\t//auto mode, wait until we have RPU or EL to signal profile\n\tcase DVMODE_AUTO:\n\t\tif (!ctx->nb_dv_rpu && !ctx->nb_dv_el) return;\n\t\tbreak;\n\t}\n\n\tu32 dv_level = gf_dolby_vision_level(ctx->width, ctx->height, ctx->cur_fps.num, ctx->cur_fps.den, ctx->codecid);\n\n\tif (ctx->dv_profile==8) {\n\t\tif (!ctx->dv_compatid) {\n\t\t\tGF_LOG(GF_LOG_WARNING, GF_LOG_MEDIA, (\"[%s] DV profile 8 used but dv_compatid not set, defaulting to bt709 (=2)\\n\", ctx->log_name));\n\t\t\tctx->dv_compatid = 2;\n\t\t}\n\t}\n\n\tmemset(dv_cfg, 0, sizeof(u8)*24);\n\tGF_BitStream *bs = gf_bs_new(dv_cfg, 24, GF_BITSTREAM_WRITE);\n\tgf_bs_write_u8(bs, 1); //version major\n\tgf_bs_write_u8(bs, 0); //version minor\n\tgf_bs_write_int(bs, ctx->dv_profile, 7);\n\tgf_bs_write_int(bs, dv_level, 6);\n\tgf_bs_write_int(bs, ctx->nb_dv_rpu ? 1 : 0, 1); //rpu present\n\tgf_bs_write_int(bs, ctx->nb_dv_el ? 1 : 0, 1); //el present\n\tgf_bs_write_int(bs, 1, 1); //bl_present_flag always true, we don't split streams\n\tgf_bs_write_int(bs, ctx->dv_compatid, 4);\n\t//the rest is zero-reserved\n\tgf_bs_write_int(bs, 0, 28);\n\tgf_bs_write_u32(bs, 0);\n\tgf_bs_write_u32(bs, 0);\n\tgf_bs_write_u32(bs, 0);\n\tgf_bs_write_u32(bs, 0);\n\tgf_bs_del(bs);\n\tgf_filter_pid_set_property(ctx->opid, GF_PROP_PID_DOLBY_VISION, &PROP_DATA(dv_cfg, 24));\n}",
+  "project": "gpac",
+  "hash": 254137378903265944648888015086766583040,
+  "size": 42,
+  "commit_id": "b43f9d1a4b4e33d08edaef6d313e6ce4bdf554d3",
+  "message": "fixed #2223",
+  "target": 1,
+  "dataset": "other",
+  "idx": 196859
+}

@@ -1,0 +1,18 @@
+{
+  "id": 3282,
+  "language": "C/C++",
+  "commit_url": "https://github.com/redis/redis/commit/61775e0c08aaf65636f846ab202d05855fb1f3cb",
+  "commit_sha": "61775e0c08aaf65636f846ab202d05855fb1f3cb",
+  "commit_msg": "Fix memory leak in streamGetEdgeID\n\nsi is initialized by streamIteratorStart(), we should call\nstreamIteratorStop() on it when done.",
+  "pr_url": "https://github.com/redis/redis/pull/10753",
+  "pr_info": "si is initialized by streamIteratorStart(), we should call streamIteratorStop() on it when done. #10752 ",
+  "file_name": "src/t_stream.c",
+  "func_name": "streamGetEdgeID",
+  "func_before": "void streamGetEdgeID(stream *s, int first, int skip_tombstones, streamID *edge_id)\n{\n    streamIterator si;\n    int64_t numfields;\n    streamIteratorStart(&si,s,NULL,NULL,!first);\n    si.skip_tombstones = skip_tombstones;\n    int found = streamIteratorGetID(&si,edge_id,&numfields);\n    if (!found) {\n        streamID min_id = {0, 0}, max_id = {UINT64_MAX, UINT64_MAX};\n        *edge_id = first ? max_id : min_id;\n    }\n\n}",
+  "func_after": "void streamGetEdgeID(stream *s, int first, int skip_tombstones, streamID *edge_id)\n{\n    streamIterator si;\n    int64_t numfields;\n    streamIteratorStart(&si,s,NULL,NULL,!first);\n    si.skip_tombstones = skip_tombstones;\n    int found = streamIteratorGetID(&si,edge_id,&numfields);\n    if (!found) {\n        streamID min_id = {0, 0}, max_id = {UINT64_MAX, UINT64_MAX};\n        *edge_id = first ? max_id : min_id;\n    }\n    streamIteratorStop(&si);\n}",
+  "diff_func": "--- func_before\n+++ func_after\n void streamGetEdgeID(stream *s, int first, int skip_tombstones, streamID *edge_id)\n {\n     streamIterator si;\n     int64_t numfields;\n     streamIteratorStart(&si,s,NULL,NULL,!first);\n     si.skip_tombstones = skip_tombstones;\n     int found = streamIteratorGetID(&si,edge_id,&numfields);\n     if (!found) {\n         streamID min_id = {0, 0}, max_id = {UINT64_MAX, UINT64_MAX};\n         *edge_id = first ? max_id : min_id;\n     }\n-\n+    streamIteratorStop(&si);\n }",
+  "diff_source": "custom",
+  "Bug Filter": "Defect Remediation & Feature Upgrades",
+  "Bug Filter Confidence": 0.85,
+  "Bug Filter Response": "\n\nThe patch addresses a memory leak by adding a necessary cleanup step. While memory leaks can affect availability, this fix doesn't prevent an exploit or unauthorized access, so it's categorized as a defect remediation.\n\n**Final Classification:** Defect Remediation & Feature Upgrades  \n**Confidence Score:** 0.85"
+}

@@ -1,0 +1,18 @@
+{
+  "id": 5077,
+  "language": "Python",
+  "commit_url": "https://github.com/ceph/ceph/commit/47c33179f9a15ae95cc1579a421be89378602656",
+  "commit_sha": "47c33179f9a15ae95cc1579a421be89378602656",
+  "commit_msg": "ceph-volume: honour osd_dmcrypt_key_size option\n\nceph-volume doesn't honour osd_dmcrypt_key_size.\nIt means the default size is always applied.\n\nIt also changes the default value in `get_key_size_from_conf()`\n\nFrom cryptsetup manpage:\n\n> For XTS mode you can optionally set a key size of 512 bits with the -s option.\n\nUsing more than 512bits will end up with the following error message:\n\n```\nKey size in XTS mode must be 256 or 512 bits.\n```\n\nFixes: https://tracker.ceph.com/issues/54006\n\nSigned-off-by: Guillaume Abrioux <gabrioux@redhat.com>",
+  "pr_url": "https://github.com/ceph/ceph/pull/44765",
+  "pr_info": "ceph-volume doesn't honour osd_dmcrypt_key_size.\r\nIt means the default size is always applied.\r\n\r\nFixes: https://tracker.ceph.com/issues/54006\r\n\r\nSigned-off-by: Guillaume Abrioux <gabrioux@redhat.com>\r\n",
+  "file_name": "src/ceph-volume/ceph_volume/util/encryption.py",
+  "func_name": "create_dmcrypt_key",
+  "func_before": "def create_dmcrypt_key():\n    \"\"\"\n    Create the secret dm-crypt key used to decrypt a device.\n    \"\"\"\n    # get the customizable dmcrypt key size (in bits) from ceph.conf fallback\n    # to the default of 1024\n    dmcrypt_key_size = conf.ceph.get_safe(\n        'osd',\n        'osd_dmcrypt_key_size',\n        default=1024,\n    )\n    # The size of the key is defined in bits, so we must transform that\n    # value to bytes (dividing by 8) because we read in bytes, not bits\n    random_string = os.urandom(int(dmcrypt_key_size / 8))\n    key = base64.b64encode(random_string).decode('utf-8')\n    return key",
+  "func_after": "def create_dmcrypt_key():\n    \"\"\"\n    Create the secret dm-crypt key (KEK) used to encrypt/decrypt the Volume Key.\n    \"\"\"\n    random_string = os.urandom(128)\n    key = base64.b64encode(random_string).decode('utf-8')\n    return key",
+  "diff_func": "--- func_before\n+++ func_after\n def create_dmcrypt_key():\n     \"\"\"\n-    Create the secret dm-crypt key used to decrypt a device.\n+    Create the secret dm-crypt key (KEK) used to encrypt/decrypt the Volume Key.\n     \"\"\"\n+    random_string = os.urandom(128)\n-    # get the customizable dmcrypt key size (in bits) from ceph.conf fallback\n-    # to the default of 1024\n-    dmcrypt_key_size = conf.ceph.get_safe(\n-        'osd',\n-        'osd_dmcrypt_key_size',\n-        default=1024,\n-    )\n-    # The size of the key is defined in bits, so we must transform that\n-    # value to bytes (dividing by 8) because we read in bytes, not bits\n-    random_string = os.urandom(int(dmcrypt_key_size / 8))\n     key = base64.b64encode(random_string).decode('utf-8')\n     return key",
+  "diff_source": "custom",
+  "Bug Filter": "Defect Remediation & Feature Upgrades",
+  "Bug Filter Confidence": 0.8,
+  "Bug Filter Response": "\n\nThe patch addresses a configuration issue where the `osd_dmcrypt_key_size` option wasn't being honored, leading to a fixed key size. This change ensures proper key size handling, which impacts security indirectly by preventing errors but doesn't directly fix a security exploit.\n\n**Final Classification:** Defect Remediation & Feature Upgrades  \n**Confidence Score:** 0.8"
+}

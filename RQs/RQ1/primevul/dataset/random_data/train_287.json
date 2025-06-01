@@ -1,0 +1,21 @@
+{
+  "id": 287,
+  "language": "unknown",
+  "cwe": "CWE-119",
+  "commit_url": "https://github.com/sektioneins/suhosin/commit/73b1968ee30f6d9d2dae497544b910e68e114bfa",
+  "commit_sha": "73b1968ee30f6d9d2dae497544b910e68e114bfa",
+  "commit_msg": "Fixed stack based buffer overflow in transparent cookie encryption (see separate advisory)",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "Changelog",
+  "func_name": "",
+  "raw_func_from_json": " char *suhosin_encrypt_single_cookie(char *name, int name_len, char *value, int value_len, char *key TSRMLS_DC)\n {\n\tchar buffer[4096];\n    char buffer2[4096];\n\tchar *buf = buffer, *buf2 = buffer2, *d, *d_url;\n    int l;\n\tif (name_len > sizeof(buffer)-2) {\n\t\tbuf = estrndup(name, name_len);\n\t} else {\n\t\tmemcpy(buf, name, name_len);\n\t\tbuf[name_len] = 0;\n\t}\n \t\n \tname_len = php_url_decode(buf, name_len);\n    normalize_varname(buf);\n    name_len = strlen(buf);\n \t\n \tif (SUHOSIN_G(cookie_plainlist)) {\n \t\tif (zend_hash_exists(SUHOSIN_G(cookie_plainlist), buf, name_len+1)) {\n encrypt_return_plain:\n\t\t\tif (buf != buffer) {\n\t\t\t\tefree(buf);\n\t\t\t}\n \t\t\treturn estrndup(value, value_len);\n \t\t}\n \t} else if (SUHOSIN_G(cookie_cryptlist)) {\n\t\tif (!zend_hash_exists(SUHOSIN_G(cookie_cryptlist), buf, name_len+1)) {\n\t\t\tgoto encrypt_return_plain;\n \t\t}\n \t}\n \t\n\tif (strlen(value) <= sizeof(buffer2)-2) {\n\t\tmemcpy(buf2, value, value_len);\n\t\tbuf2[value_len] = 0;\n\t} else {\n\t\tbuf2 = estrndup(value, value_len);\n\t}\n \t\n \tvalue_len = php_url_decode(buf2, value_len);\n \t\n \td = suhosin_encrypt_string(buf2, value_len, buf, name_len, key TSRMLS_CC);\n \td_url = php_url_encode(d, strlen(d), &l);\n \tefree(d);\n    if (buf != buffer) {\n\t\tefree(buf);\n\t}\n    if (buf2 != buffer2) {\n\t\tefree(buf2);\n\t}\n \treturn d_url;\n }\n",
+  "diff_func": "@@ -1,5 +1,6 @@\n 2012-01-11 - 0.9.33-dev\n \n+    - Fixed stack based buffer overflow in transparent cookie encryption (see separate advisory)\n     - Fixed that disabling HTTP response splitting protection also disabled NUL byte protection in HTTP headers\n     - Removed crypt() support - because not used for PHP >= 5.3.0 anyway\n ",
+  "project": "suhosin",
+  "commit_id": "73b1968ee30f6d9d2dae497544b910e68e114bfa",
+  "target": 1,
+  "func": " char *suhosin_encrypt_single_cookie(char *name, int name_len, char *value, int value_len, char *key TSRMLS_DC)\n {\n\tchar buffer[4096];\n    char buffer2[4096];\n\tchar *buf = buffer, *buf2 = buffer2, *d, *d_url;\n    int l;\n\tif (name_len > sizeof(buffer)-2) {\n\t\tbuf = estrndup(name, name_len);\n\t} else {\n\t\tmemcpy(buf, name, name_len);\n\t\tbuf[name_len] = 0;\n\t}\n \t\n \tname_len = php_url_decode(buf, name_len);\n    normalize_varname(buf);\n    name_len = strlen(buf);\n \t\n \tif (SUHOSIN_G(cookie_plainlist)) {\n \t\tif (zend_hash_exists(SUHOSIN_G(cookie_plainlist), buf, name_len+1)) {\n encrypt_return_plain:\n\t\t\tif (buf != buffer) {\n\t\t\t\tefree(buf);\n\t\t\t}\n \t\t\treturn estrndup(value, value_len);\n \t\t}\n \t} else if (SUHOSIN_G(cookie_cryptlist)) {\n\t\tif (!zend_hash_exists(SUHOSIN_G(cookie_cryptlist), buf, name_len+1)) {\n\t\t\tgoto encrypt_return_plain;\n \t\t}\n \t}\n \t\n\tif (strlen(value) <= sizeof(buffer2)-2) {\n\t\tmemcpy(buf2, value, value_len);\n\t\tbuf2[value_len] = 0;\n\t} else {\n\t\tbuf2 = estrndup(value, value_len);\n\t}\n \t\n \tvalue_len = php_url_decode(buf2, value_len);\n \t\n \td = suhosin_encrypt_string(buf2, value_len, buf, name_len, key TSRMLS_CC);\n \td_url = php_url_encode(d, strlen(d), &l);\n \tefree(d);\n    if (buf != buffer) {\n\t\tefree(buf);\n\t}\n    if (buf2 != buffer2) {\n\t\tefree(buf2);\n\t}\n \treturn d_url;\n }\n",
+  "big_vul_idx": 178822,
+  "idx": 678,
+  "hash": 41838469559935618440812276411540013889
+}

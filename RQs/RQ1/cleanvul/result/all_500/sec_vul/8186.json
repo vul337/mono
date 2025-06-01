@@ -1,0 +1,18 @@
+{
+  "id": 8186,
+  "language": "JavaScript",
+  "commit_url": "https://github.com/linkedin/dustjs/commit/ddb6523832465d38c9d80189e9de60519ac307c3",
+  "commit_sha": "ddb6523832465d38c9d80189e9de60519ac307c3",
+  "commit_msg": "fix for prototype pollution vulnerability",
+  "pr_url": "https://github.com/linkedin/dustjs/pull/805",
+  "pr_info": "Refer https://github.com/linkedin/dustjs/issues/804",
+  "file_name": "dist/dust-full.js",
+  "func_name": "compileBlocks",
+  "func_before": "function compileBlocks(context) {\n    var out = [],\n        blocks = context.blocks,\n        name;\n\n    for (name in blocks) {\n      out.push('\"' + name + '\":' + blocks[name]);\n    }\n    if (out.length) {\n      context.blocks = 'ctx=ctx.shiftBlocks(blocks);';\n      return 'var blocks={' + out.join(',') + '};';\n    } else {\n      context.blocks = '';\n    }\n    return context.blocks;\n  }",
+  "func_after": "function compileBlocks(context) {\n    var out = [],\n        blocks = context.blocks,\n        name;\n\n    for (name in blocks) {\n      if (Object.prototype.hasOwnProperty.call(blocks, name)) {\n        out.push('\"' + name + '\":' + blocks[name]);\n      }\n    }\n    if (out.length) {\n      context.blocks = 'ctx=ctx.shiftBlocks(blocks);';\n      return 'var blocks={' + out.join(',') + '};';\n    } else {\n      context.blocks = '';\n    }\n    return context.blocks;\n  }",
+  "diff_func": "--- func_before\n+++ func_after\n function compileBlocks(context) {\n     var out = [],\n         blocks = context.blocks,\n         name;\n \n     for (name in blocks) {\n+      if (Object.prototype.hasOwnProperty.call(blocks, name)) {\n-      out.push('\"' + name + '\":' + blocks[name]);\n+        out.push('\"' + name + '\":' + blocks[name]);\n+      }\n     }\n     if (out.length) {\n       context.blocks = 'ctx=ctx.shiftBlocks(blocks);';\n       return 'var blocks={' + out.join(',') + '};';\n     } else {\n       context.blocks = '';\n     }\n     return context.blocks;\n   }",
+  "diff_source": "custom",
+  "Bug Filter": "Security Vulnerability Fix  \nConfidence Score: 1.0",
+  "Bug Filter Confidence": 1.0,
+  "Bug Filter Response": "\n\n**Final Output:**\nAnalysis: The patch addresses a prototype pollution vulnerability by filtering properties using hasOwnProperty, preventing unauthorized property addition and thus mitigating a security threat.\n\nFinal Classification: Security Vulnerability Fix  \nConfidence Score: 1.0"
+}

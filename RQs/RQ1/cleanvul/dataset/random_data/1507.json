@@ -1,0 +1,15 @@
+{
+  "id": 1507,
+  "language": "Java",
+  "commit_url": "https://github.com/xnio/xnio/commit/b05531de0433f498af26f9aec6c0e944c3c1689c",
+  "commit_sha": "b05531de0433f498af26f9aec6c0e944c3c1689c",
+  "commit_msg": "Fix CVE-2022-0084\n\nDo not print stack traces, use the logger.",
+  "pr_url": "https://github.com/xnio/xnio/pull/291",
+  "pr_info": "Do not print stack traces, use the logger.",
+  "file_name": "api/src/main/java/org/xnio/StreamConnection.java",
+  "func_name": "notifyWriteClosed",
+  "func_before": "@Override protected void notifyWriteClosed() {\n        try {\n            this.getSinkChannel().shutdownWrites();\n        } catch (IOException e) {\n            e.printStackTrace();\n        }\n    }",
+  "func_after": "@Override protected void notifyWriteClosed() {\n        try {\n            this.getSinkChannel().shutdownWrites();\n        } catch (IOException e) {\n            log.error(\"Error in write close\", e);\n        }\n    }",
+  "diff_func": "--- func_before\n+++ func_after\n @Override protected void notifyWriteClosed() {\n         try {\n             this.getSinkChannel().shutdownWrites();\n         } catch (IOException e) {\n-            e.printStackTrace();\n+            log.error(\"Error in write close\", e);\n         }\n     }",
+  "diff_source": "custom"
+}

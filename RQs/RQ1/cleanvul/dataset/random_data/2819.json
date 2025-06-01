@@ -1,0 +1,15 @@
+{
+  "id": 2819,
+  "language": "Java",
+  "commit_url": "https://github.com/react-native-tvos/react-native-tvos/commit/9d2fedc6e22ca1b45fbc2059971cd194de5d0170",
+  "commit_sha": "9d2fedc6e22ca1b45fbc2059971cd194de5d0170",
+  "commit_msg": "RN: Unify Typeface Logic (Android)\n\nSummary:\nRefactors how `Typeface` style and weight are applied in React Native on Android.\n\n- Unifies all style and weight normalization logic into a new `TypefaceStyle` class.\n  - Fixes font weight support for the Fabric renderer.\n  - De-duplicates code with `TextAttributeProps`.\n  - Simplified normalization logic.\n- Fixes a rare crash due to `Typeface.sDefaultTypeface` (Android SDK) being `null`.\n- Adds a new example to test font weights in `TextInput`.\n- Adds missing `Nullsafe` and `Nullable` annotations.\n- Clean up a bunch of obsolete inline comments.\n\nChangelog:\n[Android][Fixed] - Fixed a rare crash due to `Typeface.sDefaultTypeface` (Android SDK) being `null`.\n[Android][Fixed] - Fixed font weight support for the Fabric renderer.\n[Android][Added] - Added a new example to test font weights in `TextInput`.\n\nReviewed By: JoshuaGross\n\nDifferential Revision: D29631134\n\nfbshipit-source-id: 3f227d84253104fa828a5561b77ba7a9cbc030c4",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "ReactAndroid/src/main/java/com/facebook/react/views/text/TextAttributeProps.java",
+  "func_name": "setFontStyle",
+  "func_before": "private void setFontStyle(@Nullable String fontStyleString) {\n    int fontStyle = UNSET;\n    if (\"italic\".equals(fontStyleString)) {\n      fontStyle = Typeface.ITALIC;\n    } else if (\"normal\".equals(fontStyleString)) {\n      fontStyle = Typeface.NORMAL;\n    }\n    if (fontStyle != mFontStyle) {\n      mFontStyle = fontStyle;\n    }\n  }",
+  "func_after": "private void setFontStyle(@Nullable String fontStyleString) {\n    mFontStyle = ReactTypefaceUtils.parseFontStyle(fontStyleString);\n  }",
+  "diff_func": "--- func_before\n+++ func_after\n private void setFontStyle(@Nullable String fontStyleString) {\n+    mFontStyle = ReactTypefaceUtils.parseFontStyle(fontStyleString);\n-    int fontStyle = UNSET;\n-    if (\"italic\".equals(fontStyleString)) {\n-      fontStyle = Typeface.ITALIC;\n-    } else if (\"normal\".equals(fontStyleString)) {\n-      fontStyle = Typeface.NORMAL;\n-    }\n-    if (fontStyle != mFontStyle) {\n-      mFontStyle = fontStyle;\n-    }\n   }",
+  "diff_source": "custom"
+}

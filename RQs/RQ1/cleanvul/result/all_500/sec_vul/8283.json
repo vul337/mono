@@ -1,0 +1,18 @@
+{
+  "id": 8283,
+  "language": "JavaScript",
+  "commit_url": "https://github.com/krayin/laravel-crm/commit/882dc2e7e7e9149b96cf1ccacf34900960b92fb7",
+  "commit_sha": "882dc2e7e7e9149b96cf1ccacf34900960b92fb7",
+  "commit_msg": "fixed xss issue at datagrid",
+  "pr_url": "https://github.com/krayin/laravel-crm/pull/195",
+  "pr_info": "fixed broken access control issue for account update\r\n* added check for additionally added parameter using any proxy system.",
+  "file_name": "packages/Webkul/UI/publishable/assets/js/ui.js",
+  "func_name": "et",
+  "func_before": "function et(e){var t=e.currentTarget;e.closePopover=!t.$_vclosepopover_touch,e.closeAllPopover=t.$_closePopoverModifiers&&!!t.$_closePopoverModifiers.all}",
+  "func_after": "function et(e){e.removeEventListener(\"click\",tt),e.removeEventListener(\"touchstart\",nt),e.removeEventListener(\"touchend\",rt),e.removeEventListener(\"touchcancel\",at)}",
+  "diff_func": "--- func_before\n+++ func_after\n-function et(e){var t=e.currentTarget;e.closePopover=!t.$_vclosepopover_touch,e.closeAllPopover=t.$_closePopoverModifiers&&!!t.$_closePopoverModifiers.all}\n+function et(e){e.removeEventListener(\"click\",tt),e.removeEventListener(\"touchstart\",nt),e.removeEventListener(\"touchend\",rt),e.removeEventListener(\"touchcancel\",at)}",
+  "diff_source": "custom",
+  "Bug Filter": "Security Vulnerability Fix**  \n**Confidence Score: 0.8**",
+  "Bug Filter Confidence": 0.8,
+  "Bug Filter Response": "\n\nThe patch addresses an XSS vulnerability by modifying event handling to prevent potential script injection. The code change removes event listeners, which could have been exploited. While the code doesn't show typical XSS fixes, the commit message indicates a security focus. \n\n**Final Classification: Security Vulnerability Fix**  \n**Confidence Score: 0.8**"
+}

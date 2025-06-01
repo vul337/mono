@@ -1,0 +1,18 @@
+{
+  "id": 3102,
+  "language": "Java",
+  "commit_url": "https://github.com/Open-RSC/Core-Framework/commit/03cb0a0d356f72792dfafba377b086d2933d8b04",
+  "commit_sha": "03cb0a0d356f72792dfafba377b086d2933d8b04",
+  "commit_msg": "Fixes vulnerability with underscore in player name",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "server/src/com/openrsc/server/database/impl/mysql/MySqlGameDatabase.java",
+  "func_name": "GameDatabaseException",
+  "func_before": "@Override\n\tpublic int queryPlayerIdFromUsername(final String username) throws GameDatabaseException {\n\t\tint pId = -1;\n\t\ttry (final PreparedStatement statement = statementFromString(getMySqlQueries().userToId, username);\n\t\t\t final ResultSet result = statement.executeQuery()) {\n\t\t\tif (result.next()) {\n\t\t\t\tpId = result.getInt(\"id\");\n\t\t\t}\n\t\t} catch (final SQLException ex) {\n\t\t\t// Convert SQLException to a general usage exception\n\t\t\tthrow new GameDatabaseException(MySqlGameDatabase.class, ex.getMessage());\n\t\t}\n\t\treturn pId;\n\t}",
+  "func_after": "@Override\n\tpublic int queryPlayerIdFromUsername(final String username) throws GameDatabaseException {\n\t\tint pId = -1;\n\t\ttry (final PreparedStatement statement = statementFromString(getMySqlQueries().userToId, SQLUtils.escapeLikeParameter(username));\n\t\t\t final ResultSet result = statement.executeQuery()) {\n\t\t\tif (result.next()) {\n\t\t\t\tpId = result.getInt(\"id\");\n\t\t\t}\n\t\t} catch (final SQLException ex) {\n\t\t\t// Convert SQLException to a general usage exception\n\t\t\tthrow new GameDatabaseException(MySqlGameDatabase.class, ex.getMessage());\n\t\t}\n\t\treturn pId;\n\t}",
+  "diff_func": "--- func_before\n+++ func_after\n @Override\n \tpublic int queryPlayerIdFromUsername(final String username) throws GameDatabaseException {\n \t\tint pId = -1;\n-\t\ttry (final PreparedStatement statement = statementFromString(getMySqlQueries().userToId, username);\n+\t\ttry (final PreparedStatement statement = statementFromString(getMySqlQueries().userToId, SQLUtils.escapeLikeParameter(username));\n \t\t\t final ResultSet result = statement.executeQuery()) {\n \t\t\tif (result.next()) {\n \t\t\t\tpId = result.getInt(\"id\");\n \t\t\t}\n \t\t} catch (final SQLException ex) {\n \t\t\t// Convert SQLException to a general usage exception\n \t\t\tthrow new GameDatabaseException(MySqlGameDatabase.class, ex.getMessage());\n \t\t}\n \t\treturn pId;\n \t}",
+  "diff_source": "custom",
+  "Bug Filter": "Security Vulnerability Fix\nConfidence Score: 1.0",
+  "Bug Filter Confidence": 1.0,
+  "Bug Filter Response": "\n\nThe patch addresses a security vulnerability by preventing SQL injection through proper escaping of user input.\n\n**Final Output:**\nAnalysis: The code change escapes the username parameter to prevent SQL injection, fixing a security vulnerability where an attacker could exploit underscores in player names.\nFinal Classification: Security Vulnerability Fix\nConfidence Score: 1.0"
+}

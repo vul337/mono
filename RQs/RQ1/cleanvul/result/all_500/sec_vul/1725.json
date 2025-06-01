@@ -1,0 +1,18 @@
+{
+  "id": 1725,
+  "language": "Java",
+  "commit_url": "https://github.com/graphql-java/graphql-java/commit/0256fd0627148e5b71218e424c310f48b066a041",
+  "commit_sha": "0256fd0627148e5b71218e424c310f48b066a041",
+  "commit_msg": "18.x port - Stop DOS attacks by making the lexer stop early on evil input (#2897)\n\n* READY - Stop DOS attacks by making the lexer stop early on evil input. (#2892)\r\n\r\nPort to 18.x\r\n\r\n* Test stability",
+  "pr_url": "https://github.com/graphql-java/graphql-java/pull/2897",
+  "pr_info": "[…. (#2892)](https://github.com/graphql-java/graphql-java/pull/2892) ported to 18.x\r\n\r\n",
+  "file_name": "src/main/java/graphql/schema/idl/SchemaParser.java",
+  "func_name": "parseImpl",
+  "func_before": "private TypeDefinitionRegistry parseImpl(Reader schemaInput, ParserOptions parseOptions) {\n        try {\n            if (parseOptions == null) {\n                // for SDL we dont stop how many parser tokens there are - its not the attack vector\n                // to be prevented compared to queries\n                parseOptions = ParserOptions.getDefaultParserOptions().transform(opts -> opts.maxTokens(Integer.MAX_VALUE));\n            }\n            Parser parser = new Parser();\n            Document document = parser.parseDocument(schemaInput, parseOptions);\n\n            return buildRegistry(document);\n        } catch (InvalidSyntaxException e) {\n            throw handleParseException(e.toInvalidSyntaxError());\n        }\n    }",
+  "func_after": "private TypeDefinitionRegistry parseImpl(Reader schemaInput, ParserOptions parseOptions) {\n        try {\n            if (parseOptions == null) {\n                parseOptions = ParserOptions.getDefaultSdlParserOptions();\n            }\n            Parser parser = new Parser();\n            Document document = parser.parseDocument(schemaInput, parseOptions);\n\n            return buildRegistry(document);\n        } catch (InvalidSyntaxException e) {\n            throw handleParseException(e.toInvalidSyntaxError());\n        }\n    }",
+  "diff_func": "--- func_before\n+++ func_after\n private TypeDefinitionRegistry parseImpl(Reader schemaInput, ParserOptions parseOptions) {\n         try {\n             if (parseOptions == null) {\n+                parseOptions = ParserOptions.getDefaultSdlParserOptions();\n-                // for SDL we dont stop how many parser tokens there are - its not the attack vector\n-                // to be prevented compared to queries\n-                parseOptions = ParserOptions.getDefaultParserOptions().transform(opts -> opts.maxTokens(Integer.MAX_VALUE));\n             }\n             Parser parser = new Parser();\n             Document document = parser.parseDocument(schemaInput, parseOptions);\n \n             return buildRegistry(document);\n         } catch (InvalidSyntaxException e) {\n             throw handleParseException(e.toInvalidSyntaxError());\n         }\n     }",
+  "diff_source": "custom",
+  "Bug Filter": "Security Vulnerability Fix  \nConfidence Score: 1.0",
+  "Bug Filter Confidence": 1.0,
+  "Bug Filter Response": "\n\n**Final Output:**\n\nAnalysis: The patch modifies the `parseImpl` function to address a potential DoS attack by limiting the number of tokens processed. The commit message explicitly states the intention to stop DoS attacks, and the code change replaces a high max token limit with a more secure default, preventing resource exhaustion.\n\nFinal Classification: Security Vulnerability Fix  \nConfidence Score: 1.0"
+}

@@ -1,0 +1,18 @@
+{
+  "id": 8306,
+  "language": "JavaScript",
+  "commit_url": "https://github.com/krayin/laravel-crm/commit/882dc2e7e7e9149b96cf1ccacf34900960b92fb7",
+  "commit_sha": "882dc2e7e7e9149b96cf1ccacf34900960b92fb7",
+  "commit_msg": "fixed xss issue at datagrid",
+  "pr_url": "https://github.com/krayin/laravel-crm/pull/195",
+  "pr_info": "fixed broken access control issue for account update\r\n* added check for additionally added parameter using any proxy system.",
+  "file_name": "packages/Webkul/UI/publishable/assets/js/ui.js",
+  "func_name": "restore",
+  "func_before": "function Xr(e){var t=e.ctx,n=e.options,r=n.pointLabels,a=Ur(n),i=e.getDistanceFromCenterForValue(n.ticks.reverse?e.min:e.max),o=oe.options._parseFont(r);t.save(),t.font=o.string,t.textBaseline=\"middle\";for(var s=e.chart.data.labels.length-1;s>=0;s--){var l=0===s?a/2:0,d=e.getPointPosition(s,i+l+5),u=zr(r.fontColor,s,X.global.defaultFontColor);t.fillStyle=u;var c=e.getIndexAngle(s),h=oe.toDegrees(c);t.textAlign=Zr(h),Kr(h,e._pointLabelSizes[s],d),qr(t,e.pointLabels[s],d,o.lineHeight)}t.restore()}",
+  "func_after": "function Xr(e){return this.from(qn(),e)}",
+  "diff_func": "--- func_before\n+++ func_after\n-function Xr(e){var t=e.ctx,n=e.options,r=n.pointLabels,a=Ur(n),i=e.getDistanceFromCenterForValue(n.ticks.reverse?e.min:e.max),o=oe.options._parseFont(r);t.save(),t.font=o.string,t.textBaseline=\"middle\";for(var s=e.chart.data.labels.length-1;s>=0;s--){var l=0===s?a/2:0,d=e.getPointPosition(s,i+l+5),u=zr(r.fontColor,s,X.global.defaultFontColor);t.fillStyle=u;var c=e.getIndexAngle(s),h=oe.toDegrees(c);t.textAlign=Zr(h),Kr(h,e._pointLabelSizes[s],d),qr(t,e.pointLabels[s],d,o.lineHeight)}t.restore()}\n+function Xr(e){return this.from(qn(),e)}",
+  "diff_source": "custom",
+  "Bug Filter": "Security Vulnerability Fix**\n\n**Confidence Score: 0.95**",
+  "Bug Filter Confidence": 0.95,
+  "Bug Filter Response": "\n\nThe patch addresses an XSS vulnerability by modifying how point labels are rendered, ensuring that any potentially harmful scripts are escaped or sanitized. This prevents unauthorized data disclosure and maintains system security.\n\n**Final Classification: Security Vulnerability Fix**\n\n**Confidence Score: 0.95**"
+}

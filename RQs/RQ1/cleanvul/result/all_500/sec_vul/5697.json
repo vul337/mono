@@ -1,0 +1,18 @@
+{
+  "id": 5697,
+  "language": "C/C++",
+  "commit_url": "https://github.com/torvalds/linux/commit/0185604c2d82c560dab2f2933a18f797e74ab5a8",
+  "commit_sha": "0185604c2d82c560dab2f2933a18f797e74ab5a8",
+  "commit_msg": "KVM: x86: Reload pit counters for all channels when restoring state\n\nCurrently if userspace restores the pit counters with a count of 0\non channels 1 or 2 and the guest attempts to read the count on those\nchannels, then KVM will perform a mod of 0 and crash.  This will ensure\nthat 0 values are converted to 65536 as per the spec.\n\nThis is CVE-2015-7513.\n\nSigned-off-by: Andy Honig <ahonig@google.com>\nSigned-off-by: Paolo Bonzini <pbonzini@redhat.com>",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "arch/x86/kvm/x86.c",
+  "func_name": "kvm_vm_ioctl_set_pit2",
+  "func_before": "static int kvm_vm_ioctl_set_pit2(struct kvm *kvm, struct kvm_pit_state2 *ps)\n{\n\tint start = 0;\n\tu32 prev_legacy, cur_legacy;\n\tmutex_lock(&kvm->arch.vpit->pit_state.lock);\n\tprev_legacy = kvm->arch.vpit->pit_state.flags & KVM_PIT_FLAGS_HPET_LEGACY;\n\tcur_legacy = ps->flags & KVM_PIT_FLAGS_HPET_LEGACY;\n\tif (!prev_legacy && cur_legacy)\n\t\tstart = 1;\n\tmemcpy(&kvm->arch.vpit->pit_state.channels, &ps->channels,\n\t       sizeof(kvm->arch.vpit->pit_state.channels));\n\tkvm->arch.vpit->pit_state.flags = ps->flags;\n\tkvm_pit_load_count(kvm, 0, kvm->arch.vpit->pit_state.channels[0].count, start);\n\tmutex_unlock(&kvm->arch.vpit->pit_state.lock);\n\treturn 0;\n}",
+  "func_after": "static int kvm_vm_ioctl_set_pit2(struct kvm *kvm, struct kvm_pit_state2 *ps)\n{\n\tint start = 0;\n\tint i;\n\tu32 prev_legacy, cur_legacy;\n\tmutex_lock(&kvm->arch.vpit->pit_state.lock);\n\tprev_legacy = kvm->arch.vpit->pit_state.flags & KVM_PIT_FLAGS_HPET_LEGACY;\n\tcur_legacy = ps->flags & KVM_PIT_FLAGS_HPET_LEGACY;\n\tif (!prev_legacy && cur_legacy)\n\t\tstart = 1;\n\tmemcpy(&kvm->arch.vpit->pit_state.channels, &ps->channels,\n\t       sizeof(kvm->arch.vpit->pit_state.channels));\n\tkvm->arch.vpit->pit_state.flags = ps->flags;\n\tfor (i = 0; i < 3; i++)\n\t\tkvm_pit_load_count(kvm, i, kvm->arch.vpit->pit_state.channels[i].count, start);\n\tmutex_unlock(&kvm->arch.vpit->pit_state.lock);\n\treturn 0;\n}",
+  "diff_func": "--- func_before\n+++ func_after\n static int kvm_vm_ioctl_set_pit2(struct kvm *kvm, struct kvm_pit_state2 *ps)\n {\n \tint start = 0;\n+\tint i;\n \tu32 prev_legacy, cur_legacy;\n \tmutex_lock(&kvm->arch.vpit->pit_state.lock);\n \tprev_legacy = kvm->arch.vpit->pit_state.flags & KVM_PIT_FLAGS_HPET_LEGACY;\n \tcur_legacy = ps->flags & KVM_PIT_FLAGS_HPET_LEGACY;\n \tif (!prev_legacy && cur_legacy)\n \t\tstart = 1;\n \tmemcpy(&kvm->arch.vpit->pit_state.channels, &ps->channels,\n \t       sizeof(kvm->arch.vpit->pit_state.channels));\n \tkvm->arch.vpit->pit_state.flags = ps->flags;\n+\tfor (i = 0; i < 3; i++)\n-\tkvm_pit_load_count(kvm, 0, kvm->arch.vpit->pit_state.channels[0].count, start);\n+\t\tkvm_pit_load_count(kvm, i, kvm->arch.vpit->pit_state.channels[i].count, start);\n \tmutex_unlock(&kvm->arch.vpit->pit_state.lock);\n \treturn 0;\n }",
+  "diff_source": "custom",
+  "Bug Filter": "** Security Vulnerability Fix  \n**Confidence Score:** 1.0",
+  "Bug Filter Confidence": 1.0,
+  "Bug Filter Response": "\n\nThe patch addresses a security vulnerability (CVE-2015-7513) by preventing a crash when specific pit counter values are set. This fix ensures system availability, which is a security concern.\n\n**Final Classification:** Security Vulnerability Fix  \n**Confidence Score:** 1.0"
+}

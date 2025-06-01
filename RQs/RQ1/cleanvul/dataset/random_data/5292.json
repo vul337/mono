@@ -1,0 +1,15 @@
+{
+  "id": 5292,
+  "language": "Python",
+  "commit_url": "https://github.com/tortoise/tortoise-orm/commit/91c364053e0ddf77edc5442914c6f049512678b3",
+  "commit_sha": "91c364053e0ddf77edc5442914c6f049512678b3",
+  "commit_msg": "Fixed various SQL generation issues",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "tortoise/filters.py",
+  "func_name": "insensitive_starts_with",
+  "func_before": "def insensitive_starts_with(field: Term, value: str) -> Criterion:\n    return Upper(field).like(Upper(f\"{value}%\"))",
+  "func_after": "def insensitive_starts_with(field: Term, value: str) -> Criterion:\n    return Like(Upper(field), field.wrap_constant(Upper(f\"{escape_like(value)}%\")))",
+  "diff_func": "--- func_before\n+++ func_after\n def insensitive_starts_with(field: Term, value: str) -> Criterion:\n-    return Upper(field).like(Upper(f\"{value}%\"))\n+    return Like(Upper(field), field.wrap_constant(Upper(f\"{escape_like(value)}%\")))",
+  "diff_source": "custom"
+}

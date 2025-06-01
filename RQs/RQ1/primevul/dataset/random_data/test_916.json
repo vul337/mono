@@ -1,0 +1,23 @@
+{
+  "id": 916,
+  "language": "c",
+  "cwe": "",
+  "commit_url": "https://github.com/amuzakansiime5/hamza/commit/5d8b92c622f6927b253762ff9310479dd3ac627d",
+  "commit_sha": "5d8b92c622f6927b253762ff9310479dd3ac627d",
+  "commit_msg": "CamelGpgContext: Enclose email addresses in brackets.\n\nThe recipient list for encrypting can be specified by either key ID or\nemail address.  Enclose email addresses in brackets to ensure an exact\nmatch, as per the gpg man page:\n\nHOW TO SPECIFY A USER ID\n\n       ...\n\n       By exact match on an email address.\n              This is indicated by enclosing the email address in the\n              usual way with left and right angles.\n\n         <heinrichh@uni-duesseldorf.de>\n\nWithout the brackets gpg uses a substring match, which risks selecting\nthe wrong recipient.",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "camel/camel-gpg-context.c",
+  "func_name": "",
+  "raw_func_from_json": "gpg_ctx_add_recipient (struct _GpgCtx *gpg,\n                       const gchar *keyid)\n{\n\tif (gpg->mode != GPG_CTX_MODE_ENCRYPT && gpg->mode != GPG_CTX_MODE_EXPORT)\n\t\treturn;\n\n\tif (!gpg->recipients)\n\t\tgpg->recipients = g_ptr_array_new ();\n\n\tg_ptr_array_add (gpg->recipients, g_strdup (keyid));\n}",
+  "diff_func": "@@ -311,13 +311,25 @@ static void\n gpg_ctx_add_recipient (struct _GpgCtx *gpg,\n                        const gchar *keyid)\n {\n+\tgchar *safe_keyid;\n+\n \tif (gpg->mode != GPG_CTX_MODE_ENCRYPT && gpg->mode != GPG_CTX_MODE_EXPORT)\n \t\treturn;\n \n \tif (!gpg->recipients)\n \t\tgpg->recipients = g_ptr_array_new ();\n \n-\tg_ptr_array_add (gpg->recipients, g_strdup (keyid));\n+\tg_return_if_fail (keyid != NULL);\n+\n+\t/* If the recipient looks like an email address,\n+\t * enclose it in brackets to ensure an exact match. */\n+\tif (strchr (keyid, '@') != NULL) {\n+\t\tsafe_keyid = g_strdup_printf (\"<%s>\", keyid);\n+\t} else {\n+\t\tsafe_keyid = g_strdup (keyid);\n+\t}\n+\n+\tg_ptr_array_add (gpg->recipients, safe_keyid);\n }\n \n static void",
+  "func": "gpg_ctx_add_recipient (struct _GpgCtx *gpg,\n                       const gchar *keyid)\n{\n\tif (gpg->mode != GPG_CTX_MODE_ENCRYPT && gpg->mode != GPG_CTX_MODE_EXPORT)\n\t\treturn;\n\n\tif (!gpg->recipients)\n\t\tgpg->recipients = g_ptr_array_new ();\n\n\tg_ptr_array_add (gpg->recipients, g_strdup (keyid));\n}",
+  "project": "evolution-data-server",
+  "hash": 141933283002790613862782726205564754266,
+  "size": 11,
+  "commit_id": "5d8b92c622f6927b253762ff9310479dd3ac627d",
+  "message": "CamelGpgContext: Enclose email addresses in brackets.\n\nThe recipient list for encrypting can be specified by either key ID or\nemail address.  Enclose email addresses in brackets to ensure an exact\nmatch, as per the gpg man page:\n\nHOW TO SPECIFY A USER ID\n\n       ...\n\n       By exact match on an email address.\n              This is indicated by enclosing the email address in the\n              usual way with left and right angles.\n\n         <heinrichh@uni-duesseldorf.de>\n\nWithout the brackets gpg uses a substring match, which risks selecting\nthe wrong recipient.",
+  "target": 1,
+  "dataset": "other",
+  "idx": 206025
+}

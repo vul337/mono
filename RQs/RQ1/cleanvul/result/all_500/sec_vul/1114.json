@@ -1,0 +1,18 @@
+{
+  "id": 1114,
+  "language": "Java",
+  "commit_url": "https://github.com/logicaldoc/community/commit/d8db3bdb1208ac6286f68883e81dd23a3fbf8162",
+  "commit_sha": "d8db3bdb1208ac6286f68883e81dd23a3fbf8162",
+  "commit_msg": "Fixed vulnerability CVE-2022-47418",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "logicaldoc-webapp/src/main/java/com/logicaldoc/web/service/DocumentServiceImpl.java",
+  "func_name": "ServerException",
+  "func_before": "@Override\n\tpublic long archiveFolder(long folderId, String comment) throws ServerException {\n\t\tSession session = validateSession(getThreadLocalRequest());\n\n\t\tDocumentManager manager = (DocumentManager) Context.get().getBean(DocumentManager.class);\n\t\tDocumentHistory transaction = new DocumentHistory();\n\t\ttransaction.setSession(session);\n\t\ttransaction.setComment(comment);\n\t\ttry {\n\t\t\treturn manager.archiveFolder(folderId, transaction);\n\t\t} catch (PersistenceException e) {\n\t\t\treturn (Long) throwServerException(session, log, e);\n\t\t}\n\t}",
+  "func_after": "@Override\n\tpublic long archiveFolder(long folderId, String comment) throws ServerException {\n\t\tSession session = validateSession(getThreadLocalRequest());\n\n\t\tDocumentManager manager = (DocumentManager) Context.get().getBean(DocumentManager.class);\n\t\tDocumentHistory transaction = new DocumentHistory();\n\t\ttransaction.setSession(session);\n\t\ttransaction.setComment(HTMLSanitizer.sanitizeSimpleText(comment));\n\t\ttry {\n\t\t\treturn manager.archiveFolder(folderId, transaction);\n\t\t} catch (PersistenceException e) {\n\t\t\treturn (Long) throwServerException(session, log, e);\n\t\t}\n\t}",
+  "diff_func": "--- func_before\n+++ func_after\n @Override\n \tpublic long archiveFolder(long folderId, String comment) throws ServerException {\n \t\tSession session = validateSession(getThreadLocalRequest());\n \n \t\tDocumentManager manager = (DocumentManager) Context.get().getBean(DocumentManager.class);\n \t\tDocumentHistory transaction = new DocumentHistory();\n \t\ttransaction.setSession(session);\n-\t\ttransaction.setComment(comment);\n+\t\ttransaction.setComment(HTMLSanitizer.sanitizeSimpleText(comment));\n \t\ttry {\n \t\t\treturn manager.archiveFolder(folderId, transaction);\n \t\t} catch (PersistenceException e) {\n \t\t\treturn (Long) throwServerException(session, log, e);\n \t\t}\n \t}",
+  "diff_source": "custom",
+  "Bug Filter": "** Security Vulnerability Fix  \n**Confidence Score:** 1.0",
+  "Bug Filter Confidence": 1.0,
+  "Bug Filter Response": "\n\nThe patch modifies the handling of user input by sanitizing it to prevent XSS attacks, directly addressing a security vulnerability.\n\n**Final Classification:** Security Vulnerability Fix  \n**Confidence Score:** 1.0"
+}

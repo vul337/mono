@@ -1,0 +1,21 @@
+{
+  "id": 935,
+  "language": "c",
+  "cwe": "CWE-125",
+  "commit_url": "https://github.com/merlinepedra/TCPDUMP/commit/eee0b04bcfdae319c242b0b8fc3d07029ee65b8c",
+  "commit_sha": "eee0b04bcfdae319c242b0b8fc3d07029ee65b8c",
+  "commit_msg": "CVE-2017-13022/IP: Add bounds checks to ip_printroute().\n\nThis fixes a buffer over-read discovered by Bhargava Shastry,\nSecT/TU Berlin.\n\nAdd a test using the capture file supplied by the reporter(s), modified\nso the capture file won't be rejected as an invalid capture.",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "print-ip.c",
+  "func_name": "",
+  "raw_func_from_json": " ip_printroute(netdissect_options *ndo,\n               register const u_char *cp, u_int length)\n {\n\tregister u_int ptr;\n\tregister u_int len;\n \n \tif (length < 3) {\n \t\tND_PRINT((ndo, \" [bad length %u]\", length));\n\t\treturn;\n \t}\n \tif ((length + 1) & 3)\n \t\tND_PRINT((ndo, \" [bad length %u]\", length));\n \tptr = cp[2] - 1;\n \tif (ptr < 3 || ((ptr + 1) & 3) || ptr > length + 1)\n \t\tND_PRINT((ndo, \" [bad ptr %u]\", cp[2]));\n \n \tfor (len = 3; len < length; len += 4) {\n \t\tND_PRINT((ndo, \" %s\", ipaddr_string(ndo, &cp[len])));\n \t\tif (ptr > len)\n \t\t\tND_PRINT((ndo, \",\"));\n \t}\n }\n",
+  "diff_func": "@@ -54,7 +54,7 @@ static const struct tok ip_option_values[] = {\n /*\n  * print the recorded route in an IP RR, LSRR or SSRR option.\n  */\n-static void\n+static int\n ip_printroute(netdissect_options *ndo,\n               register const u_char *cp, u_int length)\n {\n@@ -63,19 +63,25 @@ ip_printroute(netdissect_options *ndo,\n \n \tif (length < 3) {\n \t\tND_PRINT((ndo, \" [bad length %u]\", length));\n-\t\treturn;\n+\t\treturn (0);\n \t}\n \tif ((length + 1) & 3)\n \t\tND_PRINT((ndo, \" [bad length %u]\", length));\n+\tND_TCHECK(cp[2]);\n \tptr = cp[2] - 1;\n \tif (ptr < 3 || ((ptr + 1) & 3) || ptr > length + 1)\n \t\tND_PRINT((ndo, \" [bad ptr %u]\", cp[2]));\n \n \tfor (len = 3; len < length; len += 4) {\n+\t\tND_TCHECK2(cp[len], 4);\n \t\tND_PRINT((ndo, \" %s\", ipaddr_string(ndo, &cp[len])));\n \t\tif (ptr > len)\n \t\t\tND_PRINT((ndo, \",\"));\n \t}\n+\treturn (0);\n+\n+trunc:\n+\treturn (-1);\n }\n \n /*\n@@ -278,7 +284,8 @@ ip_optprint(netdissect_options *ndo,\n \t\tcase IPOPT_RR:       /* fall through */\n \t\tcase IPOPT_SSRR:\n \t\tcase IPOPT_LSRR:\n-\t\t\tip_printroute(ndo, cp, option_len);\n+\t\t\tif (ip_printroute(ndo, cp, option_len) == -1)\n+\t\t\t\tgoto trunc;\n \t\t\tbreak;\n \n \t\tcase IPOPT_RA:",
+  "project": "tcpdump",
+  "commit_id": "eee0b04bcfdae319c242b0b8fc3d07029ee65b8c",
+  "target": 1,
+  "func": " ip_printroute(netdissect_options *ndo,\n               register const u_char *cp, u_int length)\n {\n\tregister u_int ptr;\n\tregister u_int len;\n \n \tif (length < 3) {\n \t\tND_PRINT((ndo, \" [bad length %u]\", length));\n\t\treturn;\n \t}\n \tif ((length + 1) & 3)\n \t\tND_PRINT((ndo, \" [bad length %u]\", length));\n \tptr = cp[2] - 1;\n \tif (ptr < 3 || ((ptr + 1) & 3) || ptr > length + 1)\n \t\tND_PRINT((ndo, \" [bad ptr %u]\", cp[2]));\n \n \tfor (len = 3; len < length; len += 4) {\n \t\tND_PRINT((ndo, \" %s\", ipaddr_string(ndo, &cp[len])));\n \t\tif (ptr > len)\n \t\t\tND_PRINT((ndo, \",\"));\n \t}\n }\n",
+  "big_vul_idx": 181042,
+  "idx": 2560,
+  "hash": 119437374746801522201635885992332380127
+}

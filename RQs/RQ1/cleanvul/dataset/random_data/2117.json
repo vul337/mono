@@ -1,0 +1,15 @@
+{
+  "id": 2117,
+  "language": "Java",
+  "commit_url": "https://github.com/PixelExperience/frameworks_base/commit/03e6e450851863fffd35a52f68fc6a42936a81d8",
+  "commit_sha": "03e6e450851863fffd35a52f68fc6a42936a81d8",
+  "commit_msg": "Fix stack overflow from setOwnScrollY\n\nFixes: 186961122\nTest: manual\nChange-Id: I12eebfdfe5d6ed93be349957baf84fad4f725648",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "packages/SystemUI/src/com/android/systemui/statusbar/notification/stack/NotificationStackScrollLayout.java",
+  "func_name": "ShadeViewRefactor",
+  "func_before": "@ShadeViewRefactor(RefactorComponent.COORDINATOR)\n    private void setOwnScrollY(int ownScrollY) {\n        if (ownScrollY != mOwnScrollY) {\n            // We still want to call the normal scrolled changed for accessibility reasons\n            onScrollChanged(mScrollX, ownScrollY, mScrollX, mOwnScrollY);\n            mOwnScrollY = ownScrollY;\n            updateChildren();\n            updateOnScrollChange();\n            updateStackPosition();\n        }\n    }",
+  "func_after": "@ShadeViewRefactor(RefactorComponent.COORDINATOR)\n    private void setOwnScrollY(int ownScrollY) {\n        if (ownScrollY != mOwnScrollY) {\n            // We still want to call the normal scrolled changed for accessibility reasons\n            onScrollChanged(mScrollX, ownScrollY, mScrollX, mOwnScrollY);\n            mOwnScrollY = ownScrollY;\n            mAmbientState.setScrollY(mOwnScrollY);\n            updateOnScrollChange();\n            updateStackPosition();\n        }\n    }",
+  "diff_func": "--- func_before\n+++ func_after\n @ShadeViewRefactor(RefactorComponent.COORDINATOR)\n     private void setOwnScrollY(int ownScrollY) {\n         if (ownScrollY != mOwnScrollY) {\n             // We still want to call the normal scrolled changed for accessibility reasons\n             onScrollChanged(mScrollX, ownScrollY, mScrollX, mOwnScrollY);\n             mOwnScrollY = ownScrollY;\n-            updateChildren();\n+            mAmbientState.setScrollY(mOwnScrollY);\n             updateOnScrollChange();\n             updateStackPosition();\n         }\n     }",
+  "diff_source": "custom"
+}

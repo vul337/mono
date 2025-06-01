@@ -1,0 +1,18 @@
+{
+  "id": 1570,
+  "language": "Java",
+  "commit_url": "https://github.com/GerritCodeReview/gerrit/commit/734db9aedd22993a098e972ce5b4bc4b729f4638",
+  "commit_sha": "734db9aedd22993a098e972ce5b4bc4b729f4638",
+  "commit_msg": "Remove html commentlink functionality.\n\nHtml commentlinks are too powerful and often allow for arbitrary html\ninjection on the page. Instead they are replaced with link commentlinks,\nusing optional `prefix`, `suffix`, `text` parameters to achieve the same\nfunctionality.\n\nThe commentlinks that do not generate a link, but rather leverage the\ncommentlink arbitrary string replace mechanism to do something else are\nexplicitly no longer supported.\n\nFor the migration of gerrit.config files. Follow instructions in\ntools/migration/html_to_link_commentlink.md\n\nRelease-Notes: Remove html commentlink functionality. Existing configs can be migrated using scripts in tools/migration/html_to_link_commentlink.md\nGoogle-Bug-Id: b/33429040\nForward-Compatible: checked\nChange-Id: I66e9c83dff7b87cf566eea6a30daac6835aea9a1",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "java/com/google/gerrit/entities/StoredCommentLinkInfo.java",
+  "func_name": "getText",
+  "func_before": "@Nullable\n  public abstract String getText();",
+  "func_after": "@Nullable\n  public abstract String getText();",
+  "diff_func": "--- func_before\n+++ func_after\n @Nullable\n   public abstract String getText();",
+  "diff_source": "custom",
+  "Bug Filter": "** Security Vulnerability Fix  \n**Confidence Score:** 0.95",
+  "Bug Filter Confidence": 0.95,
+  "Bug Filter Response": "\n\nThe patch addresses a security vulnerability by removing HTML commentlink functionality that allowed arbitrary HTML injection, which could lead to XSS attacks.\n\n**Final Classification:** Security Vulnerability Fix  \n**Confidence Score:** 0.95"
+}

@@ -1,0 +1,15 @@
+{
+  "id": 8030,
+  "language": "JavaScript",
+  "commit_url": "https://github.com/jpuri/react-draft-wysiwyg/commit/d2faeb612b53f10dff048de7dc57e1f4044b5380",
+  "commit_sha": "d2faeb612b53f10dff048de7dc57e1f4044b5380",
+  "commit_msg": "Releasing security update",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "dist/react-draft-wysiwyg.js",
+  "func_name": "function",
+  "func_before": "function so(e,t){return(so=Object.setPrototypeOf||function(e,t){return e.__proto__=t,e})(e,t)}",
+  "func_after": "function so(e,t){for(var n=0;n<t.length;n++){var o=t[n];o.enumerable=o.enumerable||!1,o.configurable=!0,\"value\"in o&&(o.writable=!0),Object.defineProperty(e,o.key,o)}}",
+  "diff_func": "--- func_before\n+++ func_after\n-function so(e,t){return(so=Object.setPrototypeOf||function(e,t){return e.__proto__=t,e})(e,t)}\n+function so(e,t){for(var n=0;n<t.length;n++){var o=t[n];o.enumerable=o.enumerable||!1,o.configurable=!0,\"value\"in o&&(o.writable=!0),Object.defineProperty(e,o.key,o)}}",
+  "diff_source": "custom"
+}

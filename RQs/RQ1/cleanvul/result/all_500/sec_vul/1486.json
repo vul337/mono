@@ -1,0 +1,18 @@
+{
+  "id": 1486,
+  "language": "Java",
+  "commit_url": "https://github.com/wildfly-security/wildfly-elytron/commit/276d1a962a67e8506767a9cd102f68a8cacbf281",
+  "commit_sha": "276d1a962a67e8506767a9cd102f68a8cacbf281",
+  "commit_msg": "ELY-2437: Update DigestPasswordSpec to make use of MessageDigest#isEqual to avoid a potential timing attack",
+  "pr_url": "https://github.com/wildfly-security/wildfly-elytron/pull/1770",
+  "pr_info": "…ual to avoid a potential timing attack\r\nhttps://issues.redhat.com/browse/ELY-2437",
+  "file_name": "credential/base/src/main/java/org/wildfly/security/password/spec/DigestPasswordSpec.java",
+  "func_name": "equals",
+  "func_before": "@Override\n    public boolean equals(Object other) {\n        if (! (other instanceof DigestPasswordSpec)) return false;\n        DigestPasswordSpec o = (DigestPasswordSpec) other;\n        return Objects.equals(username, o.username) && Objects.equals(realm, o.realm) && Arrays.equals(digest, o.digest);\n    }",
+  "func_after": "@Override\n    public boolean equals(Object other) {\n        if (! (other instanceof DigestPasswordSpec)) return false;\n        DigestPasswordSpec o = (DigestPasswordSpec) other;\n        return Objects.equals(username, o.username) && Objects.equals(realm, o.realm) && MessageDigest.isEqual(digest, o.digest);\n    }",
+  "diff_func": "--- func_before\n+++ func_after\n @Override\n     public boolean equals(Object other) {\n         if (! (other instanceof DigestPasswordSpec)) return false;\n         DigestPasswordSpec o = (DigestPasswordSpec) other;\n-        return Objects.equals(username, o.username) && Objects.equals(realm, o.realm) && Arrays.equals(digest, o.digest);\n+        return Objects.equals(username, o.username) && Objects.equals(realm, o.realm) && MessageDigest.isEqual(digest, o.digest);\n     }",
+  "diff_source": "custom",
+  "Bug Filter": "** Security Vulnerability Fix  \n**Confidence Score:** 1.0",
+  "Bug Filter Confidence": 1.0,
+  "Bug Filter Response": "\n\nThe patch modifies the equals method in DigestPasswordSpec to use MessageDigest.isEqual instead of Arrays.equals, addressing a potential timing attack vulnerability. This change enhances security by preventing timing leaks, which could otherwise lead to unauthorized data access.\n\n**Final Classification:** Security Vulnerability Fix  \n**Confidence Score:** 1.0"
+}

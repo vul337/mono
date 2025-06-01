@@ -1,0 +1,15 @@
+{
+  "id": 5467,
+  "language": "C/C++",
+  "commit_url": "https://github.com/gdraheim/zziplib/commit/d453977f59ca59c61bf59dec28dd724498828f2a",
+  "commit_sha": "d453977f59ca59c61bf59dec28dd724498828f2a",
+  "commit_msg": "#68 return value of zzip_entry_fread is signed",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "bins/unzzipcat-big.c",
+  "func_name": "unzzip_cat_file",
+  "func_before": "static void unzzip_cat_file(FILE* disk, char* name, FILE* out)\n{\n    ZZIP_ENTRY_FILE* file = zzip_entry_ffile (disk, name);\n    if (file) \n    {\n\tchar buffer[1024]; int len;\n\twhile ((len = zzip_entry_fread (buffer, 1024, 1, file)))\n\t    fwrite (buffer, len, 1, out);\n\t\n\tzzip_entry_fclose (file);\n    }\n}",
+  "func_after": "static void unzzip_cat_file(FILE* disk, char* name, FILE* out)\n{\n    ZZIP_ENTRY_FILE* file = zzip_entry_ffile (disk, name);\n    if (file) \n    {\n\tchar buffer[1024]; int len;\n\twhile (0 < (len = zzip_entry_fread (buffer, 1024, 1, file)))\n\t    fwrite (buffer, len, 1, out);\n\t\n\tzzip_entry_fclose (file);\n    }\n}",
+  "diff_func": "--- func_before\n+++ func_after\n static void unzzip_cat_file(FILE* disk, char* name, FILE* out)\n {\n     ZZIP_ENTRY_FILE* file = zzip_entry_ffile (disk, name);\n     if (file) \n     {\n \tchar buffer[1024]; int len;\n-\twhile ((len = zzip_entry_fread (buffer, 1024, 1, file)))\n+\twhile (0 < (len = zzip_entry_fread (buffer, 1024, 1, file)))\n \t    fwrite (buffer, len, 1, out);\n \t\n \tzzip_entry_fclose (file);\n     }\n }",
+  "diff_source": "custom"
+}

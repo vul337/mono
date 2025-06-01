@@ -1,0 +1,18 @@
+{
+  "id": 3450,
+  "language": "C/C++",
+  "commit_url": "https://github.com/torvalds/linux/commit/c1592a89942e9678f7d9c8030efa777c0d57edab",
+  "commit_sha": "c1592a89942e9678f7d9c8030efa777c0d57edab",
+  "commit_msg": "netfilter: nf_tables: deactivate anonymous set from preparation phase\n\nToggle deleted anonymous sets as inactive in the next generation, so\nusers cannot perform any update on it. Clear the generation bitmask\nin case the transaction is aborted.\n\nThe following KASAN splat shows a set element deletion for a bound\nanonymous set that has been already removed in the same transaction.\n\n[   64.921510] ==================================================================\n[   64.923123] BUG: KASAN: wild-memory-access in nf_tables_commit+0xa24/0x1490 [nf_tables]\n[   64.924745] Write of size 8 at addr dead000000000122 by task test/890\n[   64.927903] CPU: 3 PID: 890 Comm: test Not tainted 6.3.0+ #253\n[   64.931120] Call Trace:\n[   64.932699]  <TASK>\n[   64.934292]  dump_stack_lvl+0x33/0x50\n[   64.935908]  ? nf_tables_commit+0xa24/0x1490 [nf_tables]\n[   64.937551]  kasan_report+0xda/0x120\n[   64.939186]  ? nf_tables_commit+0xa24/0x1490 [nf_tables]\n[   64.940814]  nf_tables_commit+0xa24/0x1490 [nf_tables]\n[   64.942452]  ? __kasan_slab_alloc+0x2d/0x60\n[   64.944070]  ? nf_tables_setelem_notify+0x190/0x190 [nf_tables]\n[   64.945710]  ? kasan_set_track+0x21/0x30\n[   64.947323]  nfnetlink_rcv_batch+0x709/0xd90 [nfnetlink]\n[   64.948898]  ? nfnetlink_rcv_msg+0x480/0x480 [nfnetlink]\n\nSigned-off-by: Pablo Neira Ayuso <pablo@netfilter.org>",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "net/netfilter/nft_lookup.c",
+  "func_name": "nft_lookup_activate",
+  "func_before": "static void nft_lookup_activate(const struct nft_ctx *ctx,\n\t\t\t\tconst struct nft_expr *expr)\n{\n\tstruct nft_lookup *priv = nft_expr_priv(expr);\n\n\tpriv->set->use++;\n}",
+  "func_after": "static void nft_lookup_activate(const struct nft_ctx *ctx,\n\t\t\t\tconst struct nft_expr *expr)\n{\n\tstruct nft_lookup *priv = nft_expr_priv(expr);\n\n\tnf_tables_activate_set(ctx, priv->set);\n}",
+  "diff_func": "--- func_before\n+++ func_after\n static void nft_lookup_activate(const struct nft_ctx *ctx,\n \t\t\t\tconst struct nft_expr *expr)\n {\n \tstruct nft_lookup *priv = nft_expr_priv(expr);\n \n-\tpriv->set->use++;\n+\tnf_tables_activate_set(ctx, priv->set);\n }",
+  "diff_source": "custom",
+  "Bug Filter": "Defect Remediation & Feature Upgrades",
+  "Bug Filter Confidence": 0.8,
+  "Bug Filter Response": "\n\nThe patch addresses a memory issue in the netfilter nf_tables module, specifically preventing use-after-free errors. While the commit references a KASAN splat indicating a potential security concern, there's no explicit evidence it's exploitable. Thus, it's classified as a defect fix.\n\n**Final Output:**\nAnalysis: The patch modifies the activation of sets to prevent memory corruption issues, addressing a bug related to set management. The commit mentions a KASAN splat but doesn't specify exploitability, so it's classified under defect remediation.\n\nFinal Classification: Defect Remediation & Feature Upgrades\nConfidence Score: 0.8"
+}

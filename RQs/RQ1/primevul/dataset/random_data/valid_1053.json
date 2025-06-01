@@ -1,0 +1,25 @@
+{
+  "id": 1053,
+  "language": "c",
+  "cwe": [
+    "CWE-476"
+  ],
+  "commit_url": "https://github.com/weihongbin1/graphviz/commit/839085f8026afd6f6920a0c31ad2a9d880d97932",
+  "commit_sha": "839085f8026afd6f6920a0c31ad2a9d880d97932",
+  "commit_msg": "attempted fix for null pointer deference on malformed input",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "cmd/tools/graphml2gv.c",
+  "func_name": "",
+  "raw_func_from_json": "Agraph_t *agroot(void* obj)\n{\n    switch (AGTYPE(obj)) {\n    case AGINEDGE:\n    case AGOUTEDGE:\n\treturn ((Agedge_t *) obj)->node->root;\n    case AGNODE:\n\treturn ((Agnode_t *) obj)->root;\n    case AGRAPH:\n\treturn ((Agraph_t *) obj)->root;\n    default:\t\t\t/* actually can't occur if only 2 bit tags */\n\tagerr(AGERR, \"agroot of a bad object\");\n\treturn NILgraph;\n    }\n}",
+  "diff_func": "@@ -468,8 +468,10 @@ startElementHandler(void *userData, const char *name, const char **atts)\n \tif (pos > 0) {\n \t    const char *attrname;\n \t    attrname = atts[pos];\n-\n-\t    bind_node(attrname);\n+            if (G == 0)\n+                fprintf(stderr,\"node %s outside graph, ignored\\n\",attrname);\n+\t    else\n+                bind_node(attrname);\n \n \t    pushString(&ud->elements, attrname);\n \t}\n@@ -495,21 +497,25 @@ startElementHandler(void *userData, const char *name, const char **atts)\n \tif (tname)\n \t    head = tname;\n \n-\tbind_edge(tail, head);\n+        if (G == 0)\n+            fprintf(stderr,\"edge source %s target %s outside graph, ignored\\n\",(char*)tail,(char*)head);\n+        else {\n+            bind_edge(tail, head);\n \n-\tt = AGTAIL(E);\n-\ttname = agnameof(t);\n+            t = AGTAIL(E);\n+\t    tname = agnameof(t);\n \n-\tif (strcmp(tname, tail) == 0) {\n-\t    ud->edgeinverted = FALSE;\n-\t} else if (strcmp(tname, head) == 0) {\n-\t    ud->edgeinverted = TRUE;\n-\t}\n+\t    if (strcmp(tname, tail) == 0) {\n+\t        ud->edgeinverted = FALSE;\n+\t    } else if (strcmp(tname, head) == 0) {\n+\t        ud->edgeinverted = TRUE;\n+\t    }\n \n-\tpos = get_xml_attr(\"id\", atts);\n-\tif (pos > 0) {\n-\t    setEdgeAttr(E, GRAPHML_ID, (char *) atts[pos], ud);\n-\t}\n+\t    pos = get_xml_attr(\"id\", atts);\n+\t    if (pos > 0) {\n+\t        setEdgeAttr(E, GRAPHML_ID, (char *) atts[pos], ud);\n+\t    }\n+        }\n     } else {\n \t/* must be some extension */\n \tfprintf(stderr,\n@@ -530,7 +536,7 @@ static void endElementHandler(void *userData, const char *name)\n \tchar *ele_name = topString(ud->elements);\n \tif (ud->closedElementType == TAG_GRAPH) {\n \t    Agnode_t *node = agnode(root, ele_name, 0);\n-\t    agdelete(root, node);\n+\t    if (node) agdelete(root, node);\n \t}\n \tpopString(&ud->elements);\n \tCurrent_class = TAG_GRAPH;",
+  "func": "Agraph_t *agroot(void* obj)\n{\n    switch (AGTYPE(obj)) {\n    case AGINEDGE:\n    case AGOUTEDGE:\n\treturn ((Agedge_t *) obj)->node->root;\n    case AGNODE:\n\treturn ((Agnode_t *) obj)->root;\n    case AGRAPH:\n\treturn ((Agraph_t *) obj)->root;\n    default:\t\t\t/* actually can't occur if only 2 bit tags */\n\tagerr(AGERR, \"agroot of a bad object\");\n\treturn NILgraph;\n    }\n}",
+  "target": 1,
+  "project": "graphviz",
+  "commit_id": "839085f8026afd6f6920a0c31ad2a9d880d97932",
+  "hash": 285926376776107496641309642772781622865,
+  "size": 15,
+  "message": "attempted fix for null pointer deference on malformed input",
+  "dataset": "other",
+  "idx": 216728
+}

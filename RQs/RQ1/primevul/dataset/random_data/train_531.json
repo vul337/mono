@@ -1,0 +1,21 @@
+{
+  "id": 531,
+  "language": "c",
+  "cwe": "CWE-119",
+  "commit_url": "https://github.com/sailfishos-mirror/file/commit/6d209c1c489457397a5763bca4b28e43aac90391",
+  "commit_sha": "6d209c1c489457397a5763bca4b28e43aac90391",
+  "commit_msg": "Apply patches from file-CVE-2012-1571.patch\nFrom Francisco Alonso Espejo:\n    file < 5.18/git version can be made to crash when checking some\n    corrupt CDF files (Using an invalid cdf_read_short_sector size)\n    The problem I found here, is that in most situations (if\n    h_short_sec_size_p2 > 8) because the blocksize is 512 and normal\n    values are 06 which means reading 64 bytes.As long as the check\n    for the block size copy is not checked properly (there's an assert\n    that makes wrong/invalid assumptions)",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "src/cdf.c",
+  "func_name": "",
+  "raw_func_from_json": "cdf_read_short_sector(const cdf_stream_t *sst, void *buf, size_t offs,\n    size_t len, const cdf_header_t *h, cdf_secid_t id)\n{\n \tsize_t ss = CDF_SHORT_SEC_SIZE(h);\n \tsize_t pos = CDF_SHORT_SEC_POS(h, id);\n \tassert(ss == len);\n\tif (pos > CDF_SEC_SIZE(h) * sst->sst_len) {\n \t\tDPRINTF((\"Out of bounds read %\" SIZE_T_FORMAT \"u > %\"\n \t\t    SIZE_T_FORMAT \"u\\n\",\n\t\t    pos, CDF_SEC_SIZE(h) * sst->sst_len));\n \t\treturn -1;\n \t}\n \t(void)memcpy(((char *)buf) + offs,\n\t    ((const char *)sst->sst_tab) + pos, len);\n\treturn len;\n}\n",
+  "diff_func": "@@ -35,7 +35,7 @@\n #include \"file.h\"\n \n #ifndef lint\n-FILE_RCSID(\"@(#)$File: cdf.c,v 1.54 2014/02/25 20:52:02 christos Exp $\")\n+FILE_RCSID(\"@(#)$File: cdf.c,v 1.55 2014/02/27 23:26:17 christos Exp $\")\n #endif\n \n #include <assert.h>\n@@ -352,10 +352,10 @@ cdf_read_short_sector(const cdf_stream_t *sst, void *buf, size_t offs,\n \tsize_t ss = CDF_SHORT_SEC_SIZE(h);\n \tsize_t pos = CDF_SHORT_SEC_POS(h, id);\n \tassert(ss == len);\n-\tif (pos > CDF_SEC_SIZE(h) * sst->sst_len) {\n+\tif (pos + len > CDF_SEC_SIZE(h) * sst->sst_len) {\n \t\tDPRINTF((\"Out of bounds read %\" SIZE_T_FORMAT \"u > %\"\n \t\t    SIZE_T_FORMAT \"u\\n\",\n-\t\t    pos, CDF_SEC_SIZE(h) * sst->sst_len));\n+\t\t    pos + len, CDF_SEC_SIZE(h) * sst->sst_len));\n \t\treturn -1;\n \t}\n \t(void)memcpy(((char *)buf) + offs,",
+  "project": "file",
+  "commit_id": "6d209c1c489457397a5763bca4b28e43aac90391",
+  "target": 1,
+  "func": "cdf_read_short_sector(const cdf_stream_t *sst, void *buf, size_t offs,\n    size_t len, const cdf_header_t *h, cdf_secid_t id)\n{\n \tsize_t ss = CDF_SHORT_SEC_SIZE(h);\n \tsize_t pos = CDF_SHORT_SEC_POS(h, id);\n \tassert(ss == len);\n\tif (pos > CDF_SEC_SIZE(h) * sst->sst_len) {\n \t\tDPRINTF((\"Out of bounds read %\" SIZE_T_FORMAT \"u > %\"\n \t\t    SIZE_T_FORMAT \"u\\n\",\n\t\t    pos, CDF_SEC_SIZE(h) * sst->sst_len));\n \t\treturn -1;\n \t}\n \t(void)memcpy(((char *)buf) + offs,\n\t    ((const char *)sst->sst_tab) + pos, len);\n\treturn len;\n}\n",
+  "big_vul_idx": 179616,
+  "idx": 1332,
+  "hash": 17449660697413267711595090029120186354
+}

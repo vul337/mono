@@ -1,0 +1,15 @@
+{
+  "id": 1500,
+  "language": "Java",
+  "commit_url": "https://github.com/wildfly-security/wildfly-elytron/commit/d383c47c8104ab79b0f760e39b9f1194235b6e17",
+  "commit_sha": "d383c47c8104ab79b0f760e39b9f1194235b6e17",
+  "commit_msg": "ELY-2421: Update DigestPasswordImpl to make use of MessageDigest#isEqual to avoid a potential timing attack",
+  "pr_url": "https://github.com/wildfly-security/wildfly-elytron/pull/1786",
+  "pr_info": "https://issues.redhat.com/browse/ELY-2431\r\nhttps://issues.redhat.com/browse/ELY-2424\r\nhttps://issues.redhat.com/browse/ELY-2423\r\nhttps://issues.redhat.com/browse/ELY-2422\r\nhttps://issues.redhat.com/browse/ELY-2421",
+  "file_name": "password/impl/src/main/java/org/wildfly/security/password/impl/DigestPasswordImpl.java",
+  "func_name": "equals",
+  "func_before": "public boolean equals(final Object obj) {\n        if (! (obj instanceof DigestPasswordImpl)) {\n            return false;\n        }\n        DigestPasswordImpl other = (DigestPasswordImpl) obj;\n        return Arrays.equals(digest, other.digest) && username.equals(other.username) && realm.equals(other.realm) && algorithm.equals(other.algorithm);\n    }",
+  "func_after": "public boolean equals(final Object obj) {\n        if (! (obj instanceof DigestPasswordImpl)) {\n            return false;\n        }\n        DigestPasswordImpl other = (DigestPasswordImpl) obj;\n        return MessageDigest.isEqual(digest, other.digest) && username.equals(other.username) && realm.equals(other.realm) && algorithm.equals(other.algorithm);\n    }",
+  "diff_func": "--- func_before\n+++ func_after\n@@ -116 +116 @@\n-            return Arrays.equals(digest, guessDigest);\n+            return MessageDigest.isEqual(digest, guessDigest);\n } catch (NoSuchAlgorithmException e) {\n throw log.invalidKeyNoSuchMessageDigestAlgorithm(algorithm);\n }\n-            return Arrays.equals(digest, guessDigest);\n+            return MessageDigest.isEqual(digest, guessDigest);\n } catch (NoSuchAlgorithmException e) {\n throw log.invalidKeyNoSuchMessageDigestAlgorithm(algorithm);\n }",
+  "diff_source": "api"
+}

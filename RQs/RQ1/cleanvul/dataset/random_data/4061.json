@@ -1,0 +1,15 @@
+{
+  "id": 4061,
+  "language": "Python",
+  "commit_url": "https://github.com/python/cpython/commit/8d0ef0b5edeae52960c7ed05ae8a12388324f87e",
+  "commit_sha": "8d0ef0b5edeae52960c7ed05ae8a12388324f87e",
+  "commit_msg": "bpo-36742: Corrects fix to handle decomposition in usernames (#13812)",
+  "pr_url": "https://github.com/python/cpython/pull/13812",
+  "pr_info": "\n\n<!-- issue-number: [bpo-36742](https://bugs.python.org/issue36742) -->\nhttps://bugs.python.org/issue36742\n<!-- /issue-number -->\n",
+  "file_name": "Lib/urllib/parse.py",
+  "func_name": "_checknetloc",
+  "func_before": "def _checknetloc(netloc):\n    if not netloc or netloc.isascii():\n        return\n    # looking for characters like \\u2100 that expand to 'a/c'\n    # IDNA uses NFKC equivalence, so normalize for this check\n    import unicodedata\n    n = netloc.rpartition('@')[2] # ignore anything to the left of '@'\n    n = n.replace(':', '')        # ignore characters already included\n    n = n.replace('#', '')        # but not the surrounding text\n    n = n.replace('?', '')\n    netloc2 = unicodedata.normalize('NFKC', n)\n    if n == netloc2:\n        return\n    for c in '/?#@:':\n        if c in netloc2:\n            raise ValueError(\"netloc '\" + netloc + \"' contains invalid \" +\n                             \"characters under NFKC normalization\")",
+  "func_after": "def _checknetloc(netloc):\n    if not netloc or netloc.isascii():\n        return\n    # looking for characters like \\u2100 that expand to 'a/c'\n    # IDNA uses NFKC equivalence, so normalize for this check\n    import unicodedata\n    n = netloc.replace('@', '')   # ignore characters already included\n    n = n.replace(':', '')        # but not the surrounding text\n    n = n.replace('#', '')\n    n = n.replace('?', '')\n    netloc2 = unicodedata.normalize('NFKC', n)\n    if n == netloc2:\n        return\n    for c in '/?#@:':\n        if c in netloc2:\n            raise ValueError(\"netloc '\" + netloc + \"' contains invalid \" +\n                             \"characters under NFKC normalization\")",
+  "diff_func": "--- func_before\n+++ func_after\n def _checknetloc(netloc):\n     if not netloc or netloc.isascii():\n         return\n     # looking for characters like \\u2100 that expand to 'a/c'\n     # IDNA uses NFKC equivalence, so normalize for this check\n     import unicodedata\n-    n = netloc.rpartition('@')[2] # ignore anything to the left of '@'\n-    n = n.replace(':', '')        # ignore characters already included\n+    n = netloc.replace('@', '')   # ignore characters already included\n-    n = n.replace('#', '')        # but not the surrounding text\n+    n = n.replace(':', '')        # but not the surrounding text\n+    n = n.replace('#', '')\n     n = n.replace('?', '')\n     netloc2 = unicodedata.normalize('NFKC', n)\n     if n == netloc2:\n         return\n     for c in '/?#@:':\n         if c in netloc2:\n             raise ValueError(\"netloc '\" + netloc + \"' contains invalid \" +\n                              \"characters under NFKC normalization\")",
+  "diff_source": "custom"
+}

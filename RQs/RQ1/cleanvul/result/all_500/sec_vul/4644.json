@@ -1,0 +1,18 @@
+{
+  "id": 4644,
+  "language": "C/C++",
+  "commit_url": "https://github.com/OP-TEE/optee_os/commit/728616b28df659cf0bdde6e58a471f6ef25d023c",
+  "commit_sha": "728616b28df659cf0bdde6e58a471f6ef25d023c",
+  "commit_msg": "core: tee_entry: fix array out of bounds check in cleanup_shm_refs()\n\ncleanup_shm_refs() can be called with num_params larger than what has\nbeen used by copy_in_params(). If num_params is larger than\nTEE_NUM_PARAMS copy_in_params() will return an error and\ncleanup_shm_refs() is called to clean up.\n\nThis leads to accessing uint64_t saved_attr[TEE_NUM_PARAMS] in\nentry_invoke_command() or entry_open_session() out of bounds and\npossibly also the u[TEE_NUM_PARAMS] array in struct tee_ta_param.\n\nSo fix this by capping num_params TEE_NUM_PARAMS in cleanup_shm_refs().\n\nFixes: b05cd886e06d (\"core: enable non-contiguous temporary reference parameters\")\nReviewed-by: Jerome Forissier <jerome.forissier@linaro.org>\nSigned-off-by: Jens Wiklander <jens.wiklander@linaro.org>",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "core/tee/entry_std.c",
+  "func_name": "cleanup_shm_refs",
+  "func_before": "static void cleanup_shm_refs(const uint64_t *saved_attr,\n\t\t\t     struct tee_ta_param *param, uint32_t num_params)\n{\n\tsize_t n;\n\n\tfor (n = 0; n < num_params; n++) {\n\t\tswitch (saved_attr[n]) {\n\t\tcase OPTEE_MSG_ATTR_TYPE_TMEM_INPUT:\n\t\tcase OPTEE_MSG_ATTR_TYPE_TMEM_OUTPUT:\n\t\tcase OPTEE_MSG_ATTR_TYPE_TMEM_INOUT:\n#ifdef CFG_CORE_DYN_SHM\n\t\tcase OPTEE_MSG_ATTR_TYPE_RMEM_INPUT:\n\t\tcase OPTEE_MSG_ATTR_TYPE_RMEM_OUTPUT:\n\t\tcase OPTEE_MSG_ATTR_TYPE_RMEM_INOUT:\n#endif\n\t\t\tmobj_put(param->u[n].mem.mobj);\n\t\t\tbreak;\n\t\tdefault:\n\t\t\tbreak;\n\t\t}\n\t}\n}",
+  "func_after": "static void cleanup_shm_refs(const uint64_t *saved_attr,\n\t\t\t     struct tee_ta_param *param, uint32_t num_params)\n{\n\tsize_t n;\n\n\tfor (n = 0; n < MIN((unsigned int)TEE_NUM_PARAMS, num_params); n++) {\n\t\tswitch (saved_attr[n]) {\n\t\tcase OPTEE_MSG_ATTR_TYPE_TMEM_INPUT:\n\t\tcase OPTEE_MSG_ATTR_TYPE_TMEM_OUTPUT:\n\t\tcase OPTEE_MSG_ATTR_TYPE_TMEM_INOUT:\n#ifdef CFG_CORE_DYN_SHM\n\t\tcase OPTEE_MSG_ATTR_TYPE_RMEM_INPUT:\n\t\tcase OPTEE_MSG_ATTR_TYPE_RMEM_OUTPUT:\n\t\tcase OPTEE_MSG_ATTR_TYPE_RMEM_INOUT:\n#endif\n\t\t\tmobj_put(param->u[n].mem.mobj);\n\t\t\tbreak;\n\t\tdefault:\n\t\t\tbreak;\n\t\t}\n\t}\n}",
+  "diff_func": "--- func_before\n+++ func_after\n static void cleanup_shm_refs(const uint64_t *saved_attr,\n \t\t\t     struct tee_ta_param *param, uint32_t num_params)\n {\n \tsize_t n;\n \n-\tfor (n = 0; n < num_params; n++) {\n+\tfor (n = 0; n < MIN((unsigned int)TEE_NUM_PARAMS, num_params); n++) {\n \t\tswitch (saved_attr[n]) {\n \t\tcase OPTEE_MSG_ATTR_TYPE_TMEM_INPUT:\n \t\tcase OPTEE_MSG_ATTR_TYPE_TMEM_OUTPUT:\n \t\tcase OPTEE_MSG_ATTR_TYPE_TMEM_INOUT:\n #ifdef CFG_CORE_DYN_SHM\n \t\tcase OPTEE_MSG_ATTR_TYPE_RMEM_INPUT:\n \t\tcase OPTEE_MSG_ATTR_TYPE_RMEM_OUTPUT:\n \t\tcase OPTEE_MSG_ATTR_TYPE_RMEM_INOUT:\n #endif\n \t\t\tmobj_put(param->u[n].mem.mobj);\n \t\t\tbreak;\n \t\tdefault:\n \t\t\tbreak;\n \t\t}\n \t}\n }",
+  "diff_source": "custom",
+  "Bug Filter": "Security Vulnerability Fix  \nConfidence Score: 0.95",
+  "Bug Filter Confidence": 0.95,
+  "Bug Filter Response": "\n\n**Final Output:**\n\nAnalysis:\n- The patch addresses an out-of-bounds array access in `cleanup_shm_refs()`, which could lead to buffer overflow.\n- The code change caps the loop iteration to `TEE_NUM_PARAMS`, preventing unauthorized memory access.\n- This is a critical security fix as it mitigates potential buffer overflow vulnerabilities.\n\nFinal Classification: Security Vulnerability Fix  \nConfidence Score: 0.95"
+}

@@ -1,0 +1,23 @@
+{
+  "id": 788,
+  "language": "h",
+  "cwe": "",
+  "commit_url": "https://github.com/CarbonROM/android_external_libjpeg-turbo/commit/6709e4a0cfa44d4f54ee8ad05753d4aa9260cb91",
+  "commit_sha": "6709e4a0cfa44d4f54ee8ad05753d4aa9260cb91",
+  "commit_msg": "Check range of integer values in PPM text file\n\nAdd checks to ensure values are within the specified range.\n\nFixes mozilla/mozjpeg#141, closes #8",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "cderror.h",
+  "func_name": "",
+  "raw_func_from_json": "get_text_gray_row (j_compress_ptr cinfo, cjpeg_source_ptr sinfo)\n/* This version is for reading text-format PGM files with any maxval */\n{\n  ppm_source_ptr source = (ppm_source_ptr) sinfo;\n  FILE * infile = source->pub.input_file;\n  register JSAMPROW ptr;\n  register JSAMPLE *rescale = source->rescale;\n  JDIMENSION col;\n\n  ptr = source->pub.buffer[0];\n  for (col = cinfo->image_width; col > 0; col--) {\n    *ptr++ = rescale[read_pbm_integer(cinfo, infile)];\n  }\n  return 1;\n}",
+  "diff_func": "@@ -74,6 +74,7 @@ JMESSAGE(JWRN_GIF_NOMOREDATA, \"Ran out of GIF bits\")\n #ifdef PPM_SUPPORTED\n JMESSAGE(JERR_PPM_COLORSPACE, \"PPM output must be grayscale or RGB\")\n JMESSAGE(JERR_PPM_NONNUMERIC, \"Nonnumeric data in PPM file\")\n+JMESSAGE(JERR_PPM_TOOLARGE, \"Integer value too large in PPM file\")\n JMESSAGE(JERR_PPM_NOT, \"Not a PPM/PGM file\")\n JMESSAGE(JTRC_PGM, \"%ux%u PGM image\")\n JMESSAGE(JTRC_PGM_TEXT, \"%ux%u text PGM image\")",
+  "func": "get_text_gray_row (j_compress_ptr cinfo, cjpeg_source_ptr sinfo)\n/* This version is for reading text-format PGM files with any maxval */\n{\n  ppm_source_ptr source = (ppm_source_ptr) sinfo;\n  FILE * infile = source->pub.input_file;\n  register JSAMPROW ptr;\n  register JSAMPLE *rescale = source->rescale;\n  JDIMENSION col;\n\n  ptr = source->pub.buffer[0];\n  for (col = cinfo->image_width; col > 0; col--) {\n    *ptr++ = rescale[read_pbm_integer(cinfo, infile)];\n  }\n  return 1;\n}",
+  "project": "libjpeg-turbo",
+  "hash": 90454294641612113179390747862471467555,
+  "size": 15,
+  "commit_id": "6709e4a0cfa44d4f54ee8ad05753d4aa9260cb91",
+  "message": "Check range of integer values in PPM text file\n\nAdd checks to ensure values are within the specified range.\n\nFixes mozilla/mozjpeg#141, closes #8",
+  "target": 1,
+  "dataset": "other",
+  "idx": 198576
+}

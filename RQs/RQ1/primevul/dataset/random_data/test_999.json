@@ -1,0 +1,23 @@
+{
+  "id": 999,
+  "language": "c",
+  "cwe": "",
+  "commit_url": "https://github.com/vyatta/vyatta-quagga/commit/099ed6744881e71957f2bfeebc4c0727714d2394",
+  "commit_sha": "099ed6744881e71957f2bfeebc4c0727714d2394",
+  "commit_msg": "ospfd: fix ospf_packet_add_top() to use LOOKUP()",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "ospfd/ospf_packet.c",
+  "func_name": "",
+  "raw_func_from_json": "ospf_packet_add_top (struct ospf_interface *oi, struct ospf_packet *op)\n{\n  if (!oi->obuf)\n    {\n      zlog_err(\"ospf_packet_add(interface %s in state %d [%s], packet type %s, \"\n\t       \"destination %s) called with NULL obuf, ignoring \"\n\t       \"(please report this bug)!\\n\",\n\t       IF_NAME(oi), oi->state, LOOKUP (ospf_ism_state_msg, oi->state),\n\t       ospf_packet_type_str[stream_getc_from(op->s, 1)],\n\t       inet_ntoa (op->dst));\n      return;\n    }\n\n  /* Add packet to head of queue. */\n  ospf_fifo_push_head (oi->obuf, op);\n\n  /* Debug of packet fifo*/\n  /* ospf_fifo_debug (oi->obuf); */\n}",
+  "diff_func": "@@ -223,7 +223,7 @@ ospf_packet_add_top (struct ospf_interface *oi, struct ospf_packet *op)\n \t       \"destination %s) called with NULL obuf, ignoring \"\n \t       \"(please report this bug)!\\n\",\n \t       IF_NAME(oi), oi->state, LOOKUP (ospf_ism_state_msg, oi->state),\n-\t       ospf_packet_type_str[stream_getc_from(op->s, 1)],\n+\t       LOOKUP (ospf_packet_type_str, stream_getc_from(op->s, 1)),\n \t       inet_ntoa (op->dst));\n       return;\n     }",
+  "func": "ospf_packet_add_top (struct ospf_interface *oi, struct ospf_packet *op)\n{\n  if (!oi->obuf)\n    {\n      zlog_err(\"ospf_packet_add(interface %s in state %d [%s], packet type %s, \"\n\t       \"destination %s) called with NULL obuf, ignoring \"\n\t       \"(please report this bug)!\\n\",\n\t       IF_NAME(oi), oi->state, LOOKUP (ospf_ism_state_msg, oi->state),\n\t       ospf_packet_type_str[stream_getc_from(op->s, 1)],\n\t       inet_ntoa (op->dst));\n      return;\n    }\n\n  /* Add packet to head of queue. */\n  ospf_fifo_push_head (oi->obuf, op);\n\n  /* Debug of packet fifo*/\n  /* ospf_fifo_debug (oi->obuf); */\n}",
+  "project": "quagga",
+  "hash": 147568580972588828700710848557085359496,
+  "size": 19,
+  "commit_id": "099ed6744881e71957f2bfeebc4c0727714d2394",
+  "message": "ospfd: fix ospf_packet_add_top() to use LOOKUP()",
+  "target": 1,
+  "dataset": "other",
+  "idx": 209771
+}

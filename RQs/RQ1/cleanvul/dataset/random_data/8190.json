@@ -1,0 +1,15 @@
+{
+  "id": 8190,
+  "language": "JavaScript",
+  "commit_url": "https://github.com/linkedin/dustjs/commit/ddb6523832465d38c9d80189e9de60519ac307c3",
+  "commit_sha": "ddb6523832465d38c9d80189e9de60519ac307c3",
+  "commit_msg": "fix for prototype pollution vulnerability",
+  "pr_url": "https://github.com/linkedin/dustjs/pull/805",
+  "pr_info": "Refer https://github.com/linkedin/dustjs/issues/804",
+  "file_name": "dist/dust-full.min.js",
+  "func_name": "g",
+  "func_before": "function E(){var b,c,d,e,f;if(Bc++,b=vc,c=[],d=vc,46===a.charCodeAt(vc)?(e=Va,vc++):(e=X,0===Bc&&g(Wa)),e!==X?(f=C(),f!==X?(wc=d,e=tb(f),d=e):(vc=d,d=aa)):(vc=d,d=aa),d!==X)for(;d!==X;)c.push(d),d=vc,46===a.charCodeAt(vc)?(e=Va,vc++):(e=X,0===Bc&&g(Wa)),e!==X?(f=C(),f!==X?(wc=d,e=tb(f),d=e):(vc=d,d=aa)):(vc=d,d=aa);else c=aa;return c!==X?(d=D(),d===X&&(d=ba),d!==X?(wc=b,c=ub(c,d),b=c):(vc=b,b=aa)):(vc=b,b=aa),Bc--,b===X&&(c=X,0===Bc&&g(sb)),b}",
+  "func_after": "function E(){var b,c,d,e,f;if(xc++,b=sc,c=[],d=sc,46===a.charCodeAt(sc)?(e=Sa,sc++):(e=X,0===xc&&g(Ta)),e!==X?(f=C(),f!==X?(tc=d,e=qb(f),d=e):(sc=d,d=X)):(sc=d,d=X),d!==X)for(;d!==X;)c.push(d),d=sc,46===a.charCodeAt(sc)?(e=Sa,sc++):(e=X,0===xc&&g(Ta)),e!==X?(f=C(),f!==X?(tc=d,e=qb(f),d=e):(sc=d,d=X)):(sc=d,d=X);else c=X;return c!==X?(d=D(),d===X&&(d=null),d!==X?(tc=b,c=rb(c,d),b=c):(sc=b,b=X)):(sc=b,b=X),xc--,b===X&&(c=X,0===xc&&g(pb)),b}",
+  "diff_func": "--- func_before\n+++ func_after\n-function E(){var b,c,d,e,f;if(Bc++,b=vc,c=[],d=vc,46===a.charCodeAt(vc)?(e=Va,vc++):(e=X,0===Bc&&g(Wa)),e!==X?(f=C(),f!==X?(wc=d,e=tb(f),d=e):(vc=d,d=aa)):(vc=d,d=aa),d!==X)for(;d!==X;)c.push(d),d=vc,46===a.charCodeAt(vc)?(e=Va,vc++):(e=X,0===Bc&&g(Wa)),e!==X?(f=C(),f!==X?(wc=d,e=tb(f),d=e):(vc=d,d=aa)):(vc=d,d=aa);else c=aa;return c!==X?(d=D(),d===X&&(d=ba),d!==X?(wc=b,c=ub(c,d),b=c):(vc=b,b=aa)):(vc=b,b=aa),Bc--,b===X&&(c=X,0===Bc&&g(sb)),b}\n+function E(){var b,c,d,e,f;if(xc++,b=sc,c=[],d=sc,46===a.charCodeAt(sc)?(e=Sa,sc++):(e=X,0===xc&&g(Ta)),e!==X?(f=C(),f!==X?(tc=d,e=qb(f),d=e):(sc=d,d=X)):(sc=d,d=X),d!==X)for(;d!==X;)c.push(d),d=sc,46===a.charCodeAt(sc)?(e=Sa,sc++):(e=X,0===xc&&g(Ta)),e!==X?(f=C(),f!==X?(tc=d,e=qb(f),d=e):(sc=d,d=X)):(sc=d,d=X);else c=X;return c!==X?(d=D(),d===X&&(d=null),d!==X?(tc=b,c=rb(c,d),b=c):(sc=b,b=X)):(sc=b,b=X),xc--,b===X&&(c=X,0===xc&&g(pb)),b}",
+  "diff_source": "custom"
+}

@@ -1,0 +1,15 @@
+{
+  "id": 6535,
+  "language": "C#",
+  "commit_url": "https://github.com/orchardcms/orchardcore/commit/b7096af1028d8f909f63dd076d1bbd573913a92d",
+  "commit_sha": "b7096af1028d8f909f63dd076d1bbd573913a92d",
+  "commit_msg": "Fix missing permission checks and encoding. (#11344)",
+  "pr_url": "https://github.com/OrchardCMS/OrchardCore/pull/11344",
+  "pr_info": "Fix missing permission checks and encoding.",
+  "file_name": "src/OrchardCore.Modules/OrchardCore.Demo/Controllers/ContentController.cs",
+  "func_name": "Display",
+  "func_before": "public async Task<ActionResult> Display(string contentItemId)\n        {\n            var contentItem = await _contentManager.GetAsync(contentItemId);\n\n            if (contentItem == null)\n            {\n                return NotFound();\n            }\n\n            var shape = await _contentDisplay.BuildDisplayAsync(contentItem, _updateModelAccessor.ModelUpdater);\n            return View(shape);\n        }",
+  "func_after": "public async Task<ActionResult> Display(string contentItemId)\n        {\n            var contentItem = await _contentManager.GetAsync(contentItemId);\n\n            if (contentItem == null)\n            {\n                return NotFound();\n            }\n\n            if (!await _authorizationService.AuthorizeAsync(_httpContextAccessor.HttpContext.User, CommonPermissions.ViewContent, contentItem))\n            {\n                return Forbid();\n            }\n\n            var shape = await _contentDisplay.BuildDisplayAsync(contentItem, _updateModelAccessor.ModelUpdater);\n            return View(shape);\n        }",
+  "diff_func": "--- func_before\n+++ func_after\n public async Task<ActionResult> Display(string contentItemId)\n         {\n             var contentItem = await _contentManager.GetAsync(contentItemId);\n \n             if (contentItem == null)\n             {\n                 return NotFound();\n             }\n \n+            if (!await _authorizationService.AuthorizeAsync(_httpContextAccessor.HttpContext.User, CommonPermissions.ViewContent, contentItem))\n+            {\n+                return Forbid();\n+            }\n+\n             var shape = await _contentDisplay.BuildDisplayAsync(contentItem, _updateModelAccessor.ModelUpdater);\n             return View(shape);\n         }",
+  "diff_source": "custom"
+}

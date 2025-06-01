@@ -1,0 +1,23 @@
+{
+  "id": 658,
+  "language": "h",
+  "cwe": "",
+  "commit_url": "https://github.com/lastole/libraw/commit/11c4db253ef2c9bb44247b578f5caa57c66a1eeb",
+  "commit_sha": "11c4db253ef2c9bb44247b578f5caa57c66a1eeb",
+  "commit_msg": "X3F: check huffman tree size",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "internal/x3f_tools.h",
+  "func_name": "",
+  "raw_func_from_json": "static x3f_huffnode_t *new_node(x3f_hufftree_t *tree)\n{\n  x3f_huffnode_t *t = &tree->nodes[tree->free_node_index];\n\n  t->branch[0] = NULL;\n  t->branch[1] = NULL;\n  t->leaf = UNDEFINED_LEAF;\n\n  tree->free_node_index++;\n\n  return t;\n}",
+  "diff_func": "@@ -213,6 +213,7 @@ typedef struct x3f_huffnode_s\n typedef struct x3f_hufftree_s\n {\n   uint32_t free_node_index; /* Free node index in huffman tree array */\n+  uint32_t total_node_index;\n   x3f_huffnode_t *nodes;    /* Coding tree */\n } x3f_hufftree_t;\n ",
+  "func": "static x3f_huffnode_t *new_node(x3f_hufftree_t *tree)\n{\n  x3f_huffnode_t *t = &tree->nodes[tree->free_node_index];\n\n  t->branch[0] = NULL;\n  t->branch[1] = NULL;\n  t->leaf = UNDEFINED_LEAF;\n\n  tree->free_node_index++;\n\n  return t;\n}",
+  "project": "LibRaw",
+  "hash": 123416413605001745719792443480718508652,
+  "size": 12,
+  "commit_id": "11c4db253ef2c9bb44247b578f5caa57c66a1eeb",
+  "message": "X3F: check huffman tree size",
+  "target": 1,
+  "dataset": "other",
+  "idx": 201415
+}

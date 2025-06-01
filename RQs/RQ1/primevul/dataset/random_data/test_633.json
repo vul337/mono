@@ -1,0 +1,23 @@
+{
+  "id": 633,
+  "language": "c",
+  "cwe": "",
+  "commit_url": "https://github.com/ClusterLabs/booth/commit/35bf0b7b048d715f671eb68974fb6b4af6528c67",
+  "commit_sha": "35bf0b7b048d715f671eb68974fb6b4af6528c67",
+  "commit_msg": "Revert \"Refactor: main: substitute is_auth_req macro\"\n\nThis reverts commit da79b8ba28ad4837a0fee13e5f8fb6f89fe0e24c.\n\nauthfile != authkey\n\nSigned-off-by: Jan Friesse <jfriesse@redhat.com>",
+  "pr_url": "https://github.com/ClusterLabs/booth/pull/115",
+  "pr_info": "This reverts commit da79b8ba28ad4837a0fee13e5f8fb6f89fe0e24c.\r\n\r\nauthfile != authkey\r\n\r\nSigned-off-by: Jan Friesse <jfriesse@redhat.com>\r\n\r\nSolves #114",
+  "file_name": "src/main.c",
+  "func_name": "",
+  "raw_func_from_json": "static int setup_config(int type)\n{\n\tint rv;\n\n\trv = read_config(cl.configfile, type);\n\tif (rv < 0)\n\t\tgoto out;\n\n\tif (is_auth_req()) {\n\t\trv = read_authkey();\n\t\tif (rv < 0)\n\t\t\tgoto out;\n#if HAVE_LIBGCRYPT\n\t\tif (!gcry_check_version(NULL)) {\n\t\t\tlog_error(\"gcry_check_version\");\n\t\t\trv = -ENOENT;\n\t\t\tgoto out;\n\t\t}\n\t\tgcry_control(GCRYCTL_DISABLE_SECMEM, 0);\n\t\tgcry_control(GCRYCTL_INITIALIZATION_FINISHED, 0);\n#endif\n\t}\n\n\t/* Set \"local\" pointer, ignoring errors. */\n\tif (cl.type == DAEMON && cl.site[0]) {\n\t\tif (!find_site_by_name(cl.site, &local, 1)) {\n\t\t\tlog_error(\"Cannot find \\\"%s\\\" in the configuration.\",\n\t\t\t\t\tcl.site);\n\t\t\treturn -EINVAL;\n\t\t}\n\t\tlocal->local = 1;\n\t} else\n\t\tfind_myself(NULL, type == CLIENT || type == GEOSTORE);\n\n\n\trv = check_config(type);\n\tif (rv < 0)\n\t\tgoto out;\n\n\n\t/* Per default the PID file name is derived from the\n\t * configuration name. */\n\tif (!cl.lockfile[0]) {\n\t\tsnprintf(cl.lockfile, sizeof(cl.lockfile)-1,\n\t\t\t\t\"%s/%s.pid\", BOOTH_RUN_DIR, booth_conf->name);\n\t}\n\nout:\n\treturn rv;\n}",
+  "diff_func": "@@ -364,7 +364,7 @@ static int setup_config(int type)\n \tif (rv < 0)\n \t\tgoto out;\n \n-\tif (is_auth_req()) {\n+\tif (booth_conf->authfile[0] != '\\0') {\n \t\trv = read_authkey();\n \t\tif (rv < 0)\n \t\t\tgoto out;",
+  "func": "static int setup_config(int type)\n{\n\tint rv;\n\n\trv = read_config(cl.configfile, type);\n\tif (rv < 0)\n\t\tgoto out;\n\n\tif (is_auth_req()) {\n\t\trv = read_authkey();\n\t\tif (rv < 0)\n\t\t\tgoto out;\n#if HAVE_LIBGCRYPT\n\t\tif (!gcry_check_version(NULL)) {\n\t\t\tlog_error(\"gcry_check_version\");\n\t\t\trv = -ENOENT;\n\t\t\tgoto out;\n\t\t}\n\t\tgcry_control(GCRYCTL_DISABLE_SECMEM, 0);\n\t\tgcry_control(GCRYCTL_INITIALIZATION_FINISHED, 0);\n#endif\n\t}\n\n\t/* Set \"local\" pointer, ignoring errors. */\n\tif (cl.type == DAEMON && cl.site[0]) {\n\t\tif (!find_site_by_name(cl.site, &local, 1)) {\n\t\t\tlog_error(\"Cannot find \\\"%s\\\" in the configuration.\",\n\t\t\t\t\tcl.site);\n\t\t\treturn -EINVAL;\n\t\t}\n\t\tlocal->local = 1;\n\t} else\n\t\tfind_myself(NULL, type == CLIENT || type == GEOSTORE);\n\n\n\trv = check_config(type);\n\tif (rv < 0)\n\t\tgoto out;\n\n\n\t/* Per default the PID file name is derived from the\n\t * configuration name. */\n\tif (!cl.lockfile[0]) {\n\t\tsnprintf(cl.lockfile, sizeof(cl.lockfile)-1,\n\t\t\t\t\"%s/%s.pid\", BOOTH_RUN_DIR, booth_conf->name);\n\t}\n\nout:\n\treturn rv;\n}",
+  "project": "booth",
+  "hash": 55095981735811690584245498640396195697,
+  "size": 50,
+  "commit_id": "35bf0b7b048d715f671eb68974fb6b4af6528c67",
+  "message": "Revert \"Refactor: main: substitute is_auth_req macro\"\n\nThis reverts commit da79b8ba28ad4837a0fee13e5f8fb6f89fe0e24c.\n\nauthfile != authkey\n\nSigned-off-by: Jan Friesse <jfriesse@redhat.com>",
+  "target": 1,
+  "dataset": "other",
+  "idx": 196611
+}

@@ -1,0 +1,23 @@
+{
+  "id": 1013,
+  "language": "c",
+  "cwe": "",
+  "commit_url": "https://github.com/globalscaletechnologies/linux/commit/055e547478a11a6360c7ce05e2afc3e366968a12",
+  "commit_sha": "055e547478a11a6360c7ce05e2afc3e366968a12",
+  "commit_msg": "drm/amd/display: memory leak\n\nIn dcn*_clock_source_create when dcn20_clk_src_construct fails allocated\nclk_src needs release.\n\nSigned-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>\nSigned-off-by: Alex Deucher <alexander.deucher@amd.com>",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "drivers/gpu/drm/amd/display/dc/dce100/dce100_resource.c",
+  "func_name": "",
+  "raw_func_from_json": "struct clock_source *dce80_clock_source_create(\n\tstruct dc_context *ctx,\n\tstruct dc_bios *bios,\n\tenum clock_source_id id,\n\tconst struct dce110_clk_src_regs *regs,\n\tbool dp_clk_src)\n{\n\tstruct dce110_clk_src *clk_src =\n\t\tkzalloc(sizeof(struct dce110_clk_src), GFP_KERNEL);\n\n\tif (!clk_src)\n\t\treturn NULL;\n\n\tif (dce110_clk_src_construct(clk_src, ctx, bios, id,\n\t\t\tregs, &cs_shift, &cs_mask)) {\n\t\tclk_src->base.dp_clk_src = dp_clk_src;\n\t\treturn &clk_src->base;\n\t}\n\n\tBREAK_TO_DEBUGGER();\n\treturn NULL;\n}",
+  "diff_func": "@@ -668,6 +668,7 @@ struct clock_source *dce100_clock_source_create(\n \t\treturn &clk_src->base;\n \t}\n \n+\tkfree(clk_src);\n \tBREAK_TO_DEBUGGER();\n \treturn NULL;\n }",
+  "func": "struct clock_source *dce80_clock_source_create(\n\tstruct dc_context *ctx,\n\tstruct dc_bios *bios,\n\tenum clock_source_id id,\n\tconst struct dce110_clk_src_regs *regs,\n\tbool dp_clk_src)\n{\n\tstruct dce110_clk_src *clk_src =\n\t\tkzalloc(sizeof(struct dce110_clk_src), GFP_KERNEL);\n\n\tif (!clk_src)\n\t\treturn NULL;\n\n\tif (dce110_clk_src_construct(clk_src, ctx, bios, id,\n\t\t\tregs, &cs_shift, &cs_mask)) {\n\t\tclk_src->base.dp_clk_src = dp_clk_src;\n\t\treturn &clk_src->base;\n\t}\n\n\tBREAK_TO_DEBUGGER();\n\treturn NULL;\n}",
+  "project": "linux",
+  "hash": 47031023642369501827563085012832170420,
+  "size": 22,
+  "commit_id": "055e547478a11a6360c7ce05e2afc3e366968a12",
+  "message": "drm/amd/display: memory leak\n\nIn dcn*_clock_source_create when dcn20_clk_src_construct fails allocated\nclk_src needs release.\n\nSigned-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>\nSigned-off-by: Alex Deucher <alexander.deucher@amd.com>",
+  "target": 1,
+  "dataset": "other",
+  "idx": 215060
+}

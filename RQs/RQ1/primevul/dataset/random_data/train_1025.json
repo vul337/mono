@@ -1,0 +1,21 @@
+{
+  "id": 1025,
+  "language": "c",
+  "cwe": "CWE-20",
+  "commit_url": "https://github.com/redhat-plumbers/systemd-rhel9/commit/a924f43f30f9c4acaf70618dd2a055f8b0f166be",
+  "commit_sha": "a924f43f30f9c4acaf70618dd2a055f8b0f166be",
+  "commit_msg": "resolved: bugfix of null pointer p->question dereferencing (#6020)\n\nSee https://bugs.launchpad.net/ubuntu/+source/systemd/+bug/1621396",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "src/resolve/resolved-dns-packet.c",
+  "func_name": "",
+  "raw_func_from_json": "int dns_packet_is_reply_for(DnsPacket *p, const DnsResourceKey *key) {\n        int r;\n\n        assert(p);\n        assert(key);\n\n        /* Checks if the specified packet is a reply for the specified\n         * key and the specified key is the only one in the question\n         * section. */\n\n        if (DNS_PACKET_QR(p) != 1)\n                return 0;\n\n        /* Let's unpack the packet, if that hasn't happened yet. */\n        r = dns_packet_extract(p);\n         if (r < 0)\n                 return r;\n \n         if (p->question->n_keys != 1)\n                 return 0;\n \n        return dns_resource_key_equal(p->question->keys[0], key);\n}\n",
+  "diff_func": "@@ -2269,6 +2269,9 @@ int dns_packet_is_reply_for(DnsPacket *p, const DnsResourceKey *key) {\n         if (r < 0)\n                 return r;\n \n+        if (!p->question)\n+                return 0;\n+\n         if (p->question->n_keys != 1)\n                 return 0;\n ",
+  "project": "systemd",
+  "commit_id": "a924f43f30f9c4acaf70618dd2a055f8b0f166be",
+  "target": 1,
+  "func": "int dns_packet_is_reply_for(DnsPacket *p, const DnsResourceKey *key) {\n        int r;\n\n        assert(p);\n        assert(key);\n\n        /* Checks if the specified packet is a reply for the specified\n         * key and the specified key is the only one in the question\n         * section. */\n\n        if (DNS_PACKET_QR(p) != 1)\n                return 0;\n\n        /* Let's unpack the packet, if that hasn't happened yet. */\n        r = dns_packet_extract(p);\n         if (r < 0)\n                 return r;\n \n         if (p->question->n_keys != 1)\n                 return 0;\n \n        return dns_resource_key_equal(p->question->keys[0], key);\n}\n",
+  "big_vul_idx": 181283,
+  "idx": 2771,
+  "hash": 149971713116709727821701116793649169489
+}

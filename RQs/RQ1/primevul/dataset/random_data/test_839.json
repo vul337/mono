@@ -1,0 +1,23 @@
+{
+  "id": 839,
+  "language": "c",
+  "cwe": "",
+  "commit_url": "https://github.com/HKL-Kevin/msm8998-mainline/commit/b49a0e69a7b1a68c8d3f64097d06dabb770fec96",
+  "commit_sha": "b49a0e69a7b1a68c8d3f64097d06dabb770fec96",
+  "commit_msg": "soc: aspeed: lpc-ctrl: Fix boundary check for mmap\n\nThe check mixes pages (vm_pgoff) with bytes (vm_start, vm_end) on one\nside of the comparison, and uses resource address (rather than just the\nresource size) on the other side of the comparison.\nThis can allow malicious userspace to easily bypass the boundary check and\nmap pages that are located outside memory-region reserved by the driver.\n\nFixes: 6c4e97678501 (\"drivers/misc: Add Aspeed LPC control driver\")\nCc: stable@vger.kernel.org\nSigned-off-by: Iwona Winiarska <iwona.winiarska@intel.com>\nReviewed-by: Andrew Jeffery <andrew@aj.id.au>\nTested-by: Andrew Jeffery <andrew@aj.id.au>\nReviewed-by: Joel Stanley <joel@aj.id.au>\nSigned-off-by: Joel Stanley <joel@jms.id.au>",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "drivers/soc/aspeed/aspeed-lpc-ctrl.c",
+  "func_name": "",
+  "raw_func_from_json": "static int aspeed_lpc_ctrl_mmap(struct file *file, struct vm_area_struct *vma)\n{\n\tstruct aspeed_lpc_ctrl *lpc_ctrl = file_aspeed_lpc_ctrl(file);\n\tunsigned long vsize = vma->vm_end - vma->vm_start;\n\tpgprot_t prot = vma->vm_page_prot;\n\n\tif (vma->vm_pgoff + vsize > lpc_ctrl->mem_base + lpc_ctrl->mem_size)\n\t\treturn -EINVAL;\n\n\t/* ast2400/2500 AHB accesses are not cache coherent */\n\tprot = pgprot_noncached(prot);\n\n\tif (remap_pfn_range(vma, vma->vm_start,\n\t\t(lpc_ctrl->mem_base >> PAGE_SHIFT) + vma->vm_pgoff,\n\t\tvsize, prot))\n\t\treturn -EAGAIN;\n\n\treturn 0;\n}",
+  "diff_func": "@@ -51,7 +51,7 @@ static int aspeed_lpc_ctrl_mmap(struct file *file, struct vm_area_struct *vma)\n \tunsigned long vsize = vma->vm_end - vma->vm_start;\n \tpgprot_t prot = vma->vm_page_prot;\n \n-\tif (vma->vm_pgoff + vsize > lpc_ctrl->mem_base + lpc_ctrl->mem_size)\n+\tif (vma->vm_pgoff + vma_pages(vma) > lpc_ctrl->mem_size >> PAGE_SHIFT)\n \t\treturn -EINVAL;\n \n \t/* ast2400/2500 AHB accesses are not cache coherent */",
+  "func": "static int aspeed_lpc_ctrl_mmap(struct file *file, struct vm_area_struct *vma)\n{\n\tstruct aspeed_lpc_ctrl *lpc_ctrl = file_aspeed_lpc_ctrl(file);\n\tunsigned long vsize = vma->vm_end - vma->vm_start;\n\tpgprot_t prot = vma->vm_page_prot;\n\n\tif (vma->vm_pgoff + vsize > lpc_ctrl->mem_base + lpc_ctrl->mem_size)\n\t\treturn -EINVAL;\n\n\t/* ast2400/2500 AHB accesses are not cache coherent */\n\tprot = pgprot_noncached(prot);\n\n\tif (remap_pfn_range(vma, vma->vm_start,\n\t\t(lpc_ctrl->mem_base >> PAGE_SHIFT) + vma->vm_pgoff,\n\t\tvsize, prot))\n\t\treturn -EAGAIN;\n\n\treturn 0;\n}",
+  "project": "linux",
+  "hash": 309099081422887809703549687415049166224,
+  "size": 19,
+  "commit_id": "b49a0e69a7b1a68c8d3f64097d06dabb770fec96",
+  "message": "soc: aspeed: lpc-ctrl: Fix boundary check for mmap\n\nThe check mixes pages (vm_pgoff) with bytes (vm_start, vm_end) on one\nside of the comparison, and uses resource address (rather than just the\nresource size) on the other side of the comparison.\nThis can allow malicious userspace to easily bypass the boundary check and\nmap pages that are located outside memory-region reserved by the driver.\n\nFixes: 6c4e97678501 (\"drivers/misc: Add Aspeed LPC control driver\")\nCc: stable@vger.kernel.org\nSigned-off-by: Iwona Winiarska <iwona.winiarska@intel.com>\nReviewed-by: Andrew Jeffery <andrew@aj.id.au>\nTested-by: Andrew Jeffery <andrew@aj.id.au>\nReviewed-by: Joel Stanley <joel@aj.id.au>\nSigned-off-by: Joel Stanley <joel@jms.id.au>",
+  "target": 1,
+  "dataset": "other",
+  "idx": 201794
+}

@@ -1,0 +1,18 @@
+{
+  "id": 8090,
+  "language": "JavaScript",
+  "commit_url": "https://github.com/HumanSignal/label-studio/commit/a7a71e594f32ec4af8f3f800d5ccb8662e275da3",
+  "commit_sha": "a7a71e594f32ec4af8f3f800d5ccb8662e275da3",
+  "commit_msg": "fix: OPTIC-179: Properly ensure content is escaped (#4926)\n\n* fix: OPTIC-179: Properly ensure content is escaped\r\n\r\n* ci: Build frontend\r\n\r\nWorkflow run: https://github.com/HumanSignal/label-studio/actions/runs/6567480699\r\n\r\n* update types\r\n\r\n* ci: Build frontend\r\n\r\nWorkflow run: https://github.com/HumanSignal/label-studio/actions/runs/6567539053\r\n\r\n* update\r\n\r\n* ci: Build frontend\r\n\r\nWorkflow run: https://github.com/HumanSignal/label-studio/actions/runs/6568061660\r\n\r\n* update\r\n\r\n* Update label_studio/frontend/src/pages/DataManager/DataManager.js\r\n\r\n* ci: Build frontend\r\n\r\nWorkflow run: https://github.com/HumanSignal/label-studio/actions/runs/6568126554\r\n\r\n---------\r\n\r\nCo-authored-by: robot-ci-heartex <robot-ci-heartex@users.noreply.github.com>",
+  "pr_url": "https://github.com/HumanSignal/label-studio/pull/4926",
+  "pr_info": "no more info",
+  "file_name": "label_studio/frontend/dist/react-app/index.js",
+  "func_name": "a",
+  "func_before": "function aa(e,t,n,r,i,o){if(Jo=o,Qo=t,t.memoizedState=null,t.updateQueue=null,t.lanes=0,Zo.current=null===e||null===e.memoizedState?La:Pa,e=n(r,i),ra){o=0;do{if(ra=!1,!(25>o))throw Error(a(301));o+=1,ta=ea=null,t.updateQueue=null,Zo.current=Aa,e=n(r,i)}while(ra)}if(Zo.current=Ma,t=null!==ea&&null!==ea.next,Jo=0,ta=ea=Qo=null,na=!1,t)throw Error(a(300));return e}",
+  "func_after": "function aa(e,t,n,r,i,o){if(Qo=o,Jo=t,t.memoizedState=null,t.updateQueue=null,t.lanes=0,Ko.current=null===e||null===e.memoizedState?La:Ma,e=n(r,i),ra){o=0;do{if(ra=!1,!(25>o))throw Error(a(301));o+=1,ta=ea=null,t.updateQueue=null,Ko.current=Pa,e=n(r,i)}while(ra)}if(Ko.current=Aa,t=null!==ea&&null!==ea.next,Qo=0,ta=ea=Jo=null,na=!1,t)throw Error(a(300));return e}",
+  "diff_func": "--- func_before\n+++ func_after\n-function aa(e,t,n,r,i,o){if(Jo=o,Qo=t,t.memoizedState=null,t.updateQueue=null,t.lanes=0,Zo.current=null===e||null===e.memoizedState?La:Pa,e=n(r,i),ra){o=0;do{if(ra=!1,!(25>o))throw Error(a(301));o+=1,ta=ea=null,t.updateQueue=null,Zo.current=Aa,e=n(r,i)}while(ra)}if(Zo.current=Ma,t=null!==ea&&null!==ea.next,Jo=0,ta=ea=Qo=null,na=!1,t)throw Error(a(300));return e}\n+function aa(e,t,n,r,i,o){if(Qo=o,Jo=t,t.memoizedState=null,t.updateQueue=null,t.lanes=0,Ko.current=null===e||null===e.memoizedState?La:Ma,e=n(r,i),ra){o=0;do{if(ra=!1,!(25>o))throw Error(a(301));o+=1,ta=ea=null,t.updateQueue=null,Ko.current=Pa,e=n(r,i)}while(ra)}if(Ko.current=Aa,t=null!==ea&&null!==ea.next,Qo=0,ta=ea=Jo=null,na=!1,t)throw Error(a(300));return e}",
+  "diff_source": "custom",
+  "Bug Filter": "Security Vulnerability Fix\n\nConfidence Score: 0.95",
+  "Bug Filter Confidence": 0.95,
+  "Bug Filter Response": "\n\n**Final Output:**\n\nAnalysis: The patch addresses an issue where content wasn't properly escaped, which could lead to security vulnerabilities like XSS attacks. The code changes focus on ensuring content is correctly escaped, indicating a security fix.\n\nFinal Classification: Security Vulnerability Fix\n\nConfidence Score: 0.95"
+}

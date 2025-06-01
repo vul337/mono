@@ -1,0 +1,23 @@
+{
+  "id": 1096,
+  "language": "c",
+  "cwe": "",
+  "commit_url": "https://github.com/HKL-Kevin/msm8998-mainline/commit/7ec37d1cbe17d8189d9562178d8b29167fe1c31a",
+  "commit_sha": "7ec37d1cbe17d8189d9562178d8b29167fe1c31a",
+  "commit_msg": "KVM: x86: Check lapic_in_kernel() before attempting to set a SynIC irq\n\nWhen KVM_CAP_HYPERV_SYNIC{,2} is activated, KVM already checks for\nirqchip_in_kernel() so normally SynIC irqs should never be set. It is,\nhowever,  possible for a misbehaving VMM to write to SYNIC/STIMER MSRs\ncausing erroneous behavior.\n\nThe immediate issue being fixed is that kvm_irq_delivery_to_apic()\n(kvm_irq_delivery_to_apic_fast()) crashes when called with\n'irq.shorthand = APIC_DEST_SELF' and 'src == NULL'.\n\nSigned-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>\nMessage-Id: <20220325132140.25650-2-vkuznets@redhat.com>\nCc: stable@vger.kernel.org\nSigned-off-by: Paolo Bonzini <pbonzini@redhat.com>",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "arch/x86/kvm/hyperv.c",
+  "func_name": "",
+  "raw_func_from_json": "static int synic_set_irq(struct kvm_vcpu_hv_synic *synic, u32 sint)\n{\n\tstruct kvm_vcpu *vcpu = hv_synic_to_vcpu(synic);\n\tstruct kvm_lapic_irq irq;\n\tint ret, vector;\n\n\tif (sint >= ARRAY_SIZE(synic->sint))\n\t\treturn -EINVAL;\n\n\tvector = synic_get_sint_vector(synic_read_sint(synic, sint));\n\tif (vector < 0)\n\t\treturn -ENOENT;\n\n\tmemset(&irq, 0, sizeof(irq));\n\tirq.shorthand = APIC_DEST_SELF;\n\tirq.dest_mode = APIC_DEST_PHYSICAL;\n\tirq.delivery_mode = APIC_DM_FIXED;\n\tirq.vector = vector;\n\tirq.level = 1;\n\n\tret = kvm_irq_delivery_to_apic(vcpu->kvm, vcpu->arch.apic, &irq, NULL);\n\ttrace_kvm_hv_synic_set_irq(vcpu->vcpu_id, sint, irq.vector, ret);\n\treturn ret;\n}",
+  "diff_func": "@@ -449,6 +449,9 @@ static int synic_set_irq(struct kvm_vcpu_hv_synic *synic, u32 sint)\n \tstruct kvm_lapic_irq irq;\n \tint ret, vector;\n \n+\tif (KVM_BUG_ON(!lapic_in_kernel(vcpu), vcpu->kvm))\n+\t\treturn -EINVAL;\n+\n \tif (sint >= ARRAY_SIZE(synic->sint))\n \t\treturn -EINVAL;\n ",
+  "func": "static int synic_set_irq(struct kvm_vcpu_hv_synic *synic, u32 sint)\n{\n\tstruct kvm_vcpu *vcpu = hv_synic_to_vcpu(synic);\n\tstruct kvm_lapic_irq irq;\n\tint ret, vector;\n\n\tif (sint >= ARRAY_SIZE(synic->sint))\n\t\treturn -EINVAL;\n\n\tvector = synic_get_sint_vector(synic_read_sint(synic, sint));\n\tif (vector < 0)\n\t\treturn -ENOENT;\n\n\tmemset(&irq, 0, sizeof(irq));\n\tirq.shorthand = APIC_DEST_SELF;\n\tirq.dest_mode = APIC_DEST_PHYSICAL;\n\tirq.delivery_mode = APIC_DM_FIXED;\n\tirq.vector = vector;\n\tirq.level = 1;\n\n\tret = kvm_irq_delivery_to_apic(vcpu->kvm, vcpu->arch.apic, &irq, NULL);\n\ttrace_kvm_hv_synic_set_irq(vcpu->vcpu_id, sint, irq.vector, ret);\n\treturn ret;\n}",
+  "project": "linux",
+  "hash": 214768374966779687489672213124686296024,
+  "size": 24,
+  "commit_id": "7ec37d1cbe17d8189d9562178d8b29167fe1c31a",
+  "message": "KVM: x86: Check lapic_in_kernel() before attempting to set a SynIC irq\n\nWhen KVM_CAP_HYPERV_SYNIC{,2} is activated, KVM already checks for\nirqchip_in_kernel() so normally SynIC irqs should never be set. It is,\nhowever,  possible for a misbehaving VMM to write to SYNIC/STIMER MSRs\ncausing erroneous behavior.\n\nThe immediate issue being fixed is that kvm_irq_delivery_to_apic()\n(kvm_irq_delivery_to_apic_fast()) crashes when called with\n'irq.shorthand = APIC_DEST_SELF' and 'src == NULL'.\n\nSigned-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>\nMessage-Id: <20220325132140.25650-2-vkuznets@redhat.com>\nCc: stable@vger.kernel.org\nSigned-off-by: Paolo Bonzini <pbonzini@redhat.com>",
+  "target": 1,
+  "dataset": "other",
+  "idx": 212165
+}

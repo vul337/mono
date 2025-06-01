@@ -1,0 +1,25 @@
+{
+  "id": 1029,
+  "language": "c",
+  "cwe": [
+    "CWE-200"
+  ],
+  "commit_url": "https://github.com/malvira/lpc31xx/commit/09384dfc76e526c3993c09c42e016372dc9dd22c",
+  "commit_sha": "09384dfc76e526c3993c09c42e016372dc9dd22c",
+  "commit_msg": "irda: Fix irda_getname() leak\n\nirda_getname() can leak kernel memory to user.\n\nSigned-off-by: Eric Dumazet <eric.dumazet@gmail.com>\nSigned-off-by: David S. Miller <davem@davemloft.net>",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "net/irda/af_irda.c",
+  "func_name": "",
+  "raw_func_from_json": "static int irda_getname(struct socket *sock, struct sockaddr *uaddr,\n\t\t\tint *uaddr_len, int peer)\n{\n\tstruct sockaddr_irda saddr;\n\tstruct sock *sk = sock->sk;\n\tstruct irda_sock *self = irda_sk(sk);\n\n\tif (peer) {\n\t\tif (sk->sk_state != TCP_ESTABLISHED)\n\t\t\treturn -ENOTCONN;\n\n\t\tsaddr.sir_family = AF_IRDA;\n\t\tsaddr.sir_lsap_sel = self->dtsap_sel;\n\t\tsaddr.sir_addr = self->daddr;\n\t} else {\n\t\tsaddr.sir_family = AF_IRDA;\n\t\tsaddr.sir_lsap_sel = self->stsap_sel;\n\t\tsaddr.sir_addr = self->saddr;\n\t}\n\n\tIRDA_DEBUG(1, \"%s(), tsap_sel = %#x\\n\", __func__, saddr.sir_lsap_sel);\n\tIRDA_DEBUG(1, \"%s(), addr = %08x\\n\", __func__, saddr.sir_addr);\n\n\t/* uaddr_len come to us uninitialised */\n\t*uaddr_len = sizeof (struct sockaddr_irda);\n\tmemcpy(uaddr, &saddr, *uaddr_len);\n\n\treturn 0;\n}",
+  "diff_func": "@@ -714,6 +714,7 @@ static int irda_getname(struct socket *sock, struct sockaddr *uaddr,\n \tstruct sock *sk = sock->sk;\n \tstruct irda_sock *self = irda_sk(sk);\n \n+\tmemset(&saddr, 0, sizeof(saddr));\n \tif (peer) {\n \t\tif (sk->sk_state != TCP_ESTABLISHED)\n \t\t\treturn -ENOTCONN;",
+  "func": "static int irda_getname(struct socket *sock, struct sockaddr *uaddr,\n\t\t\tint *uaddr_len, int peer)\n{\n\tstruct sockaddr_irda saddr;\n\tstruct sock *sk = sock->sk;\n\tstruct irda_sock *self = irda_sk(sk);\n\n\tif (peer) {\n\t\tif (sk->sk_state != TCP_ESTABLISHED)\n\t\t\treturn -ENOTCONN;\n\n\t\tsaddr.sir_family = AF_IRDA;\n\t\tsaddr.sir_lsap_sel = self->dtsap_sel;\n\t\tsaddr.sir_addr = self->daddr;\n\t} else {\n\t\tsaddr.sir_family = AF_IRDA;\n\t\tsaddr.sir_lsap_sel = self->stsap_sel;\n\t\tsaddr.sir_addr = self->saddr;\n\t}\n\n\tIRDA_DEBUG(1, \"%s(), tsap_sel = %#x\\n\", __func__, saddr.sir_lsap_sel);\n\tIRDA_DEBUG(1, \"%s(), addr = %08x\\n\", __func__, saddr.sir_addr);\n\n\t/* uaddr_len come to us uninitialised */\n\t*uaddr_len = sizeof (struct sockaddr_irda);\n\tmemcpy(uaddr, &saddr, *uaddr_len);\n\n\treturn 0;\n}",
+  "target": 1,
+  "project": "linux-2.6",
+  "commit_id": "09384dfc76e526c3993c09c42e016372dc9dd22c",
+  "hash": 137437277681922152765597966712881683788,
+  "size": 29,
+  "message": "irda: Fix irda_getname() leak\n\nirda_getname() can leak kernel memory to user.\n\nSigned-off-by: Eric Dumazet <eric.dumazet@gmail.com>\nSigned-off-by: David S. Miller <davem@davemloft.net>",
+  "dataset": "other",
+  "idx": 215492
+}

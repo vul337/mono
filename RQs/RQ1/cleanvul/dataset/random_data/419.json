@@ -1,0 +1,15 @@
+{
+  "id": 419,
+  "language": "Java",
+  "commit_url": "https://github.com/aosp-mirror/platform_frameworks_base/commit/de339b0c2b7d8ea8b58bd7778c65e5b01567eebe",
+  "commit_sha": "de339b0c2b7d8ea8b58bd7778c65e5b01567eebe",
+  "commit_msg": "[RESTRICT AUTOMERGE] Add protections agains use-after-free issues if cancel() or queue() is called after a device connection has been closed.\n\nThis is a backport of ag/7528082 and ag/20033068.\n\nBug: 132319116\nBug: 130571162\nBug: 204584366\nTest: CTS Verifier: USB Accessory Test & USB Device Test\nChange-Id: I952ab566e26a808997e362dc85ebd1d8eb4574b9\n(cherry picked from commit 7a8d56b2fe3496f7717ad1afe45d2ef523b7e252)\nMerged-In: I952ab566e26a808997e362dc85ebd1d8eb4574b9",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "core/java/android/hardware/usb/UsbRequest.java",
+  "func_name": "cancel",
+  "func_before": "public boolean cancel() {\n        return native_cancel();\n    }",
+  "func_after": "public boolean cancel() {\n        UsbDeviceConnection connection = mConnection;\n        if (connection == null) {\n            return false;\n        }\n\n        return connection.cancelRequest(this);\n    }",
+  "diff_func": "--- func_before\n+++ func_after\n public boolean cancel() {\n-        return native_cancel();\n+        UsbDeviceConnection connection = mConnection;\n+        if (connection == null) {\n+            return false;\n+        }\n+\n+        return connection.cancelRequest(this);\n     }",
+  "diff_source": "custom"
+}

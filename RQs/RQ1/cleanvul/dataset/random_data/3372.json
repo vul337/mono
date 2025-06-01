@@ -1,0 +1,15 @@
+{
+  "id": 3372,
+  "language": "C#",
+  "commit_url": "https://github.com/jellyfin/jellyfin/commit/83d2c69516471e2db72d9273c6a04247d0f37c86",
+  "commit_sha": "83d2c69516471e2db72d9273c6a04247d0f37c86",
+  "commit_msg": "Merge pull request from GHSA-rr9h-w522-cvmr\n\nRemove the functionality of /System/MediaEncoder/Path",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "Jellyfin.Api/Controllers/ConfigurationController.cs",
+  "func_name": "HttpPost",
+  "func_before": "[HttpPost(\"MediaEncoder/Path\")]\n        [Authorize(Policy = Policies.FirstTimeSetupOrElevated)]\n        [ProducesResponseType(StatusCodes.Status204NoContent)]\n        public ActionResult UpdateMediaEncoderPath([FromBody, Required] MediaEncoderPathDto mediaEncoderPath)\n        {\n            _mediaEncoder.UpdateEncoderPath(mediaEncoderPath.Path, mediaEncoderPath.PathType);\n            return NoContent();\n        }",
+  "func_after": "[Obsolete(\"This endpoint is obsolete.\")]\n        [HttpPost(\"MediaEncoder/Path\")]\n        [Authorize(Policy = Policies.FirstTimeSetupOrElevated)]\n        [ProducesResponseType(StatusCodes.Status204NoContent)]\n        public ActionResult UpdateMediaEncoderPath([FromBody, Required] MediaEncoderPathDto mediaEncoderPath)\n        {\n            // API ENDPOINT DISABLED (NOOP) FOR SECURITY PURPOSES\n            //_mediaEncoder.UpdateEncoderPath(mediaEncoderPath.Path, mediaEncoderPath.PathType);\n            return NoContent();\n        }",
+  "diff_func": "--- func_before\n+++ func_after\n+[Obsolete(\"This endpoint is obsolete.\")]\n-[HttpPost(\"MediaEncoder/Path\")]\n+        [HttpPost(\"MediaEncoder/Path\")]\n         [Authorize(Policy = Policies.FirstTimeSetupOrElevated)]\n         [ProducesResponseType(StatusCodes.Status204NoContent)]\n         public ActionResult UpdateMediaEncoderPath([FromBody, Required] MediaEncoderPathDto mediaEncoderPath)\n         {\n+            // API ENDPOINT DISABLED (NOOP) FOR SECURITY PURPOSES\n-            _mediaEncoder.UpdateEncoderPath(mediaEncoderPath.Path, mediaEncoderPath.PathType);\n+            //_mediaEncoder.UpdateEncoderPath(mediaEncoderPath.Path, mediaEncoderPath.PathType);\n             return NoContent();\n         }",
+  "diff_source": "custom"
+}

@@ -1,0 +1,18 @@
+{
+  "id": 7588,
+  "language": "JavaScript",
+  "commit_url": "https://github.com/gperson/angular-test-reporter/commit/a29d8ae121b46ebfa96a55a9106466ab2ef166ae",
+  "commit_sha": "a29d8ae121b46ebfa96a55a9106466ab2ef166ae",
+  "commit_msg": "Escaping to prevent sql injections & others issues",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "rest-server/data-server.js",
+  "func_name": "addNote",
+  "func_before": "function addNote(request, response, note){\n\tvar parts = url.parse(request.url,true);\n\tvar query = connection.query(\"INSERT INTO notes_\"+(parts.query.table).substring(6)+\" (testId,who,note) VALUES (\"+note.testId+\",'\" + note.who + \"','\"+note.note+\"')\", function(err, rows, fields) {\n\t\tif (err) {\n\t\t\tresponse.statusCode = 400;\n\t\t\tconsole.log(err);\n\t\t} \n\t});\n\n\tquery.on('end',function(){\n\t\tresponse.end();\n\t});\n}",
+  "func_after": "function addNote(request, response, note){\n\tvar parts = url.parse(request.url,true);\n\tvar queryStr = \"INSERT INTO notes_\"+(parts.query.table).substring(6)+\" (testId,who,note) VALUES (\"+connection.escape(note.testId)+\",\" + connection.escape(note.who) + \",\"+connection.escape(note.note)+\")\";\n\tvar query = connection.query(queryStr,function(err, rows, fields) {\n\t\tif (err) {\n\t\t\tresponse.statusCode = 400;\n\t\t\tconsole.log(err);\n\t\t} \n\t});\n\n\tquery.on('end',function(){\n\t\tresponse.end();\n\t});\n}",
+  "diff_func": "--- func_before\n+++ func_after\n function addNote(request, response, note){\n \tvar parts = url.parse(request.url,true);\n-\tvar query = connection.query(\"INSERT INTO notes_\"+(parts.query.table).substring(6)+\" (testId,who,note) VALUES (\"+note.testId+\",'\" + note.who + \"','\"+note.note+\"')\", function(err, rows, fields) {\n+\tvar queryStr = \"INSERT INTO notes_\"+(parts.query.table).substring(6)+\" (testId,who,note) VALUES (\"+connection.escape(note.testId)+\",\" + connection.escape(note.who) + \",\"+connection.escape(note.note)+\")\";\n+\tvar query = connection.query(queryStr,function(err, rows, fields) {\n \t\tif (err) {\n \t\t\tresponse.statusCode = 400;\n \t\t\tconsole.log(err);\n \t\t} \n \t});\n \n \tquery.on('end',function(){\n \t\tresponse.end();\n \t});\n }",
+  "diff_source": "custom",
+  "Bug Filter": "** Security Vulnerability Fix  \n**Confidence Score:** 1.0",
+  "Bug Filter Confidence": 1.0,
+  "Bug Filter Response": "\n\nThe patch addresses a SQL injection vulnerability by escaping user inputs, which is a critical security fix.\n\n**Final Output:**\nAnalysis: Step 1: The commit message indicates escaping to prevent SQL injection. The code diff shows the use of `connection.escape()` on user inputs, which sanitizes them and prevents SQL injection. This is a clear security fix. Step 2: The patch directly addresses a security vulnerability that could lead to unauthorized access or data compromise. Step 4: High confidence as the changes are explicitly aimed at preventing SQL injection.\n\n**Final Classification:** Security Vulnerability Fix  \n**Confidence Score:** 1.0"
+}

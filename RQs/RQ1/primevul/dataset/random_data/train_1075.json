@@ -1,0 +1,21 @@
+{
+  "id": 1075,
+  "language": "h",
+  "cwe": "CWE-416",
+  "commit_url": "https://github.com/sjp38/linux.personal/commit/040757f738e13caaa9c5078bca79aa97e11dde88",
+  "commit_sha": "040757f738e13caaa9c5078bca79aa97e11dde88",
+  "commit_msg": "ucount: Remove the atomicity from ucount->count\n\nAlways increment/decrement ucount->count under the ucounts_lock.  The\nincrements are there already and moving the decrements there means the\nlocking logic of the code is simpler.  This simplification in the\nlocking logic fixes a race between put_ucounts and get_ucounts that\ncould result in a use-after-free because the count could go zero then\nbe found by get_ucounts and then be freed by put_ucounts.\n\nA bug presumably this one was found by a combination of syzkaller and\nKASAN.  JongWhan Kim reported the syzkaller failure and Dmitry Vyukov\nspotted the race in the code.\n\nCc: stable@vger.kernel.org\nFixes: f6b2db1a3e8d (\"userns: Make the count of user namespaces per user\")\nReported-by: JongHwan Kim <zzoru007@gmail.com>\nReported-by: Dmitry Vyukov <dvyukov@google.com>\nReviewed-by: Andrei Vagin <avagin@gmail.com>\nSigned-off-by: \"Eric W. Biederman\" <ebiederm@xmission.com>",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "include/linux/user_namespace.h",
+  "func_name": "",
+  "raw_func_from_json": "static void put_ucounts(struct ucounts *ucounts)\n {\n \tunsigned long flags;\n \n\tif (atomic_dec_and_test(&ucounts->count)) {\n\t\tspin_lock_irqsave(&ucounts_lock, flags);\n \t\thlist_del_init(&ucounts->node);\n\t\tspin_unlock_irqrestore(&ucounts_lock, flags);\n \n\t\tkfree(ucounts);\n\t}\n }\n",
+  "diff_func": "@@ -72,7 +72,7 @@ struct ucounts {\n \tstruct hlist_node node;\n \tstruct user_namespace *ns;\n \tkuid_t uid;\n-\tatomic_t count;\n+\tint count;\n \tatomic_t ucount[UCOUNT_COUNTS];\n };\n ",
+  "project": "linux",
+  "commit_id": "040757f738e13caaa9c5078bca79aa97e11dde88",
+  "target": 1,
+  "func": "static void put_ucounts(struct ucounts *ucounts)\n {\n \tunsigned long flags;\n \n\tif (atomic_dec_and_test(&ucounts->count)) {\n\t\tspin_lock_irqsave(&ucounts_lock, flags);\n \t\thlist_del_init(&ucounts->node);\n\t\tspin_unlock_irqrestore(&ucounts_lock, flags);\n \n\t\tkfree(ucounts);\n\t}\n }\n",
+  "big_vul_idx": 181488,
+  "idx": 2943,
+  "hash": 275296759605816536274306603255057452438
+}

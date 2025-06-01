@@ -1,0 +1,21 @@
+{
+  "id": 928,
+  "language": "c",
+  "cwe": "CWE-125",
+  "commit_url": "https://github.com/merlinepedra/TCPDUMP/commit/571a6f33f47e7a2394fa08f925e534135c29cf1e",
+  "commit_sha": "571a6f33f47e7a2394fa08f925e534135c29cf1e",
+  "commit_msg": "CVE-2017-13035/Properly handle IS-IS IDs shorter than a system ID (MAC address).\n\nSome of them are variable-length, with a field giving the total length,\nand therefore they can be shorter than 6 octets.  If one is, don't run\npast the end.\n\nThis fixes a buffer over-read discovered by Bhargava Shastry,\nSecT/TU Berlin.\n\nAdd a test using the capture file supplied by the reporter(s), modified\nso the capture file won't be rejected as an invalid capture.",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "print-isoclns.c",
+  "func_name": "",
+  "raw_func_from_json": "isis_print_id(const uint8_t *cp, int id_len)\n{\n     int i;\n     static char id[sizeof(\"xxxx.xxxx.xxxx.yy-zz\")];\n     char *pos = id;\n \n    for (i = 1; i <= SYSTEM_ID_LEN; i++) {\n         snprintf(pos, sizeof(id) - (pos - id), \"%02x\", *cp++);\n \tpos += strlen(pos);\n \tif (i == 2 || i == 4)\n\t    *pos++ = '.';\n\t}\n    if (id_len >= NODE_ID_LEN) {\n        snprintf(pos, sizeof(id) - (pos - id), \".%02x\", *cp++);\n\tpos += strlen(pos);\n    }\n    if (id_len == LSP_ID_LEN)\n        snprintf(pos, sizeof(id) - (pos - id), \"-%02x\", *cp);\n    return (id);\n}\n",
+  "diff_func": "@@ -1646,8 +1646,12 @@ isis_print_id(const uint8_t *cp, int id_len)\n     int i;\n     static char id[sizeof(\"xxxx.xxxx.xxxx.yy-zz\")];\n     char *pos = id;\n+    int sysid_len;\n \n-    for (i = 1; i <= SYSTEM_ID_LEN; i++) {\n+    sysid_len = SYSTEM_ID_LEN;\n+    if (sysid_len > id_len)\n+        sysid_len = id_len;\n+    for (i = 1; i <= sysid_len; i++) {\n         snprintf(pos, sizeof(id) - (pos - id), \"%02x\", *cp++);\n \tpos += strlen(pos);\n \tif (i == 2 || i == 4)",
+  "project": "tcpdump",
+  "commit_id": "571a6f33f47e7a2394fa08f925e534135c29cf1e",
+  "target": 1,
+  "func": "isis_print_id(const uint8_t *cp, int id_len)\n{\n     int i;\n     static char id[sizeof(\"xxxx.xxxx.xxxx.yy-zz\")];\n     char *pos = id;\n \n    for (i = 1; i <= SYSTEM_ID_LEN; i++) {\n         snprintf(pos, sizeof(id) - (pos - id), \"%02x\", *cp++);\n \tpos += strlen(pos);\n \tif (i == 2 || i == 4)\n\t    *pos++ = '.';\n\t}\n    if (id_len >= NODE_ID_LEN) {\n        snprintf(pos, sizeof(id) - (pos - id), \".%02x\", *cp++);\n\tpos += strlen(pos);\n    }\n    if (id_len == LSP_ID_LEN)\n        snprintf(pos, sizeof(id) - (pos - id), \"-%02x\", *cp);\n    return (id);\n}\n",
+  "big_vul_idx": 181020,
+  "idx": 2542,
+  "hash": 189683935882150360548049364439653341443
+}

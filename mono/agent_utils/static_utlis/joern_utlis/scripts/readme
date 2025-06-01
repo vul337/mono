@@ -1,0 +1,1 @@
+joern --dep io.circe:circe-core_3:0.14.6  --dep io.circe:circe-generic_3:0.14.6

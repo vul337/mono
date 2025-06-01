@@ -1,0 +1,23 @@
+{
+  "id": 1127,
+  "language": "c",
+  "cwe": "",
+  "commit_url": "https://github.com/tblume/w3m/commit/67be73b03a5ad581e331ec97cb275cd8a52719ed",
+  "commit_sha": "67be73b03a5ad581e331ec97cb275cd8a52719ed",
+  "commit_msg": "Prevent segfault with incorrect button type\n\nBug-Debian: https://github.com/tats/w3m/issues/17",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "file.c",
+  "func_name": "",
+  "raw_func_from_json": "process_button(struct parsed_tag *tag)\n{\n    Str tmp = NULL;\n    char *p, *q, *r, *qq = \"\";\n    int qlen, v;\n\n    if (cur_form_id < 0) {\n       char *s = \"<form_int method=internal action=none>\";\n       tmp = process_form(parse_tag(&s, TRUE));\n    }\n    if (tmp == NULL)\n       tmp = Strnew();\n\n    p = \"submit\";\n    parsedtag_get_value(tag, ATTR_TYPE, &p);\n    q = NULL;\n    parsedtag_get_value(tag, ATTR_VALUE, &q);\n    r = \"\";\n    parsedtag_get_value(tag, ATTR_NAME, &r);\n\n    v = formtype(p);\n    if (v == FORM_UNKNOWN)\n       return NULL;\n\n    if (!q) {\n       switch (v) {\n       case FORM_INPUT_SUBMIT:\n       case FORM_INPUT_BUTTON:\n           q = \"SUBMIT\";\n           break;\n       case FORM_INPUT_RESET:\n           q = \"RESET\";\n           break;\n       }\n    }\n    if (q) {\n       qq = html_quote(q);\n       qlen = strlen(q);\n    }\n\n    /*    Strcat_charp(tmp, \"<pre_int>\"); */\n    Strcat(tmp, Sprintf(\"<input_alt hseq=\\\"%d\\\" fid=\\\"%d\\\" type=\\\"%s\\\" \"\n                       \"name=\\\"%s\\\" value=\\\"%s\\\">\",\n                       cur_hseq++, cur_form_id, html_quote(p),\n                       html_quote(r), qq));\n    return tmp;\n}",
+  "diff_func": "@@ -3773,6 +3773,17 @@ process_button(struct parsed_tag *tag)\n     if (v == FORM_UNKNOWN)\n        return NULL;\n \n+    switch (v) {\n+    case FORM_INPUT_SUBMIT:\n+    case FORM_INPUT_BUTTON:\n+    case FORM_INPUT_RESET:\n+\tbreak;\n+    default:\n+\tp = \"submit\";\n+\tv = FORM_INPUT_SUBMIT;\n+\tbreak;\n+    }\n+\n     if (!q) {\n        switch (v) {\n        case FORM_INPUT_SUBMIT:",
+  "func": "process_button(struct parsed_tag *tag)\n{\n    Str tmp = NULL;\n    char *p, *q, *r, *qq = \"\";\n    int qlen, v;\n\n    if (cur_form_id < 0) {\n       char *s = \"<form_int method=internal action=none>\";\n       tmp = process_form(parse_tag(&s, TRUE));\n    }\n    if (tmp == NULL)\n       tmp = Strnew();\n\n    p = \"submit\";\n    parsedtag_get_value(tag, ATTR_TYPE, &p);\n    q = NULL;\n    parsedtag_get_value(tag, ATTR_VALUE, &q);\n    r = \"\";\n    parsedtag_get_value(tag, ATTR_NAME, &r);\n\n    v = formtype(p);\n    if (v == FORM_UNKNOWN)\n       return NULL;\n\n    if (!q) {\n       switch (v) {\n       case FORM_INPUT_SUBMIT:\n       case FORM_INPUT_BUTTON:\n           q = \"SUBMIT\";\n           break;\n       case FORM_INPUT_RESET:\n           q = \"RESET\";\n           break;\n       }\n    }\n    if (q) {\n       qq = html_quote(q);\n       qlen = strlen(q);\n    }\n\n    /*    Strcat_charp(tmp, \"<pre_int>\"); */\n    Strcat(tmp, Sprintf(\"<input_alt hseq=\\\"%d\\\" fid=\\\"%d\\\" type=\\\"%s\\\" \"\n                       \"name=\\\"%s\\\" value=\\\"%s\\\">\",\n                       cur_hseq++, cur_form_id, html_quote(p),\n                       html_quote(r), qq));\n    return tmp;\n}",
+  "project": "w3m",
+  "hash": 325224422713155790624329814808410593768,
+  "size": 47,
+  "commit_id": "67be73b03a5ad581e331ec97cb275cd8a52719ed",
+  "message": "Prevent segfault with incorrect button type\n\nBug-Debian: https://github.com/tats/w3m/issues/17",
+  "target": 1,
+  "dataset": "other",
+  "idx": 213589
+}

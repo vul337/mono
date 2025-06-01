@@ -1,0 +1,15 @@
+{
+  "id": 8334,
+  "language": "JavaScript",
+  "commit_url": "https://github.com/cronvel/terminal-kit/commit/a2e446cc3927b559d0281683feb9b821e83b758c",
+  "commit_sha": "a2e446cc3927b559d0281683feb9b821e83b758c",
+  "commit_msg": "Fix a possible ReDoS",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "browser/termkit.min.js",
+  "func_name": "getTime",
+  "func_before": "function J(){var t=(new Date).getTime();if(!r)r=50;X();a();v();D();q(r);var e=(new Date).getTime()-t}",
+  "func_after": "function J(){var t;var e;var r;var i;var n;var s=new Array(w+1);r=0;for(i=0;i<p-1;i++){L[i]=r;for(t=0;t<1<<E[i];t++){j[r++]=i}}j[r-1]=i;n=0;for(i=0;i<16;i++){D[i]=n;for(t=0;t<1<<A[i];t++){M[n++]=i}}n>>=7;for(;i<b;i++){D[i]=n<<7;for(t=0;t<1<<A[i]-7;t++){M[256+n++]=i}}for(e=0;e<=w;e++){s[e]=0}t=0;while(t<=143){P[t*2+1]=8;t++;s[8]++}while(t<=255){P[t*2+1]=9;t++;s[9]++}while(t<=279){P[t*2+1]=7;t++;s[7]++}while(t<=287){P[t*2+1]=8;t++;s[8]++}q(P,y+1,s);for(t=0;t<b;t++){I[t*2+1]=5;I[t*2]=Z(t,5)}W=new F(P,E,g+1,y,w);H=new F(I,A,0,b,w);N=new F(new Array(0),R,0,m,x)}",
+  "diff_func": "--- func_before\n+++ func_after\n-function J(){var t=(new Date).getTime();if(!r)r=50;X();a();v();D();q(r);var e=(new Date).getTime()-t}\n+function J(){var t;var e;var r;var i;var n;var s=new Array(w+1);r=0;for(i=0;i<p-1;i++){L[i]=r;for(t=0;t<1<<E[i];t++){j[r++]=i}}j[r-1]=i;n=0;for(i=0;i<16;i++){D[i]=n;for(t=0;t<1<<A[i];t++){M[n++]=i}}n>>=7;for(;i<b;i++){D[i]=n<<7;for(t=0;t<1<<A[i]-7;t++){M[256+n++]=i}}for(e=0;e<=w;e++){s[e]=0}t=0;while(t<=143){P[t*2+1]=8;t++;s[8]++}while(t<=255){P[t*2+1]=9;t++;s[9]++}while(t<=279){P[t*2+1]=7;t++;s[7]++}while(t<=287){P[t*2+1]=8;t++;s[8]++}q(P,y+1,s);for(t=0;t<b;t++){I[t*2+1]=5;I[t*2]=Z(t,5)}W=new F(P,E,g+1,y,w);H=new F(I,A,0,b,w);N=new F(new Array(0),R,0,m,x)}",
+  "diff_source": "custom"
+}

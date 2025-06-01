@@ -1,0 +1,18 @@
+{
+  "id": 7169,
+  "language": "C/C++",
+  "commit_url": "https://github.com/torvalds/linux/commit/45f6fad84cc305103b28d73482b344d7f5b76f39",
+  "commit_sha": "45f6fad84cc305103b28d73482b344d7f5b76f39",
+  "commit_msg": "ipv6: add complete rcu protection around np->opt\n\nThis patch addresses multiple problems :\n\nUDP/RAW sendmsg() need to get a stable struct ipv6_txoptions\nwhile socket is not locked : Other threads can change np->opt\nconcurrently. Dmitry posted a syzkaller\n(http://github.com/google/syzkaller) program desmonstrating\nuse-after-free.\n\nStarting with TCP/DCCP lockless listeners, tcp_v6_syn_recv_sock()\nand dccp_v6_request_recv_sock() also need to use RCU protection\nto dereference np->opt once (before calling ipv6_dup_options())\n\nThis patch adds full RCU protection to np->opt\n\nReported-by: Dmitry Vyukov <dvyukov@google.com>\nSigned-off-by: Eric Dumazet <edumazet@google.com>\nAcked-by: Hannes Frederic Sowa <hannes@stressinduktion.org>\nSigned-off-by: David S. Miller <davem@davemloft.net>",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "net/ipv6/inet6_connection_sock.c",
+  "func_name": "inet6_csk_xmit",
+  "func_before": "int inet6_csk_xmit(struct sock *sk, struct sk_buff *skb, struct flowi *fl_unused)\n{\n\tstruct ipv6_pinfo *np = inet6_sk(sk);\n\tstruct flowi6 fl6;\n\tstruct dst_entry *dst;\n\tint res;\n\n\tdst = inet6_csk_route_socket(sk, &fl6);\n\tif (IS_ERR(dst)) {\n\t\tsk->sk_err_soft = -PTR_ERR(dst);\n\t\tsk->sk_route_caps = 0;\n\t\tkfree_skb(skb);\n\t\treturn PTR_ERR(dst);\n\t}\n\n\trcu_read_lock();\n\tskb_dst_set_noref(skb, dst);\n\n\t/* Restore final destination back after routing done */\n\tfl6.daddr = sk->sk_v6_daddr;\n\n\tres = ip6_xmit(sk, skb, &fl6, np->opt, np->tclass);\n\trcu_read_unlock();\n\treturn res;\n}",
+  "func_after": "int inet6_csk_xmit(struct sock *sk, struct sk_buff *skb, struct flowi *fl_unused)\n{\n\tstruct ipv6_pinfo *np = inet6_sk(sk);\n\tstruct flowi6 fl6;\n\tstruct dst_entry *dst;\n\tint res;\n\n\tdst = inet6_csk_route_socket(sk, &fl6);\n\tif (IS_ERR(dst)) {\n\t\tsk->sk_err_soft = -PTR_ERR(dst);\n\t\tsk->sk_route_caps = 0;\n\t\tkfree_skb(skb);\n\t\treturn PTR_ERR(dst);\n\t}\n\n\trcu_read_lock();\n\tskb_dst_set_noref(skb, dst);\n\n\t/* Restore final destination back after routing done */\n\tfl6.daddr = sk->sk_v6_daddr;\n\n\tres = ip6_xmit(sk, skb, &fl6, rcu_dereference(np->opt),\n\t\t       np->tclass);\n\trcu_read_unlock();\n\treturn res;\n}",
+  "diff_func": "--- func_before\n+++ func_after\n int inet6_csk_xmit(struct sock *sk, struct sk_buff *skb, struct flowi *fl_unused)\n {\n \tstruct ipv6_pinfo *np = inet6_sk(sk);\n \tstruct flowi6 fl6;\n \tstruct dst_entry *dst;\n \tint res;\n \n \tdst = inet6_csk_route_socket(sk, &fl6);\n \tif (IS_ERR(dst)) {\n \t\tsk->sk_err_soft = -PTR_ERR(dst);\n \t\tsk->sk_route_caps = 0;\n \t\tkfree_skb(skb);\n \t\treturn PTR_ERR(dst);\n \t}\n \n \trcu_read_lock();\n \tskb_dst_set_noref(skb, dst);\n \n \t/* Restore final destination back after routing done */\n \tfl6.daddr = sk->sk_v6_daddr;\n \n-\tres = ip6_xmit(sk, skb, &fl6, np->opt, np->tclass);\n+\tres = ip6_xmit(sk, skb, &fl6, rcu_dereference(np->opt),\n+\t\t       np->tclass);\n \trcu_read_unlock();\n \treturn res;\n }",
+  "diff_source": "custom",
+  "Bug Filter": "** Security Vulnerability Fix  \n**Confidence Score:** 1.0",
+  "Bug Filter Confidence": 1.0,
+  "Bug Filter Response": "\n\nThe patch addresses a use-after-free vulnerability by adding RCU protection, preventing unauthorized access to freed memory.\n\n**Final Classification:** Security Vulnerability Fix  \n**Confidence Score:** 1.0"
+}

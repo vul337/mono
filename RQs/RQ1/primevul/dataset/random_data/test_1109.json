@@ -1,0 +1,23 @@
+{
+  "id": 1109,
+  "language": "c",
+  "cwe": "",
+  "commit_url": "https://github.com/jcomeauictx/casperscript/commit/e1134d375e2ca176068e19a2aa9b040baffe1c22",
+  "commit_sha": "e1134d375e2ca176068e19a2aa9b040baffe1c22",
+  "commit_msg": "Bug 705156(1): Avoid double free of PCL error buffer",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "pcl/pcl/pcstatus.c",
+  "func_name": "",
+  "raw_func_from_json": "pcl_status_read(byte * data, uint max_data, pcl_state_t * pcs)\n{\n    uint count = min(max_data,\n                     pcs->status.write_pos - pcs->status.read_pos);\n\n    if (count)\n        memcpy(data, pcs->status.buffer + pcs->status.read_pos, count);\n    pcs->status.read_pos += count;\n    if (pcs->status.read_pos == pcs->status.write_pos) {\n        gs_free_object(pcs->memory, pcs->status.buffer, \"status buffer\");\n        pcs->status.write_pos = pcs->status.read_pos = 0;\n    }\n    return count;\n}",
+  "diff_func": "@@ -52,6 +52,7 @@ pcl_status_read(byte * data, uint max_data, pcl_state_t * pcs)\n     pcs->status.read_pos += count;\n     if (pcs->status.read_pos == pcs->status.write_pos) {\n         gs_free_object(pcs->memory, pcs->status.buffer, \"status buffer\");\n+        pcs->status.buffer = NULL;\n         pcs->status.write_pos = pcs->status.read_pos = 0;\n     }\n     return count;",
+  "func": "pcl_status_read(byte * data, uint max_data, pcl_state_t * pcs)\n{\n    uint count = min(max_data,\n                     pcs->status.write_pos - pcs->status.read_pos);\n\n    if (count)\n        memcpy(data, pcs->status.buffer + pcs->status.read_pos, count);\n    pcs->status.read_pos += count;\n    if (pcs->status.read_pos == pcs->status.write_pos) {\n        gs_free_object(pcs->memory, pcs->status.buffer, \"status buffer\");\n        pcs->status.write_pos = pcs->status.read_pos = 0;\n    }\n    return count;\n}",
+  "project": "ghostpdl",
+  "hash": 146268892888754675650464633364733572415,
+  "size": 14,
+  "commit_id": "e1134d375e2ca176068e19a2aa9b040baffe1c22",
+  "message": "Bug 705156(1): Avoid double free of PCL error buffer",
+  "target": 1,
+  "dataset": "other",
+  "idx": 212822
+}

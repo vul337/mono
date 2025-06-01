@@ -1,0 +1,18 @@
+{
+  "id": 5232,
+  "language": "Python",
+  "commit_url": "https://github.com/fedora-selinux/setroubleshoot/commit/dda55aa50db95a25f0d919c3a0d5871827cdc40f",
+  "commit_sha": "dda55aa50db95a25f0d919c3a0d5871827cdc40f",
+  "commit_msg": "framework: Use subprocess.check_output() with a sequence of program arguments\n\nAll subprocess.get*output() should be replaced with either\nsubprocess.Popen or subprocess.check_output now.\n\nString args were converted to sequences of program arguments.",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "framework/src/SetroubleshootFixit.py",
+  "func_name": "run_fix",
+  "func_before": "def run_fix(self, local_id, analysis_id):\n        import commands\n        command = \"sealert -f %s -P %s\" % ( local_id, analysis_id)\n        return commands.getoutput(command)",
+  "func_after": "def run_fix(self, local_id, analysis_id):\n        import subprocess\n        command = [\"sealert\", \"-f\", local_id, \"-P\", analysis_id]\n        return subprocess.check_output(command, universal_newlines=True)",
+  "diff_func": "--- func_before\n+++ func_after\n def run_fix(self, local_id, analysis_id):\n-        import commands\n+        import subprocess\n-        command = \"sealert -f %s -P %s\" % ( local_id, analysis_id)\n+        command = [\"sealert\", \"-f\", local_id, \"-P\", analysis_id]\n-        return commands.getoutput(command)\n+        return subprocess.check_output(command, universal_newlines=True)",
+  "diff_source": "custom",
+  "Bug Filter": "Security Vulnerability Fix\n\nConfidence Score: 0.95",
+  "Bug Filter Confidence": 0.95,
+  "Bug Filter Response": "\n\n**Final Output:**\n\nAnalysis: The patch replaces the use of `commands.getoutput` with `subprocess.check_output` and changes the command from a string to a list of arguments. This addresses a potential command injection vulnerability by preventing the shell from interpreting the command string, thus mitigating security risks.\n\nFinal Classification: Security Vulnerability Fix\n\nConfidence Score: 0.95"
+}

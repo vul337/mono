@@ -1,0 +1,13 @@
+{
+  "id": 0,
+  "language": "Java",
+  "commit_url": "https://github.com/elastic/elasticsearch/commit/fd4b2c9491a2952085473708d4ea4a6872f457a5",
+  "commit_sha": "fd4b2c9491a2952085473708d4ea4a6872f457a5",
+  "commit_msg": "Fix stackoverflow in AggregationProfileShardResult.toString (#92397)\n\nThis would obviously recurse until SO -> since it's a toXContent we can\r\nuse the string utility to get a reasonable string should this ever be\r\nused.",
+  "pr_url": "https://github.com/elastic/elasticsearch/pull/92397",
+  "pr_info": "This would obviously recurse until SO -> since it's a toXContent we can use the string utility to get a reasonable string should this ever be used.\r\n",
+  "file_name": "server/src/main/java/org/elasticsearch/search/profile/aggregation/AggregationProfileShardResult.java",
+  "func_name": "toString",
+  "diff_func": "--- func_before\n+++ func_after\n @Override\n     public String toString() {\n-        return Objects.toString(this);\n+        return Strings.toString(this);\n     }",
+  "diff_source": "custom"
+}

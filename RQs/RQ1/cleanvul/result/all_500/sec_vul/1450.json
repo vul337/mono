@@ -1,0 +1,18 @@
+{
+  "id": 1450,
+  "language": "Java",
+  "commit_url": "https://github.com/oracle/coherence/commit/69a91d95c9fdc7a269e28c0f8987c9482fb2940b",
+  "commit_sha": "69a91d95c9fdc7a269e28c0f8987c9482fb2940b",
+  "commit_msg": "BUG 34248312 - [34211273->14.1.1.0.10-CE] DENIAL OF SERVICE (OOM) (merge 14.1.1 -> ce/14.1.1 @ 93206)\n\n[git-p4: depot-paths = \"//dev/coherence-ce/release/coherence-ce-v14.1.1.0/\": change = 94386]",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "prj/coherence-core/src/main/java/com/tangosol/util/CircularArrayList.java",
+  "func_name": "readObject",
+  "func_before": "private void readObject(ObjectInputStream s)\n            throws IOException, ClassNotFoundException\n        {\n        int      cElements = s.readInt();\n        Object[] aoData    = new Object[cElements + 1];\n\n        m_iFirst    = 0;\n        m_iLast     = cElements + 1;\n        m_cElements = cElements;\n        m_aoData    = aoData;\n\n        for (int i= 0; i < cElements; ++i)\n            {\n            aoData[i] = s.readObject();\n            }\n        }",
+  "func_after": "private void readObject(ObjectInputStream s)\n            throws IOException, ClassNotFoundException\n        {\n        Object[] aoData = readObjectArray(s);\n\n        m_iFirst    = 0;\n        m_iLast     = aoData.length;\n        m_cElements = aoData.length - 1;\n        m_aoData    = aoData;\n        }",
+  "diff_func": "--- func_before\n+++ func_after\n@@ -759 +759 @@\n private void readObject(ObjectInputStream s)\n throws IOException, ClassNotFoundException\n-        int      cElements = s.readInt();\n-        Object[] aoData    = new Object[cElements + 1];\n+        Object[] aoData = readObjectArray(s);\n \n m_iFirst    = 0;\n-        m_iLast     = cElements + 1;\n-        m_cElements = cElements;\n+        m_iLast     = aoData.length;\n+        m_cElements = aoData.length - 1;\n m_aoData    = aoData;\n-\n-        for (int i= 0; i < cElements; ++i)\n-            {\n-            aoData[i] = s.readObject();\n-            }",
+  "diff_source": "api",
+  "Bug Filter": "Security Vulnerability Fix  \nConfidence Score: 0.95",
+  "Bug Filter Confidence": 0.95,
+  "Bug Filter Response": "\n\n**Final Output:**\nAnalysis: The patch addresses a denial of service vulnerability caused by an out-of-memory condition due to improper array allocation during deserialization. The code change replaces unsafe array creation with a safer method, mitigating the risk of memory exhaustion.\n\nFinal Classification: Security Vulnerability Fix  \nConfidence Score: 0.95"
+}

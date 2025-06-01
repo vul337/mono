@@ -1,0 +1,15 @@
+{
+  "id": 7588,
+  "language": "JavaScript",
+  "commit_url": "https://github.com/gperson/angular-test-reporter/commit/a29d8ae121b46ebfa96a55a9106466ab2ef166ae",
+  "commit_sha": "a29d8ae121b46ebfa96a55a9106466ab2ef166ae",
+  "commit_msg": "Escaping to prevent sql injections & others issues",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "rest-server/data-server.js",
+  "func_name": "addNote",
+  "func_before": "function addNote(request, response, note){\n\tvar parts = url.parse(request.url,true);\n\tvar query = connection.query(\"INSERT INTO notes_\"+(parts.query.table).substring(6)+\" (testId,who,note) VALUES (\"+note.testId+\",'\" + note.who + \"','\"+note.note+\"')\", function(err, rows, fields) {\n\t\tif (err) {\n\t\t\tresponse.statusCode = 400;\n\t\t\tconsole.log(err);\n\t\t} \n\t});\n\n\tquery.on('end',function(){\n\t\tresponse.end();\n\t});\n}",
+  "func_after": "function addNote(request, response, note){\n\tvar parts = url.parse(request.url,true);\n\tvar queryStr = \"INSERT INTO notes_\"+(parts.query.table).substring(6)+\" (testId,who,note) VALUES (\"+connection.escape(note.testId)+\",\" + connection.escape(note.who) + \",\"+connection.escape(note.note)+\")\";\n\tvar query = connection.query(queryStr,function(err, rows, fields) {\n\t\tif (err) {\n\t\t\tresponse.statusCode = 400;\n\t\t\tconsole.log(err);\n\t\t} \n\t});\n\n\tquery.on('end',function(){\n\t\tresponse.end();\n\t});\n}",
+  "diff_func": "--- func_before\n+++ func_after\n function addNote(request, response, note){\n \tvar parts = url.parse(request.url,true);\n-\tvar query = connection.query(\"INSERT INTO notes_\"+(parts.query.table).substring(6)+\" (testId,who,note) VALUES (\"+note.testId+\",'\" + note.who + \"','\"+note.note+\"')\", function(err, rows, fields) {\n+\tvar queryStr = \"INSERT INTO notes_\"+(parts.query.table).substring(6)+\" (testId,who,note) VALUES (\"+connection.escape(note.testId)+\",\" + connection.escape(note.who) + \",\"+connection.escape(note.note)+\")\";\n+\tvar query = connection.query(queryStr,function(err, rows, fields) {\n \t\tif (err) {\n \t\t\tresponse.statusCode = 400;\n \t\t\tconsole.log(err);\n \t\t} \n \t});\n \n \tquery.on('end',function(){\n \t\tresponse.end();\n \t});\n }",
+  "diff_source": "custom"
+}

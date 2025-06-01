@@ -1,0 +1,15 @@
+{
+  "id": 7789,
+  "language": "JavaScript",
+  "commit_url": "https://github.com/oliverschloebe/admin-management-xtended/commit/f94732d222414f10ce015e95b5c7c9fba13a8a20",
+  "commit_sha": "f94732d222414f10ce015e95b5c7c9fba13a8a20",
+  "commit_msg": "2.4.5 Release\n\n* FIXED: WordPress 6.0 compatibility\n* FIXED: CSRF vulnerabilities fixed (https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-29450)",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "js/functions.js",
+  "func_name": "tagSpanFadeOut",
+  "func_before": "function tagSpanFadeOut( postid, ame_tags ) {\n\tjQuery(\"span#ame_tags\" + postid).fadeOut('fast', function() {\n\t\tvar loading = '<img border=\"0\" alt=\"\" src=\"' + ameAjaxL10n.imgUrl + 'loader.gif\" align=\"absbottom\" /> ' + ameAjaxL10n.pleaseWait;\n\t\tjQuery(\"span#ame_tags\" + postid).fadeIn('fast', function() {\n\t\t\tvar ame_sack = new sack( ajaxurl );\n\t\t\tame_sack.execute = 1;\n\t\t\tame_sack.method = 'POST';\n\t\t\tame_sack.setVar( \"action\", \"ame_ajax_save_tags\" );\n\t\t\tame_sack.setVar( \"postid\", postid );\n\t\t\tame_sack.setVar( \"new_tags\", ame_tags );\n\t\t\tame_sack.onError = function() { alert('Ajax error on saving tags'); };\n\t\t\tame_sack.runAJAX();\n\t\t});\n\t\tjQuery(\"span#ame_tags\" + postid).html( loading );\n\t});\n}",
+  "func_after": "function tagSpanFadeOut( postid, ame_tags ) {\n\tjQuery(\"span#ame_tags\" + postid).fadeOut('fast', function() {\n\t\tvar loading = '<img border=\"0\" alt=\"\" src=\"' + ameAjaxL10n.imgUrl + 'loader.gif\" align=\"absbottom\" /> ' + ameAjaxL10n.pleaseWait;\n\t\tjQuery(\"span#ame_tags\" + postid).fadeIn('fast', function() {\n\t\t\tvar ame_sack = new sack( ajaxurl );\n\t\t\tame_sack.execute = 1;\n\t\t\tame_sack.method = 'POST';\n\t\t\tame_sack.setVar( \"action\", \"ame_ajax_save_tags\" );\n\t\t\tame_sack.setVar( \"security\", ameAjaxSec.ajaxnonce );\n\t\t\tame_sack.setVar( \"postid\", postid );\n\t\t\tame_sack.setVar( \"new_tags\", ame_tags );\n\t\t\tame_sack.onError = function() { alert('Ajax error on saving tags'); };\n\t\t\tame_sack.runAJAX();\n\t\t});\n\t\tjQuery(\"span#ame_tags\" + postid).html( loading );\n\t});\n}",
+  "diff_func": "--- func_before\n+++ func_after\n function tagSpanFadeOut( postid, ame_tags ) {\n \tjQuery(\"span#ame_tags\" + postid).fadeOut('fast', function() {\n \t\tvar loading = '<img border=\"0\" alt=\"\" src=\"' + ameAjaxL10n.imgUrl + 'loader.gif\" align=\"absbottom\" /> ' + ameAjaxL10n.pleaseWait;\n \t\tjQuery(\"span#ame_tags\" + postid).fadeIn('fast', function() {\n \t\t\tvar ame_sack = new sack( ajaxurl );\n \t\t\tame_sack.execute = 1;\n \t\t\tame_sack.method = 'POST';\n \t\t\tame_sack.setVar( \"action\", \"ame_ajax_save_tags\" );\n+\t\t\tame_sack.setVar( \"security\", ameAjaxSec.ajaxnonce );\n \t\t\tame_sack.setVar( \"postid\", postid );\n \t\t\tame_sack.setVar( \"new_tags\", ame_tags );\n \t\t\tame_sack.onError = function() { alert('Ajax error on saving tags'); };\n \t\t\tame_sack.runAJAX();\n \t\t});\n \t\tjQuery(\"span#ame_tags\" + postid).html( loading );\n \t});\n }",
+  "diff_source": "custom"
+}

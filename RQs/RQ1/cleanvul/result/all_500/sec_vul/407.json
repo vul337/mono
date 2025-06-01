@@ -1,0 +1,18 @@
+{
+  "id": 407,
+  "language": "Java",
+  "commit_url": "https://github.com/aosp-mirror/platform_frameworks_base/commit/4923f8be4729078e2f23c1ae9faac6c6fda96870",
+  "commit_sha": "4923f8be4729078e2f23c1ae9faac6c6fda96870",
+  "commit_msg": "Security fixes for PendingIntent related apis in LauncherApps\n\nAllowing arbitrary activityOptions during the creation of PendingIntent\nis a source of security vulnerability. This CL removes activityOptions\nfrom the call-site.\n\nBug: 209607104\nTest: manual\nChange-Id: Id262b9a0de58d8834c85d925cf84bb44b8b99742\nMerged-In: Id262b9a0de58d8834c85d925cf84bb44b8b99742\n(cherry picked from commit e41e04bb8cb930c079597bc0008540461c57ffe1)\nMerged-In:Id262b9a0de58d8834c85d925cf84bb44b8b99742",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "core/java/android/content/pm/LauncherApps.java",
+  "func_name": "getShortcutIntent",
+  "func_before": "@Nullable\n    public PendingIntent getShortcutIntent(@NonNull final String packageName,\n            @NonNull final String shortcutId, @Nullable final Bundle opts,\n            @NonNull final UserHandle user) {\n        logErrorForInvalidProfileAccess(user);\n        if (DEBUG) {\n            Log.i(TAG, \"GetShortcutIntent \" + packageName + \"/\" + shortcutId + \" \" + user);\n        }\n        try {\n            return mService.getShortcutIntent(\n                    mContext.getPackageName(), packageName, shortcutId, opts, user);\n        } catch (RemoteException re) {\n            throw re.rethrowFromSystemServer();\n        }\n    }",
+  "func_after": "@Nullable\n    public PendingIntent getShortcutIntent(@NonNull final String packageName,\n            @NonNull final String shortcutId, @Nullable final Bundle opts,\n            @NonNull final UserHandle user) {\n        logErrorForInvalidProfileAccess(user);\n        if (DEBUG) {\n            Log.i(TAG, \"GetShortcutIntent \" + packageName + \"/\" + shortcutId + \" \" + user);\n        }\n        try {\n            // due to b/209607104, opts will be ignored\n            return mService.getShortcutIntent(\n                    mContext.getPackageName(), packageName, shortcutId, null /* opts */, user);\n        } catch (RemoteException re) {\n            throw re.rethrowFromSystemServer();\n        }\n    }",
+  "diff_func": "--- func_before\n+++ func_after\n @Nullable\n     public PendingIntent getShortcutIntent(@NonNull final String packageName,\n             @NonNull final String shortcutId, @Nullable final Bundle opts,\n             @NonNull final UserHandle user) {\n         logErrorForInvalidProfileAccess(user);\n         if (DEBUG) {\n             Log.i(TAG, \"GetShortcutIntent \" + packageName + \"/\" + shortcutId + \" \" + user);\n         }\n         try {\n+            // due to b/209607104, opts will be ignored\n             return mService.getShortcutIntent(\n-                    mContext.getPackageName(), packageName, shortcutId, opts, user);\n+                    mContext.getPackageName(), packageName, shortcutId, null /* opts */, user);\n         } catch (RemoteException re) {\n             throw re.rethrowFromSystemServer();\n         }\n     }",
+  "diff_source": "custom",
+  "Bug Filter": "Security Vulnerability Fix  \nConfidence Score: 1.0",
+  "Bug Filter Confidence": 1.0,
+  "Bug Filter Response": "\n\n**Final Output:**\n\nAnalysis: The patch modifies the getShortcutIntent method to remove the opts parameter, addressing a security vulnerability where arbitrary activityOptions could be exploited. The commit message confirms this is a security fix.\n\nFinal Classification: Security Vulnerability Fix  \nConfidence Score: 1.0"
+}

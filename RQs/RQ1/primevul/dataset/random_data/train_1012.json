@@ -1,0 +1,21 @@
+{
+  "id": 1012,
+  "language": "c",
+  "cwe": "CWE-125",
+  "commit_url": "https://github.com/sjp38/linux.personal/commit/20e2b791796bd68816fa115f12be5320de2b8021",
+  "commit_sha": "20e2b791796bd68816fa115f12be5320de2b8021",
+  "commit_msg": "ALSA: msnd: Optimize / harden DSP and MIDI loops\n\nThe ISA msnd drivers have loops fetching the ring-buffer head, tail\nand size values inside the loops.  Such codes are inefficient and\nfragile.\n\nThis patch optimizes it, and also adds the sanity check to avoid the\nendless loops.\n\nBugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=196131\nBugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=196133\nSigned-off-by: Takashi Iwai <tiwai@suse.de>",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "sound/isa/msnd/msnd_midi.c",
+  "func_name": "",
+  "raw_func_from_json": "static irqreturn_t snd_msnd_interrupt(int irq, void *dev_id)\n {\n \tstruct snd_msnd *chip = dev_id;\n \tvoid *pwDSPQData = chip->mappedbase + DSPQ_DATA_BUFF;\n \n \t/* Send ack to DSP */\n \t/* inb(chip->io + HP_RXL); */\n \n \t/* Evaluate queued DSP messages */\n\twhile (readw(chip->DSPQ + JQS_wTail) != readw(chip->DSPQ + JQS_wHead)) {\n\t\tu16 wTmp;\n\t\tsnd_msnd_eval_dsp_msg(chip,\n\t\t\treadw(pwDSPQData + 2 * readw(chip->DSPQ + JQS_wHead)));\n\t\twTmp = readw(chip->DSPQ + JQS_wHead) + 1;\n\t\tif (wTmp > readw(chip->DSPQ + JQS_wSize))\n\t\t\twritew(0, chip->DSPQ + JQS_wHead);\n\t\telse\n\t\t\twritew(wTmp, chip->DSPQ + JQS_wHead);\n \t}\n \t/* Send ack to DSP */\n \tinb(chip->io + HP_RXL);\n \treturn IRQ_HANDLED;\n}\n",
+  "diff_func": "@@ -120,24 +120,24 @@ void snd_msndmidi_input_read(void *mpuv)\n \tunsigned long flags;\n \tstruct snd_msndmidi *mpu = mpuv;\n \tvoid *pwMIDQData = mpu->dev->mappedbase + MIDQ_DATA_BUFF;\n+\tu16 head, tail, size;\n \n \tspin_lock_irqsave(&mpu->input_lock, flags);\n-\twhile (readw(mpu->dev->MIDQ + JQS_wTail) !=\n-\t       readw(mpu->dev->MIDQ + JQS_wHead)) {\n-\t\tu16 wTmp, val;\n-\t\tval = readw(pwMIDQData + 2 * readw(mpu->dev->MIDQ + JQS_wHead));\n-\n-\t\t\tif (test_bit(MSNDMIDI_MODE_BIT_INPUT_TRIGGER,\n-\t\t\t\t     &mpu->mode))\n-\t\t\t\tsnd_rawmidi_receive(mpu->substream_input,\n-\t\t\t\t\t\t    (unsigned char *)&val, 1);\n-\n-\t\twTmp = readw(mpu->dev->MIDQ + JQS_wHead) + 1;\n-\t\tif (wTmp > readw(mpu->dev->MIDQ + JQS_wSize))\n-\t\t\twritew(0,  mpu->dev->MIDQ + JQS_wHead);\n-\t\telse\n-\t\t\twritew(wTmp,  mpu->dev->MIDQ + JQS_wHead);\n+\thead = readw(mpu->dev->MIDQ + JQS_wHead);\n+\ttail = readw(mpu->dev->MIDQ + JQS_wTail);\n+\tsize = readw(mpu->dev->MIDQ + JQS_wSize);\n+\tif (head > size || tail > size)\n+\t\tgoto out;\n+\twhile (head != tail) {\n+\t\tunsigned char val = readw(pwMIDQData + 2 * head);\n+\n+\t\tif (test_bit(MSNDMIDI_MODE_BIT_INPUT_TRIGGER, &mpu->mode))\n+\t\t\tsnd_rawmidi_receive(mpu->substream_input, &val, 1);\n+\t\tif (++head > size)\n+\t\t\thead = 0;\n+\t\twritew(head, mpu->dev->MIDQ + JQS_wHead);\n \t}\n+ out:\n \tspin_unlock_irqrestore(&mpu->input_lock, flags);\n }\n EXPORT_SYMBOL(snd_msndmidi_input_read);",
+  "project": "linux",
+  "commit_id": "20e2b791796bd68816fa115f12be5320de2b8021",
+  "target": 1,
+  "func": "static irqreturn_t snd_msnd_interrupt(int irq, void *dev_id)\n {\n \tstruct snd_msnd *chip = dev_id;\n \tvoid *pwDSPQData = chip->mappedbase + DSPQ_DATA_BUFF;\n \n \t/* Send ack to DSP */\n \t/* inb(chip->io + HP_RXL); */\n \n \t/* Evaluate queued DSP messages */\n\twhile (readw(chip->DSPQ + JQS_wTail) != readw(chip->DSPQ + JQS_wHead)) {\n\t\tu16 wTmp;\n\t\tsnd_msnd_eval_dsp_msg(chip,\n\t\t\treadw(pwDSPQData + 2 * readw(chip->DSPQ + JQS_wHead)));\n\t\twTmp = readw(chip->DSPQ + JQS_wHead) + 1;\n\t\tif (wTmp > readw(chip->DSPQ + JQS_wSize))\n\t\t\twritew(0, chip->DSPQ + JQS_wHead);\n\t\telse\n\t\t\twritew(wTmp, chip->DSPQ + JQS_wHead);\n \t}\n \t/* Send ack to DSP */\n \tinb(chip->io + HP_RXL);\n \treturn IRQ_HANDLED;\n}\n",
+  "big_vul_idx": 181252,
+  "idx": 2746,
+  "hash": 157005536200453287459336545092015388141
+}

@@ -1,0 +1,23 @@
+{
+  "id": 451,
+  "language": "cc",
+  "cwe": "",
+  "commit_url": "https://github.com/prividentity/tensorflow/commit/f6c40f0c6cbf00d46c7717a26419f2062f2f8694",
+  "commit_sha": "f6c40f0c6cbf00d46c7717a26419f2062f2f8694",
+  "commit_msg": "Validate min and max arguments to `QuantizedResizeBilinear`.\n\nPiperOrigin-RevId: 369765091\nChange-Id: I33be8b78273ab7d08b97541692fe05cb7f94963a",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "tensorflow/core/kernels/quantized_resize_bilinear_op.cc",
+  "func_name": "",
+  "raw_func_from_json": "  void Compute(OpKernelContext* context) override {\n    const float in_min = context->input(2).flat<float>()(0);\n    const float in_max = context->input(3).flat<float>()(0);\n\n    ImageResizerState st(align_corners_, false);\n    st.ValidateAndCreateOutput(context);\n\n    if (!context->status().ok()) return;\n\n    // Return if the output is empty.\n    if (st.output->NumElements() == 0) return;\n\n    typename TTypes<T, 4>::ConstTensor image_data(\n        context->input(0).tensor<T, 4>());\n    typename TTypes<T, 4>::Tensor output_data(st.output->tensor<T, 4>());\n\n    ResizeBilinear<T>(image_data, st.height_scale, st.width_scale, in_min,\n                      in_max, half_pixel_centers_, &output_data);\n    Tensor* out_min = nullptr;\n    OP_REQUIRES_OK(context, context->allocate_output(1, {}, &out_min));\n    out_min->flat<float>()(0) = in_min;\n\n    Tensor* out_max = nullptr;\n    OP_REQUIRES_OK(context, context->allocate_output(2, {}, &out_max));\n    out_max->flat<float>()(0) = in_max;\n  }",
+  "diff_func": "@@ -702,8 +702,14 @@ class QuantizedResizeBilinearOp : public OpKernel {\n   }\n \n   void Compute(OpKernelContext* context) override {\n-    const float in_min = context->input(2).flat<float>()(0);\n-    const float in_max = context->input(3).flat<float>()(0);\n+    const auto& in_min_tensor = context->input(2);\n+    OP_REQUIRES(context, TensorShapeUtils::IsScalar(in_min_tensor.shape()),\n+                errors::InvalidArgument(\"min must be a scalar\"));\n+    const float in_min = in_min_tensor.flat<float>()(0);\n+    const auto& in_max_tensor = context->input(3);\n+    OP_REQUIRES(context, TensorShapeUtils::IsScalar(in_max_tensor.shape()),\n+                errors::InvalidArgument(\"max must be a scalar\"));\n+    const float in_max = in_max_tensor.flat<float>()(0);\n \n     ImageResizerState st(align_corners_, false);\n     st.ValidateAndCreateOutput(context);",
+  "func": "  void Compute(OpKernelContext* context) override {\n    const float in_min = context->input(2).flat<float>()(0);\n    const float in_max = context->input(3).flat<float>()(0);\n\n    ImageResizerState st(align_corners_, false);\n    st.ValidateAndCreateOutput(context);\n\n    if (!context->status().ok()) return;\n\n    // Return if the output is empty.\n    if (st.output->NumElements() == 0) return;\n\n    typename TTypes<T, 4>::ConstTensor image_data(\n        context->input(0).tensor<T, 4>());\n    typename TTypes<T, 4>::Tensor output_data(st.output->tensor<T, 4>());\n\n    ResizeBilinear<T>(image_data, st.height_scale, st.width_scale, in_min,\n                      in_max, half_pixel_centers_, &output_data);\n    Tensor* out_min = nullptr;\n    OP_REQUIRES_OK(context, context->allocate_output(1, {}, &out_min));\n    out_min->flat<float>()(0) = in_min;\n\n    Tensor* out_max = nullptr;\n    OP_REQUIRES_OK(context, context->allocate_output(2, {}, &out_max));\n    out_max->flat<float>()(0) = in_max;\n  }",
+  "project": "tensorflow",
+  "hash": 327227610424235160739799447249420118357,
+  "size": 26,
+  "commit_id": "f6c40f0c6cbf00d46c7717a26419f2062f2f8694",
+  "message": "Validate min and max arguments to `QuantizedResizeBilinear`.\n\nPiperOrigin-RevId: 369765091\nChange-Id: I33be8b78273ab7d08b97541692fe05cb7f94963a",
+  "target": 1,
+  "dataset": "other",
+  "idx": 196673
+}

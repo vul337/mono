@@ -1,0 +1,18 @@
+{
+  "id": 6622,
+  "language": "C/C++",
+  "commit_url": "https://github.com/projectacrn/acrn-hypervisor/commit/dd88504804e186029f845a166dc5c31695e2cca2",
+  "commit_sha": "dd88504804e186029f845a166dc5c31695e2cca2",
+  "commit_msg": "dm: Reset virtio device before release\n\nWith virtio polling mode enabled, a timer is running in the virtio\nbackend service. And the timer will also be triggered if its frondend\ndriver didn't do the device reset in shutdown. A freed virtio device\nwill be accessed in the polling timer handler.\n\nDo the virtio reset() callback specifically to clear the polling timer\nbefore the free.\n\nTracked-On: #6147\nSigned-off-by: Shuo A Liu <shuo.a.liu@intel.com>\nSigned-off-by: Yonghua Huang <yonghua.huang@intel.com>",
+  "pr_url": "https://github.com/projectacrn/acrn-hypervisor/pull/6268",
+  "pr_info": "With virtio polling mode enabled, a timer is running in the virtio\r\nbackend service. And the timer will also be triggered if its frondend\r\ndriver didn't do the device reset in shutdown. A freed virtio device\r\nwill be accessed in the polling timer handler.\r\n\r\nDo the virtio reset() callback specifically to clear the polling timer\r\nbefore the free.\r\n\r\nTracked-On: #6147\r\nSigned-off-by: Shuo A Liu <shuo.a.liu@intel.com>\r\nSigned-off-by: Yonghua Huang <yonghua.huang@intel.com>",
+  "file_name": "devicemodel/hw/pci/virtio/virtio_i2c.c",
+  "func_name": "virtio_i2c_deinit",
+  "func_before": "static void\nvirtio_i2c_deinit(struct vmctx *ctx, struct pci_vdev *dev, char *opts)\n{\n\tstruct virtio_i2c *vi2c;\n\n\tif (dev->arg) {\n\t\tDPRINTF(\"deinit\\n\");\n\t\tvi2c = (struct virtio_i2c *) dev->arg;\n\t\tvirtio_i2c_req_stop(vi2c);\n\t\tnative_adapter_remove(vi2c);\n\t\tpthread_mutex_destroy(&vi2c->req_mtx);\n\t\tpthread_mutex_destroy(&vi2c->mtx);\n\t\tfree(vi2c);\n\t\tdev->arg = NULL;\n\t}\n}",
+  "func_after": "static void\nvirtio_i2c_deinit(struct vmctx *ctx, struct pci_vdev *dev, char *opts)\n{\n\tstruct virtio_i2c *vi2c;\n\n\tif (dev->arg) {\n\t\tDPRINTF(\"deinit\\n\");\n\t\tvi2c = (struct virtio_i2c *) dev->arg;\n\t\tvirtio_i2c_req_stop(vi2c);\n\t\tnative_adapter_remove(vi2c);\n\t\tpthread_mutex_destroy(&vi2c->req_mtx);\n\t\tpthread_mutex_destroy(&vi2c->mtx);\n\t\tvirtio_i2c_reset(vi2c);\n\t\tfree(vi2c);\n\t\tdev->arg = NULL;\n\t}\n}",
+  "diff_func": "--- func_before\n+++ func_after\n static void\n virtio_i2c_deinit(struct vmctx *ctx, struct pci_vdev *dev, char *opts)\n {\n \tstruct virtio_i2c *vi2c;\n \n \tif (dev->arg) {\n \t\tDPRINTF(\"deinit\\n\");\n \t\tvi2c = (struct virtio_i2c *) dev->arg;\n \t\tvirtio_i2c_req_stop(vi2c);\n \t\tnative_adapter_remove(vi2c);\n \t\tpthread_mutex_destroy(&vi2c->req_mtx);\n \t\tpthread_mutex_destroy(&vi2c->mtx);\n+\t\tvirtio_i2c_reset(vi2c);\n \t\tfree(vi2c);\n \t\tdev->arg = NULL;\n \t}\n }",
+  "diff_source": "custom",
+  "Bug Filter": "Security Vulnerability Fix  \nConfidence Score: 0.8",
+  "Bug Filter Confidence": 0.8,
+  "Bug Filter Response": "\n\n**Final Output:**\n\nAnalysis: The patch addresses a potential use-after-free vulnerability in the virtio device deinitialization process, preventing unauthorized access or code execution.\n\nFinal Classification: Security Vulnerability Fix  \nConfidence Score: 0.8"
+}

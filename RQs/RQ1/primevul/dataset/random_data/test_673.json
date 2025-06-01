@@ -1,0 +1,23 @@
+{
+  "id": 673,
+  "language": "h",
+  "cwe": "",
+  "commit_url": "https://github.com/prividentity/tensorflow/commit/93f428fd1768df147171ed674fee1fc5ab8309ec",
+  "commit_sha": "93f428fd1768df147171ed674fee1fc5ab8309ec",
+  "commit_msg": "Fix nullptr deref and heap OOB access in binary cwise ops.\n\nPiperOrigin-RevId: 387936777\nChange-Id: I608b8074cec36a982cca622b7144cb2c43e6e19f",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "tensorflow/core/kernels/cwise_ops_common.h",
+  "func_name": "",
+  "raw_func_from_json": "  void Compute(OpKernelContext* ctx) override {\n    const Tensor& in0 = ctx->input(0);\n    const Tensor& in1 = ctx->input(1);\n    auto in0_flat = in0.flat<Tin>();\n    auto in1_flat = in1.flat<Tin>();\n    const Device& eigen_device = ctx->eigen_device<Device>();\n\n    Tensor* out = nullptr;\n    if (std::is_same<Tin, Tout>::value) {\n      OP_REQUIRES_OK(ctx, ctx->forward_input_or_allocate_output(\n                              {0, 1}, 0, in0.shape(), &out));\n    } else {\n      OP_REQUIRES_OK(ctx, ctx->allocate_output(0, in0.shape(), &out));\n    }\n    auto out_flat = out->flat<Tout>();\n    functor::SimpleBinaryFunctor<Device, Functor>()(eigen_device, out_flat,\n                                                    in0_flat, in1_flat);\n  }",
+  "diff_func": "@@ -265,6 +265,11 @@ class SimpleBinaryOp : public OpKernel {\n   void Compute(OpKernelContext* ctx) override {\n     const Tensor& in0 = ctx->input(0);\n     const Tensor& in1 = ctx->input(1);\n+    OP_REQUIRES(\n+        ctx, in0.NumElements() == in1.NumElements(),\n+        errors::InvalidArgument(\"The two arguments to a cwise op must have \"\n+                                \"same number of elements, got \",\n+                                in0.NumElements(), \" and \", in1.NumElements()));\n     auto in0_flat = in0.flat<Tin>();\n     auto in1_flat = in1.flat<Tin>();\n     const Device& eigen_device = ctx->eigen_device<Device>();",
+  "func": "  void Compute(OpKernelContext* ctx) override {\n    const Tensor& in0 = ctx->input(0);\n    const Tensor& in1 = ctx->input(1);\n    auto in0_flat = in0.flat<Tin>();\n    auto in1_flat = in1.flat<Tin>();\n    const Device& eigen_device = ctx->eigen_device<Device>();\n\n    Tensor* out = nullptr;\n    if (std::is_same<Tin, Tout>::value) {\n      OP_REQUIRES_OK(ctx, ctx->forward_input_or_allocate_output(\n                              {0, 1}, 0, in0.shape(), &out));\n    } else {\n      OP_REQUIRES_OK(ctx, ctx->allocate_output(0, in0.shape(), &out));\n    }\n    auto out_flat = out->flat<Tout>();\n    functor::SimpleBinaryFunctor<Device, Functor>()(eigen_device, out_flat,\n                                                    in0_flat, in1_flat);\n  }",
+  "project": "tensorflow",
+  "hash": 92857430627306028918441575167793149967,
+  "size": 18,
+  "commit_id": "93f428fd1768df147171ed674fee1fc5ab8309ec",
+  "message": "Fix nullptr deref and heap OOB access in binary cwise ops.\n\nPiperOrigin-RevId: 387936777\nChange-Id: I608b8074cec36a982cca622b7144cb2c43e6e19f",
+  "target": 1,
+  "dataset": "other",
+  "idx": 197024
+}

@@ -1,0 +1,15 @@
+{
+  "id": 3922,
+  "language": "Python",
+  "commit_url": "https://github.com/tadashi-aikawa/owlmixin/commit/5d0575303f6df869a515ced4285f24ba721e0d4e",
+  "commit_sha": "5d0575303f6df869a515ced4285f24ba721e0d4e",
+  "commit_msg": ":scream: Fix vulnerability of `load_yaml` and `load_yamlf` (#12)",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "owlmixin/util.py",
+  "func_name": "load_yaml",
+  "func_before": "def load_yaml(yaml_str):\n    \"\"\"\n    :param unicode yaml_str:\n    :rtype: dict | list\n    \"\"\"\n    return yaml.load(yaml_str)",
+  "func_after": "def load_yaml(yaml_str):\n    \"\"\"\n    :param unicode yaml_str:\n    :rtype: dict | list\n    \"\"\"\n    return yaml.safe_load(yaml_str)",
+  "diff_func": "--- func_before\n+++ func_after\n def load_yaml(yaml_str):\n     \"\"\"\n     :param unicode yaml_str:\n     :rtype: dict | list\n     \"\"\"\n-    return yaml.load(yaml_str)\n+    return yaml.safe_load(yaml_str)",
+  "diff_source": "custom"
+}

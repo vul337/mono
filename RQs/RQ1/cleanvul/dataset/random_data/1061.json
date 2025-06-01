@@ -1,0 +1,15 @@
+{
+  "id": 1061,
+  "language": "Java",
+  "commit_url": "https://github.com/gudzpoz/luajava/commit/83505ac0aaba37ed1b6434677bd4fd681b391926",
+  "commit_sha": "83505ac0aaba37ed1b6434677bd4fd681b391926",
+  "commit_msg": "Fixed Lua stack overflow: causing memory corruption",
+  "pr_url": "https://github.com/gudzpoz/luajava/pull/11",
+  "pr_info": "1. Project renamed into LuaJava\r\n2. Test full coverage (at least the Java interface part (luajava))\r\n3. Lua5.[1..4] support, as well as for LuaJIT\r\n4. More documentation and a dedicated VuePress site",
+  "file_name": "luajava/src/main/java/party/iroiro/luajava/AbstractLua.java",
+  "func_name": "push",
+  "func_before": "@Override\n    public void push(@NotNull Collection<?> collection) {\n        C.lua_createtable(L, collection.size(), 0);\n        int i = 1;\n        for (Object o : collection) {\n            push(o, Conversion.FULL);\n            C.lua_rawseti(L, -2, i);\n            i++;\n        }\n    }",
+  "func_after": "@Override\n    public void push(@NotNull Collection<?> collection) {\n        checkStack(2);\n        C.lua_createtable(L, collection.size(), 0);\n        int i = 1;\n        for (Object o : collection) {\n            push(o, Conversion.FULL);\n            C.lua_rawseti(L, -2, i);\n            i++;\n        }\n    }",
+  "diff_func": "--- func_before\n+++ func_after\n@@ -61 +69 @@\n push((String) object);\n } else if (object instanceof Integer || object instanceof Byte || object instanceof Short) {\n+            } else if (object instanceof Character) {\n+                push(((int) (Character) object));\n } else if (object instanceof Long) {\n push((long) object);\n } else if (object instanceof Number) {",
+  "diff_source": "api"
+}

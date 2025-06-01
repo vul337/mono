@@ -1,0 +1,21 @@
+{
+  "id": 252,
+  "language": "c",
+  "cwe": "CWE-119",
+  "commit_url": "https://github.com/sa-dummy/patch/commit/a0d7fe4589651c64bd16ddaaa634030bb0455866",
+  "commit_sha": "a0d7fe4589651c64bd16ddaaa634030bb0455866",
+  "commit_msg": "Fix out-of-bounds access to lines in a patch\n\nThis bug can trigger with malformed patches.\n* src/pch.c (pch_write_line): Avoid out-of-bounds access to\np_line[line][p_len[line] - 1] when p_len[line] is 0.",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "src/pch.c",
+  "func_name": "",
+  "raw_func_from_json": " pch_write_line (lin line, FILE *file)\n {\n  bool after_newline = p_line[line][p_len[line] - 1] == '\\n';\n   if (! fwrite (p_line[line], sizeof (*p_line[line]), p_len[line], file))\n     write_fatal ();\n   return after_newline;\n}\n",
+  "diff_func": "@@ -2276,7 +2276,7 @@ pfetch (lin line)\n bool\n pch_write_line (lin line, FILE *file)\n {\n-  bool after_newline = p_line[line][p_len[line] - 1] == '\\n';\n+  bool after_newline = (p_len[line] > 0) && (p_line[line][p_len[line] - 1] == '\\n');\n   if (! fwrite (p_line[line], sizeof (*p_line[line]), p_len[line], file))\n     write_fatal ();\n   return after_newline;",
+  "project": "savannah",
+  "commit_id": "a0d7fe4589651c64bd16ddaaa634030bb0455866",
+  "target": 1,
+  "func": " pch_write_line (lin line, FILE *file)\n {\n  bool after_newline = p_line[line][p_len[line] - 1] == '\\n';\n   if (! fwrite (p_line[line], sizeof (*p_line[line]), p_len[line], file))\n     write_fatal ();\n   return after_newline;\n}\n",
+  "big_vul_idx": 178645,
+  "idx": 535,
+  "hash": 109748454555121695743182615951035156943
+}

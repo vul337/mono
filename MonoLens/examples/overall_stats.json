@@ -1,0 +1,44 @@
+{
+    "total_cves_processed": 7,
+    "total_patches_processed": 18,
+    "total_context_caller": 0,
+    "total_context_function": 1,
+    "total_context_code": 3,
+    "total_context_value": 5,
+    "total_context_query": 0,
+    "cwe_counts_overall": {
+        "CWE-770": 1,
+        "CWE-787": 1,
+        "CWE-20": 1,
+        "CWE-287": 1,
+        "CWE-59": 1,
+        "CWE-362": 1,
+        "CWE-22": 1
+    },
+    "platform_specific_stats": {
+        "github": {
+            "platform": "github",
+            "total_cves": 7,
+            "cwe_counts": {
+                "CWE-770": 1,
+                "CWE-787": 1,
+                "CWE-20": 1,
+                "CWE-287": 1,
+                "CWE-59": 1,
+                "CWE-362": 1,
+                "CWE-22": 1
+            },
+            "total_patches": 18,
+            "total_context_caller": 0,
+            "total_context_function": 1,
+            "total_context_code": 3,
+            "total_context_value": 5,
+            "total_context_query": 0,
+            "average_patches_per_cve": 2.5714285714285716,
+            "average_context_items_per_cve": 1.2857142857142858
+        }
+    },
+    "total_cves_overall": 7,
+    "average_patches_per_cve_overall": 2.5714285714285716,
+    "average_context_items_per_cve_overall": 1.2857142857142858
+}

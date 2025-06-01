@@ -1,0 +1,15 @@
+{
+  "id": 8135,
+  "language": "JavaScript",
+  "commit_url": "https://github.com/HumanSignal/label-studio/commit/a7a71e594f32ec4af8f3f800d5ccb8662e275da3",
+  "commit_sha": "a7a71e594f32ec4af8f3f800d5ccb8662e275da3",
+  "commit_msg": "fix: OPTIC-179: Properly ensure content is escaped (#4926)\n\n* fix: OPTIC-179: Properly ensure content is escaped\r\n\r\n* ci: Build frontend\r\n\r\nWorkflow run: https://github.com/HumanSignal/label-studio/actions/runs/6567480699\r\n\r\n* update types\r\n\r\n* ci: Build frontend\r\n\r\nWorkflow run: https://github.com/HumanSignal/label-studio/actions/runs/6567539053\r\n\r\n* update\r\n\r\n* ci: Build frontend\r\n\r\nWorkflow run: https://github.com/HumanSignal/label-studio/actions/runs/6568061660\r\n\r\n* update\r\n\r\n* Update label_studio/frontend/src/pages/DataManager/DataManager.js\r\n\r\n* ci: Build frontend\r\n\r\nWorkflow run: https://github.com/HumanSignal/label-studio/actions/runs/6568126554\r\n\r\n---------\r\n\r\nCo-authored-by: robot-ci-heartex <robot-ci-heartex@users.noreply.github.com>",
+  "pr_url": "https://github.com/HumanSignal/label-studio/pull/4926",
+  "pr_info": "no more info",
+  "file_name": "label_studio/frontend/dist/react-app/index.js",
+  "func_name": "if",
+  "func_before": "function nt(e,t){var n=e.first;e:do{for(var r=0;r<e.children.length;++r){var i=e.children[r],o=i.height;if(t<o){e=i;continue e}t-=o,n+=i.chunkSize()}return n}while(!e.lines);for(var a=0;a<e.lines.length;++a){var s=e.lines[a].height;if(t<s)break;t-=s}return n+a}",
+  "func_after": "function nt(e,t){try{return(0,ye.pi)((0,ye.pi)({},e),{stack:e.stack.slice(t)})}catch(t){return e}}",
+  "diff_func": "--- func_before\n+++ func_after\n-function nt(e,t){var n=e.first;e:do{for(var r=0;r<e.children.length;++r){var i=e.children[r],o=i.height;if(t<o){e=i;continue e}t-=o,n+=i.chunkSize()}return n}while(!e.lines);for(var a=0;a<e.lines.length;++a){var s=e.lines[a].height;if(t<s)break;t-=s}return n+a}\n+function nt(e,t){try{return(0,ye.pi)((0,ye.pi)({},e),{stack:e.stack.slice(t)})}catch(t){return e}}",
+  "diff_source": "custom"
+}

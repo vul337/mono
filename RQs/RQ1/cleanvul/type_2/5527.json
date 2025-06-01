@@ -1,0 +1,18 @@
+{
+  "id": 5527,
+  "language": "C/C++",
+  "commit_url": "https://github.com/torvalds/linux/commit/3bcd6c7eaa53",
+  "commit_sha": "3bcd6c7eaa53",
+  "commit_msg": "rxrpc: Fix race between conn bundle lookup and bundle removal [ZDI-CAN-15975]\n\nAfter rxrpc_unbundle_conn() has removed a connection from a bundle, it\nchecks to see if there are any conns with available channels and, if not,\nremoves and attempts to destroy the bundle.\n\nWhilst it does check after grabbing client_bundles_lock that there are no\nconnections attached, this races with rxrpc_look_up_bundle() retrieving the\nbundle, but not attaching a connection for the connection to be attached\nlater.\n\nThere is therefore a window in which the bundle can get destroyed before we\nmanage to attach a new connection to it.\n\nFix this by adding an \"active\" counter to struct rxrpc_bundle:\n\n (1) rxrpc_connect_call() obtains an active count by prepping/looking up a\n     bundle and ditches it before returning.\n\n (2) If, during rxrpc_connect_call(), a connection is added to the bundle,\n     this obtains an active count, which is held until the connection is\n     discarded.\n\n (3) rxrpc_deactivate_bundle() is created to drop an active count on a\n     bundle and destroy it when the active count reaches 0.  The active\n     count is checked inside client_bundles_lock() to prevent a race with\n     rxrpc_look_up_bundle().\n\n (4) rxrpc_unbundle_conn() then calls rxrpc_deactivate_bundle().\n\nFixes: 245500d853e9 (\"rxrpc: Rewrite the client connection manager\")\nReported-by: zdi-disclosures@trendmicro.com # ZDI-CAN-15975\nSigned-off-by: David Howells <dhowells@redhat.com>\nTested-by: zdi-disclosures@trendmicro.com\ncc: Marc Dionne <marc.dionne@auristor.com>\ncc: linux-afs@lists.infradead.org\nSigned-off-by: David S. Miller <davem@davemloft.net>",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "net/rxrpc/conn_client.c",
+  "func_name": "rxrpc_put_bundle",
+  "func_before": "void rxrpc_put_bundle(struct rxrpc_bundle *bundle)\n{\n\tunsigned int d = bundle->debug_id;\n\tbool dead;\n\tint r;\n\n\tdead = __refcount_dec_and_test(&bundle->ref, &r);\n\n\t_debug(\"PUT B=%x %d\", d, r);\n\tif (dead)\n\t\trxrpc_free_bundle(bundle);\n}",
+  "func_after": "void rxrpc_put_bundle(struct rxrpc_bundle *bundle)\n{\n\tunsigned int d = bundle->debug_id;\n\tbool dead;\n\tint r;\n\n\tdead = __refcount_dec_and_test(&bundle->ref, &r);\n\n\t_debug(\"PUT B=%x %d\", d, r - 1);\n\tif (dead)\n\t\trxrpc_free_bundle(bundle);\n}",
+  "diff_func": "--- func_before\n+++ func_after\n void rxrpc_put_bundle(struct rxrpc_bundle *bundle)\n {\n \tunsigned int d = bundle->debug_id;\n \tbool dead;\n \tint r;\n \n \tdead = __refcount_dec_and_test(&bundle->ref, &r);\n \n-\t_debug(\"PUT B=%x %d\", d, r);\n+\t_debug(\"PUT B=%x %d\", d, r - 1);\n \tif (dead)\n \t\trxrpc_free_bundle(bundle);\n }",
+  "diff_source": "custom",
+  "Bug Filter": "Defect Remediation & Feature Upgrades",
+  "Bug Filter Confidence": 0.7,
+  "Bug Filter Response": "\n\nThe patch addresses a race condition in connection bundle management, preventing premature bundle destruction. While related to a security advisory, the fix is more about preventing incorrect state rather than mitigating a security exploit.\n\n**Final Classification:** Defect Remediation & Feature Upgrades  \n**Confidence Score:** 0.7"
+}

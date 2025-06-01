@@ -1,0 +1,18 @@
+{
+  "id": 2273,
+  "language": "Java",
+  "commit_url": "https://github.com/oehf/ipf/commit/93f674d6ae307b31bd0caa848a092a29000f492d",
+  "commit_sha": "93f674d6ae307b31bd0caa848a092a29000f492d",
+  "commit_msg": "#357 Mitigate jdom2 vulnerability (CVE-2021-33813)",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "commons/audit/src/main/java/org/openehealth/ipf/commons/audit/unmarshal/dicom/DICOMAuditParser.java",
+  "func_name": "IOException",
+  "func_before": "private static Document useSAXParser(Reader reader, boolean validate) throws JDOMException, IOException {\n        var saxBuilder = validate ? new SAXBuilder(XSD_FACTORY) : new SAXBuilder();\n        return saxBuilder.build(reader);\n    }",
+  "func_after": "private static Document useSAXParser(Reader reader, boolean validate) throws JDOMException, IOException {\n        var saxBuilder = validate ? new SAXBuilder(XSD_FACTORY) : new SAXBuilder();\n        saxBuilder.setExpandEntities(false);\n        return saxBuilder.build(reader);\n    }",
+  "diff_func": "--- func_before\n+++ func_after\n private static Document useSAXParser(Reader reader, boolean validate) throws JDOMException, IOException {\n         var saxBuilder = validate ? new SAXBuilder(XSD_FACTORY) : new SAXBuilder();\n+        saxBuilder.setExpandEntities(false);\n         return saxBuilder.build(reader);\n     }",
+  "diff_source": "custom",
+  "Bug Filter": "** Security Vulnerability Fix  \n**Confidence Score:** 1.0",
+  "Bug Filter Confidence": 1.0,
+  "Bug Filter Response": "\n\nThe patch addresses a known security vulnerability by modifying XML parsing to prevent entity expansion attacks, thus mitigating a specific CVE.\n\n**Final Classification:** Security Vulnerability Fix  \n**Confidence Score:** 1.0"
+}

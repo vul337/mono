@@ -1,0 +1,18 @@
+{
+  "id": 4658,
+  "language": "Python",
+  "commit_url": "https://github.com/mindsdb/mindsdb/commit/8d13c9c28ebcf3b36509eb679378004d4648d8fe",
+  "commit_sha": "8d13c9c28ebcf3b36509eb679378004d4648d8fe",
+  "commit_msg": "fixes:\n- SSRF\n- arbitrary file write\nhttps://github.com/mindsdb/mindsdb_private/issues/341",
+  "pr_url": "https://github.com/mindsdb/mindsdb/pull/8443",
+  "pr_info": "Fixes:\r\n\r\n- [SSRF](https://en.wikipedia.org/wiki/Server-side_request_forgery) for\r\n  - upload file via url\r\n  - llama index handler\r\n  - web handler\r\n- arbitrary file write for file uploading\r\n\r\n## Description\r\n\r\nPlease include a summary of the change and the issue it solves. \r\n\r\nFixes https://github.com/mindsdb/mindsdb_private/issues/341\r\n\r\n## Type of change\r\n\r\n- [x] 🐛 Bug fix (non-breaking change which fixes an issue)\r\n\r\n## Verification Process\r\n\r\nTo ensure the changes are working as expected:\r\n\r\n - [ ]   Test Location: Specify the URL or path for testing.\r\n - [ ]   Verification Steps: Outline the steps or queries needed to validate the change. Include any data, configurations, or actions required to reproduce or see the new functionality.\r\n\r\n## Additional Media:\r\n\r\n- [ ] I have attached a brief loom video or screenshots showcasing the new functionality or change.\r\n\r\n## Checklist:\r\n\r\n- [ ] My code follows the style guidelines(PEP 8) of MindsDB.\r\n- [ ] I have appropriately commented on my code, especially in complex areas.\r\n- [ ] Necessary documentation updates are either made or tracked in issues.\r\n- [ ] Relevant unit and integration tests are updated or added.\r\n\r\n\r\n\r\n",
+  "file_name": "mindsdb/api/http/namespaces/file.py",
+  "func_name": "on_file",
+  "func_before": "def on_file(file):\n            nonlocal file_object\n            data[\"file\"] = file.file_name.decode()\n            file_object = file.file_object",
+  "func_after": "def on_file(file):\n            nonlocal file_object\n            data[\"file\"] = clear_filename(file.file_name.decode())\n            file_object = file.file_object",
+  "diff_func": "--- func_before\n+++ func_after\n def on_file(file):\n             nonlocal file_object\n-            data[\"file\"] = file.file_name.decode()\n+            data[\"file\"] = clear_filename(file.file_name.decode())\n             file_object = file.file_object",
+  "diff_source": "custom",
+  "Bug Filter": "** Security Vulnerability Fix  \n**Confidence Score:** 1.0",
+  "Bug Filter Confidence": 1.0,
+  "Bug Filter Response": "\n\nThe patch addresses security vulnerabilities by fixing SSRF and arbitrary file write issues, indicating a clear intent to enhance system security through code changes.\n\n**Final Classification:** Security Vulnerability Fix  \n**Confidence Score:** 1.0"
+}

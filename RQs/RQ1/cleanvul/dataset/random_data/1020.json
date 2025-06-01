@@ -1,0 +1,15 @@
+{
+  "id": 1020,
+  "language": "Java",
+  "commit_url": "https://github.com/metersphere/metersphere/commit/d08d0c215871454f89bdddb04cf46076a146e44e",
+  "commit_sha": "d08d0c215871454f89bdddb04cf46076a146e44e",
+  "commit_msg": "fix(XML解析相关功能): 修复使用SAXReader导致的xxe攻击漏洞\n\n修复使用SAXReader导致的xxe攻击漏洞",
+  "pr_url": "https://github.com/metersphere/metersphere/pull/10902",
+  "pr_info": "fix(XML解析相关功能): 修复使用SAXReader导致的xxe攻击漏洞  修复使用SAXReader导致的xxe攻击漏洞 ",
+  "file_name": "backend/src/main/java/io/metersphere/performance/parse/EngineSourceParserFactory.java",
+  "func_name": "DocumentException",
+  "func_before": "public static Document getDocument(InputStream source) throws DocumentException {\n        SAXReader reader = new SAXReader();\n        if (!IS_TRANS) {\n            reader.setXMLFilter(EngineSourceParserFactory.getFilter());\n        }\n        return reader.read(source);\n    }",
+  "func_after": "public static Document getDocument(InputStream source) throws DocumentException {\n        SAXReader reader = new SAXReader();\n        try {\n            reader.setFeature(\"http://apache.org/xml/features/disallow-doctype-decl\", true);\n            reader.setFeature(\"http://xml.org/sax/features/external-general-entities\", false);\n            reader.setFeature(\"http://xml.org/sax/features/external-parameter-entities\", false);\n            reader.setFeature(\"http://apache.org/xml/features/nonvalidating/load-external-dtd\", false);\n        }catch (Exception e){\n            LogUtil.error(e);\n        }\n        if (!IS_TRANS) {\n            reader.setXMLFilter(EngineSourceParserFactory.getFilter());\n        }\n        return reader.read(source);\n    }",
+  "diff_func": "--- func_before\n+++ func_after\n public static Document getDocument(InputStream source) throws DocumentException {\n         SAXReader reader = new SAXReader();\n+        try {\n+            reader.setFeature(\"http://apache.org/xml/features/disallow-doctype-decl\", true);\n+            reader.setFeature(\"http://xml.org/sax/features/external-general-entities\", false);\n+            reader.setFeature(\"http://xml.org/sax/features/external-parameter-entities\", false);\n+            reader.setFeature(\"http://apache.org/xml/features/nonvalidating/load-external-dtd\", false);\n+        }catch (Exception e){\n+            LogUtil.error(e);\n+        }\n         if (!IS_TRANS) {\n             reader.setXMLFilter(EngineSourceParserFactory.getFilter());\n         }\n         return reader.read(source);\n     }",
+  "diff_source": "custom"
+}

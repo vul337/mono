@@ -1,0 +1,21 @@
+{
+  "id": 689,
+  "language": "c",
+  "cwe": "CWE-362",
+  "commit_url": "https://github.com/ljalves/linux_media/commit/532c34b5fbf1687df63b3fcd5b2846312ac943c6",
+  "commit_sha": "532c34b5fbf1687df63b3fcd5b2846312ac943c6",
+  "commit_msg": "s390/sclp_ctl: fix potential information leak with /dev/sclp\n\nThe sclp_ctl_ioctl_sccb function uses two copy_from_user calls to\nretrieve the sclp request from user space. The first copy_from_user\nfetches the length of the request which is stored in the first two\nbytes of the request. The second copy_from_user gets the complete\nsclp request, but this copies the length field a second time.\nA malicious user may have changed the length in the meantime.\n\nReported-by: Pengfei Wang <wpengfeinudt@gmail.com>\nReviewed-by: Michael Holzheu <holzheu@linux.vnet.ibm.com>\nSigned-off-by: Martin Schwidefsky <schwidefsky@de.ibm.com>",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "drivers/s390/char/sclp_ctl.c",
+  "func_name": "",
+  "raw_func_from_json": "static int sclp_ctl_ioctl_sccb(void __user *user_area)\n {\n \tstruct sclp_ctl_sccb ctl_sccb;\n \tstruct sccb_header *sccb;\n \tint rc;\n \n \tif (copy_from_user(&ctl_sccb, user_area, sizeof(ctl_sccb)))\n\t\treturn -EFAULT;\n\tif (!sclp_ctl_cmdw_supported(ctl_sccb.cmdw))\n\t\treturn -EOPNOTSUPP;\n \tsccb = (void *) get_zeroed_page(GFP_KERNEL | GFP_DMA);\n \tif (!sccb)\n \t\treturn -ENOMEM;\n\tif (copy_from_user(sccb, u64_to_uptr(ctl_sccb.sccb), sizeof(*sccb))) {\n \t\trc = -EFAULT;\n \t\tgoto out_free;\n \t}\n\tif (sccb->length > PAGE_SIZE || sccb->length < 8)\n\t\treturn -EINVAL;\n\tif (copy_from_user(sccb, u64_to_uptr(ctl_sccb.sccb), sccb->length)) {\n\t\trc = -EFAULT;\n \t\tgoto out_free;\n \t}\n \trc = sclp_sync_request(ctl_sccb.cmdw, sccb);\n\tif (rc)\n\t\tgoto out_free;\n\tif (copy_to_user(u64_to_uptr(ctl_sccb.sccb), sccb, sccb->length))\n\t\trc = -EFAULT;\nout_free:\n\tfree_page((unsigned long) sccb);\n\treturn rc;\n}\n",
+  "diff_func": "@@ -56,6 +56,7 @@ static int sclp_ctl_ioctl_sccb(void __user *user_area)\n {\n \tstruct sclp_ctl_sccb ctl_sccb;\n \tstruct sccb_header *sccb;\n+\tunsigned long copied;\n \tint rc;\n \n \tif (copy_from_user(&ctl_sccb, user_area, sizeof(ctl_sccb)))\n@@ -65,14 +66,15 @@ static int sclp_ctl_ioctl_sccb(void __user *user_area)\n \tsccb = (void *) get_zeroed_page(GFP_KERNEL | GFP_DMA);\n \tif (!sccb)\n \t\treturn -ENOMEM;\n-\tif (copy_from_user(sccb, u64_to_uptr(ctl_sccb.sccb), sizeof(*sccb))) {\n+\tcopied = PAGE_SIZE -\n+\t\tcopy_from_user(sccb, u64_to_uptr(ctl_sccb.sccb), PAGE_SIZE);\n+\tif (offsetof(struct sccb_header, length) +\n+\t    sizeof(sccb->length) > copied || sccb->length > copied) {\n \t\trc = -EFAULT;\n \t\tgoto out_free;\n \t}\n-\tif (sccb->length > PAGE_SIZE || sccb->length < 8)\n-\t\treturn -EINVAL;\n-\tif (copy_from_user(sccb, u64_to_uptr(ctl_sccb.sccb), sccb->length)) {\n-\t\trc = -EFAULT;\n+\tif (sccb->length < 8) {\n+\t\trc = -EINVAL;\n \t\tgoto out_free;\n \t}\n \trc = sclp_sync_request(ctl_sccb.cmdw, sccb);",
+  "project": "linux",
+  "commit_id": "532c34b5fbf1687df63b3fcd5b2846312ac943c6",
+  "target": 1,
+  "func": "static int sclp_ctl_ioctl_sccb(void __user *user_area)\n {\n \tstruct sclp_ctl_sccb ctl_sccb;\n \tstruct sccb_header *sccb;\n \tint rc;\n \n \tif (copy_from_user(&ctl_sccb, user_area, sizeof(ctl_sccb)))\n\t\treturn -EFAULT;\n\tif (!sclp_ctl_cmdw_supported(ctl_sccb.cmdw))\n\t\treturn -EOPNOTSUPP;\n \tsccb = (void *) get_zeroed_page(GFP_KERNEL | GFP_DMA);\n \tif (!sccb)\n \t\treturn -ENOMEM;\n\tif (copy_from_user(sccb, u64_to_uptr(ctl_sccb.sccb), sizeof(*sccb))) {\n \t\trc = -EFAULT;\n \t\tgoto out_free;\n \t}\n\tif (sccb->length > PAGE_SIZE || sccb->length < 8)\n\t\treturn -EINVAL;\n\tif (copy_from_user(sccb, u64_to_uptr(ctl_sccb.sccb), sccb->length)) {\n\t\trc = -EFAULT;\n \t\tgoto out_free;\n \t}\n \trc = sclp_sync_request(ctl_sccb.cmdw, sccb);\n\tif (rc)\n\t\tgoto out_free;\n\tif (copy_to_user(u64_to_uptr(ctl_sccb.sccb), sccb, sccb->length))\n\t\trc = -EFAULT;\nout_free:\n\tfree_page((unsigned long) sccb);\n\treturn rc;\n}\n",
+  "big_vul_idx": 180192,
+  "idx": 1810,
+  "hash": 210420001045995110855549226777563446223
+}

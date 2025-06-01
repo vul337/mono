@@ -1,0 +1,18 @@
+{
+  "id": 8085,
+  "language": "JavaScript",
+  "commit_url": "https://github.com/HumanSignal/label-studio/commit/a7a71e594f32ec4af8f3f800d5ccb8662e275da3",
+  "commit_sha": "a7a71e594f32ec4af8f3f800d5ccb8662e275da3",
+  "commit_msg": "fix: OPTIC-179: Properly ensure content is escaped (#4926)\n\n* fix: OPTIC-179: Properly ensure content is escaped\r\n\r\n* ci: Build frontend\r\n\r\nWorkflow run: https://github.com/HumanSignal/label-studio/actions/runs/6567480699\r\n\r\n* update types\r\n\r\n* ci: Build frontend\r\n\r\nWorkflow run: https://github.com/HumanSignal/label-studio/actions/runs/6567539053\r\n\r\n* update\r\n\r\n* ci: Build frontend\r\n\r\nWorkflow run: https://github.com/HumanSignal/label-studio/actions/runs/6568061660\r\n\r\n* update\r\n\r\n* Update label_studio/frontend/src/pages/DataManager/DataManager.js\r\n\r\n* ci: Build frontend\r\n\r\nWorkflow run: https://github.com/HumanSignal/label-studio/actions/runs/6568126554\r\n\r\n---------\r\n\r\nCo-authored-by: robot-ci-heartex <robot-ci-heartex@users.noreply.github.com>",
+  "pr_url": "https://github.com/HumanSignal/label-studio/pull/4926",
+  "pr_info": "no more info",
+  "file_name": "label_studio/frontend/dist/react-app/index.js",
+  "func_name": "i",
+  "func_before": "function Zi(e,t){if(e&&e.defaultProps){for(var n in t=i({},t),e=e.defaultProps)void 0===t[n]&&(t[n]=e[n]);return t}return t}",
+  "func_after": "function Zi(e,t){for(var n=[],r=!1,i=0;i<e.length;i++){var o=e[i],a=null;if(\"string\"!=typeof o&&(a=o.style,o=o.className),\"CodeMirror-linenumbers\"==o){if(!t)continue;r=!0}n.push({className:o,style:a})}return t&&!r&&n.push({className:\"CodeMirror-linenumbers\",style:null}),n}",
+  "diff_func": "--- func_before\n+++ func_after\n-function Zi(e,t){if(e&&e.defaultProps){for(var n in t=i({},t),e=e.defaultProps)void 0===t[n]&&(t[n]=e[n]);return t}return t}\n+function Zi(e,t){for(var n=[],r=!1,i=0;i<e.length;i++){var o=e[i],a=null;if(\"string\"!=typeof o&&(a=o.style,o=o.className),\"CodeMirror-linenumbers\"==o){if(!t)continue;r=!0}n.push({className:o,style:a})}return t&&!r&&n.push({className:\"CodeMirror-linenumbers\",style:null}),n}",
+  "diff_source": "custom",
+  "Bug Filter": "Security Vulnerability Fix**\n\n**Confidence Score: 0.8**\n\nThe classification is based on the commit message indicating a security fix for content escaping, though the code diff doesn't explicitly show escaping logic, leading to moderate confidence.",
+  "Bug Filter Confidence": 0.8,
+  "Bug Filter Response": "\n\nThe patch addresses an issue where content wasn't properly escaped, which could lead to security vulnerabilities like XSS. The code changes modify a function related to rendering, potentially preventing improper content injection.\n\n**Final Classification: Security Vulnerability Fix**\n\n**Confidence Score: 0.8**\n\nThe classification is based on the commit message indicating a security fix for content escaping, though the code diff doesn't explicitly show escaping logic, leading to moderate confidence."
+}

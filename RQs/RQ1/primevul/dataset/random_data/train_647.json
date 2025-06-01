@@ -1,0 +1,21 @@
+{
+  "id": 647,
+  "language": "c",
+  "cwe": "CWE-416",
+  "commit_url": "https://github.com/ljalves/linux_media/commit/a0ac402cfcdc904f9772e1762b3fda112dcc56a0",
+  "commit_sha": "a0ac402cfcdc904f9772e1762b3fda112dcc56a0",
+  "commit_msg": "Don't feed anything but regular iovec's to blk_rq_map_user_iov\n\nIn theory we could map other things, but there's a reason that function\nis called \"user_iov\".  Using anything else (like splice can do) just\nconfuses it.\n\nReported-and-tested-by: Johannes Thumshirn <jthumshirn@suse.de>\nCc: Al Viro <viro@ZenIV.linux.org.uk>\nSigned-off-by: Linus Torvalds <torvalds@linux-foundation.org>",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "block/blk-map.c",
+  "func_name": "",
+  "raw_func_from_json": "int blk_rq_map_user_iov(struct request_queue *q, struct request *rq,\n\t\t\tstruct rq_map_data *map_data,\n\t\t\tconst struct iov_iter *iter, gfp_t gfp_mask)\n{\n\tbool copy = false;\n\tunsigned long align = q->dma_pad_mask | queue_dma_alignment(q);\n\tstruct bio *bio = NULL;\n \tstruct iov_iter i;\n \tint ret;\n \n \tif (map_data)\n \t\tcopy = true;\n \telse if (iov_iter_alignment(iter) & align)\n\t\tcopy = true;\n\telse if (queue_virt_boundary(q))\n\t\tcopy = queue_virt_boundary(q) & iov_iter_gap_alignment(iter);\n\n\ti = *iter;\n\tdo {\n\t\tret =__blk_rq_map_user_iov(rq, map_data, &i, gfp_mask, copy);\n\t\tif (ret)\n\t\t\tgoto unmap_rq;\n\t\tif (!bio)\n\t\t\tbio = rq->bio;\n\t} while (iov_iter_count(&i));\n\n\tif (!bio_flagged(bio, BIO_USER_MAPPED))\n\t\trq->cmd_flags |= REQ_COPY_USER;\n\treturn 0;\n \n unmap_rq:\n \t__blk_rq_unmap_user(bio);\n \trq->bio = NULL;\n \treturn -EINVAL;\n }\n",
+  "diff_func": "@@ -118,6 +118,9 @@ int blk_rq_map_user_iov(struct request_queue *q, struct request *rq,\n \tstruct iov_iter i;\n \tint ret;\n \n+\tif (!iter_is_iovec(iter))\n+\t\tgoto fail;\n+\n \tif (map_data)\n \t\tcopy = true;\n \telse if (iov_iter_alignment(iter) & align)\n@@ -140,6 +143,7 @@ int blk_rq_map_user_iov(struct request_queue *q, struct request *rq,\n \n unmap_rq:\n \t__blk_rq_unmap_user(bio);\n+fail:\n \trq->bio = NULL;\n \treturn -EINVAL;\n }",
+  "project": "linux",
+  "commit_id": "a0ac402cfcdc904f9772e1762b3fda112dcc56a0",
+  "target": 1,
+  "func": "int blk_rq_map_user_iov(struct request_queue *q, struct request *rq,\n\t\t\tstruct rq_map_data *map_data,\n\t\t\tconst struct iov_iter *iter, gfp_t gfp_mask)\n{\n\tbool copy = false;\n\tunsigned long align = q->dma_pad_mask | queue_dma_alignment(q);\n\tstruct bio *bio = NULL;\n \tstruct iov_iter i;\n \tint ret;\n \n \tif (map_data)\n \t\tcopy = true;\n \telse if (iov_iter_alignment(iter) & align)\n\t\tcopy = true;\n\telse if (queue_virt_boundary(q))\n\t\tcopy = queue_virt_boundary(q) & iov_iter_gap_alignment(iter);\n\n\ti = *iter;\n\tdo {\n\t\tret =__blk_rq_map_user_iov(rq, map_data, &i, gfp_mask, copy);\n\t\tif (ret)\n\t\t\tgoto unmap_rq;\n\t\tif (!bio)\n\t\t\tbio = rq->bio;\n\t} while (iov_iter_count(&i));\n\n\tif (!bio_flagged(bio, BIO_USER_MAPPED))\n\t\trq->cmd_flags |= REQ_COPY_USER;\n\treturn 0;\n \n unmap_rq:\n \t__blk_rq_unmap_user(bio);\n \trq->bio = NULL;\n \treturn -EINVAL;\n }\n",
+  "big_vul_idx": 180030,
+  "idx": 1675,
+  "hash": 26597385003267716734535675651688144195
+}

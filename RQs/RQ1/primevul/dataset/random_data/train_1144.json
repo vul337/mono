@@ -1,0 +1,21 @@
+{
+  "id": 1144,
+  "language": "c",
+  "cwe": "CWE-189",
+  "commit_url": "https://github.com/dreamsxin/async-php/commit/1cda0d7c2ffb62d8331c64e703131d9cabdc03ea",
+  "commit_sha": "1cda0d7c2ffb62d8331c64e703131d9cabdc03ea",
+  "commit_msg": "Fix bug #73737 FPE when parsing a tag format",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "ext/exif/exif.c",
+  "func_name": "",
+  "raw_func_from_json": "static size_t exif_convert_any_to_int(void *value, int format, int motorola_intel TSRMLS_DC)\n{\n\tint \t\ts_den;\n\tunsigned \tu_den;\n\n\tswitch(format) {\n\t\tcase TAG_FMT_SBYTE:     return *(signed char *)value;\n\t\tcase TAG_FMT_BYTE:      return *(uchar *)value;\n\n\t\tcase TAG_FMT_USHORT:    return php_ifd_get16u(value, motorola_intel);\n\t\tcase TAG_FMT_ULONG:     return php_ifd_get32u(value, motorola_intel);\n\n\t\tcase TAG_FMT_URATIONAL:\n\t\t\tu_den = php_ifd_get32u(4+(char *)value, motorola_intel);\n\t\t\tif (u_den == 0) {\n\t\t\t\treturn 0;\n\t\t\t} else {\n\t\t\t\treturn php_ifd_get32u(value, motorola_intel) / u_den;\n\t\t\t}\n\n\t\tcase TAG_FMT_SRATIONAL:\n\t\t\ts_den = php_ifd_get32s(4+(char *)value, motorola_intel);\n \t\t\tif (s_den == 0) {\n \t\t\t\treturn 0;\n \t\t\t} else {\n\t\t\t\treturn php_ifd_get32s(value, motorola_intel) / s_den;\n \t\t\t}\n \n \t\tcase TAG_FMT_SSHORT:    return php_ifd_get16u(value, motorola_intel);\n\t\tcase TAG_FMT_SLONG:     return php_ifd_get32s(value, motorola_intel);\n\n\t\t/* Not sure if this is correct (never seen float used in Exif format) */\n\t\tcase TAG_FMT_SINGLE:\n#ifdef EXIF_DEBUG\n\t\t\tphp_error_docref(NULL TSRMLS_CC, E_NOTICE, \"Found value of type single\");\n#endif\n\t\t\treturn (size_t)*(float *)value;\n\t\tcase TAG_FMT_DOUBLE:\n#ifdef EXIF_DEBUG\n\t\t\tphp_error_docref(NULL TSRMLS_CC, E_NOTICE, \"Found value of type double\");\n#endif\n\t\t\treturn (size_t)*(double *)value;\n\t}\n\treturn 0;\n}\n",
+  "diff_func": "@@ -1303,7 +1303,7 @@ static size_t exif_convert_any_to_int(void *value, int format, int motorola_inte\n \t\t\tif (s_den == 0) {\n \t\t\t\treturn 0;\n \t\t\t} else {\n-\t\t\t\treturn php_ifd_get32s(value, motorola_intel) / s_den;\n+\t\t\t\treturn (size_t)((double)php_ifd_get32s(value, motorola_intel) / s_den);\n \t\t\t}\n \n \t\tcase TAG_FMT_SSHORT:    return php_ifd_get16u(value, motorola_intel);",
+  "project": "php-src",
+  "commit_id": "1cda0d7c2ffb62d8331c64e703131d9cabdc03ea",
+  "target": 1,
+  "func": "static size_t exif_convert_any_to_int(void *value, int format, int motorola_intel TSRMLS_DC)\n{\n\tint \t\ts_den;\n\tunsigned \tu_den;\n\n\tswitch(format) {\n\t\tcase TAG_FMT_SBYTE:     return *(signed char *)value;\n\t\tcase TAG_FMT_BYTE:      return *(uchar *)value;\n\n\t\tcase TAG_FMT_USHORT:    return php_ifd_get16u(value, motorola_intel);\n\t\tcase TAG_FMT_ULONG:     return php_ifd_get32u(value, motorola_intel);\n\n\t\tcase TAG_FMT_URATIONAL:\n\t\t\tu_den = php_ifd_get32u(4+(char *)value, motorola_intel);\n\t\t\tif (u_den == 0) {\n\t\t\t\treturn 0;\n\t\t\t} else {\n\t\t\t\treturn php_ifd_get32u(value, motorola_intel) / u_den;\n\t\t\t}\n\n\t\tcase TAG_FMT_SRATIONAL:\n\t\t\ts_den = php_ifd_get32s(4+(char *)value, motorola_intel);\n \t\t\tif (s_den == 0) {\n \t\t\t\treturn 0;\n \t\t\t} else {\n\t\t\t\treturn php_ifd_get32s(value, motorola_intel) / s_den;\n \t\t\t}\n \n \t\tcase TAG_FMT_SSHORT:    return php_ifd_get16u(value, motorola_intel);\n\t\tcase TAG_FMT_SLONG:     return php_ifd_get32s(value, motorola_intel);\n\n\t\t/* Not sure if this is correct (never seen float used in Exif format) */\n\t\tcase TAG_FMT_SINGLE:\n#ifdef EXIF_DEBUG\n\t\t\tphp_error_docref(NULL TSRMLS_CC, E_NOTICE, \"Found value of type single\");\n#endif\n\t\t\treturn (size_t)*(float *)value;\n\t\tcase TAG_FMT_DOUBLE:\n#ifdef EXIF_DEBUG\n\t\t\tphp_error_docref(NULL TSRMLS_CC, E_NOTICE, \"Found value of type double\");\n#endif\n\t\t\treturn (size_t)*(double *)value;\n\t}\n\treturn 0;\n}\n",
+  "big_vul_idx": 181688,
+  "idx": 3105,
+  "hash": 117898004511095579221735528852953634731
+}

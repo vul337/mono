@@ -1,0 +1,15 @@
+{
+  "id": 357,
+  "language": "Java",
+  "commit_url": "https://github.com/aosp-mirror/platform_frameworks_base/commit/97f6cad5b9e90f2d03636358192624bbe8926741",
+  "commit_sha": "97f6cad5b9e90f2d03636358192624bbe8926741",
+  "commit_msg": "Security fixes for PendingIntent related apis in LauncherApps\n\nAllowing arbitrary activityOptions during the creation of PendingIntent\nis a source of security vulnerability. This CL removes activityOptions\nfrom the call-site.\n\nBug: 209607104\nTest: manual\nChange-Id: Id262b9a0de58d8834c85d925cf84bb44b8b99742\nMerged-In: Id262b9a0de58d8834c85d925cf84bb44b8b99742\n(cherry picked from commit e41e04bb8cb930c079597bc0008540461c57ffe1)\nMerged-In:Id262b9a0de58d8834c85d925cf84bb44b8b99742",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "core/java/android/content/pm/LauncherApps.java",
+  "func_name": "getMainActivityLaunchIntent",
+  "func_before": "@Nullable\n    public PendingIntent getMainActivityLaunchIntent(@NonNull ComponentName component,\n            @Nullable Bundle startActivityOptions, @NonNull UserHandle user) {\n        logErrorForInvalidProfileAccess(user);\n        if (DEBUG) {\n            Log.i(TAG, \"GetMainActivityLaunchIntent \" + component + \" \" + user);\n        }\n        try {\n            return mService.getActivityLaunchIntent(component, startActivityOptions, user);\n        } catch (RemoteException re) {\n            throw re.rethrowFromSystemServer();\n        }\n    }",
+  "func_after": "@Nullable\n    public PendingIntent getMainActivityLaunchIntent(@NonNull ComponentName component,\n            @Nullable Bundle startActivityOptions, @NonNull UserHandle user) {\n        logErrorForInvalidProfileAccess(user);\n        if (DEBUG) {\n            Log.i(TAG, \"GetMainActivityLaunchIntent \" + component + \" \" + user);\n        }\n        try {\n            // due to b/209607104, startActivityOptions will be ignored\n            return mService.getActivityLaunchIntent(component, null /* opts */, user);\n        } catch (RemoteException re) {\n            throw re.rethrowFromSystemServer();\n        }\n    }",
+  "diff_func": "--- func_before\n+++ func_after\n @Nullable\n     public PendingIntent getMainActivityLaunchIntent(@NonNull ComponentName component,\n             @Nullable Bundle startActivityOptions, @NonNull UserHandle user) {\n         logErrorForInvalidProfileAccess(user);\n         if (DEBUG) {\n             Log.i(TAG, \"GetMainActivityLaunchIntent \" + component + \" \" + user);\n         }\n         try {\n+            // due to b/209607104, startActivityOptions will be ignored\n-            return mService.getActivityLaunchIntent(component, startActivityOptions, user);\n+            return mService.getActivityLaunchIntent(component, null /* opts */, user);\n         } catch (RemoteException re) {\n             throw re.rethrowFromSystemServer();\n         }\n     }",
+  "diff_source": "custom"
+}

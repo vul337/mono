@@ -1,0 +1,21 @@
+{
+  "id": 130,
+  "language": "c",
+  "cwe": "CWE-476",
+  "commit_url": "https://github.com/mittorn/virglrenderer/commit/0a5dff15912207b83018485f83e067474e818bab",
+  "commit_sha": "0a5dff15912207b83018485f83e067474e818bab",
+  "commit_msg": "vrend: never destroy context 0 in vrend_renderer_context_destroy\n\nThere will be a crash if the guest destroy context 0. As the context 0 is\nallocate in renderer init, not destroy in vrend_renderer_context_destroy.\nThe context will be freed in renderer fini by calling vrend_decode_reset.\n\nSigned-off-by: Li Qiang <liq3ea@gmail.com>\nSigned-off-by: Dave Airlie <airlied@redhat.com>",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "src/vrend_decode.c",
+  "func_name": "",
+  "raw_func_from_json": "void vrend_renderer_context_destroy(uint32_t handle)\n{\n   struct vrend_decode_ctx *ctx;\n   bool ret;\n\n    if (handle >= VREND_MAX_CTX)\n       return;\n \n    ctx = dec_ctx[handle];\n    if (!ctx)\n       return;\n      vrend_hw_switch_context(dec_ctx[0]->grctx, true);\n}\n",
+  "diff_func": "@@ -1093,6 +1093,11 @@ void vrend_renderer_context_destroy(uint32_t handle)\n    if (handle >= VREND_MAX_CTX)\n       return;\n \n+   /* never destroy context 0 here, it will be destroyed in vrend_decode_reset()*/\n+   if (handle == 0) {\n+      return;\n+   }\n+\n    ctx = dec_ctx[handle];\n    if (!ctx)\n       return;",
+  "project": "virglrenderer",
+  "commit_id": "0a5dff15912207b83018485f83e067474e818bab",
+  "target": 1,
+  "func": "void vrend_renderer_context_destroy(uint32_t handle)\n{\n   struct vrend_decode_ctx *ctx;\n   bool ret;\n\n    if (handle >= VREND_MAX_CTX)\n       return;\n \n    ctx = dec_ctx[handle];\n    if (!ctx)\n       return;\n      vrend_hw_switch_context(dec_ctx[0]->grctx, true);\n}\n",
+  "big_vul_idx": 178121,
+  "idx": 240,
+  "hash": 248536757234533019908341843286492380403
+}

@@ -1,0 +1,23 @@
+{
+  "id": 667,
+  "language": "c",
+  "cwe": "",
+  "commit_url": "https://github.com/davidar/bootsh/commit/6d4847934fc0fe47a3254ce6c0396d197a780cf4",
+  "commit_sha": "6d4847934fc0fe47a3254ce6c0396d197a780cf4",
+  "commit_msg": "Don't segfault if xabspath() returns null (spotted by Taolaw).",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "toys/net/httpd.c",
+  "func_name": "",
+  "raw_func_from_json": "static int isunder(char *file, char *dir)\n{\n  char *s1 = xabspath(dir, ABS_FILE), *s2 = xabspath(file, 0), *ss = s2;\n  int rc = strstart(&ss, s2) && (!*ss || *ss=='/' || ss[-1]=='/');\n\n  free(s2);\n  free(s1);\n\n  return rc;\n}",
+  "diff_func": "@@ -83,7 +83,7 @@ char *mime(char *file)\n static int isunder(char *file, char *dir)\n {\n   char *s1 = xabspath(dir, ABS_FILE), *s2 = xabspath(file, 0), *ss = s2;\n-  int rc = strstart(&ss, s2) && (!*ss || *ss=='/' || ss[-1]=='/');\n+  int rc = s1 && s2 && strstart(&ss, s1) && (!*ss || *ss=='/' || ss[-1]=='/');\n \n   free(s2);\n   free(s1);",
+  "func": "static int isunder(char *file, char *dir)\n{\n  char *s1 = xabspath(dir, ABS_FILE), *s2 = xabspath(file, 0), *ss = s2;\n  int rc = strstart(&ss, s2) && (!*ss || *ss=='/' || ss[-1]=='/');\n\n  free(s2);\n  free(s1);\n\n  return rc;\n}",
+  "project": "toybox",
+  "hash": 97427692132315706086206005036245647311,
+  "size": 10,
+  "commit_id": "6d4847934fc0fe47a3254ce6c0396d197a780cf4",
+  "message": "Don't segfault if xabspath() returns null (spotted by Taolaw).",
+  "target": 1,
+  "dataset": "other",
+  "idx": 196895
+}

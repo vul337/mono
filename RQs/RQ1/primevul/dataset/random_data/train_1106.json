@@ -1,0 +1,21 @@
+{
+  "id": 1106,
+  "language": "c",
+  "cwe": "CWE-190",
+  "commit_url": "https://github.com/dreamsxin/async-php/commit/4cc0286f2f3780abc6084bcdae5dce595daa3c12",
+  "commit_sha": "4cc0286f2f3780abc6084bcdae5dce595daa3c12",
+  "commit_msg": "Fix #73832 - leave the table in a safe state if the size is too big.",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "Zend/zend_hash.c",
+  "func_name": "",
+  "raw_func_from_json": "ZEND_API void ZEND_FASTCALL _zend_hash_init(HashTable *ht, uint32_t nSize, dtor_func_t pDestructor, zend_bool persistent ZEND_FILE_LINE_DC)\n{\n \tGC_REFCOUNT(ht) = 1;\n \tGC_TYPE_INFO(ht) = IS_ARRAY;\n \tht->u.flags = (persistent ? HASH_FLAG_PERSISTENT : 0) | HASH_FLAG_APPLY_PROTECTION | HASH_FLAG_STATIC_KEYS;\n\tht->nTableSize = zend_hash_check_size(nSize);\n \tht->nTableMask = HT_MIN_MASK;\n \tHT_SET_DATA_ADDR(ht, &uninitialized_bucket);\n \tht->nNumUsed = 0;\n \tht->nNumOfElements = 0;\n \tht->nInternalPointer = HT_INVALID_IDX;\n \tht->nNextFreeElement = 0;\n \tht->pDestructor = pDestructor;\n }\n",
+  "diff_func": "@@ -175,14 +175,14 @@ ZEND_API void ZEND_FASTCALL _zend_hash_init(HashTable *ht, uint32_t nSize, dtor_\n \tGC_REFCOUNT(ht) = 1;\n \tGC_TYPE_INFO(ht) = IS_ARRAY;\n \tht->u.flags = (persistent ? HASH_FLAG_PERSISTENT : 0) | HASH_FLAG_APPLY_PROTECTION | HASH_FLAG_STATIC_KEYS;\n-\tht->nTableSize = zend_hash_check_size(nSize);\n \tht->nTableMask = HT_MIN_MASK;\n \tHT_SET_DATA_ADDR(ht, &uninitialized_bucket);\n \tht->nNumUsed = 0;\n \tht->nNumOfElements = 0;\n \tht->nInternalPointer = HT_INVALID_IDX;\n \tht->nNextFreeElement = 0;\n \tht->pDestructor = pDestructor;\n+\tht->nTableSize = zend_hash_check_size(nSize);\n }\n \n static void ZEND_FASTCALL zend_hash_packed_grow(HashTable *ht)",
+  "project": "php-src",
+  "commit_id": "4cc0286f2f3780abc6084bcdae5dce595daa3c12",
+  "target": 1,
+  "func": "ZEND_API void ZEND_FASTCALL _zend_hash_init(HashTable *ht, uint32_t nSize, dtor_func_t pDestructor, zend_bool persistent ZEND_FILE_LINE_DC)\n{\n \tGC_REFCOUNT(ht) = 1;\n \tGC_TYPE_INFO(ht) = IS_ARRAY;\n \tht->u.flags = (persistent ? HASH_FLAG_PERSISTENT : 0) | HASH_FLAG_APPLY_PROTECTION | HASH_FLAG_STATIC_KEYS;\n\tht->nTableSize = zend_hash_check_size(nSize);\n \tht->nTableMask = HT_MIN_MASK;\n \tHT_SET_DATA_ADDR(ht, &uninitialized_bucket);\n \tht->nNumUsed = 0;\n \tht->nNumOfElements = 0;\n \tht->nInternalPointer = HT_INVALID_IDX;\n \tht->nNextFreeElement = 0;\n \tht->pDestructor = pDestructor;\n }\n",
+  "big_vul_idx": 181582,
+  "idx": 3019,
+  "hash": 325470889852098171458222426163820871302
+}

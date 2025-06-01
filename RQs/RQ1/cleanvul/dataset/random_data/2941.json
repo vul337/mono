@@ -1,0 +1,15 @@
+{
+  "id": 2941,
+  "language": "Java",
+  "commit_url": "https://github.com/AOSPA/android_frameworks_base/commit/cd1f9e72cf9752c9a31e990822ab34ae3d475fec",
+  "commit_sha": "cd1f9e72cf9752c9a31e990822ab34ae3d475fec",
+  "commit_msg": "[RESTRICT AUTOMERGE]Only allow system and same app to apply relinquishTaskIdentity\n\nAny malicious application could hijack tasks by\nandroid:relinquishTaskIdentity. This vulnerability can perform UI\nspoofing or spy on user’s activities.\n\nThis CL limit the usage which only allow system and same app to apply\nrelinquishTaskIdentity\n\nBug: 185810717\nTest: atest IntentTests\n      atest ActivityStarterTests\nChange-Id: I55fe8938cd9a0dd7c0268e1cfec89d4e95eee049",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "services/core/java/com/android/server/wm/TaskRecord.java",
+  "func_name": "setIntent",
+  "func_before": "void setIntent(ActivityRecord r) {\n        mCallingUid = r.launchedFromUid;\n        mCallingPackage = r.launchedFromPackage;\n        setIntent(r.intent, r.info);\n        setLockTaskAuth(r);\n    }",
+  "func_after": "void setIntent(ActivityRecord r) {\n        boolean updateIdentity = false;\n        if (this.intent == null) {\n            updateIdentity = true;\n        } else if (!mNeverRelinquishIdentity) {\n            updateIdentity = (effectiveUid == Process.SYSTEM_UID || mIsEffectivelySystemApp\n                    || effectiveUid == r.info.applicationInfo.uid);\n        }\n        if (updateIdentity) {\n            mCallingUid = r.launchedFromUid;\n            mCallingPackage = r.launchedFromPackage;\n            setIntent(r.intent, r.info);\n        }\n        setLockTaskAuth(r);\n    }",
+  "diff_func": "--- func_before\n+++ func_after\n@@ -869 +875 @@\n void setIntent(ActivityRecord r) {\n-        mCallingUid = r.launchedFromUid;\n-        mCallingPackage = r.launchedFromPackage;\n-        setIntent(r.intent, r.info);\n+        boolean updateIdentity = false;\n+        if (this.intent == null) {\n+            updateIdentity = true;\n+        } else if (!mNeverRelinquishIdentity) {\n+            updateIdentity = (effectiveUid == Process.SYSTEM_UID || mIsEffectivelySystemApp\n+                    || effectiveUid == r.info.applicationInfo.uid);\n+        }",
+  "diff_source": "api"
+}

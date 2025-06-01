@@ -1,0 +1,23 @@
+{
+  "id": 959,
+  "language": "c",
+  "cwe": "",
+  "commit_url": "https://github.com/HKL-Kevin/msm8998-mainline/commit/9d2231c5d74e13b2a0546fee6737ee4446017903",
+  "commit_sha": "9d2231c5d74e13b2a0546fee6737ee4446017903",
+  "commit_msg": "lib/iov_iter: initialize \"flags\" in new pipe_buffer\n\nThe functions copy_page_to_iter_pipe() and push_pipe() can both\nallocate a new pipe_buffer, but the \"flags\" member initializer is\nmissing.\n\nFixes: 241699cd72a8 (\"new iov_iter flavour: pipe-backed\")\nTo: Alexander Viro <viro@zeniv.linux.org.uk>\nTo: linux-fsdevel@vger.kernel.org\nTo: linux-kernel@vger.kernel.org\nCc: stable@vger.kernel.org\nSigned-off-by: Max Kellermann <max.kellermann@ionos.com>\nSigned-off-by: Al Viro <viro@zeniv.linux.org.uk>",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "lib/iov_iter.c",
+  "func_name": "",
+  "raw_func_from_json": "static size_t push_pipe(struct iov_iter *i, size_t size,\n\t\t\tint *iter_headp, size_t *offp)\n{\n\tstruct pipe_inode_info *pipe = i->pipe;\n\tunsigned int p_tail = pipe->tail;\n\tunsigned int p_mask = pipe->ring_size - 1;\n\tunsigned int iter_head;\n\tsize_t off;\n\tssize_t left;\n\n\tif (unlikely(size > i->count))\n\t\tsize = i->count;\n\tif (unlikely(!size))\n\t\treturn 0;\n\n\tleft = size;\n\tdata_start(i, &iter_head, &off);\n\t*iter_headp = iter_head;\n\t*offp = off;\n\tif (off) {\n\t\tleft -= PAGE_SIZE - off;\n\t\tif (left <= 0) {\n\t\t\tpipe->bufs[iter_head & p_mask].len += size;\n\t\t\treturn size;\n\t\t}\n\t\tpipe->bufs[iter_head & p_mask].len = PAGE_SIZE;\n\t\titer_head++;\n\t}\n\twhile (!pipe_full(iter_head, p_tail, pipe->max_usage)) {\n\t\tstruct pipe_buffer *buf = &pipe->bufs[iter_head & p_mask];\n\t\tstruct page *page = alloc_page(GFP_USER);\n\t\tif (!page)\n\t\t\tbreak;\n\n\t\tbuf->ops = &default_pipe_buf_ops;\n\t\tbuf->page = page;\n\t\tbuf->offset = 0;\n\t\tbuf->len = min_t(ssize_t, left, PAGE_SIZE);\n\t\tleft -= buf->len;\n\t\titer_head++;\n\t\tpipe->head = iter_head;\n\n\t\tif (left == 0)\n\t\t\treturn size;\n\t}\n\treturn size - left;\n}",
+  "diff_func": "@@ -414,6 +414,7 @@ static size_t copy_page_to_iter_pipe(struct page *page, size_t offset, size_t by\n \t\treturn 0;\n \n \tbuf->ops = &page_cache_pipe_buf_ops;\n+\tbuf->flags = 0;\n \tget_page(page);\n \tbuf->page = page;\n \tbuf->offset = offset;\n@@ -577,6 +578,7 @@ static size_t push_pipe(struct iov_iter *i, size_t size,\n \t\t\tbreak;\n \n \t\tbuf->ops = &default_pipe_buf_ops;\n+\t\tbuf->flags = 0;\n \t\tbuf->page = page;\n \t\tbuf->offset = 0;\n \t\tbuf->len = min_t(ssize_t, left, PAGE_SIZE);",
+  "func": "static size_t push_pipe(struct iov_iter *i, size_t size,\n\t\t\tint *iter_headp, size_t *offp)\n{\n\tstruct pipe_inode_info *pipe = i->pipe;\n\tunsigned int p_tail = pipe->tail;\n\tunsigned int p_mask = pipe->ring_size - 1;\n\tunsigned int iter_head;\n\tsize_t off;\n\tssize_t left;\n\n\tif (unlikely(size > i->count))\n\t\tsize = i->count;\n\tif (unlikely(!size))\n\t\treturn 0;\n\n\tleft = size;\n\tdata_start(i, &iter_head, &off);\n\t*iter_headp = iter_head;\n\t*offp = off;\n\tif (off) {\n\t\tleft -= PAGE_SIZE - off;\n\t\tif (left <= 0) {\n\t\t\tpipe->bufs[iter_head & p_mask].len += size;\n\t\t\treturn size;\n\t\t}\n\t\tpipe->bufs[iter_head & p_mask].len = PAGE_SIZE;\n\t\titer_head++;\n\t}\n\twhile (!pipe_full(iter_head, p_tail, pipe->max_usage)) {\n\t\tstruct pipe_buffer *buf = &pipe->bufs[iter_head & p_mask];\n\t\tstruct page *page = alloc_page(GFP_USER);\n\t\tif (!page)\n\t\t\tbreak;\n\n\t\tbuf->ops = &default_pipe_buf_ops;\n\t\tbuf->page = page;\n\t\tbuf->offset = 0;\n\t\tbuf->len = min_t(ssize_t, left, PAGE_SIZE);\n\t\tleft -= buf->len;\n\t\titer_head++;\n\t\tpipe->head = iter_head;\n\n\t\tif (left == 0)\n\t\t\treturn size;\n\t}\n\treturn size - left;\n}",
+  "project": "linux",
+  "hash": 158977810766051483126143018257673420675,
+  "size": 47,
+  "commit_id": "9d2231c5d74e13b2a0546fee6737ee4446017903",
+  "message": "lib/iov_iter: initialize \"flags\" in new pipe_buffer\n\nThe functions copy_page_to_iter_pipe() and push_pipe() can both\nallocate a new pipe_buffer, but the \"flags\" member initializer is\nmissing.\n\nFixes: 241699cd72a8 (\"new iov_iter flavour: pipe-backed\")\nTo: Alexander Viro <viro@zeniv.linux.org.uk>\nTo: linux-fsdevel@vger.kernel.org\nTo: linux-kernel@vger.kernel.org\nCc: stable@vger.kernel.org\nSigned-off-by: Max Kellermann <max.kellermann@ionos.com>\nSigned-off-by: Al Viro <viro@zeniv.linux.org.uk>",
+  "target": 1,
+  "dataset": "other",
+  "idx": 207754
+}

@@ -1,0 +1,18 @@
+{
+  "id": 2886,
+  "language": "Java",
+  "commit_url": "https://github.com/AOSPA/android_frameworks_base/commit/fd5b4bcb54f7fddf12768adaa97b55146b4387ce",
+  "commit_sha": "fd5b4bcb54f7fddf12768adaa97b55146b4387ce",
+  "commit_msg": "Add check to verify package belongs to caller\n\nTo fix security vulnerability mentioned in bug b/192587406, Add check to\nverify that package that is being queried belongs to the caller.\n\nBug: 192587406\nTest: atest AccessSerialNumberTest\natest DeviceOwnerTest#testDeviceOwnerCanGetDeviceIdentifiers\natest MixedDeviceOwnerTest#testEnrollmentSpecificIdCorrectCalculation\natest MixedProfileOwnerTest#testEnrollmentSpecificIdCorrectCalculation\natest MixedManagedProfileOwnerTest#testEnrollmentSpecificIdCorrectCalculation\n\nChange-Id: I343b847ae3e070201a7ac93ad88ceb2e47e829b2",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "services/core/java/com/android/server/os/DeviceIdentifiersPolicyService.java",
+  "func_name": "getSerialForPackage",
+  "func_before": "@Override\n        public @Nullable String getSerialForPackage(String callingPackage,\n                String callingFeatureId) throws RemoteException {\n            if (!TelephonyPermissions.checkCallingOrSelfReadDeviceIdentifiers(mContext,\n                    callingPackage, callingFeatureId, \"getSerial\")) {\n                return Build.UNKNOWN;\n            }\n            return SystemProperties.get(\"ro.serialno\", Build.UNKNOWN);\n        }",
+  "func_after": "@Override\n        public @Nullable String getSerialForPackage(String callingPackage,\n                String callingFeatureId) throws RemoteException {\n            if (!checkPackageBelongsToCaller(callingPackage)) {\n                throw new IllegalArgumentException(\n                        \"Invalid callingPackage or callingPackage does not belong to caller's uid:\"\n                                + Binder.getCallingUid());\n            }\n\n            if (!TelephonyPermissions.checkCallingOrSelfReadDeviceIdentifiers(mContext,\n                    callingPackage, callingFeatureId, \"getSerial\")) {\n                return Build.UNKNOWN;\n            }\n            return SystemProperties.get(\"ro.serialno\", Build.UNKNOWN);\n        }",
+  "diff_func": "--- func_before\n+++ func_after\n @Override\n         public @Nullable String getSerialForPackage(String callingPackage,\n                 String callingFeatureId) throws RemoteException {\n+            if (!checkPackageBelongsToCaller(callingPackage)) {\n+                throw new IllegalArgumentException(\n+                        \"Invalid callingPackage or callingPackage does not belong to caller's uid:\"\n+                                + Binder.getCallingUid());\n+            }\n+\n             if (!TelephonyPermissions.checkCallingOrSelfReadDeviceIdentifiers(mContext,\n                     callingPackage, callingFeatureId, \"getSerial\")) {\n                 return Build.UNKNOWN;\n             }\n             return SystemProperties.get(\"ro.serialno\", Build.UNKNOWN);\n         }",
+  "diff_source": "custom",
+  "Bug Filter": "Security Vulnerability Fix  \nConfidence Score: 1.0",
+  "Bug Filter Confidence": 1.0,
+  "Bug Filter Response": "\n\n**Final Output:**\n\nAnalysis:\n- The commit message explicitly mentions fixing a security vulnerability (bug b/192587406) by adding a check to ensure the package belongs to the caller.\n- The code diff introduces a check `checkPackageBelongsToCaller(callingPackage)` which prevents unauthorized access to sensitive data (serial number).\n- This change mitigates a potential unauthorized data disclosure, a clear security issue.\n\nFinal Classification: Security Vulnerability Fix  \nConfidence Score: 1.0"
+}

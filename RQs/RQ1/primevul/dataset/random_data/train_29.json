@@ -1,0 +1,21 @@
+{
+  "id": 29,
+  "language": "cc",
+  "cwe": "CWE-119",
+  "commit_url": "https://github.com/anujkhare/poppler/commit/b8682d868ddf7f741e93b791588af0932893f95c",
+  "commit_sha": "b8682d868ddf7f741e93b791588af0932893f95c",
+  "commit_msg": "pdfseparate: improve the path building\n\nMake use of snprintf to limit the output to the pathName buffer;\nwhile I'm there, expand its size to 4096 (might help longer paths),\nalthough a better fix would be dynamically allocate its length\n(and/or using GooString, maybe).",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "utils/pdfseparate.cc",
+  "func_name": "",
+  "raw_func_from_json": " bool extractPages (const char *srcFileName, const char *destFileName) {\n  char pathName[1024];\n   GooString *gfileName = new GooString (srcFileName);\n   PDFDoc *doc = new PDFDoc (gfileName, NULL, NULL, NULL);\n \n  if (!doc->isOk()) {\n    error(errSyntaxError, -1, \"Could not extract page(s) from damaged file ('{0:s}')\", srcFileName);\n    return false;\n  }\n\n  if (firstPage == 0 && lastPage == 0) {\n    firstPage = 1;\n    lastPage = doc->getNumPages();\n  }\n  if (lastPage == 0)\n    lastPage = doc->getNumPages();\n  if (firstPage == 0)\n    firstPage = 1;\n  if (firstPage != lastPage && strstr(destFileName, \"%d\") == NULL) {\n    error(errSyntaxError, -1, \"'{0:s}' must contain '%%d' if more than one page should be extracted\", destFileName);\n     return false;\n   }\n   for (int pageNo = firstPage; pageNo <= lastPage; pageNo++) {\n    sprintf (pathName, destFileName, pageNo);\n     GooString *gpageName = new GooString (pathName);\n     int errCode = doc->savePageAs(gpageName, pageNo);\n     if ( errCode != errNone) {\n      delete gpageName;\n      delete gfileName;\n      return false;\n    }\n    delete gpageName;\n  }\n  delete gfileName;\n  return true;\n}\n",
+  "diff_func": "@@ -44,7 +44,7 @@ static const ArgDesc argDesc[] = {\n };\n \n bool extractPages (const char *srcFileName, const char *destFileName) {\n-  char pathName[1024];\n+  char pathName[4096];\n   GooString *gfileName = new GooString (srcFileName);\n   PDFDoc *doc = new PDFDoc (gfileName, NULL, NULL, NULL);\n \n@@ -66,7 +66,7 @@ bool extractPages (const char *srcFileName, const char *destFileName) {\n     return false;\n   }\n   for (int pageNo = firstPage; pageNo <= lastPage; pageNo++) {\n-    sprintf (pathName, destFileName, pageNo);\n+    snprintf (pathName, sizeof (pathName) - 1, destFileName, pageNo);\n     GooString *gpageName = new GooString (pathName);\n     int errCode = doc->savePageAs(gpageName, pageNo);\n     if ( errCode != errNone) {",
+  "project": "poppler",
+  "commit_id": "b8682d868ddf7f741e93b791588af0932893f95c",
+  "target": 1,
+  "func": " bool extractPages (const char *srcFileName, const char *destFileName) {\n  char pathName[1024];\n   GooString *gfileName = new GooString (srcFileName);\n   PDFDoc *doc = new PDFDoc (gfileName, NULL, NULL, NULL);\n \n  if (!doc->isOk()) {\n    error(errSyntaxError, -1, \"Could not extract page(s) from damaged file ('{0:s}')\", srcFileName);\n    return false;\n  }\n\n  if (firstPage == 0 && lastPage == 0) {\n    firstPage = 1;\n    lastPage = doc->getNumPages();\n  }\n  if (lastPage == 0)\n    lastPage = doc->getNumPages();\n  if (firstPage == 0)\n    firstPage = 1;\n  if (firstPage != lastPage && strstr(destFileName, \"%d\") == NULL) {\n    error(errSyntaxError, -1, \"'{0:s}' must contain '%%d' if more than one page should be extracted\", destFileName);\n     return false;\n   }\n   for (int pageNo = firstPage; pageNo <= lastPage; pageNo++) {\n    sprintf (pathName, destFileName, pageNo);\n     GooString *gpageName = new GooString (pathName);\n     int errCode = doc->savePageAs(gpageName, pageNo);\n     if ( errCode != errNone) {\n      delete gpageName;\n      delete gfileName;\n      return false;\n    }\n    delete gpageName;\n  }\n  delete gfileName;\n  return true;\n}\n",
+  "big_vul_idx": 177826,
+  "idx": 66,
+  "hash": 244634780333143587019078565382798831655
+}

@@ -1,0 +1,15 @@
+{
+  "id": 2800,
+  "language": "Java",
+  "commit_url": "https://github.com/Netflix/metacat/commit/b439760c9cd9fc615f4d77dc60a9459312e78c9e",
+  "commit_sha": "b439760c9cd9fc615f4d77dc60a9459312e78c9e",
+  "commit_msg": "Fix Sql Vulnerability in Tag service (#426)",
+  "pr_url": "https://github.com/Netflix/metacat/pull/426",
+  "pr_info": "- Parametrize the IN clause",
+  "file_name": "metacat-metadata-mysql/src/main/java/com/netflix/metacat/metadata/mysql/MySqlTagService.java",
+  "func_name": "removeTagItemTags",
+  "func_before": "private void removeTagItemTags(final Long id, final Set<String> tags) {\n        jdbcTemplate\n            .update(String.format(SQL_DELETE_TAG_ITEM_TAGS, \"'\" + Joiner.on(\"','\").skipNulls().join(tags) + \"'\"),\n                new SqlParameterValue(Types.BIGINT, id));\n    }",
+  "func_after": "private void removeTagItemTags(final Long id, final Set<String> tags) {\n        final List<SqlParameterValue> params = Lists.newArrayList();\n        params.add(new SqlParameterValue(Types.BIGINT, id));\n        jdbcTemplate\n            .update(String.format(SQL_DELETE_TAG_ITEM_TAGS, buildParametrizedInClause(\n                tags,\n                params,\n                params.size()\n            )), params.toArray());\n    }",
+  "diff_func": "--- func_before\n+++ func_after\n private void removeTagItemTags(final Long id, final Set<String> tags) {\n+        final List<SqlParameterValue> params = Lists.newArrayList();\n+        params.add(new SqlParameterValue(Types.BIGINT, id));\n         jdbcTemplate\n-            .update(String.format(SQL_DELETE_TAG_ITEM_TAGS, \"'\" + Joiner.on(\"','\").skipNulls().join(tags) + \"'\"),\n-                new SqlParameterValue(Types.BIGINT, id));\n+            .update(String.format(SQL_DELETE_TAG_ITEM_TAGS, buildParametrizedInClause(\n+                tags,\n+                params,\n+                params.size()\n+            )), params.toArray());\n     }",
+  "diff_source": "custom"
+}

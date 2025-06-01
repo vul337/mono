@@ -1,0 +1,18 @@
+{
+  "id": 3725,
+  "language": "C/C++",
+  "commit_url": "https://github.com/torvalds/linux/commit/d00d8da5869a2608e97cfede094dfc5e11462a46",
+  "commit_sha": "d00d8da5869a2608e97cfede094dfc5e11462a46",
+  "commit_msg": "virtio_console: Assure used length from device is limited\n\nThe buf->len might come from an untrusted device. This\nensures the value would not exceed the size of the buffer\nto avoid data corruption or loss.\n\nSigned-off-by: Xie Yongji <xieyongji@bytedance.com>\nAcked-by: Jason Wang <jasowang@redhat.com>\nLink: https://lore.kernel.org/r/20210525125622.1203-1-xieyongji@bytedance.com\nSigned-off-by: Michael S. Tsirkin <mst@redhat.com>",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "drivers/char/virtio_console.c",
+  "func_name": "control_work_handler",
+  "func_before": "static void control_work_handler(struct work_struct *work)\n{\n\tstruct ports_device *portdev;\n\tstruct virtqueue *vq;\n\tstruct port_buffer *buf;\n\tunsigned int len;\n\n\tportdev = container_of(work, struct ports_device, control_work);\n\tvq = portdev->c_ivq;\n\n\tspin_lock(&portdev->c_ivq_lock);\n\twhile ((buf = virtqueue_get_buf(vq, &len))) {\n\t\tspin_unlock(&portdev->c_ivq_lock);\n\n\t\tbuf->len = len;\n\t\tbuf->offset = 0;\n\n\t\thandle_control_message(vq->vdev, portdev, buf);\n\n\t\tspin_lock(&portdev->c_ivq_lock);\n\t\tif (add_inbuf(portdev->c_ivq, buf) < 0) {\n\t\t\tdev_warn(&portdev->vdev->dev,\n\t\t\t\t \"Error adding buffer to queue\\n\");\n\t\t\tfree_buf(buf, false);\n\t\t}\n\t}\n\tspin_unlock(&portdev->c_ivq_lock);\n}",
+  "func_after": "static void control_work_handler(struct work_struct *work)\n{\n\tstruct ports_device *portdev;\n\tstruct virtqueue *vq;\n\tstruct port_buffer *buf;\n\tunsigned int len;\n\n\tportdev = container_of(work, struct ports_device, control_work);\n\tvq = portdev->c_ivq;\n\n\tspin_lock(&portdev->c_ivq_lock);\n\twhile ((buf = virtqueue_get_buf(vq, &len))) {\n\t\tspin_unlock(&portdev->c_ivq_lock);\n\n\t\tbuf->len = min_t(size_t, len, buf->size);\n\t\tbuf->offset = 0;\n\n\t\thandle_control_message(vq->vdev, portdev, buf);\n\n\t\tspin_lock(&portdev->c_ivq_lock);\n\t\tif (add_inbuf(portdev->c_ivq, buf) < 0) {\n\t\t\tdev_warn(&portdev->vdev->dev,\n\t\t\t\t \"Error adding buffer to queue\\n\");\n\t\t\tfree_buf(buf, false);\n\t\t}\n\t}\n\tspin_unlock(&portdev->c_ivq_lock);\n}",
+  "diff_func": "--- func_before\n+++ func_after\n static void control_work_handler(struct work_struct *work)\n {\n \tstruct ports_device *portdev;\n \tstruct virtqueue *vq;\n \tstruct port_buffer *buf;\n \tunsigned int len;\n \n \tportdev = container_of(work, struct ports_device, control_work);\n \tvq = portdev->c_ivq;\n \n \tspin_lock(&portdev->c_ivq_lock);\n \twhile ((buf = virtqueue_get_buf(vq, &len))) {\n \t\tspin_unlock(&portdev->c_ivq_lock);\n \n-\t\tbuf->len = len;\n+\t\tbuf->len = min_t(size_t, len, buf->size);\n \t\tbuf->offset = 0;\n \n \t\thandle_control_message(vq->vdev, portdev, buf);\n \n \t\tspin_lock(&portdev->c_ivq_lock);\n \t\tif (add_inbuf(portdev->c_ivq, buf) < 0) {\n \t\t\tdev_warn(&portdev->vdev->dev,\n \t\t\t\t \"Error adding buffer to queue\\n\");\n \t\t\tfree_buf(buf, false);\n \t\t}\n \t}\n \tspin_unlock(&portdev->c_ivq_lock);\n }",
+  "diff_source": "custom",
+  "Bug Filter": "Security Vulnerability Fix  \nConfidence Score: 1.0",
+  "Bug Filter Confidence": 1.0,
+  "Bug Filter Response": "\n\n**Final Output:**\n\nAnalysis: The patch modifies the handling of buffer lengths to prevent overflow by ensuring the length does not exceed the buffer's size. This addresses a security vulnerability where an untrusted device could cause data corruption or loss.\n\nFinal Classification: Security Vulnerability Fix  \nConfidence Score: 1.0"
+}

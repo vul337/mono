@@ -1,0 +1,23 @@
+{
+  "id": 892,
+  "language": "cpp",
+  "cwe": "",
+  "commit_url": "https://github.com/sailfishos-mirror/icu/commit/b7d08bc04a4296982fcef8b6b8a354a9e4e7afca",
+  "commit_sha": "b7d08bc04a4296982fcef8b6b8a354a9e4e7afca",
+  "commit_msg": "ICU-20958 Prevent SEGV_MAPERR in append\n\nSee #971",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "icu4c/source/common/unistr.cpp",
+  "func_name": "",
+  "raw_func_from_json": "UnicodeString::doAppend(const UChar *srcChars, int32_t srcStart, int32_t srcLength) {\n  if(!isWritable() || srcLength == 0 || srcChars == NULL) {\n    return *this;\n  }\n\n  // Perform all remaining operations relative to srcChars + srcStart.\n  // From this point forward, do not use srcStart.\n  srcChars += srcStart;\n\n  if(srcLength < 0) {\n    // get the srcLength if necessary\n    if((srcLength = u_strlen(srcChars)) == 0) {\n      return *this;\n    }\n  }\n\n  int32_t oldLength = length();\n  int32_t newLength = oldLength + srcLength;\n\n  // Check for append onto ourself\n  const UChar* oldArray = getArrayStart();\n  if (isBufferWritable() &&\n      oldArray < srcChars + srcLength &&\n      srcChars < oldArray + oldLength) {\n    // Copy into a new UnicodeString and start over\n    UnicodeString copy(srcChars, srcLength);\n    if (copy.isBogus()) {\n      setToBogus();\n      return *this;\n    }\n    return doAppend(copy.getArrayStart(), 0, srcLength);\n  }\n\n  // optimize append() onto a large-enough, owned string\n  if((newLength <= getCapacity() && isBufferWritable()) ||\n      cloneArrayIfNeeded(newLength, getGrowCapacity(newLength))) {\n    UChar *newArray = getArrayStart();\n    // Do not copy characters when\n    //   UChar *buffer=str.getAppendBuffer(...);\n    // is followed by\n    //   str.append(buffer, length);\n    // or\n    //   str.appendString(buffer, length)\n    // or similar.\n    if(srcChars != newArray + oldLength) {\n      us_arrayCopy(srcChars, 0, newArray, oldLength, srcLength);\n    }\n    setLength(newLength);\n  }\n  return *this;\n}",
+  "diff_func": "@@ -1563,7 +1563,11 @@ UnicodeString::doAppend(const UChar *srcChars, int32_t srcStart, int32_t srcLeng\n   }\n \n   int32_t oldLength = length();\n-  int32_t newLength = oldLength + srcLength;\n+  int32_t newLength;\n+  if (uprv_add32_overflow(oldLength, srcLength, &newLength)) {\n+    setToBogus();\n+    return *this;\n+  }\n \n   // Check for append onto ourself\n   const UChar* oldArray = getArrayStart();",
+  "func": "UnicodeString::doAppend(const UChar *srcChars, int32_t srcStart, int32_t srcLength) {\n  if(!isWritable() || srcLength == 0 || srcChars == NULL) {\n    return *this;\n  }\n\n  // Perform all remaining operations relative to srcChars + srcStart.\n  // From this point forward, do not use srcStart.\n  srcChars += srcStart;\n\n  if(srcLength < 0) {\n    // get the srcLength if necessary\n    if((srcLength = u_strlen(srcChars)) == 0) {\n      return *this;\n    }\n  }\n\n  int32_t oldLength = length();\n  int32_t newLength = oldLength + srcLength;\n\n  // Check for append onto ourself\n  const UChar* oldArray = getArrayStart();\n  if (isBufferWritable() &&\n      oldArray < srcChars + srcLength &&\n      srcChars < oldArray + oldLength) {\n    // Copy into a new UnicodeString and start over\n    UnicodeString copy(srcChars, srcLength);\n    if (copy.isBogus()) {\n      setToBogus();\n      return *this;\n    }\n    return doAppend(copy.getArrayStart(), 0, srcLength);\n  }\n\n  // optimize append() onto a large-enough, owned string\n  if((newLength <= getCapacity() && isBufferWritable()) ||\n      cloneArrayIfNeeded(newLength, getGrowCapacity(newLength))) {\n    UChar *newArray = getArrayStart();\n    // Do not copy characters when\n    //   UChar *buffer=str.getAppendBuffer(...);\n    // is followed by\n    //   str.append(buffer, length);\n    // or\n    //   str.appendString(buffer, length)\n    // or similar.\n    if(srcChars != newArray + oldLength) {\n      us_arrayCopy(srcChars, 0, newArray, oldLength, srcLength);\n    }\n    setLength(newLength);\n  }\n  return *this;\n}",
+  "project": "icu",
+  "hash": 78872655036842327692103499513475894622,
+  "size": 51,
+  "commit_id": "b7d08bc04a4296982fcef8b6b8a354a9e4e7afca",
+  "message": "ICU-20958 Prevent SEGV_MAPERR in append\n\nSee #971",
+  "target": 1,
+  "dataset": "other",
+  "idx": 210237
+}

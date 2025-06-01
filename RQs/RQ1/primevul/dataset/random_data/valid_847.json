@@ -1,0 +1,23 @@
+{
+  "id": 847,
+  "language": "c",
+  "cwe": "",
+  "commit_url": "https://github.com/sailfishos-mirror/util-linux/commit/57202f5713afa2af20ffbb6ab5331481d0396f8d",
+  "commit_sha": "57202f5713afa2af20ffbb6ab5331481d0396f8d",
+  "commit_msg": "libmount: fix UID check for FUSE umount [CVE-2021-3995]\n\nImproper UID check allows an unprivileged user to unmount FUSE\nfilesystems of users with similar UID.\n\nSigned-off-by: Karel Zak <kzak@redhat.com>",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "libmount/src/context_umount.c",
+  "func_name": "",
+  "raw_func_from_json": "static int is_fuse_usermount(struct libmnt_context *cxt, int *errsv)\n{\n\tstruct libmnt_ns *ns_old;\n\tconst char *type = mnt_fs_get_fstype(cxt->fs);\n\tconst char *optstr;\n\tchar *user_id = NULL;\n\tsize_t sz;\n\tuid_t uid;\n\tchar uidstr[sizeof(stringify_value(ULONG_MAX))];\n\n\t*errsv = 0;\n\n\tif (!type)\n\t\treturn 0;\n\n\tif (strcmp(type, \"fuse\") != 0 &&\n\t    strcmp(type, \"fuseblk\") != 0 &&\n\t    strncmp(type, \"fuse.\", 5) != 0 &&\n\t    strncmp(type, \"fuseblk.\", 8) != 0)\n\t\treturn 0;\n\n\t/* get user_id= from mount table */\n\toptstr = mnt_fs_get_fs_options(cxt->fs);\n\tif (!optstr)\n\t\treturn 0;\n\n\tif (mnt_optstr_get_option(optstr, \"user_id\", &user_id, &sz) != 0)\n\t\treturn 0;\n\n\tif (sz == 0 || user_id == NULL)\n\t\treturn 0;\n\n\t/* get current user */\n\tns_old = mnt_context_switch_origin_ns(cxt);\n\tif (!ns_old) {\n\t\t*errsv = -MNT_ERR_NAMESPACE;\n\t\treturn 0;\n\t}\n\n\tuid = getuid();\n\n\tif (!mnt_context_switch_ns(cxt, ns_old)) {\n\t\t*errsv = -MNT_ERR_NAMESPACE;\n\t\treturn 0;\n\t}\n\n\tsnprintf(uidstr, sizeof(uidstr), \"%lu\", (unsigned long) uid);\n\treturn strncmp(user_id, uidstr, sz) == 0;\n}",
+  "diff_func": "@@ -452,10 +452,7 @@ static int is_fuse_usermount(struct libmnt_context *cxt, int *errsv)\n \tstruct libmnt_ns *ns_old;\n \tconst char *type = mnt_fs_get_fstype(cxt->fs);\n \tconst char *optstr;\n-\tchar *user_id = NULL;\n-\tsize_t sz;\n-\tuid_t uid;\n-\tchar uidstr[sizeof(stringify_value(ULONG_MAX))];\n+\tuid_t uid, entry_uid;\n \n \t*errsv = 0;\n \n@@ -472,11 +469,7 @@ static int is_fuse_usermount(struct libmnt_context *cxt, int *errsv)\n \toptstr = mnt_fs_get_fs_options(cxt->fs);\n \tif (!optstr)\n \t\treturn 0;\n-\n-\tif (mnt_optstr_get_option(optstr, \"user_id\", &user_id, &sz) != 0)\n-\t\treturn 0;\n-\n-\tif (sz == 0 || user_id == NULL)\n+\tif (mnt_optstr_get_uid(optstr, \"user_id\", &entry_uid) != 0)\n \t\treturn 0;\n \n \t/* get current user */\n@@ -493,8 +486,7 @@ static int is_fuse_usermount(struct libmnt_context *cxt, int *errsv)\n \t\treturn 0;\n \t}\n \n-\tsnprintf(uidstr, sizeof(uidstr), \"%lu\", (unsigned long) uid);\n-\treturn strncmp(user_id, uidstr, sz) == 0;\n+\treturn uid == entry_uid;\n }\n \n /*",
+  "func": "static int is_fuse_usermount(struct libmnt_context *cxt, int *errsv)\n{\n\tstruct libmnt_ns *ns_old;\n\tconst char *type = mnt_fs_get_fstype(cxt->fs);\n\tconst char *optstr;\n\tchar *user_id = NULL;\n\tsize_t sz;\n\tuid_t uid;\n\tchar uidstr[sizeof(stringify_value(ULONG_MAX))];\n\n\t*errsv = 0;\n\n\tif (!type)\n\t\treturn 0;\n\n\tif (strcmp(type, \"fuse\") != 0 &&\n\t    strcmp(type, \"fuseblk\") != 0 &&\n\t    strncmp(type, \"fuse.\", 5) != 0 &&\n\t    strncmp(type, \"fuseblk.\", 8) != 0)\n\t\treturn 0;\n\n\t/* get user_id= from mount table */\n\toptstr = mnt_fs_get_fs_options(cxt->fs);\n\tif (!optstr)\n\t\treturn 0;\n\n\tif (mnt_optstr_get_option(optstr, \"user_id\", &user_id, &sz) != 0)\n\t\treturn 0;\n\n\tif (sz == 0 || user_id == NULL)\n\t\treturn 0;\n\n\t/* get current user */\n\tns_old = mnt_context_switch_origin_ns(cxt);\n\tif (!ns_old) {\n\t\t*errsv = -MNT_ERR_NAMESPACE;\n\t\treturn 0;\n\t}\n\n\tuid = getuid();\n\n\tif (!mnt_context_switch_ns(cxt, ns_old)) {\n\t\t*errsv = -MNT_ERR_NAMESPACE;\n\t\treturn 0;\n\t}\n\n\tsnprintf(uidstr, sizeof(uidstr), \"%lu\", (unsigned long) uid);\n\treturn strncmp(user_id, uidstr, sz) == 0;\n}",
+  "project": "util-linux",
+  "hash": 210310102417734751354249196559456080186,
+  "size": 49,
+  "commit_id": "57202f5713afa2af20ffbb6ab5331481d0396f8d",
+  "message": "libmount: fix UID check for FUSE umount [CVE-2021-3995]\n\nImproper UID check allows an unprivileged user to unmount FUSE\nfilesystems of users with similar UID.\n\nSigned-off-by: Karel Zak <kzak@redhat.com>",
+  "target": 1,
+  "dataset": "other",
+  "idx": 208443
+}

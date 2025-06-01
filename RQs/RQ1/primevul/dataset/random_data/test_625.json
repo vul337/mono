@@ -1,0 +1,23 @@
+{
+  "id": 625,
+  "language": "txt",
+  "cwe": "",
+  "commit_url": "https://github.com/SyKM666/lsquic_vegas/commit/a74702c630e108125e71898398737baec8f02238",
+  "commit_sha": "a74702c630e108125e71898398737baec8f02238",
+  "commit_msg": "Release 3.1.0",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "APIs.txt",
+  "func_name": "",
+  "raw_func_from_json": "lsquic_qeh_settings (struct qpack_enc_hdl *qeh, unsigned max_table_size,\n             unsigned dyn_table_size, unsigned max_risked_streams, int server)\n{\n    enum lsqpack_enc_opts enc_opts;\n\n    assert(qeh->qeh_flags & QEH_INITIALIZED);\n\n    if (qeh->qeh_flags & QEH_HAVE_SETTINGS)\n    {\n        LSQ_WARN(\"settings already set\");\n        return -1;\n    }\n\n    enc_opts = LSQPACK_ENC_OPT_STAGE_2\n             | (server ? LSQPACK_ENC_OPT_SERVER : 0);\n    qeh->qeh_tsu_sz = sizeof(qeh->qeh_tsu_buf);\n    if (0 != lsqpack_enc_init(&qeh->qeh_encoder, (void *) qeh->qeh_conn,\n                max_table_size, dyn_table_size, max_risked_streams, enc_opts,\n                qeh->qeh_tsu_buf, &qeh->qeh_tsu_sz))\n    {\n        LSQ_INFO(\"could not initialize QPACK encoder\");\n        return -1;\n    }\n    LSQ_DEBUG(\"%zu-byte post-init TSU\", qeh->qeh_tsu_sz);\n    qeh->qeh_flags |= QEH_HAVE_SETTINGS;\n    qeh->qeh_max_prefix_size =\n                        lsqpack_enc_header_block_prefix_size(&qeh->qeh_encoder);\n    LSQ_DEBUG(\"have settings: max table size=%u; dyn table size=%u; max risked \"\n        \"streams=%u\", max_table_size, dyn_table_size, max_risked_streams);\n    if (qeh->qeh_enc_sm_out)\n        qeh_begin_out(qeh);\n    return 0;\n}",
+  "diff_func": "@@ -1,4 +1,4 @@\n-# Copyright (c) 2017 - 2021 LiteSpeed Technologies Inc.  See LICENSE.\n+# Copyright (c) 2017 - 2022 LiteSpeed Technologies Inc.  See LICENSE.\n LSQUIC APIs\n ===========\n ",
+  "func": "lsquic_qeh_settings (struct qpack_enc_hdl *qeh, unsigned max_table_size,\n             unsigned dyn_table_size, unsigned max_risked_streams, int server)\n{\n    enum lsqpack_enc_opts enc_opts;\n\n    assert(qeh->qeh_flags & QEH_INITIALIZED);\n\n    if (qeh->qeh_flags & QEH_HAVE_SETTINGS)\n    {\n        LSQ_WARN(\"settings already set\");\n        return -1;\n    }\n\n    enc_opts = LSQPACK_ENC_OPT_STAGE_2\n             | (server ? LSQPACK_ENC_OPT_SERVER : 0);\n    qeh->qeh_tsu_sz = sizeof(qeh->qeh_tsu_buf);\n    if (0 != lsqpack_enc_init(&qeh->qeh_encoder, (void *) qeh->qeh_conn,\n                max_table_size, dyn_table_size, max_risked_streams, enc_opts,\n                qeh->qeh_tsu_buf, &qeh->qeh_tsu_sz))\n    {\n        LSQ_INFO(\"could not initialize QPACK encoder\");\n        return -1;\n    }\n    LSQ_DEBUG(\"%zu-byte post-init TSU\", qeh->qeh_tsu_sz);\n    qeh->qeh_flags |= QEH_HAVE_SETTINGS;\n    qeh->qeh_max_prefix_size =\n                        lsqpack_enc_header_block_prefix_size(&qeh->qeh_encoder);\n    LSQ_DEBUG(\"have settings: max table size=%u; dyn table size=%u; max risked \"\n        \"streams=%u\", max_table_size, dyn_table_size, max_risked_streams);\n    if (qeh->qeh_enc_sm_out)\n        qeh_begin_out(qeh);\n    return 0;\n}",
+  "project": "lsquic",
+  "hash": 288925027585735265622903529553530375426,
+  "size": 33,
+  "commit_id": "a74702c630e108125e71898398737baec8f02238",
+  "message": "Release 3.1.0",
+  "target": 1,
+  "dataset": "other",
+  "idx": 196276
+}

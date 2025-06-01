@@ -1,0 +1,15 @@
+{
+  "id": 4475,
+  "language": "C/C++",
+  "commit_url": "https://github.com/php/php-src/commit/7245bff300d3fa8bacbef7897ff080a6f1c23eba",
+  "commit_sha": "7245bff300d3fa8bacbef7897ff080a6f1c23eba",
+  "commit_msg": "Fix bug #72262 - do not overflow int",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "ext/spl/spl_directory.c",
+  "func_name": "spl_filesystem_dir_it_current_data",
+  "func_before": "static void spl_filesystem_dir_it_current_data(zend_object_iterator *iter, zval ***data TSRMLS_DC)\n{\n\tspl_filesystem_iterator *iterator = (spl_filesystem_iterator *)iter;\n\t\n\t*data = &iterator->current;\n}",
+  "func_after": "static void spl_filesystem_dir_it_current_data(zend_object_iterator *iter, zval ***data TSRMLS_DC)\n{\n\tspl_filesystem_iterator *iterator = (spl_filesystem_iterator *)iter;\n\n\t*data = &iterator->current;\n}",
+  "diff_func": "--- func_before\n+++ func_after\n static void spl_filesystem_dir_it_current_data(zend_object_iterator *iter, zval ***data TSRMLS_DC)\n {\n \tspl_filesystem_iterator *iterator = (spl_filesystem_iterator *)iter;\n-\t\n+\n \t*data = &iterator->current;\n }",
+  "diff_source": "custom"
+}

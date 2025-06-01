@@ -1,0 +1,25 @@
+{
+  "id": 1172,
+  "language": "unknown",
+  "cwe": [
+    "CWE-310"
+  ],
+  "commit_url": "https://github.com/BrendanEMahon/nettle/commit/c71d2c9d20eeebb985e3872e4550137209e3ce4d",
+  "commit_sha": "c71d2c9d20eeebb985e3872e4550137209e3ce4d",
+  "commit_msg": "Fixed miscomputation bugs in secp-256r1 modulo functions.",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "ChangeLog",
+  "func_name": "",
+  "raw_func_from_json": "ecc_256_modp (const struct ecc_modulo *p, mp_limb_t *rp)\n{\n  mp_limb_t u1, u0;\n  mp_size_t n;\n\n  n = 2*p->size;\n  u1 = rp[--n];\n  u0 = rp[n-1];\n\n  /* This is not particularly fast, but should work well with assembly implementation. */\n  for (; n >= p->size; n--)\n    {\n      mp_limb_t q2, q1, q0, t, cy;\n\n      /* <q2, q1, q0> = v * u1 + <u1,u0>, with v = 2^32 - 1:\n\n\t   +---+---+\n\t   | u1| u0|\n\t   +---+---+\n\t       |-u1|\n\t     +-+-+-+\n\t     | u1|\n       +---+-+-+-+-+\n       | q2| q1| q0|\n       +---+---+---+\n      */\n      q1 = u1 - (u1 > u0);\n      q0 = u0 - u1;\n      t = u1 << 32;\n      q0 += t;\n      t = (u1 >> 32) + (q0 < t) + 1;\n      q1 += t;\n      q2 = q1 < t;\n\n      /* Compute candidate remainder */\n      u1 = u0 + (q1 << 32) - q1;\n      t = -(mp_limb_t) (u1 > q0);\n      u1 -= t & 0xffffffff;\n      q1 += t;\n      q2 += t + (q1 < t);\n\n      assert (q2 < 2);\n\n      /* We multiply by two low limbs of p, 2^96 - 1, so we could use\n\t shifts rather than mul. */\n      t = mpn_submul_1 (rp + n - 4, p->m, 2, q1);\n      t += cnd_sub_n (q2, rp + n - 3, p->m, 1);\n      t += (-q2) & 0xffffffff;\n\n      u0 = rp[n-2];\n      cy = (u0 < t);\n      u0 -= t;\n      t = (u1 < cy);\n      u1 -= cy;\n      u1 += cnd_add_n (t, rp + n - 4, p->m, 3);\n      u1 -= (-t) & 0xffffffff;\n    }\n  rp[2] = u0;\n  rp[3] = u1;\n}",
+  "diff_func": "@@ -1,3 +1,9 @@\n+2015-12-10  Niels Möller  <nisse@lysator.liu.se>\n+\n+\t* ecc-256.c (ecc_256_modp): Fixed carry propagation bug. Problem\n+\treported by Hanno Böck.\n+\t(ecc_256_modq): Fixed another carry propagation bug.\n+\n 2015-11-23  Niels Möller  <nisse@lysator.liu.se>\n \n \t* nettle.texinfo: Document rsa_encrypt, rsa_decrypt and",
+  "func": "ecc_256_modp (const struct ecc_modulo *p, mp_limb_t *rp)\n{\n  mp_limb_t u1, u0;\n  mp_size_t n;\n\n  n = 2*p->size;\n  u1 = rp[--n];\n  u0 = rp[n-1];\n\n  /* This is not particularly fast, but should work well with assembly implementation. */\n  for (; n >= p->size; n--)\n    {\n      mp_limb_t q2, q1, q0, t, cy;\n\n      /* <q2, q1, q0> = v * u1 + <u1,u0>, with v = 2^32 - 1:\n\n\t   +---+---+\n\t   | u1| u0|\n\t   +---+---+\n\t       |-u1|\n\t     +-+-+-+\n\t     | u1|\n       +---+-+-+-+-+\n       | q2| q1| q0|\n       +---+---+---+\n      */\n      q1 = u1 - (u1 > u0);\n      q0 = u0 - u1;\n      t = u1 << 32;\n      q0 += t;\n      t = (u1 >> 32) + (q0 < t) + 1;\n      q1 += t;\n      q2 = q1 < t;\n\n      /* Compute candidate remainder */\n      u1 = u0 + (q1 << 32) - q1;\n      t = -(mp_limb_t) (u1 > q0);\n      u1 -= t & 0xffffffff;\n      q1 += t;\n      q2 += t + (q1 < t);\n\n      assert (q2 < 2);\n\n      /* We multiply by two low limbs of p, 2^96 - 1, so we could use\n\t shifts rather than mul. */\n      t = mpn_submul_1 (rp + n - 4, p->m, 2, q1);\n      t += cnd_sub_n (q2, rp + n - 3, p->m, 1);\n      t += (-q2) & 0xffffffff;\n\n      u0 = rp[n-2];\n      cy = (u0 < t);\n      u0 -= t;\n      t = (u1 < cy);\n      u1 -= cy;\n      u1 += cnd_add_n (t, rp + n - 4, p->m, 3);\n      u1 -= (-t) & 0xffffffff;\n    }\n  rp[2] = u0;\n  rp[3] = u1;\n}",
+  "target": 1,
+  "project": "nettle",
+  "commit_id": "c71d2c9d20eeebb985e3872e4550137209e3ce4d",
+  "hash": 177459790284134415640388177650830838743,
+  "size": 60,
+  "message": "Fixed miscomputation bugs in secp-256r1 modulo functions.",
+  "dataset": "other",
+  "idx": 215948
+}

@@ -1,0 +1,18 @@
+{
+  "id": 2142,
+  "language": "Java",
+  "commit_url": "https://github.com/UniTime/unitime/commit/226836050b7941fe1a1d0fdfe17ccaf1071d82e1",
+  "commit_sha": "226836050b7941fe1a1d0fdfe17ccaf1071d82e1",
+  "commit_msg": "Added Support for JDK 16+\n\n- various dependencies updated to avoid illegal access exceptions\n\n- Spring core libraries updated to version 5.3.6 (was 4.3.40)\n  - Jackson updated to 2.11.3 (was 2.6.1)\n- Spring security updated to 5.4.6 (was 4.2.20)\n  - MD5 password encoder provided (MD5 is no longer available out of the box in Spring security)\n- Spring integration updated to 5.4.6 (was 4.3.24)\n\n- MemoryCounter updated to avoid illegal access calls (using the Unsafe access instead)\n\n- this change also removes the dependency on Spring Framework 4 that has reached its end of life in December 31, 2020\n- this also fixes a Spring Security vulnerability CVE-2021-22112 (high severity)",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "JavaSource/org/unitime/timetable/server/PasswordChangeBackend.java",
+  "func_name": "encode",
+  "func_before": "private static String encode(String password) {\n\t\treturn new MessageDigestPasswordEncoder(\"MD5\", true).encodePassword(password, null);\n\t}",
+  "func_after": "private static String encode(String password) {\n\t\treturn MD5PasswordEncoder.getEncodedPassword(password);\n\t}",
+  "diff_func": "--- func_before\n+++ func_after\n private static String encode(String password) {\n-\t\treturn new MessageDigestPasswordEncoder(\"MD5\", true).encodePassword(password, null);\n+\t\treturn MD5PasswordEncoder.getEncodedPassword(password);\n \t}",
+  "diff_source": "custom",
+  "Bug Filter": "Security Vulnerability Fix\nConfidence Score: 1.0",
+  "Bug Filter Confidence": 1.0,
+  "Bug Filter Response": "\n\n**Final Output:**\nAnalysis: The patch addresses a high-severity security vulnerability (CVE-2021-22112) by updating Spring Security and related dependencies. The code change modifies the password encoding method to use a secure alternative, confirming a security fix.\nFinal Classification: Security Vulnerability Fix\nConfidence Score: 1.0"
+}

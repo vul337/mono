@@ -1,0 +1,145 @@
+# FULL TOOLS | STRICT 
+root_cause_analysis_prompt_rigorous: |
+  You are a senior security engineer. Using **all available code context**, build the **complete, evidence-backed root-cause and trigger chain** for the vulnerability.
+
+  ## INPUTS
+  - **Commit Message**: {msg}
+  - **Vulnerability Description**: {description}
+  - **Patch Code**: {patch}
+  - **History Summary (all prior context & analysis)**: {history_summary}
+
+  ## INSTRUCTIONS
+  1. **Review & Integrate Context** 
+    Review all `history_summary` (*incl. past analysis and request results*) 
+
+  2. **Extend Chain from Code**  
+     Trace calls / data flow step-by-step, citing `file:line` for each fact.  
+     Where evidence ends, insert  
+     `GAP: <why evidence stops>`.
+
+  3. **Request Missing Context**  
+     If any critical gap remains:  
+       * Always request context and set `"need_context": true`. 
+       * Add precise, non-duplicate requests to `"required_context"` using the following types:  
+        `function`, `code`(req file, specific line range, e.g., 145-155),`caller`, `value` (trace definition/init/type of variable/structure member, req file path) `e.g. caller: I need the caller of function X in file Y`.
+        **DO NOT** request the new patch code.
+       * Try alternative parameters or request types for gaps previously unfulfilled.  
+     If the chain is fully evidenced, set `"need_context": false`.
+
+  4. **Score Confidence**  
+     *Full chain with direct evidence* ≥ 0.90.  Incomplete chain ≤ 0.75.
+
+  ## OUTPUT  (JSON only, no trailing commas)
+    ```json
+    {{
+        "analysis": "Summary of iteration progress, remaining gaps, explanation for new context requests (if any). If complete, summarize the full chain.",
+        "need_context": true/false, 
+        "required_context": "<list of precise context requests>" ,
+        "root_cause": "<Partial/complete trace with file:line evidence from ALL available context>",
+        "confidence_score": 0.0-1.0
+        // attack_vectors added when confidence >= 0.90 AND need_context is False
+    }}
+    ```
+    ## RULES
+    * Output must be valid JSON.
+    * **Source-of-Truth** – Only accept facts visible in code (file:line). Commit message & description are auxiliary.
+    * **Reject every hypothesis or inference** - When evidence is missing, always declare a GAP and request the needed context.
+    * **Stop Condition** – Terminate only when the trigger chain is fully evidenced from existing context; otherwise keep requesting additional context.
+    
+
+# FULL TOOLS | BALANCED
+root_cause_analysis_prompt_pragmatic: |
+    You are a senior security engineer. Your task is to determine the **complete root cause and trigger chain** using **strict code evidence** from **all available context**. Iteratively extend the trace, **allowing reasoned inference for gaps and accepting that some context may be unobtainable**, until the chain is complete or no further viable context can be retrieved for critical gaps *without allowing unreasonable persistence*.
+
+    ## Inputs
+    - **Commit Message**: {msg}
+    - **Vulnerability Description**: {description}
+    - **Patch Code**: {patch}
+    - **Analysis History and All Context**: {history_summary}
+
+    ## Analysis Steps
+    
+    Perform these steps in each iteration:
+
+    1.  **Review & Integrate Context:** Review all `history_summary` (*incl. past request results*). 
+
+    2.  **Extend Trace & Identify Gaps:** Extend the `root_cause` trace using *all* available code evidence (`file:line`). For unevidenced `GAP`s, **provide a reasoned hypothesis** based on available context, marking it as `UNCERTIFIED`. Identify remaining **critical gaps** in the **core trigger chain**.
+
+    3.  **Synthesize & Determine Needs:**
+        * Synthesize current understanding.
+        * **Determine Need & Requests:** Assess if chain is **complete & fully evidenced** with *all available context*.
+            * **IF Complete:** `root_cause` is complete, evidenced chain.
+            * **IF NOT Complete:** For each **remaining critical gap**, identify needed context. **Check history:** If context for *this critical gap* previously failed or yielded limited results (e.g., after initial attempt or limited alternatives), **DO NOT** add *any* request for this specific gap to `required_context`; instead, note this critical gap as **unobtainable** in `analysis` and rely on reasoned hypothesis in `root_cause`.
+            * If context for a critical gap has **not** previously failed/limited, formulate the request. Try a *single* viable alternative strategy if the primary approach for this gap failed in the last iteration.
+            * Populate `required_context` with requests passing history check (only for gaps not marked as unobtainable). Types: `function`, `code` (req `file`, specific line range, e.g., 145-155), `caller`, `value` (trace definition/init/type of variable/structure member, req `file path`). **No new patch code/peripheral.**
+        * In `analysis`: Summarize progress, remaining gaps (*mention unobtainable ones*), explain *why* requests (if any) needed for specific gaps.
+
+    4.  **Assess Confidence & Output:** Assess confidence (0.0-1.0) in *fully evidenced* path based on *all* available context. Confidence should be lower for parts relying on reasoned hypotheses (`UNCERTIFIED`). If complete in Step 2, confidence >= 0.90. Generate JSON output.
+
+    ## Output Format (JSON)
+    ```json
+    {{
+        "analysis": "Summary of iteration progress, remaining gaps (mentioning unobtainable ones), explanation for new context requests (if any). If complete, summarize the full chain.",
+        "need_context": "True | False", // False if complete & evidenced OR if critical gaps remain but were marked as unobtainable (due to limited persistence). True otherwise.
+        "required_context": "<list of precise context requests from Step 3 (will be [] if need_context is False)>" ,
+        "root_cause": "<Partial/complete trace with file:line evidence from ALL available context. Note gaps and include reasoned hypotheses marked as UNCERTIFIED. If complete, provide the full evidenced chain.>",
+        "confidence_score": 0.0-1.0 // Confidence based on fully evidenced path, reduced by reliance on UNCERTIFIED sections.
+        // attack_vectors added when confidence >= 0.90 AND need_context is False
+    }}
+    ```
+
+    ## Rules
+    * Output must be valid JSON.
+    * All statements about code/flow *asserted as fact* must be supported by `file:line` citations from **ALL available code context**.
+    * **Primary Source of Truth:** Trace steps *derived as fact* must be from code. Msg/Desc are *auxiliary*.
+    * **Pragmatic Deduction:** You **ARE allowed to provide reasoned hypotheses (UNCERTIFIED)** for gaps where direct code evidence is missing.
+    * **Pragmatic Acquisition:** Check history. If context for a critical gap failed or yielded limited results, **mark it as unobtainable and DO NOT request it again**. Do not engage in excessive alternative request attempts for a single failing gap.
+
+root_cause_analysis_prompt_limited_rigorous: |
+  You are a senior security engineer. Using **all available code context**, build the **complete, evidence-backed root-cause and trigger chain** for the vulnerability.
+
+  ## INPUTS
+  - **Commit Message**: {msg}
+  - **Vulnerability Description**: {description}
+  - **Patch Code**: {patch}
+  - **History Summary (all prior context & analysis)**: {history_summary}
+
+  ## INSTRUCTIONS
+  1. **Review & Integrate Context** 
+    Review all `history_summary` (*incl. past analysis and request results*) 
+
+  2. **Extend Chain from Code**  
+     Trace calls / data flow step-by-step, citing `file:line` for each fact.  
+     Where evidence ends, insert  
+     `GAP: <why evidence stops>`.
+
+  3. **Request Missing Context**  
+     If any critical gap remains:  
+       * Always request context and set `"need_context": true`. 
+       * Add precise, non-duplicate requests to `"required_context"` using the following types:  
+        `function`, `caller`, `e.g. caller: I need the caller of function X in file Y`.
+        **DO NOT** request the new patch code.
+       * Try alternative parameters or request types for gaps previously unfulfilled.  
+     If the chain is fully evidenced, set `"need_context": false`.
+
+  4. **Score Confidence**  
+     *Full chain with direct evidence* ≥ 0.90.  Incomplete chain ≤ 0.75.
+
+  ## OUTPUT  (JSON only, no trailing commas)
+    ```json
+    {{
+        "analysis": "Summary of iteration progress, remaining gaps, explanation for new context requests (if any). If complete, summarize the full chain.",
+        "need_context": true/false, 
+        "required_context": "<list of precise context requests>" ,
+        "root_cause": "<Partial/complete trace with file:line evidence from ALL available context>",
+        "confidence_score": 0.0-1.0
+        // attack_vectors added when confidence >= 0.90 AND need_context is False
+    }}
+    ```
+    ## RULES
+    * Output must be valid JSON.
+    * **Source-of-Truth** – Only accept facts visible in code (file:line). Commit message & description are auxiliary.
+    * **Reject every hypothesis or inference** - When evidence is missing, always declare a GAP and request the needed context.
+    * **Tool Restriction** – `required_context` items **must** be of type `function` or `caller` only.
+    * **Stop Condition** – Terminate only when the trigger chain is fully evidenced from the patch; else continue requesting context.
+

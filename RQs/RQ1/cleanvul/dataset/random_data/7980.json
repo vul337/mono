@@ -1,0 +1,15 @@
+{
+  "id": 7980,
+  "language": "JavaScript",
+  "commit_url": "https://github.com/snipe/snipe-it/commit/fc5efd857f61f7e45c61db567bb66612bcb53128",
+  "commit_sha": "fc5efd857f61f7e45c61db567bb66612bcb53128",
+  "commit_msg": "Merge pull request #10171 from snipe/fixes/xss_svg_in_file_uploads\n\nFixed SVG XSS vuln",
+  "pr_url": "https://github.com/snipe/snipe-it/pull/10171",
+  "pr_info": "This fixes an SVG XSS vulnerability where a user who is authorized to upload user, asset, or license files could potentially upload poisoned SVG files. We sanitize SVGs on item image uploads, but were not doing that for regular files. \r\n\r\nThis was reported [here on Huntr.dev](https://huntr.dev/bounties/1dbc8d79-1b53-44a3-a576-faec78f29ba0/).\r\n\r\nIt's a little copypasta, if I'm honest, and we should probably create a method/request to handle this instead moving forward, but this should solve the issue for now. ",
+  "file_name": "public/js/build/app.js",
+  "func_name": "notify",
+  "func_before": "function bt(t,e,n){if(Array.isArray(t)&&u(e))return t.length=Math.max(t.length,e),t.splice(e,1,n),n;if(m(t,e))return t[e]=n,n;var r=t.__ob__;return t._isVue||r&&r.vmCount?n:r?(_t(r.value,e,n),r.dep.notify(),n):(t[e]=n,n)}",
+  "func_after": "function bt(t,e,n){var r=e.dir,i=e.next,o=i||r,s=n&&\"parentNode\"===o,a=C++;return e.first?function(e,n,i){for(;e=e[r];)if(1===e.nodeType||s)return t(e,n,i);return!1}:function(e,n,l){var u,c,f,d=[x,a];if(l){for(;e=e[r];)if((1===e.nodeType||s)&&t(e,n,l))return!0}else for(;e=e[r];)if(1===e.nodeType||s)if(c=(f=e[b]||(e[b]={}))[e.uniqueID]||(f[e.uniqueID]={}),i&&i===e.nodeName.toLowerCase())e=e[r]||e;else{if((u=c[o])&&u[0]===x&&u[1]===a)return d[2]=u[2];if(c[o]=d,d[2]=t(e,n,l))return!0}return!1}}",
+  "diff_func": "--- func_before\n+++ func_after\n-function bt(t,e,n){if(Array.isArray(t)&&u(e))return t.length=Math.max(t.length,e),t.splice(e,1,n),n;if(m(t,e))return t[e]=n,n;var r=t.__ob__;return t._isVue||r&&r.vmCount?n:r?(_t(r.value,e,n),r.dep.notify(),n):(t[e]=n,n)}\n+function bt(t,e,n){var r=e.dir,i=e.next,o=i||r,s=n&&\"parentNode\"===o,a=C++;return e.first?function(e,n,i){for(;e=e[r];)if(1===e.nodeType||s)return t(e,n,i);return!1}:function(e,n,l){var u,c,f,d=[x,a];if(l){for(;e=e[r];)if((1===e.nodeType||s)&&t(e,n,l))return!0}else for(;e=e[r];)if(1===e.nodeType||s)if(c=(f=e[b]||(e[b]={}))[e.uniqueID]||(f[e.uniqueID]={}),i&&i===e.nodeName.toLowerCase())e=e[r]||e;else{if((u=c[o])&&u[0]===x&&u[1]===a)return d[2]=u[2];if(c[o]=d,d[2]=t(e,n,l))return!0}return!1}}",
+  "diff_source": "custom"
+}

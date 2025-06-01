@@ -1,0 +1,21 @@
+{
+  "id": 1143,
+  "language": "phpt",
+  "cwe": "CWE-125",
+  "commit_url": "https://github.com/dreamsxin/async-php/commit/16b3003ffc6393e250f069aa28a78dc5a2c064b2",
+  "commit_sha": "16b3003ffc6393e250f069aa28a78dc5a2c064b2",
+  "commit_msg": "Fix bug #73825 - Heap out of bounds read on unserialize in finish_nested_data()",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "ext/standard/tests/serialize/bug73825.phpt",
+  "func_name": "",
+  "raw_func_from_json": "static inline long object_common1(UNSERIALIZE_PARAMETER, zend_class_entry *ce)\n {\n \tlong elements;\n \n \telements = parse_iv2((*p) + 2, p);\n \n \t(*p) += 2;\n\n\tif (ce->serialize == NULL) {\n\t\tobject_init_ex(*rval, ce);\n\t} else {\n \t\t/* If this class implements Serializable, it should not land here but in object_custom(). The passed string\n \t\tobviously doesn't descend from the regular serializer. */\n \t\tzend_error(E_WARNING, \"Erroneous data format for unserializing '%s'\", ce->name);\n\t\treturn 0;\n \t}\n \n \treturn elements;\n}\n",
+  "diff_func": "@@ -0,0 +1,12 @@\n+--TEST--\n+Bug #73825 Heap out of bounds read on unserialize in finish_nested_data()\n+--FILE--\n+<?php\n+$obj = unserialize('O:8:\"00000000\":');\n+var_dump($obj);\n+?>\n+--EXPECTF--\n+Warning: Bad unserialize data in %sbug73825.php on line %d\n+\n+Notice: unserialize(): Error at offset 13 of 15 bytes in %sbug73825.php on line %d\n+bool(false)",
+  "project": "php-src",
+  "commit_id": "16b3003ffc6393e250f069aa28a78dc5a2c064b2",
+  "target": 1,
+  "func": "static inline long object_common1(UNSERIALIZE_PARAMETER, zend_class_entry *ce)\n {\n \tlong elements;\n \n \telements = parse_iv2((*p) + 2, p);\n \n \t(*p) += 2;\n\n\tif (ce->serialize == NULL) {\n\t\tobject_init_ex(*rval, ce);\n\t} else {\n \t\t/* If this class implements Serializable, it should not land here but in object_custom(). The passed string\n \t\tobviously doesn't descend from the regular serializer. */\n \t\tzend_error(E_WARNING, \"Erroneous data format for unserializing '%s'\", ce->name);\n\t\treturn 0;\n \t}\n \n \treturn elements;\n}\n",
+  "big_vul_idx": 181686,
+  "idx": 3103,
+  "hash": 67720542164557350274997223908636554464
+}

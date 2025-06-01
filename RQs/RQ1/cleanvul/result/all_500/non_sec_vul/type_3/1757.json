@@ -1,0 +1,18 @@
+{
+  "id": 1757,
+  "language": "Java",
+  "commit_url": "https://github.com/MangoAutomation/ma-core-public/commit/7cc533438f61c35a93bed08d2ea8d23a5e6f1f37",
+  "commit_sha": "7cc533438f61c35a93bed08d2ea8d23a5e6f1f37",
+  "commit_msg": "RAD-2066 Fix authentication clone issue",
+  "pr_url": "https://github.com/MangoAutomation/ma-core-public/pull/1793",
+  "pr_info": "no more info",
+  "file_name": "Core/src/com/serotonin/timer/Task.java",
+  "func_name": "getQueueSize",
+  "func_before": "public int getQueueSize(){\n    \treturn this.queueSize;\n    }",
+  "func_after": "public int getQueueSize() {\n        return this.queueSize;\n    }",
+  "diff_func": "--- func_before\n+++ func_after\n-public int getQueueSize(){\n+public int getQueueSize() {\n-    \treturn this.queueSize;\n+        return this.queueSize;\n     }",
+  "diff_source": "custom",
+  "Bug Filter": "Supporting & Non-Core Improvements",
+  "Bug Filter Confidence": 0.9,
+  "Bug Filter Response": "\n\n**Final Output:**\n\nAnalysis: The commit message suggests a fix for an authentication clone issue, but the code changes only adjust formatting in the `getQueueSize()` method. There's no evidence of a security vulnerability being addressed, as the changes are non-functional.\n\nFinal Classification: Supporting & Non-Core Improvements\n\nConfidence Score: 0.9"
+}

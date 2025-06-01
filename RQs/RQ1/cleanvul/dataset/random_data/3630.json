@@ -1,0 +1,15 @@
+{
+  "id": 3630,
+  "language": "C/C++",
+  "commit_url": "https://github.com/gpac/gpac/commit/bceb03fd2be95097a7b409ea59914f332fb6bc86",
+  "commit_sha": "bceb03fd2be95097a7b409ea59914f332fb6bc86",
+  "commit_msg": "fixed 2 possible heap overflows (inc. #1088)",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "src/isomedia/box_dump.c",
+  "func_name": "hdlr_dump",
+  "func_before": "GF_Err hdlr_dump(GF_Box *a, FILE * trace)\n{\n\tGF_HandlerBox *p = (GF_HandlerBox *)a;\n\tgf_isom_box_dump_start(a, \"HandlerBox\", trace);\n\tif (p->nameUTF8 && (u32) p->nameUTF8[0] == strlen(p->nameUTF8+1)) {\n\t\tfprintf(trace, \"hdlrType=\\\"%s\\\" Name=\\\"%s\\\" \", gf_4cc_to_str(p->handlerType), p->nameUTF8+1);\n\t} else {\n\t\tfprintf(trace, \"hdlrType=\\\"%s\\\" Name=\\\"%s\\\" \", gf_4cc_to_str(p->handlerType), p->nameUTF8);\n\t}\n\tfprintf(trace, \"reserved1=\\\"%d\\\" reserved2=\\\"\", p->reserved1);\n\tdump_data(trace, (char *) p->reserved2, 12);\n\tfprintf(trace, \"\\\"\");\n\n\tfprintf(trace, \">\\n\");\n\tgf_isom_box_dump_done(\"HandlerBox\", a, trace);\n\treturn GF_OK;\n}",
+  "func_after": "GF_Err hdlr_dump(GF_Box *a, FILE * trace)\n{\n\tGF_HandlerBox *p = (GF_HandlerBox *)a;\n\tgf_isom_box_dump_start(a, \"HandlerBox\", trace);\n\tif (p->nameUTF8 && (u32) p->nameUTF8[0] == strlen(p->nameUTF8)-1) {\n\t\tfprintf(trace, \"hdlrType=\\\"%s\\\" Name=\\\"%s\\\" \", gf_4cc_to_str(p->handlerType), p->nameUTF8+1);\n\t} else {\n\t\tfprintf(trace, \"hdlrType=\\\"%s\\\" Name=\\\"%s\\\" \", gf_4cc_to_str(p->handlerType), p->nameUTF8);\n\t}\n\tfprintf(trace, \"reserved1=\\\"%d\\\" reserved2=\\\"\", p->reserved1);\n\tdump_data(trace, (char *) p->reserved2, 12);\n\tfprintf(trace, \"\\\"\");\n\n\tfprintf(trace, \">\\n\");\n\tgf_isom_box_dump_done(\"HandlerBox\", a, trace);\n\treturn GF_OK;\n}",
+  "diff_func": "--- func_before\n+++ func_after\n GF_Err hdlr_dump(GF_Box *a, FILE * trace)\n {\n \tGF_HandlerBox *p = (GF_HandlerBox *)a;\n \tgf_isom_box_dump_start(a, \"HandlerBox\", trace);\n-\tif (p->nameUTF8 && (u32) p->nameUTF8[0] == strlen(p->nameUTF8+1)) {\n+\tif (p->nameUTF8 && (u32) p->nameUTF8[0] == strlen(p->nameUTF8)-1) {\n \t\tfprintf(trace, \"hdlrType=\\\"%s\\\" Name=\\\"%s\\\" \", gf_4cc_to_str(p->handlerType), p->nameUTF8+1);\n \t} else {\n \t\tfprintf(trace, \"hdlrType=\\\"%s\\\" Name=\\\"%s\\\" \", gf_4cc_to_str(p->handlerType), p->nameUTF8);\n \t}\n \tfprintf(trace, \"reserved1=\\\"%d\\\" reserved2=\\\"\", p->reserved1);\n \tdump_data(trace, (char *) p->reserved2, 12);\n \tfprintf(trace, \"\\\"\");\n \n \tfprintf(trace, \">\\n\");\n \tgf_isom_box_dump_done(\"HandlerBox\", a, trace);\n \treturn GF_OK;\n }",
+  "diff_source": "custom"
+}

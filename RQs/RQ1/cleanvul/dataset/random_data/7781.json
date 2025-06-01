@@ -1,0 +1,15 @@
+{
+  "id": 7781,
+  "language": "JavaScript",
+  "commit_url": "https://github.com/oliverschloebe/admin-management-xtended/commit/f94732d222414f10ce015e95b5c7c9fba13a8a20",
+  "commit_sha": "f94732d222414f10ce015e95b5c7c9fba13a8a20",
+  "commit_msg": "2.4.5 Release\n\n* FIXED: WordPress 6.0 compatibility\n* FIXED: CSRF vulnerabilities fixed (https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-29450)",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "js/functions.js",
+  "func_name": "ame_slug_edit",
+  "func_before": "function ame_slug_edit( cat_id, posttype ) {\n\tvar newslug = jQuery(\"input#ame_slug\" + cat_id).prop('value');\n\tvar ame_sack = new sack( ajaxurl );\n\tame_sack.execute = 1;\n\tame_sack.method = 'POST';\n\tame_sack.setVar( \"action\", \"ame_slug_edit\" );\n\tame_sack.setVar( \"col_no\", jQuery('.widefat thead tr th').length );\n\tame_sack.setVar( \"category_id\", cat_id );\n\tame_sack.setVar( \"posttype\", posttype );\n\tame_sack.onError = function() { alert('Ajax error on editing post slug') };\n\tame_sack.runAJAX();\n}",
+  "func_after": "function ame_slug_edit( cat_id, posttype ) {\n\tvar newslug = jQuery(\"input#ame_slug\" + cat_id).prop('value');\n\tvar ame_sack = new sack( ajaxurl );\n\tame_sack.execute = 1;\n\tame_sack.method = 'POST';\n\tame_sack.setVar( \"action\", \"ame_slug_edit\" );\n\tame_sack.setVar( \"security\", ameAjaxSec.ajaxnonce );\n\tame_sack.setVar( \"col_no\", jQuery('.widefat thead tr th').length );\n\tame_sack.setVar( \"category_id\", cat_id );\n\tame_sack.setVar( \"posttype\", posttype );\n\tame_sack.onError = function() { alert('Ajax error on editing post slug') };\n\tame_sack.runAJAX();\n}",
+  "diff_func": "--- func_before\n+++ func_after\n function ame_slug_edit( cat_id, posttype ) {\n \tvar newslug = jQuery(\"input#ame_slug\" + cat_id).prop('value');\n \tvar ame_sack = new sack( ajaxurl );\n \tame_sack.execute = 1;\n \tame_sack.method = 'POST';\n \tame_sack.setVar( \"action\", \"ame_slug_edit\" );\n+\tame_sack.setVar( \"security\", ameAjaxSec.ajaxnonce );\n \tame_sack.setVar( \"col_no\", jQuery('.widefat thead tr th').length );\n \tame_sack.setVar( \"category_id\", cat_id );\n \tame_sack.setVar( \"posttype\", posttype );\n \tame_sack.onError = function() { alert('Ajax error on editing post slug') };\n \tame_sack.runAJAX();\n }",
+  "diff_source": "custom"
+}

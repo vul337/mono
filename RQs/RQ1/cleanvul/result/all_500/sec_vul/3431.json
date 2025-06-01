@@ -1,0 +1,18 @@
+{
+  "id": 3431,
+  "language": "C/C++",
+  "commit_url": "https://github.com/torvalds/linux/commit/9955ac47f4ba1c95ecb6092aeaefb40a22e99268",
+  "commit_sha": "9955ac47f4ba1c95ecb6092aeaefb40a22e99268",
+  "commit_msg": "arm64: don't kill the kernel on a bad esr from el0\n\nRather than completely killing the kernel if we receive an esr value we\ncan't deal with in the el0 handlers, send the process a SIGILL and log\nthe esr value in the hope that we can debug it. If we receive a bad esr\nfrom el1, we'll die() as before.\n\nSigned-off-by: Mark Rutland <mark.rutland@arm.com>\nSigned-off-by: Catalin Marinas <catalin.marinas@arm.com>\nCc: stable@vger.kernel.org",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "arch/arm64/kernel/traps.c",
+  "func_name": "bad_mode",
+  "func_before": "asmlinkage void bad_mode(struct pt_regs *regs, int reason, unsigned int esr)\n{\n\tconsole_verbose();\n\n\tpr_crit(\"Bad mode in %s handler detected, code 0x%08x\\n\",\n\t\thandler[reason], esr);\n\n\tdie(\"Oops - bad mode\", regs, 0);\n\tlocal_irq_disable();\n\tpanic(\"bad mode\");\n}",
+  "func_after": "asmlinkage void bad_mode(struct pt_regs *regs, int reason, unsigned int esr)\n{\n\tsiginfo_t info;\n\tvoid __user *pc = (void __user *)instruction_pointer(regs);\n\tconsole_verbose();\n\n\tpr_crit(\"Bad mode in %s handler detected, code 0x%08x\\n\",\n\t\thandler[reason], esr);\n\t__show_regs(regs);\n\n\tinfo.si_signo = SIGILL;\n\tinfo.si_errno = 0;\n\tinfo.si_code  = ILL_ILLOPC;\n\tinfo.si_addr  = pc;\n\n\tarm64_notify_die(\"Oops - bad mode\", regs, &info, 0);\n}",
+  "diff_func": "--- func_before\n+++ func_after\n asmlinkage void bad_mode(struct pt_regs *regs, int reason, unsigned int esr)\n {\n+\tsiginfo_t info;\n+\tvoid __user *pc = (void __user *)instruction_pointer(regs);\n \tconsole_verbose();\n \n \tpr_crit(\"Bad mode in %s handler detected, code 0x%08x\\n\",\n \t\thandler[reason], esr);\n+\t__show_regs(regs);\n \n+\tinfo.si_signo = SIGILL;\n+\tinfo.si_errno = 0;\n+\tinfo.si_code  = ILL_ILLOPC;\n+\tinfo.si_addr  = pc;\n+\n-\tdie(\"Oops - bad mode\", regs, 0);\n+\tarm64_notify_die(\"Oops - bad mode\", regs, &info, 0);\n-\tlocal_irq_disable();\n-\tpanic(\"bad mode\");\n }",
+  "diff_source": "custom",
+  "Bug Filter": "Security Vulnerability Fix  \nConfidence Score: 0.95",
+  "Bug Filter Confidence": 0.95,
+  "Bug Filter Response": "\n\n**Final Output:**\n\nAnalysis: The patch modifies the kernel's handling of an unhandled ESR from EL0, preventing a kernel panic by sending a SIGILL to the user process. This addresses a potential DoS vulnerability.\n\nFinal Classification: Security Vulnerability Fix  \nConfidence Score: 0.95"
+}

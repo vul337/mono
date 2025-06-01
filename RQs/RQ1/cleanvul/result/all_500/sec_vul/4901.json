@@ -1,0 +1,18 @@
+{
+  "id": 4901,
+  "language": "C/C++",
+  "commit_url": "https://github.com/FFmpeg/FFmpeg/commit/bd27a9364ca274ca97f1df6d984e88a0700fb235",
+  "commit_sha": "bd27a9364ca274ca97f1df6d984e88a0700fb235",
+  "commit_msg": "avcodec/mpeg4videodec: Remove use of FF_PROFILE_MPEG4_SIMPLE_STUDIO as indicator of studio profile\n\nThe profile field is changed by code inside and outside the decoder,\nits not a reliable indicator of the internal codec state.\nMaintaining it consistency with studio_profile is messy.\nIts easier to just avoid it and use only studio_profile\n\nFixes: assertion failure\nFixes: ffmpeg_crash_9.avi\n\nFound-by: Thuan Pham, Marcel Böhme, Andrew Santosa and Alexandru Razvan Caciulescu with AFLSmart\nSigned-off-by: Michael Niedermayer <michael@niedermayer.cc>",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "libavcodec/h263dec.c",
+  "func_name": "h263_get_format",
+  "func_before": "static enum AVPixelFormat h263_get_format(AVCodecContext *avctx)\n{\n    /* MPEG-4 Studio Profile only, not supported by hardware */\n    if (avctx->bits_per_raw_sample > 8) {\n        av_assert1(avctx->profile == FF_PROFILE_MPEG4_SIMPLE_STUDIO);\n        return avctx->pix_fmt;\n    }\n\n    if (avctx->codec->id == AV_CODEC_ID_MSS2)\n        return AV_PIX_FMT_YUV420P;\n\n    if (CONFIG_GRAY && (avctx->flags & AV_CODEC_FLAG_GRAY)) {\n        if (avctx->color_range == AVCOL_RANGE_UNSPECIFIED)\n            avctx->color_range = AVCOL_RANGE_MPEG;\n        return AV_PIX_FMT_GRAY8;\n    }\n\n    return avctx->pix_fmt = ff_get_format(avctx, avctx->codec->pix_fmts);\n}",
+  "func_after": "static enum AVPixelFormat h263_get_format(AVCodecContext *avctx)\n{\n    MpegEncContext *s = avctx->priv_data;\n    /* MPEG-4 Studio Profile only, not supported by hardware */\n    if (avctx->bits_per_raw_sample > 8) {\n        av_assert1(s->studio_profile);\n        return avctx->pix_fmt;\n    }\n\n    if (avctx->codec->id == AV_CODEC_ID_MSS2)\n        return AV_PIX_FMT_YUV420P;\n\n    if (CONFIG_GRAY && (avctx->flags & AV_CODEC_FLAG_GRAY)) {\n        if (avctx->color_range == AVCOL_RANGE_UNSPECIFIED)\n            avctx->color_range = AVCOL_RANGE_MPEG;\n        return AV_PIX_FMT_GRAY8;\n    }\n\n    return avctx->pix_fmt = ff_get_format(avctx, avctx->codec->pix_fmts);\n}",
+  "diff_func": "--- func_before\n+++ func_after\n static enum AVPixelFormat h263_get_format(AVCodecContext *avctx)\n {\n+    MpegEncContext *s = avctx->priv_data;\n     /* MPEG-4 Studio Profile only, not supported by hardware */\n     if (avctx->bits_per_raw_sample > 8) {\n-        av_assert1(avctx->profile == FF_PROFILE_MPEG4_SIMPLE_STUDIO);\n+        av_assert1(s->studio_profile);\n         return avctx->pix_fmt;\n     }\n \n     if (avctx->codec->id == AV_CODEC_ID_MSS2)\n         return AV_PIX_FMT_YUV420P;\n \n     if (CONFIG_GRAY && (avctx->flags & AV_CODEC_FLAG_GRAY)) {\n         if (avctx->color_range == AVCOL_RANGE_UNSPECIFIED)\n             avctx->color_range = AVCOL_RANGE_MPEG;\n         return AV_PIX_FMT_GRAY8;\n     }\n \n     return avctx->pix_fmt = ff_get_format(avctx, avctx->codec->pix_fmts);\n }",
+  "diff_source": "custom",
+  "Bug Filter": "Security Vulnerability Fix**  \n**Confidence Score: 0.9**",
+  "Bug Filter Confidence": 0.9,
+  "Bug Filter Response": "\n\nThe patch addresses an assertion failure causing a crash, which was identified through fuzzing. The code change replaces an unreliable profile check with a more accurate variable, preventing crashes. This likely mitigates a security vulnerability.\n\n**Final Classification: Security Vulnerability Fix**  \n**Confidence Score: 0.9**"
+}

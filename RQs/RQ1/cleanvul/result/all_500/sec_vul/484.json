@@ -1,0 +1,18 @@
+{
+  "id": 484,
+  "language": "Java",
+  "commit_url": "https://github.com/aosp-mirror/platform_frameworks_base/commit/3ba41b36f2f8f9b5253a2e94375515c278128ff9",
+  "commit_sha": "3ba41b36f2f8f9b5253a2e94375515c278128ff9",
+  "commit_msg": "Fix security hole in GateKeeperResponse\n\nGateKeeperResponse has inconsistent writeToParcel() and\ncreateFromParcel() methods, making it possible for a malicious app to\ncreate a Bundle that changes contents after reserialization. Such\nBundles can be used to execute Intents with system privileges.\n\nWe fixed related issues previously for GateKeeperResponse class, but\none of the case was remaining when payload is byte array of size 0,\nFixing this case now.\n\nBug: 220303465\nTest: With the POC provided in the bug.\nChange-Id: Ida28d611edd674e76ed39dd8037f52abcba82586\nMerged-In: Ida28d611edd674e76ed39dd8037f52abcba82586\n\n(cherry picked from commit 46653a91c30245ca29d41d69174813979a910496)\n\nChange-Id: I486348c7a01c6f59c952b20fb4a36429fff22958\n(cherry picked from commit 658c53c47c0d1b6a74d3c0a72372aaaba16c2516)\nMerged-In: I486348c7a01c6f59c952b20fb4a36429fff22958",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "core/java/android/service/gatekeeper/GateKeeperResponse.java",
+  "func_name": "writeToParcel",
+  "func_before": "@Override\n    public void writeToParcel(Parcel dest, int flags) {\n        dest.writeInt(mResponseCode);\n        if (mResponseCode == RESPONSE_RETRY) {\n            dest.writeInt(mTimeout);\n        } else if (mResponseCode == RESPONSE_OK) {\n            dest.writeInt(mShouldReEnroll ? 1 : 0);\n            if (mPayload != null) {\n                dest.writeInt(mPayload.length);\n                dest.writeByteArray(mPayload);\n            } else {\n                dest.writeInt(0);\n            }\n        }\n    }",
+  "func_after": "@Override\n    public void writeToParcel(Parcel dest, int flags) {\n        dest.writeInt(mResponseCode);\n        if (mResponseCode == RESPONSE_RETRY) {\n            dest.writeInt(mTimeout);\n        } else if (mResponseCode == RESPONSE_OK) {\n            dest.writeInt(mShouldReEnroll ? 1 : 0);\n            if (mPayload != null && mPayload.length > 0) {\n                dest.writeInt(mPayload.length);\n                dest.writeByteArray(mPayload);\n            } else {\n                dest.writeInt(0);\n            }\n        }\n    }",
+  "diff_func": "--- func_before\n+++ func_after\n @Override\n     public void writeToParcel(Parcel dest, int flags) {\n         dest.writeInt(mResponseCode);\n         if (mResponseCode == RESPONSE_RETRY) {\n             dest.writeInt(mTimeout);\n         } else if (mResponseCode == RESPONSE_OK) {\n             dest.writeInt(mShouldReEnroll ? 1 : 0);\n-            if (mPayload != null) {\n+            if (mPayload != null && mPayload.length > 0) {\n                 dest.writeInt(mPayload.length);\n                 dest.writeByteArray(mPayload);\n             } else {\n                 dest.writeInt(0);\n             }\n         }\n     }",
+  "diff_source": "custom",
+  "Bug Filter": "** Security Vulnerability Fix  \n**Confidence Score:** 1.0",
+  "Bug Filter Confidence": 1.0,
+  "Bug Filter Response": "\n\nThe patch addresses a security vulnerability in the GateKeeperResponse class by fixing an inconsistency in the writeToParcel() method. This inconsistency allowed a malicious app to create a Bundle that could change contents after reserialization, leading to potential privilege escalation. The code change ensures that only non-empty byte arrays are written, preventing the exploit. \n\n**Final Classification:** Security Vulnerability Fix  \n**Confidence Score:** 1.0"
+}

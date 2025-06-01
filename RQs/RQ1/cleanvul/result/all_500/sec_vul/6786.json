@@ -1,0 +1,18 @@
+{
+  "id": 6786,
+  "language": "C/C++",
+  "commit_url": "https://github.com/grpc/grpc/commit/7ff6cd2757ee0d82e486b634c3f02aadaf809ac1",
+  "commit_sha": "7ff6cd2757ee0d82e486b634c3f02aadaf809ac1",
+  "commit_msg": "Merge branch 'master' of github.com:grpc/grpc into parse_address_clusterfuzz",
+  "pr_url": "https://github.com/grpc/grpc/pull/9833",
+  "pr_info": "Fixes\r\n- https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=661\r\n- https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=655\r\n- https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=650",
+  "file_name": "src/core/lib/surface/call.c",
+  "func_name": "finish_batch_completion",
+  "func_before": "static void finish_batch_completion(grpc_exec_ctx *exec_ctx, void *user_data,\n                                    grpc_cq_completion *storage) {\n  batch_control *bctl = user_data;\n  grpc_call *call = bctl->call;\n  gpr_mu_lock(&call->mu);\n  call->used_batches = (uint8_t)(\n      call->used_batches & ~(uint8_t)(1 << (bctl - call->active_batches)));\n  gpr_mu_unlock(&call->mu);\n  GRPC_CALL_INTERNAL_UNREF(exec_ctx, call, \"completion\");\n}",
+  "func_after": "static void finish_batch_completion(grpc_exec_ctx *exec_ctx, void *user_data,\n                                    grpc_cq_completion *storage) {\n  batch_control *bctl = user_data;\n  grpc_call *call = bctl->call;\n  bctl->call = NULL;\n  GRPC_CALL_INTERNAL_UNREF(exec_ctx, call, \"completion\");\n}",
+  "diff_func": "--- func_before\n+++ func_after\n static void finish_batch_completion(grpc_exec_ctx *exec_ctx, void *user_data,\n                                     grpc_cq_completion *storage) {\n   batch_control *bctl = user_data;\n   grpc_call *call = bctl->call;\n+  bctl->call = NULL;\n-  gpr_mu_lock(&call->mu);\n-  call->used_batches = (uint8_t)(\n-      call->used_batches & ~(uint8_t)(1 << (bctl - call->active_batches)));\n-  gpr_mu_unlock(&call->mu);\n   GRPC_CALL_INTERNAL_UNREF(exec_ctx, call, \"completion\");\n }",
+  "diff_source": "custom",
+  "Bug Filter": "** Security Vulnerability Fix  \n**Confidence Score:** 0.85",
+  "Bug Filter Confidence": 0.85,
+  "Bug Filter Response": "\n\nThe patch modifies the `finish_batch_completion` function by removing mutex operations and the modification of `used_batches`, which could lead to race conditions. The addition of `bctl->call = NULL` aims to prevent misuse of the call pointer. These changes address potential concurrency issues that could be exploited, indicating a security vulnerability fix.\n\n**Final Classification:** Security Vulnerability Fix  \n**Confidence Score:** 0.85"
+}

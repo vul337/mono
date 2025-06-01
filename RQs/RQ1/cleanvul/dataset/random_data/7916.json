@@ -1,0 +1,15 @@
+{
+  "id": 7916,
+  "language": "JavaScript",
+  "commit_url": "https://github.com/b-heilman/bmoor/commit/29b0162cc1dc1791fc060891f568b0ae29bc542b",
+  "commit_sha": "29b0162cc1dc1791fc060891f568b0ae29bc542b",
+  "commit_msg": "fix: bug with [__proto__]",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "src/core.js",
+  "func_name": "_makeGetter",
+  "func_before": "function _makeGetter(property, next) {\n\tif (\n\t\tproperty === '__proto__' ||\n\t\tproperty === 'constructor' ||\n\t\tproperty === 'prototype'\n\t) {\n\t\tthrow new Error('unable to access __proto__, constructor, prototype');\n\t}\n\n\tif (next) {\n\t\treturn function getter(obj) {\n\t\t\ttry {\n\t\t\t\treturn next(obj[property]);\n\t\t\t} catch (ex) {\n\t\t\t\treturn undefined;\n\t\t\t}\n\t\t};\n\t} else {\n\t\treturn function getter(obj) {\n\t\t\ttry {\n\t\t\t\treturn obj[property];\n\t\t\t} catch (ex) {\n\t\t\t\treturn undefined;\n\t\t\t}\n\t\t};\n\t}\n}",
+  "func_after": "function _makeGetter(property, next) {\n\tproperty = String(property);\n\n\tif (\n\t\tproperty === '__proto__' ||\n\t\tproperty === 'constructor' ||\n\t\tproperty === 'prototype'\n\t) {\n\t\tthrow new Error('unable to access __proto__, constructor, prototype');\n\t}\n\n\tif (next) {\n\t\treturn function getter(obj) {\n\t\t\ttry {\n\t\t\t\treturn next(obj[property]);\n\t\t\t} catch (ex) {\n\t\t\t\treturn undefined;\n\t\t\t}\n\t\t};\n\t} else {\n\t\treturn function getter(obj) {\n\t\t\ttry {\n\t\t\t\treturn obj[property];\n\t\t\t} catch (ex) {\n\t\t\t\treturn undefined;\n\t\t\t}\n\t\t};\n\t}\n}",
+  "diff_func": "--- func_before\n+++ func_after\n function _makeGetter(property, next) {\n+\tproperty = String(property);\n+\n \tif (\n \t\tproperty === '__proto__' ||\n \t\tproperty === 'constructor' ||\n \t\tproperty === 'prototype'\n \t) {\n \t\tthrow new Error('unable to access __proto__, constructor, prototype');\n \t}\n \n \tif (next) {\n \t\treturn function getter(obj) {\n \t\t\ttry {\n \t\t\t\treturn next(obj[property]);\n \t\t\t} catch (ex) {\n \t\t\t\treturn undefined;\n \t\t\t}\n \t\t};\n \t} else {\n \t\treturn function getter(obj) {\n \t\t\ttry {\n \t\t\t\treturn obj[property];\n \t\t\t} catch (ex) {\n \t\t\t\treturn undefined;\n \t\t\t}\n \t\t};\n \t}\n }",
+  "diff_source": "custom"
+}

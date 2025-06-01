@@ -1,0 +1,21 @@
+{
+  "id": 1063,
+  "language": "cpp",
+  "cwe": "CWE-787",
+  "commit_url": "https://github.com/mc2-project/opaque-sql/commit/5ddda15d89f5ac82f4416208c5319ace4aecdc36",
+  "commit_sha": "5ddda15d89f5ac82f4416208c5319ace4aecdc36",
+  "commit_msg": "Check that ecall [user_check] pointers and ocall_malloc result pointer are outside enclave (#67)\n\nThis should reduce the enclave's attack surface by preventing an attacker from invoking ecalls on or triggering unexpected writes to arbitrary enclave memory, which could potentially leak information about that memory or lead to incorrect results.\r\n\r\nFixes #36. Fixes #66.",
+  "pr_url": "https://github.com/mc2-project/opaque-sql/pull/67",
+  "pr_info": "This should reduce the enclave's attack surface by preventing an attacker from invoking ecalls on or triggering unexpected writes to arbitrary enclave memory, which could potentially leak information about that memory or lead to incorrect results.\r\n\r\nFixes #36. Fixes #66.",
+  "file_name": "src/enclave/App/App.cpp",
+  "func_name": "",
+  "raw_func_from_json": "void ocall_malloc(size_t size, uint8_t **ret) {\n  *ret = static_cast<uint8_t *>(malloc(size));\n}",
+  "diff_func": "@@ -357,7 +357,7 @@ void ocall_print_string(const char *str)\n   fflush(stdout);\n }\n \n-void ocall_malloc(size_t size, uint8_t **ret) {\n+void unsafe_ocall_malloc(size_t size, uint8_t **ret) {\n   *ret = static_cast<uint8_t *>(malloc(size));\n }\n ",
+  "project": "opaque",
+  "commit_id": "5ddda15d89f5ac82f4416208c5319ace4aecdc36",
+  "target": 1,
+  "func": "void ocall_malloc(size_t size, uint8_t **ret) {\n  *ret = static_cast<uint8_t *>(malloc(size));\n}",
+  "idx": 217231,
+  "hash": 130259907659980781908050896256972879576,
+  "dataset": "other"
+}

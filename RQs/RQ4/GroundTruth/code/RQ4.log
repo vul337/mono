@@ -1,0 +1,1116 @@
+nohup: ignoring input
+05/26/2025 02:39:44 AM - [INFO]: Starting classification with deepseek-ai/DeepSeek-R1-Distill-Qwen-32B on /RQ4/GroundTruth/sample500
+05/26/2025 02:39:44 AM - [INFO]: Found 500 files to process
+05/26/2025 02:39:46 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-48257_7_part1.json | **
+Security Vulnerability Fix
+
+**Confidence Score:**
+0.95 | Conf: 0.95
+05/26/2025 02:39:46 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2019-15534_1_part1.json | Security Vulnerability Fix  
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:39:46 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_3/CVE-2020-15350_4_part1.json | Supporting & Non-Core Improvements | Conf: 0.9
+05/26/2025 02:39:46 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_3/CVE-2016-10210_4_part1.json | Supporting & Non-Core Improvements | Conf: 0.8
+05/26/2025 02:39:46 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_3/CVE-2021-20298_part1.json | Supporting & Non-Core Improvements | Conf: 0.9
+05/26/2025 02:39:46 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2018-6794_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.8
+05/26/2025 02:39:47 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2017-5581_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:39:47 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2020-8443_part1.json | Security Vulnerability Fix  
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:39:47 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-36328_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:39:47 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2018-20742_8_part1.json | Security Vulnerability Fix
+
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:39:47 AM - [INFO]: Progress 10 files | T1=0 T2=2 T3=3 Sec=6 | Tokens=19725
+05/26/2025 02:39:47 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2015-5302_0_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.9
+05/26/2025 02:39:47 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2023-30300_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.9
+05/26/2025 02:39:47 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-38667_5_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.9 | Conf: 0.9
+05/26/2025 02:39:47 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-39975_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:39:47 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2016-9177_4_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:39:47 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2017-5495_0_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.95 | Conf: 0.95
+05/26/2025 02:39:48 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-4773_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 1.0 | Conf: 1.0
+05/26/2025 02:39:48 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2017-11462_6_part1.json | Security Vulnerability Fix
+
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:39:48 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-40211_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:39:48 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-21410_0_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.95 | Conf: 0.95
+05/26/2025 02:39:48 AM - [INFO]: Progress 20 files | T1=0 T2=3 T3=3 Sec=15 | Tokens=38245
+05/26/2025 02:39:48 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2020-9483_part1.json | Security Vulnerability Fix  
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:39:48 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-2414_36_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:39:48 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_3/CVE-2021-31412_0_part1.json | Supporting & Non-Core Improvements | Conf: 0.9
+05/26/2025 02:39:48 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-1495_8_part1.json | Security Vulnerability Fix
+Confidence Score: 0.9 | Conf: 0.9
+05/26/2025 02:39:48 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2019-17402_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:39:48 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2021-28167_6_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.6
+05/26/2025 02:39:48 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-1809_part1.json | Security Vulnerability Fix**
+**Confidence Score: 0.95** | Conf: 0.95
+05/26/2025 02:39:48 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2020-11002_4_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.85 | Conf: 0.85
+05/26/2025 02:39:49 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2020-7226_16_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.9
+05/26/2025 02:39:49 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_3/CVE-2018-17582_3_part1.json | Supporting & Non-Core Improvements | Conf: 0.9
+05/26/2025 02:39:49 AM - [INFO]: Progress 30 files | T1=0 T2=5 T3=5 Sec=21 | Tokens=55679
+05/26/2025 02:39:49 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2016-9839_0_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.9 | Conf: 0.9
+05/26/2025 02:39:49 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2021-29441_1_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.9
+05/26/2025 02:39:49 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-3647_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:39:49 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2018-17582_8_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:39:49 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2017-1000203_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 1.0 | Conf: 1.0
+05/26/2025 02:39:49 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2018-25021_3_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.9
+05/26/2025 02:39:49 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2016-10210_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.95 | Conf: 0.95
+05/26/2025 02:39:49 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2020-23302_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.9
+05/26/2025 02:39:49 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-26126_4_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.9 | Conf: 0.9
+05/26/2025 02:39:50 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2019-13226_1_part1.json | Security Vulnerability Fix
+
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:39:50 AM - [INFO]: Progress 40 files | T1=0 T2=8 T3=5 Sec=27 | Tokens=73152
+05/26/2025 02:39:50 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2020-7105_24_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.8 | Conf: 0.8
+05/26/2025 02:39:50 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-27590_0_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:39:50 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2017-3733_2_part1.json | Security Vulnerability Fix
+
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:39:50 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-29181_3_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:39:50 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2018-7262_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.9
+05/26/2025 02:39:50 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-21227_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:39:50 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-29481_2_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:39:50 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-31403_1_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 1.0 | Conf: 1.0
+05/26/2025 02:39:50 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2018-7262_0_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:39:50 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-0695_4_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:39:50 AM - [INFO]: Progress 50 files | T1=0 T2=9 T3=5 Sec=37 | Tokens=92555
+05/26/2025 02:39:51 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2018-20750_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:39:51 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2018-19535_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.8 | Conf: 0.8
+05/26/2025 02:39:51 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2018-14568_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:39:51 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2018-20227_2_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.9 | Conf: 0.9
+05/26/2025 02:39:51 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-25010_3_part1.json | Security Vulnerability Fix
+
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:39:51 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2019-13615_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.7
+05/26/2025 02:39:51 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2018-18836_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:39:51 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-28070_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:39:51 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2020-7226_3_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.95 | Conf: 0.95
+05/26/2025 02:39:51 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-42073_7_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:39:51 AM - [INFO]: Progress 60 files | T1=0 T2=10 T3=5 Sec=46 | Tokens=112698
+05/26/2025 02:39:51 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2019-25052_7_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 1.0 | Conf: 1.0
+05/26/2025 02:39:51 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-25155_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.95 | Conf: 0.95
+05/26/2025 02:39:52 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-29338_1_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:39:52 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-24754_2_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:39:52 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-4727_part1.json | Security Vulnerability Fix**
+
+**Confidence Score: 1.0** | Conf: 1.0
+05/26/2025 02:39:52 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2018-15834_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.9 | Conf: 0.9
+05/26/2025 02:39:52 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-44262_6_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:39:52 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_3/CVE-2022-41882_0_part1.json | Supporting & Non-Core Improvements | Conf: 0.95
+05/26/2025 02:39:52 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2018-20196_part1.json | Security Vulnerability Fix
+
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:39:52 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-37704_0_part1.json | Security Vulnerability Fix**
+
+**Confidence Score: 1.0** | Conf: 1.0
+05/26/2025 02:39:52 AM - [INFO]: Progress 70 files | T1=0 T2=10 T3=7 Sec=54 | Tokens=128436
+05/26/2025 02:39:52 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_3/CVE-2021-32815_0_part1.json | Supporting & Non-Core Improvements | Conf: 0.9
+05/26/2025 02:39:53 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-26126_3_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.85 | Conf: 0.85
+05/26/2025 02:39:53 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-40656_1_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.95 | Conf: 0.95
+05/26/2025 02:39:53 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-2414_broken_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 1.0 | Conf: 1.0
+05/26/2025 02:39:53 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2014-7202_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:39:53 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2022-4399_0_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.9
+05/26/2025 02:39:53 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-21309_3_part1.json | Security Vulnerability Fix
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:39:53 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2020-24266_1_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.9
+05/26/2025 02:39:53 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-24031_part1.json | Security Vulnerability Fix
+
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:39:53 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-42073_0_part1.json | Security Vulnerability Fix  
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:39:53 AM - [INFO]: Progress 80 files | T1=0 T2=12 T3=7 Sec=61 | Tokens=144894
+05/26/2025 02:39:54 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2021-32276_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.9
+05/26/2025 02:39:54 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2021-41272_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.7
+05/26/2025 02:39:54 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-1495_4_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:39:54 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-26128_1_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:39:54 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-23463_0_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.7  
+(Reasoning: While the code change seems minor, the commit message strongly suggests a security fix, though the actual vulnerability resolution isn't clear from the provided code.) | Conf: 0.7
+05/26/2025 02:39:54 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2022-23476_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.8
+05/26/2025 02:39:54 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_3/CVE-2021-3674_part1.json | Supporting & Non-Core Improvements | Conf: 0.8
+05/26/2025 02:39:54 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2018-20843_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.9
+05/26/2025 02:39:54 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2021-45429_0_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.8
+05/26/2025 02:39:54 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2020-22219_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.95 | Conf: 0.95
+05/26/2025 02:39:54 AM - [INFO]: Progress 90 files | T1=0 T2=17 T3=8 Sec=66 | Tokens=164501
+05/26/2025 02:39:54 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-3869_2_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:39:54 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2018-8099_part1.json | Security Vulnerability Fix
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:39:54 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2023-52284_0_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.8
+05/26/2025 02:39:54 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_3/CVE-2022-21700_6_part1.json | Supporting & Non-Core Improvements | Conf: 0.9
+05/26/2025 02:39:54 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2016-10130_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:39:55 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-40761_11_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:39:55 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-32070_16_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:39:55 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2019-18609_part1.json | Security Vulnerability Fix
+
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:39:55 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2018-17974_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.95 | Conf: 0.95
+05/26/2025 02:39:55 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2023-50572_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.85
+05/26/2025 02:39:55 AM - [INFO]: Progress 100 files | T1=0 T2=19 T3=10 Sec=72 | Tokens=184113
+05/26/2025 02:39:55 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_3/CVE-2020-15350_3_part1.json | Supporting & Non-Core Improvements | Conf: 0.9
+05/26/2025 02:39:55 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2020-10576_4_part1.json | Security Vulnerability Fix  
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:39:55 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2020-36434_2_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.8 | Conf: 0.8
+05/26/2025 02:39:55 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-21257_0_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 1.0 | Conf: 1.0
+05/26/2025 02:39:56 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_1/CVE-2018-1000873_7_part1.json | Testing & Validation Updates | Conf: 0.9
+05/26/2025 02:39:56 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-26181_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.9 | Conf: 0.9
+05/26/2025 02:39:56 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2018-20406_1_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.85 | Conf: 0.85
+05/26/2025 02:39:56 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2022-21700_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.85
+05/26/2025 02:39:56 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_3/CVE-2016-9177_3_part1.json | Supporting & Non-Core Improvements | Conf: 0.95
+05/26/2025 02:39:56 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2019-3817_0_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:39:56 AM - [INFO]: Progress 110 files | T1=1 T2=20 T3=11 Sec=78 | Tokens=200483
+05/26/2025 02:39:56 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2020-7105_28_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.8
+05/26/2025 02:39:56 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-38667_part1.json | Security Vulnerability Fix
+Confidence Score: 0.9
+
+**Final Output:**
+Analysis: The patch addresses a potential security issue by preventing HTTP pipelining, which could lead to server unavailability. The code changes close websocket connections to mitigate such risks.
+Final Classification: Security Vulnerability Fix
+Confidence Score: 0.9 | Conf: 0.9
+05/26/2025 02:39:56 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2017-16883_part1.json | Security Vulnerability Fix  
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:39:57 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2023-30207_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.9
+05/26/2025 02:39:57 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2015-0278_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:39:57 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2021-33391_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.9
+05/26/2025 02:39:57 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2021-20302_1_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.9
+05/26/2025 02:39:57 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2014-9377_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:39:57 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2018-6533_0_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.8 | Conf: 0.8
+05/26/2025 02:39:57 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2022-33070_1_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.9
+05/26/2025 02:39:57 AM - [INFO]: Progress 120 files | T1=1 T2=26 T3=11 Sec=83 | Tokens=219873
+05/26/2025 02:39:57 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2019-15788_0_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.8
+05/26/2025 02:39:57 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-3040_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.95 | Conf: 0.95
+05/26/2025 02:39:57 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2020-13921_3_part1.json | Security Vulnerability Fix
+
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:39:57 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2022-29567_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.8
+05/26/2025 02:39:58 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2016-6172_part1.json | Security Vulnerability Fix
+
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:39:58 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2023-35847_1_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.95
+05/26/2025 02:39:58 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-23082_2_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.95 | Conf: 0.95
+05/26/2025 02:39:58 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2018-9132_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:39:58 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2019-20798_part1.json | Security Vulnerability Fix
+
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:39:58 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-48795_5_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.85 | Conf: 0.85
+05/26/2025 02:39:58 AM - [INFO]: Progress 130 files | T1=1 T2=29 T3=11 Sec=90 | Tokens=237395
+05/26/2025 02:39:58 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2021-45942_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.7
+05/26/2025 02:39:58 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2017-14199_0_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:39:58 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2021-29441_3_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.9
+05/26/2025 02:39:58 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_3/CVE-2019-15788_5_part1.json | Supporting & Non-Core Improvements | Conf: 0.7
+05/26/2025 02:39:59 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2016-7163_0_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:39:59 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2017-0152_0_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:39:59 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2020-16587_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.95 | Conf: 0.95
+05/26/2025 02:39:59 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-1495_12_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.8 | Conf: 0.8
+05/26/2025 02:39:59 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2014-9748_5_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.9
+05/26/2025 02:39:59 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2017-1000412_0_part1.json | Security Vulnerability Fix
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:39:59 AM - [INFO]: Progress 140 files | T1=1 T2=31 T3=12 Sec=96 | Tokens=255233
+05/26/2025 02:39:59 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2018-16391_6_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.95 | Conf: 0.95
+05/26/2025 02:39:59 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2020-25219_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 1.0 | Conf: 1.0
+05/26/2025 02:39:59 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2024-25679_7_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.8 | Conf: 0.8
+05/26/2025 02:39:59 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-34188_0_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.95 | Conf: 0.95
+05/26/2025 02:39:59 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-35858_part1.json | Security Vulnerability Fix
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:00 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2017-9431_0_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.9
+05/26/2025 02:40:00 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-38667_7_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.85 | Conf: 0.85
+05/26/2025 02:40:00 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-51713_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.9 | Conf: 0.9
+05/26/2025 02:40:00 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2020-36282_part1.json | Security Vulnerability Fix  
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:00 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2024-24806_0_part1.json | Security Vulnerability Fix  
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:00 AM - [INFO]: Progress 150 files | T1=1 T2=32 T3=12 Sec=105 | Tokens=272421
+05/26/2025 02:40:00 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-32687_1_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 1.0 | Conf: 1.0
+05/26/2025 02:40:00 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-24820_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:00 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_3/CVE-2022-21675_0_part1.json | Supporting & Non-Core Improvements | Conf: 0.7
+05/26/2025 02:40:00 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2019-1010251_1_part1.json | Security Vulnerability Fix
+
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:00 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2022-31623_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.9
+05/26/2025 02:40:00 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2019-20444_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.8
+05/26/2025 02:40:00 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2019-18212_4_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:01 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-4725_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:01 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2018-8005_4_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:01 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-36369_4_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:01 AM - [INFO]: Progress 160 files | T1=1 T2=34 T3=13 Sec=113 | Tokens=291839
+05/26/2025 02:40:01 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2020-24133_0_part1.json | Security Vulnerability Fix  
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:01 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2021-45429_5_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.85
+05/26/2025 02:40:01 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-36052_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:01 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2017-1000200_0_part1.json | Security Vulnerability Fix
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:01 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_3/CVE-2022-21700_8_part1.json | Supporting & Non-Core Improvements | Conf: 0.95
+05/26/2025 02:40:01 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2017-11368_1_part1.json | Security Vulnerability Fix
+
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:01 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2019-25052_5_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.95 | Conf: 0.95
+05/26/2025 02:40:01 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2017-15377_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.9
+05/26/2025 02:40:01 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2016-4301_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:02 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2018-20742_1_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:02 AM - [INFO]: Progress 170 files | T1=1 T2=36 T3=14 Sec=119 | Tokens=307558
+05/26/2025 02:40:02 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2019-5892_1_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.6 | Conf: 0.6
+05/26/2025 02:40:02 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2020-15170_1_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.7
+05/26/2025 02:40:02 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2022-34612_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.8
+05/26/2025 02:40:02 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-26126_6_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.9 | Conf: 0.9
+05/26/2025 02:40:02 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2020-10028_1_part1.json | Security Vulnerability Fix
+
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:02 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2017-14988_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.9 | Conf: 0.9
+05/26/2025 02:40:02 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-1714_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 1.0 | Conf: 1.0
+05/26/2025 02:40:02 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-41715_part1.json | Security Vulnerability Fix  
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:02 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2020-13921_part1.json | Security Vulnerability Fix  
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:03 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2020-8112_part1.json | Security Vulnerability Fix
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:03 AM - [INFO]: Progress 180 files | T1=1 T2=38 T3=14 Sec=128 | Tokens=327631
+05/26/2025 02:40:03 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-49294_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.95 | Conf: 0.95
+05/26/2025 02:40:03 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2021-45290_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.85
+05/26/2025 02:40:03 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2019-14844_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 1.0 | Conf: 1.0
+05/26/2025 02:40:03 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-40761_5_part1.json | Security Vulnerability Fix  
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:03 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2019-25048_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.9
+05/26/2025 02:40:03 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2017-9989_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:03 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-37620_18_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:03 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2020-7105_26_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.8
+05/26/2025 02:40:03 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2017-3733_0_part1.json | Security Vulnerability Fix
+
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:03 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-1122_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:03 AM - [INFO]: Progress 190 files | T1=1 T2=41 T3=14 Sec=134 | Tokens=343641
+05/26/2025 02:40:04 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-32070_2_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:04 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-29181_1_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:04 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-0695_1_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:04 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-33461_0_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.95 | Conf: 0.95
+05/26/2025 02:40:04 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-1297_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:04 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-42073_2_part1.json | Security Vulnerability Fix
+
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:04 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_3/CVE-2022-41882_part1.json | Supporting & Non-Core Improvements | Conf: 0.9
+05/26/2025 02:40:04 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-3660_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.95 | Conf: 0.95
+05/26/2025 02:40:04 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-4899_part1.json | Security Vulnerability Fix
+
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:04 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2017-17479_part1.json | Security Vulnerability Fix
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:04 AM - [INFO]: Progress 200 files | T1=1 T2=42 T3=15 Sec=143 | Tokens=363451
+05/26/2025 02:40:04 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2023-43798_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.7
+05/26/2025 02:40:05 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-37620_2_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:05 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2024-0822_0_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:05 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-32695_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.95
+
+Analysis: The code adds a check to block uploads from a sensitive directory, preventing potential unauthorized access. The commit message confirms the intent to address a security issue, aligning with the classification criteria. | Conf: 0.95
+05/26/2025 02:40:05 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2017-7393_0_part1.json | Security Vulnerability Fix**
+
+**Confidence Score: 0.95** | Conf: 0.95
+05/26/2025 02:40:05 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2018-6359_2_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:05 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_1/CVE-2023-6507_2_part1.json | Testing & Validation Updates | Conf: 0.95
+05/26/2025 02:40:05 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-47234_0_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.95 | Conf: 0.95
+05/26/2025 02:40:05 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-45884_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.9 | Conf: 0.9
+05/26/2025 02:40:05 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-44262_3_part1.json | Security Vulnerability Fix**
+
+**Confidence Score: 0.8** | Conf: 0.8
+05/26/2025 02:40:05 AM - [INFO]: Progress 210 files | T1=2 T2=42 T3=15 Sec=151 | Tokens=379251
+05/26/2025 02:40:05 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2022-48257_9_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.9
+05/26/2025 02:40:05 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2019-15134_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:06 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_3/CVE-2023-45239_0_part1.json | Supporting & Non-Core Improvements | Conf: 0.95
+05/26/2025 02:40:06 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-2414_8_part1.json | Security Vulnerability Fix
+
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:06 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-36144_6_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:06 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-24886_3_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:06 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2018-1000873_10_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.9
+05/26/2025 02:40:06 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-47235_0_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:06 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2019-13226_4_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:06 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-4322_3_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:06 AM - [INFO]: Progress 220 files | T1=2 T2=44 T3=16 Sec=158 | Tokens=397058
+05/26/2025 02:40:06 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-35977_2_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:06 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2021-32700_2_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.95
+05/26/2025 02:40:07 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2017-3733_7_part1.json | Security Vulnerability Fix  
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:07 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2023-50572_0_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.95
+05/26/2025 02:40:07 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2014-7203_4_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:07 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2015-6569_0_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.8
+05/26/2025 02:40:07 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-21309_1_part1.json | Security Vulnerability Fix  
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:07 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-1714_5_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.95 | Conf: 0.95
+05/26/2025 02:40:07 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_3/CVE-2022-40497_part1.json | Supporting & Non-Core Improvements | Conf: 0.9
+05/26/2025 02:40:07 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2023-42295_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.8
+05/26/2025 02:40:07 AM - [INFO]: Progress 230 files | T1=2 T2=48 T3=17 Sec=164 | Tokens=416366
+05/26/2025 02:40:07 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-33657_1_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.9 | Conf: 0.9
+05/26/2025 02:40:07 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2013-4119_3_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:07 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-48795_2_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.8 | Conf: 0.8
+05/26/2025 02:40:07 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-40761_9_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:08 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-37620_14_part1.json | **
+   - Not applicable; the change directly addresses a security issue.
+
+**Final Classification:**
+Security Vulnerability Fix
+
+**Confidence Score:**
+0.95 | Conf: 0.95
+05/26/2025 02:40:08 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2017-6801_part1.json | Security Vulnerability Fix
+Confidence Score: 0.9 | Conf: 0.9
+05/26/2025 02:40:08 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2017-11576_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.9 | Conf: 0.9
+05/26/2025 02:40:08 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-32073_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:08 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-0523_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 1.0 | Conf: 1.0
+05/26/2025 02:40:08 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-49298_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:08 AM - [INFO]: Progress 240 files | T1=2 T2=49 T3=17 Sec=176 | Tokens=442458
+05/26/2025 02:40:08 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-31439_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 1.0 | Conf: 1.0
+05/26/2025 02:40:08 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2018-7225_part1.json | Security Vulnerability Fix
+
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:08 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2021-28167_21_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.95
+05/26/2025 02:40:08 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2018-1000118_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.9 | Conf: 0.9
+05/26/2025 02:40:08 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-2414_3_part1.json | Security Vulnerability Fix
+
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:09 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2019-3817_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.7 | Conf: 0.7
+05/26/2025 02:40:09 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2020-15350_1_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.8
+05/26/2025 02:40:09 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_3/CVE-2020-24621_6_part1.json | Supporting & Non-Core Improvements | Conf: 0.7
+05/26/2025 02:40:09 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2016-6172_1_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:09 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-44262_8_part1.json | Security Vulnerability Fix
+
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:09 AM - [INFO]: Progress 250 files | T1=2 T2=50 T3=18 Sec=180 | Tokens=452359
+05/26/2025 02:40:09 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-29021_0_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.95 | Conf: 0.95
+05/26/2025 02:40:09 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-40138_6_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.9 | Conf: 0.9
+05/26/2025 02:40:09 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2018-19107_0_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.9 | Conf: 0.9
+05/26/2025 02:40:09 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-4284_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:10 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-21656_2_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:10 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2018-5702_1_part1.json | Security Vulnerability Fix  
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:10 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2020-36282_0_part1.json | Security Vulnerability Fix
+
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:10 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-48795_part1.json | Security Vulnerability Fix
+Confidence Score: 0.8 | Conf: 0.8
+05/26/2025 02:40:10 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2016-9177_1_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:10 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-36812_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:10 AM - [INFO]: Progress 260 files | T1=2 T2=50 T3=18 Sec=191 | Tokens=473171
+05/26/2025 02:40:10 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2020-36640_0_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:10 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2017-9780_2_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:10 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2018-1000878_0_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:10 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2019-15759_0_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.85
+05/26/2025 02:40:10 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2018-9862_0_part1.json | Security Vulnerability Fix  
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:11 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2014-7272_1_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.9 | Conf: 0.9
+05/26/2025 02:40:11 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2017-11728_part1.json | Security Vulnerability Fix**
+
+**Confidence Score: 0.95**
+
+The high confidence is due to the explicit mention of CVEs and the code changes directly mitigating overflow vulnerabilities. | Conf: 0.95
+05/26/2025 02:40:11 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2023-26253_0_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.8
+05/26/2025 02:40:11 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-32070_4_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.95 | Conf: 0.95
+05/26/2025 02:40:11 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2018-20362_1_part1.json | Security Vulnerability Fix  
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:11 AM - [INFO]: Progress 270 files | T1=2 T2=52 T3=18 Sec=198 | Tokens=489816
+05/26/2025 02:40:11 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2021-28167_9_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.8
+05/26/2025 02:40:11 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2019-15785_1_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.9
+05/26/2025 02:40:12 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-25667_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.95 | Conf: 0.95
+05/26/2025 02:40:12 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2017-1000207_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:12 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-24886_2_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.95 | Conf: 0.95
+05/26/2025 02:40:12 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2021-20302_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.8
+05/26/2025 02:40:12 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2017-11704_part1.json | Security Vulnerability Fix  
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:12 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-25155_1_part1.json | Security Vulnerability Fix  
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:12 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-2414_15_part1.json | Security Vulnerability Fix
+
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:12 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2019-1000006_2_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.95 | Conf: 0.95
+05/26/2025 02:40:12 AM - [INFO]: Progress 280 files | T1=2 T2=55 T3=18 Sec=206 | Tokens=510255
+05/26/2025 02:40:12 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-40656_2_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:12 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-35926_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.95 | Conf: 0.95
+05/26/2025 02:40:12 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2018-19839_0_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.85
+05/26/2025 02:40:12 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2018-20742_7_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 1.0 | Conf: 1.0
+05/26/2025 02:40:13 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-3869_1_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:13 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-51713_0_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.9 | Conf: 0.9
+05/26/2025 02:40:13 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-29824_part1.json | ** The patch resolves a security vulnerability by preventing unauthorized memory access.
+
+**Final Classification:** Security Vulnerability Fix  
+**Confidence Score:** 0.95 | Conf: 0.95
+05/26/2025 02:40:13 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2018-8005_2_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:13 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-43814_part1.json | Security Vulnerability Fix  
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:13 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2016-10750_8_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.95 | Conf: 0.95
+05/26/2025 02:40:13 AM - [INFO]: Progress 290 files | T1=2 T2=56 T3=18 Sec=217 | Tokens=532382
+05/26/2025 02:40:13 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-0476_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:13 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2018-7262_4_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:13 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2018-5702_0_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:13 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-1809_1_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:13 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2020-36434_1_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.9
+05/26/2025 02:40:14 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-31438_6_part1.json | Security Vulnerability Fix
+
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:14 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_3/CVE-2019-15759_1_part1.json | Supporting & Non-Core Improvements | Conf: 0.9
+05/26/2025 02:40:14 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-21280_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95
+
+---
+
+**Step-by-Step Explanation:**
+
+1. **Patch Analysis:**
+   - The commit message indicates a buffer check for external header writing.
+   - Code changes introduce `buffer_size` variable and pass it to `uncompress_hdr_iphc`, suggesting a size validation.
+
+2. **Security Assessment:**
+   - The change prevents buffer overflow by validating space, a common security flaw.
+   - This addresses a defect that could lead to unauthorized access or system compromise.
+
+3. **Classification:**
+   - The fix is a security vulnerability fix as it mitigates a buffer overflow risk.
+
+4. **Confidence:**
+   - High confidence due to clear buffer management correction, indicating a security concern.
+
+**Final Classification:** Security Vulnerability Fix  
+**Confidence Score:** 0.95 | Conf: 0.95
+05/26/2025 02:40:14 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-48257_3_part1.json | ** Security Vulnerability Fix
+
+**Confidence Score:** 0.9
+
+The changes are clearly aimed at securing log file creation, addressing a potential vulnerability. The confidence is high due to the explicit mention of security improvements and the code changes indicating secure file handling practices. | Conf: 0.9
+05/26/2025 02:40:14 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-40012_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.9 | Conf: 0.9
+05/26/2025 02:40:14 AM - [INFO]: Progress 300 files | T1=2 T2=57 T3=19 Sec=223 | Tokens=548821
+05/26/2025 02:40:14 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2018-16391_0_part1.json | Security Vulnerability Fix
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:14 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-0676_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:14 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2016-10210_0_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.9
+05/26/2025 02:40:14 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-32792_0_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.9 | Conf: 0.9
+05/26/2025 02:40:15 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-1451_1_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.95 | Conf: 0.95
+05/26/2025 02:40:15 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2021-46347_0_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.9
+05/26/2025 02:40:15 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-50471_part1.json | Security Vulnerability Fix
+
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:15 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2019-25052_8_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.95 | Conf: 0.95
+05/26/2025 02:40:15 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-41954_part1.json | Security Vulnerability Fix  
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:15 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-2414_2_part1.json | Security Vulnerability Fix
+
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:15 AM - [INFO]: Progress 310 files | T1=2 T2=59 T3=19 Sec=230 | Tokens=563970
+05/26/2025 02:40:15 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2020-13921_0_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 1.0 | Conf: 1.0
+05/26/2025 02:40:15 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_3/CVE-2020-24621_7_part1.json | Supporting & Non-Core Improvements | Conf: 0.9
+05/26/2025 02:40:16 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-2414_41_part1.json | Security Vulnerability Fix  
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:16 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-48704_0_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95
+
+**Final Answer:**
+The patch is classified as a Security Vulnerability Fix with a confidence score of 0.95. | Conf: 0.95
+05/26/2025 02:40:16 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-40761_8_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:16 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-0518_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.95 | Conf: 0.95
+05/26/2025 02:40:16 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2023-1801_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.9
+05/26/2025 02:40:16 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-32700_8_part1.json | Security Vulnerability Fix**
+
+**Confidence Score: 0.95** | Conf: 0.95
+05/26/2025 02:40:16 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-37620_15_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.95 | Conf: 0.95
+05/26/2025 02:40:16 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-25313_part1.json | Security Vulnerability Fix**
+
+**Confidence Score: 0.95**
+
+The classification is based on the clear evidence of a security issue (stack exhaustion) and the specific fix applied, which directly addresses the vulnerability. The confidence is high due to the explicit details in the commit message and the code changes. | Conf: 0.95
+05/26/2025 02:40:16 AM - [INFO]: Progress 320 files | T1=2 T2=60 T3=20 Sec=238 | Tokens=582689
+05/26/2025 02:40:16 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2016-10351_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:16 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-2553_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.8 | Conf: 0.8
+05/26/2025 02:40:17 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2020-24716_2_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.95 | Conf: 0.95
+05/26/2025 02:40:17 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2020-36321_0_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.9 | Conf: 0.9
+05/26/2025 02:40:17 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-1122_1_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:17 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-21656_4_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.8 | Conf: 0.8
+05/26/2025 02:40:17 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2017-10671_part1.json | Security Vulnerability Fix
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:17 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2020-9483_1_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 1.0 | Conf: 1.0
+05/26/2025 02:40:17 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2016-8568_0_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.95
+05/26/2025 02:40:17 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-38155_part1.json | Security Vulnerability Fix
+
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:17 AM - [INFO]: Progress 330 files | T1=2 T2=61 T3=20 Sec=247 | Tokens=599353
+05/26/2025 02:40:17 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2019-15477_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:17 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2020-35470_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.95
+05/26/2025 02:40:17 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-32846_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:18 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-4639_part1.json | Security Vulnerability Fix
+
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:18 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2019-15788_4_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.8
+05/26/2025 02:40:18 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_3/CVE-2020-7105_16_part1.json | Supporting & Non-Core Improvements | Conf: 0.9
+05/26/2025 02:40:18 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2020-12278_0_part1.json | Security Vulnerability Fix
+
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:18 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2019-1010296_part1.json | Security Vulnerability Fix  
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:18 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2022-2526_0_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.95
+05/26/2025 02:40:18 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2024-24824_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:18 AM - [INFO]: Progress 340 files | T1=2 T2=64 T3=21 Sec=253 | Tokens=619818
+05/26/2025 02:40:18 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-25314_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.9 | Conf: 0.9
+05/26/2025 02:40:18 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2018-18928_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:18 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2023-5686_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.95
+05/26/2025 02:40:18 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2022-22892_2_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.85
+05/26/2025 02:40:18 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-2414_46_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:18 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2018-16336_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:19 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-32020_1_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:19 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2016-6129_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.95 | Conf: 0.95
+05/26/2025 02:40:19 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-48795_4_part1.json | Security Vulnerability Fix
+Confidence Score: 0.85 | Conf: 0.85
+05/26/2025 02:40:19 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2014-9378_part1.json | Security Vulnerability Fix
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:19 AM - [INFO]: Progress 350 files | T1=2 T2=66 T3=21 Sec=263 | Tokens=644233
+05/26/2025 02:40:19 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2019-16754_1_part1.json | Security Vulnerability Fix  
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:19 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-36088_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:19 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2019-16058_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.9
+05/26/2025 02:40:19 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-7158_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:19 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-25640_1_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.95 | Conf: 0.95
+05/26/2025 02:40:19 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2013-4119_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.8 | Conf: 0.8
+05/26/2025 02:40:20 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2024-23324_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:20 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-2414_28_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 1.0 | Conf: 1.0
+05/26/2025 02:40:20 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2020-10028_0_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:20 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2021-36144_0_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.8
+05/26/2025 02:40:20 AM - [INFO]: Progress 360 files | T1=2 T2=69 T3=21 Sec=270 | Tokens=660229
+05/26/2025 02:40:20 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2022-29181_0_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.95
+05/26/2025 02:40:20 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2018-20743_0_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:20 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2018-18928_0_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:20 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2018-25021_0_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:20 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-25826_4_part1.json | Security Vulnerability Fix  
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:21 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2018-20742_0_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.95 | Conf: 0.95
+05/26/2025 02:40:21 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2021-45429_4_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.85
+05/26/2025 02:40:21 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2018-14345_0_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.9
+05/26/2025 02:40:21 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2020-35864_part1.json | Security Vulnerability Fix**
+
+**Confidence Score: 0.9** | Conf: 0.9
+05/26/2025 02:40:21 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2021-32694_1_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.95
+05/26/2025 02:40:21 AM - [INFO]: Progress 370 files | T1=2 T2=72 T3=21 Sec=275 | Tokens=674263
+05/26/2025 02:40:21 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2019-5892_0_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.8
+05/26/2025 02:40:21 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2019-16162_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 1.0 | Conf: 1.0
+05/26/2025 02:40:21 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2020-12845_2_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:21 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2022-26530_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.9
+05/26/2025 02:40:21 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2019-16754_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 1.0 | Conf: 1.0
+05/26/2025 02:40:22 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-32073_9_part1.json | Security Vulnerability Fix  
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:22 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2017-9431_1_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:22 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-1495_0_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:22 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-44262_0_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:22 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2018-8005_0_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.8  
+
+**Analysis:**  
+The patch introduces a new configuration to prevent potential abuse from multi-range HTTP requests, indicating a proactive security measure. While the code change is adding a configuration, the commit message suggests addressing a potential security issue, leading to the classification as a Security Vulnerability Fix. The confidence is moderate due to the proactive nature of the fix rather than resolving an existing exploit. | Conf: 0.8
+05/26/2025 02:40:22 AM - [INFO]: Progress 380 files | T1=2 T2=74 T3=21 Sec=283 | Tokens=692170
+05/26/2025 02:40:22 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2018-20742_5_part1.json | Security Vulnerability Fix
+
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:22 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2018-15857_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.85
+05/26/2025 02:40:22 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-36147_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:22 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-33962_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 1.0 | Conf: 1.0
+05/26/2025 02:40:22 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2016-10129_0_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:22 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-42799_0_part1.json | Security Vulnerability Fix
+
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:23 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-1495_5_part1.json | Security Vulnerability Fix
+Confidence Score: 0.9 | Conf: 0.9
+05/26/2025 02:40:23 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-32277_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.9 | Conf: 0.9
+05/26/2025 02:40:23 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2020-36640_part1.json | **
+Security Vulnerability Fix
+
+**Confidence Score:**
+1.0 | Conf: 1.0
+05/26/2025 02:40:23 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2018-20000_4_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:23 AM - [INFO]: Progress 390 files | T1=2 T2=75 T3=21 Sec=292 | Tokens=709503
+05/26/2025 02:40:23 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-0695_2_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.95 | Conf: 0.95
+05/26/2025 02:40:23 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2014-7203_part1.json | Security Vulnerability Fix
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:23 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_3/CVE-2021-29481_4_part1.json | Supporting & Non-Core Improvements | Conf: 0.95
+05/26/2025 02:40:23 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2021-45928_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.9
+05/26/2025 02:40:23 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-40761_1_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.95 | Conf: 0.95
+05/26/2025 02:40:23 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2022-25892_1_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.8
+05/26/2025 02:40:23 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2022-22892_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.9
+05/26/2025 02:40:23 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-4322_0_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.95 | Conf: 0.95
+05/26/2025 02:40:24 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2014-7203_7_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:24 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2023-38898_0_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.9
+05/26/2025 02:40:24 AM - [INFO]: Progress 400 files | T1=2 T2=79 T3=22 Sec=297 | Tokens=728514
+05/26/2025 02:40:24 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-27920_part1.json | Security Vulnerability Fix
+
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:24 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-27186_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:24 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2019-10908_part1.json | Security Vulnerability Fix
+
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:24 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2019-13109_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:24 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2020-7105_22_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.9
+05/26/2025 02:40:24 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2022-39308_0_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.9
+05/26/2025 02:40:24 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_3/CVE-2021-32815_1_part1.json | Supporting & Non-Core Improvements | Conf: 0.9
+05/26/2025 02:40:24 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-36039_0_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:25 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2017-7555_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.7
+05/26/2025 02:40:25 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2024-24806_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:25 AM - [INFO]: Progress 410 files | T1=2 T2=82 T3=23 Sec=304 | Tokens=748931
+05/26/2025 02:40:25 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2021-46347_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.8
+05/26/2025 02:40:25 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-4493_part1.json | Security Vulnerability Fix
+
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:25 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-28425_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 1.0 | Conf: 1.0
+05/26/2025 02:40:25 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-0302_6_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95
+
+**Final Output:**
+Analysis: The commit message explicitly states a security vulnerability fix related to ANSI escape sequence injection. The code change introduces a function to strip these sequences, which mitigates the risk of such attacks. This aligns with the criteria for a security vulnerability fix.
+Final Classification: Security Vulnerability Fix
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:25 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2020-9355_1_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:25 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2020-13921_2_part1.json | Security Vulnerability Fix
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:25 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2018-9165_2_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 1.0  
+
+The changes directly fix a known security issue (CVE-2018-7867) by preventing buffer overflows, which are critical security vulnerabilities. | Conf: 1.0
+05/26/2025 02:40:26 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2021-28167_22_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.8
+05/26/2025 02:40:26 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2017-11704_0_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:26 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_3/CVE-2020-24621_5_part1.json | Supporting & Non-Core Improvements | Conf: 0.9
+05/26/2025 02:40:26 AM - [INFO]: Progress 420 files | T1=2 T2=84 T3=24 Sec=310 | Tokens=766281
+05/26/2025 02:40:26 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-4904_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:26 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2019-1010293_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:26 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2020-11002_2_part1.json | ** Security Vulnerability Fix
+
+**Confidence Score:** 0.9 | Conf: 0.9
+05/26/2025 02:40:26 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-41358_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:26 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2020-15266_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.9
+05/26/2025 02:40:26 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2022-37704_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.9
+05/26/2025 02:40:26 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-34335_0_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:26 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2018-11531_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.8 | Conf: 0.8
+05/26/2025 02:40:27 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2023-2618_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.9
+05/26/2025 02:40:27 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-31438_4_part1.json | Security Vulnerability Fix**
+
+**Confidence Score: 0.95** | Conf: 0.95
+05/26/2025 02:40:27 AM - [INFO]: Progress 430 files | T1=2 T2=88 T3=24 Sec=318 | Tokens=789586
+05/26/2025 02:40:27 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-41168_1_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:27 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2022-21656_1_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.8
+05/26/2025 02:40:27 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-39334_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:27 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-26266_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.9 | Conf: 0.9
+05/26/2025 02:40:27 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2020-10232_part1.json | Security Vulnerability Fix**  
+**Confidence Score: 0.95** | Conf: 0.95
+05/26/2025 02:40:27 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2016-10210_2_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.85
+05/26/2025 02:40:27 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-26769_1_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.9  
+
+The changes are designed to mitigate buffer overflow risks, indicating a security fix with high confidence. | Conf: 0.9
+05/26/2025 02:40:27 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2017-9431_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.95
+05/26/2025 02:40:27 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-48257_1_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.9 | Conf: 0.9
+05/26/2025 02:40:27 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2019-15903_1_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.8
+05/26/2025 02:40:27 AM - [INFO]: Progress 440 files | T1=2 T2=92 T3=24 Sec=323 | Tokens=803941
+05/26/2025 02:40:27 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2022-44262_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.9
+05/26/2025 02:40:28 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2021-21430_4_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.8
+05/26/2025 02:40:28 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2022-28367_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.95
+05/26/2025 02:40:28 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-37501_0_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:28 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-0302_1_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:28 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-35977_part1.json | ** Security Vulnerability Fix
+
+**Confidence Score:** 1.0 | Conf: 1.0
+05/26/2025 02:40:28 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2021-3401_0_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.8
+05/26/2025 02:40:28 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-3952_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:28 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-45145_0_part1.json | Security Vulnerability Fix
+
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:28 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2018-18836_0_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:28 AM - [INFO]: Progress 450 files | T1=2 T2=95 T3=24 Sec=329 | Tokens=822330
+05/26/2025 02:40:28 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2023-48795_6_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.85
+05/26/2025 02:40:28 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-37620_10_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.95 | Conf: 0.95
+05/26/2025 02:40:29 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2023-44487_37_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.9
+05/26/2025 02:40:29 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2021-42523_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.8
+05/26/2025 02:40:29 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-25667_0_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:29 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-43429_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:29 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2020-36321_2_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:29 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2022-38667_4_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.8
+05/26/2025 02:40:29 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2017-5495_1_part1.json | Security Vulnerability Fix
+
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:29 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2014-9748_14_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.7
+05/26/2025 02:40:29 AM - [INFO]: Progress 460 files | T1=2 T2=100 T3=24 Sec=334 | Tokens=838943
+05/26/2025 02:40:29 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2018-25022_2_part1.json | Security Vulnerability Fix
+Confidence Score: 0.9 | Conf: 0.9
+05/26/2025 02:40:29 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2016-5157_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.8
+05/26/2025 02:40:29 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-3674_0_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:29 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2018-16391_5_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.95 | Conf: 0.95
+05/26/2025 02:40:29 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-32070_10_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:30 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-1495_11_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:30 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2016-10156_0_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.7
+05/26/2025 02:40:30 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2019-15534_0_part1.json | Security Vulnerability Fix
+
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:30 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2017-11368_2_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:30 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2022-34520_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.8
+05/26/2025 02:40:30 AM - [INFO]: Progress 470 files | T1=2 T2=103 T3=24 Sec=341 | Tokens=857049
+05/26/2025 02:40:30 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-22547_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:30 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2022-24754_3_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.9
+05/26/2025 02:40:30 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2016-15026_0_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95
+
+**Step-by-Step Explanation:**
+
+1. **Patch Analysis**: The commit message highlights guarding against XXE attacks and preventing external XML resource resolution. The code changes modify the XML parser's entity resolver to use internal resources, mitigating external entity risks.
+
+2. **Security Assessment**: The changes directly address XXE vulnerabilities, which can lead to unauthorized data access or system compromise. The fix enhances security by restricting external entity resolution.
+
+3. **Classification**: As the patch resolves a security issue, it's categorized under Security Vulnerability Fix.
+
+4. **Confidence**: High confidence due to explicit security focus and relevant code changes. | Conf: 0.95
+05/26/2025 02:40:30 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2018-7262_1_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:30 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-47235_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:31 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-34620_1_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.9 | Conf: 0.9
+05/26/2025 02:40:31 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2020-10019_part1.json | Security Vulnerability Fix  
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:31 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2017-3733_3_part1.json | Security Vulnerability Fix  
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:31 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-28071_part1.json | Security Vulnerability Fix
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:31 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_3/CVE-2023-28629_part1.json | Supporting & Non-Core Improvements | Conf: 0.9
+05/26/2025 02:40:31 AM - [INFO]: Progress 480 files | T1=2 T2=104 T3=25 Sec=350 | Tokens=878146
+05/26/2025 02:40:31 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2020-12140_0_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:31 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2021-28167_14_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.8
+05/26/2025 02:40:31 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-32700_6_part1.json | Security Vulnerability Fix  
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:32 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-24301_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:32 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2022-25892_6_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.8
+05/26/2025 02:40:32 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2017-17760_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.9 | Conf: 0.9
+05/26/2025 02:40:32 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2020-24621_9_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:32 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-4494_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 1.0 | Conf: 1.0
+05/26/2025 02:40:32 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_3/CVE-2021-25940_part1.json | Supporting & Non-Core Improvements | Conf: 0.85
+05/26/2025 02:40:32 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-24886_7_part1.json | Security Vulnerability Fix
+
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:32 AM - [INFO]: Progress 490 files | T1=2 T2=106 T3=26 Sec=356 | Tokens=895519
+05/26/2025 02:40:32 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2018-25021_2_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.95
+05/26/2025 02:40:32 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2021-38388_1_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.8
+05/26/2025 02:40:33 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2021-36144_2_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:33 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-37457_part1.json | Security Vulnerability Fix
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:33 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-28630_2_part1.json | Security Vulnerability Fix
+Confidence Score: 0.95 | Conf: 0.95
+05/26/2025 02:40:33 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2019-13226_0_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.9
+05/26/2025 02:40:33 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-36044_0_part1.json | ** Security Vulnerability Fix  
+**Confidence Score:** 0.9 | Conf: 0.9
+05/26/2025 02:40:33 AM - [INFO]: [+] /RQ4/GroundTruth/Result/non_sec_vul/type_2/CVE-2023-32732_part1.json | Defect Remediation & Feature Upgrades | Conf: 0.9
+05/26/2025 02:40:33 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2022-2414_10_part1.json | Security Vulnerability Fix
+Confidence Score: 1.0 | Conf: 1.0
+05/26/2025 02:40:33 AM - [INFO]: [+] /RQ4/GroundTruth/Result/sec_vul/CVE-2023-30226_part1.json | Security Vulnerability Fix**
+
+**Confidence Score: 0.8**
+
+The classification is based on the potential for the issue to be exploited, even though the commit message doesn't explicitly state an exploit. The fix prevents a DoS scenario, which is a security concern. | Conf: 0.8
+05/26/2025 02:40:33 AM - [INFO]: Progress 500 files | T1=2 T2=110 T3=26 Sec=362 | Tokens=913496
+05/26/2025 02:40:33 AM - [INFO]: Finished 500/500 files | T1=2 T2=110 T3=26 Sec=362 | Total tokens 913496

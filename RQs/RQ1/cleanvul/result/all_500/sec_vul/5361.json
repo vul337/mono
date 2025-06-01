@@ -1,0 +1,18 @@
+{
+  "id": 5361,
+  "language": "Python",
+  "commit_url": "https://github.com/morpheus65535/bazarr/commit/17add7fbb3ae1919a40d505470d499d46df9ae6b",
+  "commit_sha": "17add7fbb3ae1919a40d505470d499d46df9ae6b",
+  "commit_msg": "Fixed some code to prevent arbitrary file read and blind SSRF.",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "bazarr/app/ui.py",
+  "func_name": "backup_download",
+  "func_before": "def backup_download(filename):\n    return send_file(os.path.join(settings.backup.folder, filename), max_age=0, as_attachment=True)",
+  "func_after": "def backup_download(filename):\n    fullpath = os.path.normpath(os.path.join(settings.backup.folder, filename))\n    if not fullpath.startswith(settings.backup.folder):\n        return '', 404\n    else:\n        return send_file(fullpath, max_age=0, as_attachment=True)",
+  "diff_func": "--- func_before\n+++ func_after\n def backup_download(filename):\n-    return send_file(os.path.join(settings.backup.folder, filename), max_age=0, as_attachment=True)\n+    fullpath = os.path.normpath(os.path.join(settings.backup.folder, filename))\n+    if not fullpath.startswith(settings.backup.folder):\n+        return '', 404\n+    else:\n+        return send_file(fullpath, max_age=0, as_attachment=True)",
+  "diff_source": "custom",
+  "Bug Filter": "Security Vulnerability Fix\nConfidence Score: 1.0",
+  "Bug Filter Confidence": 1.0,
+  "Bug Filter Response": "\n\nThe patch addresses a security vulnerability by preventing arbitrary file reads and blind SSRF through proper path validation. The code changes clearly fix a security issue, making this a Security Vulnerability Fix with high confidence.\n\n**Final Output:**\nAnalysis: The patch modifies the backup_download function to validate file paths, preventing arbitrary file reads and blind SSRF. This addresses a security vulnerability by ensuring files outside the backup folder cannot be accessed.\nFinal Classification: Security Vulnerability Fix\nConfidence Score: 1.0"
+}

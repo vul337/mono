@@ -1,0 +1,18 @@
+{
+  "id": 8322,
+  "language": "JavaScript",
+  "commit_url": "https://github.com/cronvel/terminal-kit/commit/a2e446cc3927b559d0281683feb9b821e83b758c",
+  "commit_sha": "a2e446cc3927b559d0281683feb9b821e83b758c",
+  "commit_msg": "Fix a possible ReDoS",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "browser/termkit.min.js",
+  "func_name": "Q",
+  "func_before": "function tt(t){return X(t)||q(t)||J(t)||$(t)||Q(t)}",
+  "func_after": "function tt(t){var e=t.length;while(--e>=0){t[e]=0}}",
+  "diff_func": "--- func_before\n+++ func_after\n-function tt(t){return X(t)||q(t)||J(t)||$(t)||Q(t)}\n+function tt(t){var e=t.length;while(--e>=0){t[e]=0}}",
+  "diff_source": "custom",
+  "Bug Filter": "Security Vulnerability Fix  \nConfidence Score: 1.0",
+  "Bug Filter Confidence": 1.0,
+  "Bug Filter Response": "\n\n**Final Output:**\n\nAnalysis: The commit message indicates a fix for a ReDoS vulnerability. The code changes modify the function to prevent potential exploitation, aligning with security concerns.\n\nFinal Classification: Security Vulnerability Fix  \nConfidence Score: 1.0"
+}

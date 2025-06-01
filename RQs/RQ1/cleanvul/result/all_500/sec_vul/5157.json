@@ -1,0 +1,18 @@
+{
+  "id": 5157,
+  "language": "Python",
+  "commit_url": "https://github.com/pyload/pyload/commit/1374c824271cb7e927740664d06d2e577624ca3e",
+  "commit_sha": "1374c824271cb7e927740664d06d2e577624ca3e",
+  "commit_msg": "fix GHSA-pgpj-v85q-h5fm security advisory (2)",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "src/pyload/webui/app/__init__.py",
+  "func_name": "_configure_session",
+  "func_before": "def _configure_session(cls, app):\n        tempdir = app.config[\"PYLOAD_API\"].get_cachedir()\n        cache_path = os.path.join(tempdir, \"flask\")\n        os.makedirs(cache_path, exist_ok=True)\n\n        app.config[\"SESSION_FILE_DIR\"] = cache_path\n        app.config[\"SESSION_TYPE\"] = \"filesystem\"\n        app.config[\"SESSION_COOKIE_NAME\"] = \"pyload_session\"\n        app.config[\"SESSION_COOKIE_SAMESITE\"] = \"None\"\n        app.config[\"SESSION_COOKIE_SECURE\"] = app.config[\"PYLOAD_API\"].get_config_value(\"webui\", \"use_ssl\")\n        app.config[\"SESSION_PERMANENT\"] = False\n\n        session_lifetime = max(app.config[\"PYLOAD_API\"].get_config_value(\"webui\", \"session_lifetime\"), 1) * 60\n        app.config[\"PERMANENT_SESSION_LIFETIME\"] = session_lifetime",
+  "func_after": "def _configure_session(cls, app):\n        tempdir = app.config[\"PYLOAD_API\"].get_cachedir()\n        cache_path = os.path.join(tempdir, \"flask\")\n        os.makedirs(cache_path, exist_ok=True)\n\n        app.config[\"SESSION_FILE_DIR\"] = cache_path\n        app.config[\"SESSION_TYPE\"] = \"filesystem\"\n        app.config[\"SESSION_COOKIE_NAME\"] = \"pyload_session\"\n        app.config[\"SESSION_COOKIE_SAMESITE\"] = \"Strict\"\n        app.config[\"SESSION_COOKIE_SECURE\"] = app.config[\"PYLOAD_API\"].get_config_value(\"webui\", \"use_ssl\")\n        app.config[\"SESSION_PERMANENT\"] = False\n\n        session_lifetime = max(app.config[\"PYLOAD_API\"].get_config_value(\"webui\", \"session_lifetime\"), 1) * 60\n        app.config[\"PERMANENT_SESSION_LIFETIME\"] = session_lifetime",
+  "diff_func": "--- func_before\n+++ func_after\n def _configure_session(cls, app):\n         tempdir = app.config[\"PYLOAD_API\"].get_cachedir()\n         cache_path = os.path.join(tempdir, \"flask\")\n         os.makedirs(cache_path, exist_ok=True)\n \n         app.config[\"SESSION_FILE_DIR\"] = cache_path\n         app.config[\"SESSION_TYPE\"] = \"filesystem\"\n         app.config[\"SESSION_COOKIE_NAME\"] = \"pyload_session\"\n-        app.config[\"SESSION_COOKIE_SAMESITE\"] = \"None\"\n+        app.config[\"SESSION_COOKIE_SAMESITE\"] = \"Strict\"\n         app.config[\"SESSION_COOKIE_SECURE\"] = app.config[\"PYLOAD_API\"].get_config_value(\"webui\", \"use_ssl\")\n         app.config[\"SESSION_PERMANENT\"] = False\n \n         session_lifetime = max(app.config[\"PYLOAD_API\"].get_config_value(\"webui\", \"session_lifetime\"), 1) * 60\n         app.config[\"PERMANENT_SESSION_LIFETIME\"] = session_lifetime",
+  "diff_source": "custom",
+  "Bug Filter": "Security Vulnerability Fix  \nConfidence Score: 1.0",
+  "Bug Filter Confidence": 1.0,
+  "Bug Filter Response": "\n\n**Final Output:**\n\nAnalysis: The commit addresses a security advisory by changing the SameSite cookie attribute from \"None\" to \"Strict\", mitigating potential session hijacking risks.\n\nFinal Classification: Security Vulnerability Fix  \nConfidence Score: 1.0"
+}

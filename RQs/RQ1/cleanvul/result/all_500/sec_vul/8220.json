@@ -1,0 +1,18 @@
+{
+  "id": 8220,
+  "language": "JavaScript",
+  "commit_url": "https://github.com/livewire/livewire/commit/5d887316f2aaf83c0e380ac5e72766f19700fa3b",
+  "commit_sha": "5d887316f2aaf83c0e380ac5e72766f19700fa3b",
+  "commit_msg": "Stop caching csrf token in case of using wire:navigate across different sessions",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "dist/livewire.min.js",
+  "func_name": "ut",
+  "func_before": "function ut(e,t){if(!!e){if(t(e))return e;if(e._x_teleportBack&&(e=e._x_teleportBack),!!e.parentElement)return ut(e.parentElement,t)}}",
+  "func_after": "function ut(e,t){return typeof t==\"object\"&&t!==null?gs(e,t):vs(e,t)}",
+  "diff_func": "--- func_before\n+++ func_after\n-function ut(e,t){if(!!e){if(t(e))return e;if(e._x_teleportBack&&(e=e._x_teleportBack),!!e.parentElement)return ut(e.parentElement,t)}}\n+function ut(e,t){return typeof t==\"object\"&&t!==null?gs(e,t):vs(e,t)}",
+  "diff_source": "custom",
+  "Bug Filter": "Security Vulnerability Fix\n\nConfidence Score: 0.9",
+  "Bug Filter Confidence": 0.9,
+  "Bug Filter Response": "\n\n**Final Output:**\n\nAnalysis: The commit message indicates a security concern related to CSRF token caching across sessions. The code changes modify the function to handle token retrieval differently, likely preventing cache reuse. This addresses a security vulnerability where tokens could be exploited across sessions.\n\nFinal Classification: Security Vulnerability Fix\n\nConfidence Score: 0.9"
+}

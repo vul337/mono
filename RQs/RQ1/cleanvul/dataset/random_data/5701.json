@@ -1,0 +1,15 @@
+{
+  "id": 5701,
+  "language": "C/C++",
+  "commit_url": "https://github.com/neutrinolabs/xrdp/commit/a111a0fdfe2421ef600e40708b5f0168594cfb23",
+  "commit_sha": "a111a0fdfe2421ef600e40708b5f0168594cfb23",
+  "commit_msg": "Merge pull request from GHSA-f489-557v-47jq\n\nCheck auth_start_session() result",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "sesman/libsesman/verify_user_pam.c",
+  "func_name": "auth_start_session",
+  "func_before": "int\nauth_start_session(struct auth_info *auth_info, int display_num)\n{\n    int error;\n    char display[256];\n\n    g_sprintf(display, \":%d\", display_num);\n    error = pam_set_item(auth_info->ph, PAM_TTY, display);\n\n    if (error != PAM_SUCCESS)\n    {\n        LOG(LOG_LEVEL_ERROR, \"pam_set_item failed: %s\",\n            pam_strerror(auth_info->ph, error));\n        return 1;\n    }\n\n    error = pam_setcred(auth_info->ph, PAM_ESTABLISH_CRED);\n\n    if (error != PAM_SUCCESS)\n    {\n        LOG(LOG_LEVEL_ERROR, \"pam_setcred failed: %s\",\n            pam_strerror(auth_info->ph, error));\n        return 1;\n    }\n\n    auth_info->did_setcred = 1;\n    error = pam_open_session(auth_info->ph, 0);\n\n    if (error != PAM_SUCCESS)\n    {\n        LOG(LOG_LEVEL_ERROR, \"pam_open_session failed: %s\",\n            pam_strerror(auth_info->ph, error));\n        return 1;\n    }\n\n    auth_info->session_opened = 1;\n    return 0;\n}",
+  "func_after": "int\nauth_start_session(struct auth_info *auth_info, int display_num)\n{\n    int result = auth_start_session_private(auth_info, display_num);\n    if (result != 0)\n    {\n        LOG(LOG_LEVEL_ERROR,\n            \"Can't start PAM session. See PAM logging for more info\");\n    }\n\n    return result;\n}",
+  "diff_func": "--- func_before\n+++ func_after\n@@ -397 +397 @@\n-auth_start_session(struct auth_info *auth_info, int display_num)\n+static int\n+auth_start_session_private(struct auth_info *auth_info, int display_num)\n {\n int error;\n char display[256];",
+  "diff_source": "api"
+}

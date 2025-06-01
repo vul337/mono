@@ -1,0 +1,28 @@
+{
+  "id": 1164,
+  "language": "h",
+  "cwe": [
+    "CWE-20"
+  ],
+  "commit_url": "https://github.com/malvira/lpc31xx/commit/ba0166708ef4da7eeb61dd92bbba4d5a749d6561",
+  "commit_sha": "ba0166708ef4da7eeb61dd92bbba4d5a749d6561",
+  "commit_msg": "sctp: Fix kernel panic while process protocol violation parameter\n\nSince call to function sctp_sf_abort_violation() need paramter 'arg' with\n'struct sctp_chunk' type, it will read the chunk type and chunk length from\nthe chunk_hdr member of chunk. But call to sctp_sf_violation_paramlen()\nalways with 'struct sctp_paramhdr' type's parameter, it will be passed to\nsctp_sf_abort_violation(). This may cause kernel panic.\n\n   sctp_sf_violation_paramlen()\n     |-- sctp_sf_abort_violation()\n        |-- sctp_make_abort_violation()\n\nThis patch fixed this problem. This patch also fix two place which called\nsctp_sf_violation_paramlen() with wrong paramter type.\n\nSigned-off-by: Wei Yongjun <yjwei@cn.fujitsu.com>\nSigned-off-by: Vlad Yasevich <vladislav.yasevich@hp.com>\nSigned-off-by: David S. Miller <davem@davemloft.net>",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "include/net/sctp/sm.h",
+  "func_name": "",
+  "raw_func_from_json": "static sctp_disposition_t sctp_sf_violation_paramlen(\n\t\t\t\t     const struct sctp_endpoint *ep,\n\t\t\t\t     const struct sctp_association *asoc,\n\t\t\t\t     const sctp_subtype_t type,\n\t\t\t\t     void *arg,\n\t\t\t\t     sctp_cmd_seq_t *commands) {\n\tstatic const char err_str[] = \"The following parameter had invalid length:\";\n\n\treturn sctp_sf_abort_violation(ep, asoc, arg, commands, err_str,\n\t\t\t\t\tsizeof(err_str));\n}",
+  "diff_func": "@@ -227,6 +227,9 @@ struct sctp_chunk *sctp_make_abort_violation(const struct sctp_association *,\n \t\t\t\t   const struct sctp_chunk *,\n \t\t\t\t   const __u8 *,\n \t\t\t\t   const size_t );\n+struct sctp_chunk *sctp_make_violation_paramlen(const struct sctp_association *,\n+\t\t\t\t   const struct sctp_chunk *,\n+\t\t\t\t   struct sctp_paramhdr *);\n struct sctp_chunk *sctp_make_heartbeat(const struct sctp_association *,\n \t\t\t\t  const struct sctp_transport *,\n \t\t\t\t  const void *payload,",
+  "func": "static sctp_disposition_t sctp_sf_violation_paramlen(\n\t\t\t\t     const struct sctp_endpoint *ep,\n\t\t\t\t     const struct sctp_association *asoc,\n\t\t\t\t     const sctp_subtype_t type,\n\t\t\t\t     void *arg,\n\t\t\t\t     sctp_cmd_seq_t *commands) {\n\tstatic const char err_str[] = \"The following parameter had invalid length:\";\n\n\treturn sctp_sf_abort_violation(ep, asoc, arg, commands, err_str,\n\t\t\t\t\tsizeof(err_str));\n}",
+  "target": 1,
+  "project": "linux-2.6",
+  "commit_id": "ba0166708ef4da7eeb61dd92bbba4d5a749d6561",
+  "hash": 99481638255279316689565876330546423538,
+  "size": 11,
+  "message": "sctp: Fix kernel panic while process protocol violation parameter\n\nSince call to function sctp_sf_abort_violation() need paramter 'arg' with\n'struct sctp_chunk' type, it will read the chunk type and chunk length from\nthe chunk_hdr member of chunk. But call to sctp_sf_violation_paramlen()\nalways with 'struct sctp_paramhdr' type's parameter, it will be passed to\nsctp_sf_abort_violation(). This may cause kernel panic.\n\n   sctp_sf_violation_paramlen()\n     |-- sctp_sf_abort_violation()\n        |-- sctp_make_abort_violation()\n\nThis patch fixed this problem. This patch also fix two place which called\nsctp_sf_violation_paramlen() with wrong paramter type.\n\nSigned-off-by: Wei Yongjun <yjwei@cn.fujitsu.com>\nSigned-off-by: Vlad Yasevich <vladislav.yasevich@hp.com>\nSigned-off-by: David S. Miller <davem@davemloft.net>",
+  "dataset": "other",
+  "idx": 215391,
+  "Bug Filter": "** Security Vulnerability Fix  \n**Confidence Score:** 0.9",
+  "Bug Filter Confidence": 0.9,
+  "Bug Filter Response": "\n\nThe patch addresses a kernel panic caused by incorrect parameter handling in network protocol functions, which could be exploited to cause a Denial of Service. The code changes correct the parameter handling, preventing such crashes.\n\n**Final Classification:** Security Vulnerability Fix  \n**Confidence Score:** 0.9"
+}

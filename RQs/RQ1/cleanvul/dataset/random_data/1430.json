@@ -1,0 +1,15 @@
+{
+  "id": 1430,
+  "language": "Java",
+  "commit_url": "https://github.com/Nepxion/Discovery/commit/3c7aba0ea7acffeb176e4a5cbc4c0b2ca17d6cec",
+  "commit_sha": "3c7aba0ea7acffeb176e4a5cbc4c0b2ca17d6cec",
+  "commit_msg": "Resolve CVE-2022-23463 with config",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "discovery-plugin-admin-center/discovery-plugin-admin-center-starter/src/main/java/com/nepxion/discovery/plugin/admincenter/endpoint/StrategyEndpoint.java",
+  "func_name": "RequestMapping",
+  "func_before": "@RequestMapping(path = \"/validate-route\", method = RequestMethod.GET)\n    @ResponseBody\n    public ResponseEntity<?> validateRoute(@RequestParam String routeType, @RequestParam(defaultValue = \"\", required = false) String validation) {\n        return doValidateVersionRoute(routeType, validation);\n    }",
+  "func_after": "@RequestMapping(path = \"/validate-route\", method = RequestMethod.GET)\n    @ResponseBody\n    public ResponseEntity<?> validateRoute(@RequestParam String routeType, @RequestParam(defaultValue = \"\", required = false) String validation) {\n        return doValidateRoute(routeType, validation);\n    }",
+  "diff_func": "--- func_before\n+++ func_after\n @RequestMapping(path = \"/validate-route\", method = RequestMethod.GET)\n     @ResponseBody\n     public ResponseEntity<?> validateRoute(@RequestParam String routeType, @RequestParam(defaultValue = \"\", required = false) String validation) {\n-        return doValidateVersionRoute(routeType, validation);\n+        return doValidateRoute(routeType, validation);\n     }",
+  "diff_source": "custom"
+}

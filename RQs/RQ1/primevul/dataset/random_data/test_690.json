@@ -1,0 +1,23 @@
+{
+  "id": 690,
+  "language": "c",
+  "cwe": "",
+  "commit_url": "https://github.com/nginx/njs/commit/ab1702c7af9959366a5ddc4a75b4357d4e9ebdc1",
+  "commit_sha": "ab1702c7af9959366a5ddc4a75b4357d4e9ebdc1",
+  "commit_msg": "Fixed typo while calculating module path length.\n\nThe issue was introduced in 77c398f26d7e (not released yet).",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "src/njs_module.c",
+  "func_name": "",
+  "raw_func_from_json": "njs_module_path(njs_vm_t *vm, const njs_str_t *dir, njs_module_info_t *info)\n{\n    char        *p;\n    size_t      length;\n    njs_bool_t  trail;\n    char        src[NJS_MAX_PATH + 1];\n\n    trail = 0;\n    length = info->name.length;\n\n    if (dir != NULL) {\n        length = dir->length;\n\n        if (length == 0) {\n            return NJS_DECLINED;\n        }\n\n        trail = (dir->start[dir->length - 1] != '/');\n\n        if (trail) {\n            length++;\n        }\n    }\n\n    if (njs_slow_path(length > NJS_MAX_PATH)) {\n        return NJS_ERROR;\n    }\n\n    p = &src[0];\n\n    if (dir != NULL) {\n        p = (char *) njs_cpymem(p, dir->start, dir->length);\n\n        if (trail) {\n            *p++ = '/';\n        }\n    }\n\n    p = (char *) njs_cpymem(p, info->name.start, info->name.length);\n    *p = '\\0';\n\n    p = realpath(&src[0], &info->path[0]);\n    if (p == NULL) {\n        return NJS_DECLINED;\n    }\n\n    info->fd = open(&info->path[0], O_RDONLY);\n    if (info->fd < 0) {\n        return NJS_DECLINED;\n    }\n\n\n    info->file.start = (u_char *) &info->path[0];\n    info->file.length = njs_strlen(info->file.start);\n\n    return NJS_OK;\n}",
+  "diff_func": "@@ -118,7 +118,7 @@ njs_module_path(njs_vm_t *vm, const njs_str_t *dir, njs_module_info_t *info)\n     length = info->name.length;\n \n     if (dir != NULL) {\n-        length = dir->length;\n+        length += dir->length;\n \n         if (length == 0) {\n             return NJS_DECLINED;",
+  "func": "njs_module_path(njs_vm_t *vm, const njs_str_t *dir, njs_module_info_t *info)\n{\n    char        *p;\n    size_t      length;\n    njs_bool_t  trail;\n    char        src[NJS_MAX_PATH + 1];\n\n    trail = 0;\n    length = info->name.length;\n\n    if (dir != NULL) {\n        length = dir->length;\n\n        if (length == 0) {\n            return NJS_DECLINED;\n        }\n\n        trail = (dir->start[dir->length - 1] != '/');\n\n        if (trail) {\n            length++;\n        }\n    }\n\n    if (njs_slow_path(length > NJS_MAX_PATH)) {\n        return NJS_ERROR;\n    }\n\n    p = &src[0];\n\n    if (dir != NULL) {\n        p = (char *) njs_cpymem(p, dir->start, dir->length);\n\n        if (trail) {\n            *p++ = '/';\n        }\n    }\n\n    p = (char *) njs_cpymem(p, info->name.start, info->name.length);\n    *p = '\\0';\n\n    p = realpath(&src[0], &info->path[0]);\n    if (p == NULL) {\n        return NJS_DECLINED;\n    }\n\n    info->fd = open(&info->path[0], O_RDONLY);\n    if (info->fd < 0) {\n        return NJS_DECLINED;\n    }\n\n\n    info->file.start = (u_char *) &info->path[0];\n    info->file.length = njs_strlen(info->file.start);\n\n    return NJS_OK;\n}",
+  "project": "njs",
+  "hash": 61727745120585183166403187671025402809,
+  "size": 57,
+  "commit_id": "ab1702c7af9959366a5ddc4a75b4357d4e9ebdc1",
+  "message": "Fixed typo while calculating module path length.\n\nThe issue was introduced in 77c398f26d7e (not released yet).",
+  "target": 1,
+  "dataset": "other",
+  "idx": 197223
+}

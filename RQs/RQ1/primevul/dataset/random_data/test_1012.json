@@ -1,0 +1,23 @@
+{
+  "id": 1012,
+  "language": "c",
+  "cwe": "",
+  "commit_url": "https://github.com/HKL-Kevin/msm8998-mainline/commit/8cae8cd89f05f6de223d63e6d15e31c8ba9cf53b",
+  "commit_sha": "8cae8cd89f05f6de223d63e6d15e31c8ba9cf53b",
+  "commit_msg": "seq_file: disallow extremely large seq buffer allocations\n\nThere is no reasonable need for a buffer larger than this, and it avoids\nint overflow pitfalls.\n\nFixes: 058504edd026 (\"fs/seq_file: fallback to vmalloc allocation\")\nSuggested-by: Al Viro <viro@zeniv.linux.org.uk>\nReported-by: Qualys Security Advisory <qsa@qualys.com>\nSigned-off-by: Eric Sandeen <sandeen@redhat.com>\nCc: stable@kernel.org\nSigned-off-by: Linus Torvalds <torvalds@linux-foundation.org>",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "fs/seq_file.c",
+  "func_name": "",
+  "raw_func_from_json": "static void *seq_buf_alloc(unsigned long size)\n{\n\treturn kvmalloc(size, GFP_KERNEL_ACCOUNT);\n}",
+  "diff_func": "@@ -32,6 +32,9 @@ static void seq_set_overflow(struct seq_file *m)\n \n static void *seq_buf_alloc(unsigned long size)\n {\n+\tif (unlikely(size > MAX_RW_COUNT))\n+\t\treturn NULL;\n+\n \treturn kvmalloc(size, GFP_KERNEL_ACCOUNT);\n }\n ",
+  "func": "static void *seq_buf_alloc(unsigned long size)\n{\n\treturn kvmalloc(size, GFP_KERNEL_ACCOUNT);\n}",
+  "project": "linux",
+  "hash": 97148506821253610384021441624150243008,
+  "size": 4,
+  "commit_id": "8cae8cd89f05f6de223d63e6d15e31c8ba9cf53b",
+  "message": "seq_file: disallow extremely large seq buffer allocations\n\nThere is no reasonable need for a buffer larger than this, and it avoids\nint overflow pitfalls.\n\nFixes: 058504edd026 (\"fs/seq_file: fallback to vmalloc allocation\")\nSuggested-by: Al Viro <viro@zeniv.linux.org.uk>\nReported-by: Qualys Security Advisory <qsa@qualys.com>\nSigned-off-by: Eric Sandeen <sandeen@redhat.com>\nCc: stable@kernel.org\nSigned-off-by: Linus Torvalds <torvalds@linux-foundation.org>",
+  "target": 1,
+  "dataset": "other",
+  "idx": 210203
+}

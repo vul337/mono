@@ -1,0 +1,18 @@
+{
+  "id": 5084,
+  "language": "Python",
+  "commit_url": "https://github.com/ansible/awx/commit/2b6cf971573185a46950c5a8fa3f9de14ede38ae",
+  "commit_sha": "2b6cf971573185a46950c5a8fa3f9de14ede38ae",
+  "commit_msg": "Do not set credentials via environment variables",
+  "pr_url": "https://github.com/ansible/awx/pull/3505",
+  "pr_info": "no more info",
+  "file_name": "installer/roles/image_build/files/settings.py",
+  "func_name": "get_secret",
+  "func_before": "def get_secret():\n    if os.path.exists(\"/etc/tower/SECRET_KEY\"):\n        return open('/etc/tower/SECRET_KEY', 'rb').read().strip()\n    return os.getenv(\"SECRET_KEY\", \"privateawx\")",
+  "func_after": "def get_secret():\n    if os.path.exists(\"/etc/tower/SECRET_KEY\"):\n        return open('/etc/tower/SECRET_KEY', 'rb').read().strip()",
+  "diff_func": "--- func_before\n+++ func_after\n def get_secret():\n     if os.path.exists(\"/etc/tower/SECRET_KEY\"):\n         return open('/etc/tower/SECRET_KEY', 'rb').read().strip()\n-    return os.getenv(\"SECRET_KEY\", \"privateawx\")",
+  "diff_source": "custom",
+  "Bug Filter": "Security Vulnerability Fix  \nConfidence Score: 0.95",
+  "Bug Filter Confidence": 0.95,
+  "Bug Filter Response": "\n\n**Final Output:**\n\nAnalysis: The patch modifies the get_secret() function to stop using environment variables for credentials. This change addresses a potential security issue by preventing credentials from being set via insecure methods, thus enhancing system security.\n\nFinal Classification: Security Vulnerability Fix  \nConfidence Score: 0.95"
+}

@@ -1,0 +1,15 @@
+{
+  "id": 5647,
+  "language": "C/C++",
+  "commit_url": "https://github.com/libexpat/libexpat/commit/99fb4b57f8d951c5f143f7873749eaf71ae5895e",
+  "commit_sha": "99fb4b57f8d951c5f143f7873749eaf71ae5895e",
+  "commit_msg": "xmlparse.c: Fix DLL hijacking vulnerability (#82)",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "expat/lib/xmlparse.c",
+  "func_name": "writeRandomBytes_RtlGenRandom",
+  "func_before": "static int\nwriteRandomBytes_RtlGenRandom(void * target, size_t count) {\n  int success = 0;  /* full count bytes written? */\n  const HMODULE advapi32 = LoadLibrary(TEXT(\"ADVAPI32.DLL\"));\n\n  if (advapi32) {\n    const RTLGENRANDOM_FUNC RtlGenRandom\n        = (RTLGENRANDOM_FUNC)GetProcAddress(advapi32, \"SystemFunction036\");\n    if (RtlGenRandom) {\n      if (RtlGenRandom((PVOID)target, (ULONG)count) == TRUE) {\n        success = 1;\n      }\n    }\n    FreeLibrary(advapi32);\n  }\n\n  return success;\n}",
+  "func_after": "static int\nwriteRandomBytes_RtlGenRandom(void * target, size_t count) {\n  int success = 0;  /* full count bytes written? */\n  const LPCTSTR file_name = TEXT(\"ADVAPI32.DLL\");\n  HMODULE advapi32 = LoadLibraryEx(file_name, 0, LOAD_LIBRARY_SEARCH_SYSTEM32);\n\n  if (! advapi32) {\n    /* Try again without LOAD_LIBRARY_SEARCH_SYSTEM32 if unsupported */\n    advapi32 = LoadLibraryEx(file_name, 0, 0);\n  }\n\n  if (advapi32) {\n    const RTLGENRANDOM_FUNC RtlGenRandom\n        = (RTLGENRANDOM_FUNC)GetProcAddress(advapi32, \"SystemFunction036\");\n    if (RtlGenRandom) {\n      if (RtlGenRandom((PVOID)target, (ULONG)count) == TRUE) {\n        success = 1;\n      }\n    }\n    FreeLibrary(advapi32);\n  }\n\n  return success;\n}",
+  "diff_func": "--- func_before\n+++ func_after\n static int\n writeRandomBytes_RtlGenRandom(void * target, size_t count) {\n   int success = 0;  /* full count bytes written? */\n-  const HMODULE advapi32 = LoadLibrary(TEXT(\"ADVAPI32.DLL\"));\n+  const LPCTSTR file_name = TEXT(\"ADVAPI32.DLL\");\n+  HMODULE advapi32 = LoadLibraryEx(file_name, 0, LOAD_LIBRARY_SEARCH_SYSTEM32);\n+\n+  if (! advapi32) {\n+    /* Try again without LOAD_LIBRARY_SEARCH_SYSTEM32 if unsupported */\n+    advapi32 = LoadLibraryEx(file_name, 0, 0);\n+  }\n \n   if (advapi32) {\n     const RTLGENRANDOM_FUNC RtlGenRandom\n         = (RTLGENRANDOM_FUNC)GetProcAddress(advapi32, \"SystemFunction036\");\n     if (RtlGenRandom) {\n       if (RtlGenRandom((PVOID)target, (ULONG)count) == TRUE) {\n         success = 1;\n       }\n     }\n     FreeLibrary(advapi32);\n   }\n \n   return success;\n }",
+  "diff_source": "custom"
+}

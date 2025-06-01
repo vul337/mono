@@ -1,0 +1,15 @@
+{
+  "id": 385,
+  "language": "Java",
+  "commit_url": "https://github.com/aosp-mirror/platform_frameworks_base/commit/f62904fd707b5b8999e44428f50690d0ee09cd5a",
+  "commit_sha": "f62904fd707b5b8999e44428f50690d0ee09cd5a",
+  "commit_msg": "Secure REMOTE_BUGREPORT_DISPATCH\n\nIn remote bugreport collection, Shell sends REMOTE_BUGREPORT_DISPATCH to\nDevicePolicyManagerService which in turn notifies Device Owners that a\nbug report is ready for collection. There existed a threat where a\nmalicous user could spoof the REMOTE_BUGREPORT_DISPATCH broadcast via\nADB to send a crafted bugreport to the Device Owner. Securing\nREMOTE_BUGREPORT_DISPATCH is not as easy as it appears: putting a\npermission on REMOTE_BUGREPORT_DISPATCH does not work since both the\nlegitimate sender and the malicious user are UID_SHELL. Instead, we\nintroduces a nonce which was sent from DPMS to Shell when bugreport is\ntriggered, and DPM will only accept REMOTE_BUGREPORT_DISPATCH when\na matching nonce is seen.\n\nIgnore-AOSP-First: security fix\n\nBug: 171495100\nTest: atest DeviceOwnerTest#testRemoteBugreportWithTwoUsers\nTest: atest DeviceOwnerTest#testAdminActionBookkeeping\nTest: atest BugreportManagerTest\nChange-Id: I7649b4f22b74647d152d76bb46d5ca70bfa3617d\nMerged-In: I7649b4f22b74647d152d76bb46d5ca70bfa3617d\n(cherry picked from commit a4131c50d07c7b58c496bd82b9ab3389b6721654)",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "services/core/java/com/android/server/am/ActivityManagerService.java",
+  "func_name": "requestBugReport",
+  "func_before": "@Override\n    public void requestBugReport(@BugreportParams.BugreportMode int bugreportType) {\n        requestBugReportWithDescription(null, null, bugreportType);\n    }",
+  "func_after": "@Override\n    public void requestBugReport(@BugreportParams.BugreportMode int bugreportType) {\n        requestBugReportWithDescription(null, null, bugreportType, 0L);\n    }",
+  "diff_func": "--- func_before\n+++ func_after\n @Override\n     public void requestBugReport(@BugreportParams.BugreportMode int bugreportType) {\n-        requestBugReportWithDescription(null, null, bugreportType);\n+        requestBugReportWithDescription(null, null, bugreportType, 0L);\n     }",
+  "diff_source": "custom"
+}

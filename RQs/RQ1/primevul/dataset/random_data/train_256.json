@@ -1,0 +1,21 @@
+{
+  "id": 256,
+  "language": "c",
+  "cwe": "CWE-22",
+  "commit_url": "https://github.com/chinf/psensor/commit/8b10426dcc0246c1712a99460dd470dcb1cc4d9c",
+  "commit_sha": "8b10426dcc0246c1712a99460dd470dcb1cc4d9c",
+  "commit_msg": "avoid to allow reading files which are not under the webserver directory",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "src/server/server.c",
+  "func_name": "",
+  "raw_func_from_json": " create_response(const char *nurl, const char *method, unsigned int *rp_code)\n {\n       char *page, *fpath;\n        struct MHD_Response *resp = NULL;\n \n        if (!strncmp(nurl, URL_BASE_API_1_1, strlen(URL_BASE_API_1_1))) {\n                resp = create_response_api(nurl, method, rp_code);\n        } else {\n                fpath = get_path(nurl, server_data.www_dir);\n \n               resp = create_response_file(nurl, method, rp_code, fpath);\n \n                free(fpath);\n        }\n}\n",
+  "diff_func": "@@ -23,6 +23,7 @@\n #include <libintl.h>\n #define _(str) gettext(str)\n \n+#include <limits.h>\n #include <stdarg.h>\n #include <stdio.h>\n #include <stdlib.h>\n@@ -245,15 +246,25 @@ static struct MHD_Response *create_response_file(const char *nurl,\n static struct MHD_Response *\n create_response(const char *nurl, const char *method, unsigned int *rp_code)\n {\n-\tchar *page, *fpath;\n+\tchar *page, *fpath, *rpath;\n \tstruct MHD_Response *resp = NULL;\n+\tint n;\n \n \tif (!strncmp(nurl, URL_BASE_API_1_1, strlen(URL_BASE_API_1_1))) {\n \t\tresp = create_response_api(nurl, method, rp_code);\n \t} else {\n \t\tfpath = get_path(nurl, server_data.www_dir);\n \n-\t\tresp = create_response_file(nurl, method, rp_code, fpath);\n+\t\trpath = realpath(fpath, NULL);\n+\t\tif (rpath) {\n+\t\t\tn = strlen(server_data.www_dir);\n+\t\t\tif (!strncmp(server_data.www_dir, rpath, n))\n+\t\t\t\tresp = create_response_file(nurl,\n+\t\t\t\t\t\t\t    method,\n+\t\t\t\t\t\t\t    rp_code,\n+\t\t\t\t\t\t\t    fpath);\n+\t\t\tfree(rpath);\n+\t\t}\n \n \t\tfree(fpath);\n \t}\n@@ -349,7 +360,7 @@ int main(int argc, char *argv[])\n \t\tswitch (optc) {\n \t\tcase 'w':\n \t\t\tif (optarg)\n-\t\t\t\tserver_data.www_dir = strdup(optarg);\n+\t\t\t\tserver_data.www_dir = realpath(optarg, NULL);\n \t\t\tbreak;\n \t\tcase 'p':\n \t\t\tif (optarg)\n@@ -388,8 +399,14 @@ int main(int argc, char *argv[])\n \t\texit(EXIT_FAILURE);\n \t}\n \n-\tif (!server_data.www_dir)\n-\t\tserver_data.www_dir = strdup(DEFAULT_WWW_DIR);\n+\tif (!server_data.www_dir) {\n+\t\tserver_data.www_dir = realpath(DEFAULT_WWW_DIR, NULL);\n+\t\tif (!server_data.www_dir) {\n+\t\t\tfprintf(stderr,\n+\t\t\t\t_(\"Webserver directory does not exist.\\n\"));\n+\t\t\texit(EXIT_FAILURE);\n+\t\t}\n+\t}\n \n \tif (!log_file)\n \t\tlog_file = strdup(DEFAULT_LOG_FILE);",
+  "project": "wpitchoune",
+  "commit_id": "8b10426dcc0246c1712a99460dd470dcb1cc4d9c",
+  "target": 1,
+  "func": " create_response(const char *nurl, const char *method, unsigned int *rp_code)\n {\n       char *page, *fpath;\n        struct MHD_Response *resp = NULL;\n \n        if (!strncmp(nurl, URL_BASE_API_1_1, strlen(URL_BASE_API_1_1))) {\n                resp = create_response_api(nurl, method, rp_code);\n        } else {\n                fpath = get_path(nurl, server_data.www_dir);\n \n               resp = create_response_file(nurl, method, rp_code, fpath);\n \n                free(fpath);\n        }\n}\n",
+  "big_vul_idx": 178681,
+  "idx": 560,
+  "hash": 1938873346208583269260163743899020800
+}

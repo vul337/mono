@@ -1,0 +1,18 @@
+{
+  "id": 6653,
+  "language": "C/C++",
+  "commit_url": "https://github.com/wernsey/bitmap/commit/1c88bbd728da6bff8f4533bcfdb0dfef4ed8038b",
+  "commit_sha": "1c88bbd728da6bff8f4533bcfdb0dfef4ed8038b",
+  "commit_msg": "Added a bunch of `assert(b)`'s to address CVE-2018-17073\nSee https://github.com/wernsey/bitmap/issues/1",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "bmp.c",
+  "func_name": "bm_get_color",
+  "func_before": "unsigned int bm_get_color(Bitmap *bm) {\n    return bm->color;\n}",
+  "func_after": "unsigned int bm_get_color(Bitmap *b) {\n\tassert(b);\n    return b->color;\n}",
+  "diff_func": "--- func_before\n+++ func_after\n@@ -4300 +4300 @@\n-unsigned int bm_get_color(Bitmap *bm) {\n-    return bm->color;\n+unsigned int bm_get_color(Bitmap *b) {\n+\tassert(b);\n+    return b->color;\n }\n@@ -4698 +4716 @@\n-    unsigned int i, j, c = bm_get_color(b);\n+    unsigned int i, j, c; \n int x, y;\n+\tassert(b);\n+\tc = bm_get_color(b);\n if(n < 2)\n return;\n else if(n == 2) {",
+  "diff_source": "api",
+  "Bug Filter": "Security Vulnerability Fix\n\nConfidence Score: 0.95",
+  "Bug Filter Confidence": 0.95,
+  "Bug Filter Response": "\n\nThe patch addresses a security vulnerability by adding assertions to prevent null pointer dereferences, which were identified as part of CVE-2018-17073. The changes are directly aimed at mitigating a security issue, making the classification clear.\n\n**Final Output:**\n\nAnalysis: The commit message references a CVE, indicating a security issue. The code changes add assertions to prevent null pointer dereferences, which could be exploited. This directly addresses a security vulnerability.\n\nFinal Classification: Security Vulnerability Fix\n\nConfidence Score: 0.95"
+}

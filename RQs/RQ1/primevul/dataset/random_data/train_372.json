@@ -1,0 +1,21 @@
+{
+  "id": 372,
+  "language": "c",
+  "cwe": "CWE-200",
+  "commit_url": "https://github.com/ljalves/linux_media/commit/3ce5efad47b62c57a4f5c54248347085a750ce0e",
+  "commit_sha": "3ce5efad47b62c57a4f5c54248347085a750ce0e",
+  "commit_msg": "netrom: fix info leak via msg_name in nr_recvmsg()\n\nIn case msg_name is set the sockaddr info gets filled out, as\nrequested, but the code fails to initialize the padding bytes of\nstruct sockaddr_ax25 inserted by the compiler for alignment. Also\nthe sax25_ndigis member does not get assigned, leaking four more\nbytes.\n\nBoth issues lead to the fact that the code will leak uninitialized\nkernel stack bytes in net/socket.c.\n\nFix both issues by initializing the memory with memset(0).\n\nCc: Ralf Baechle <ralf@linux-mips.org>\nSigned-off-by: Mathias Krause <minipli@googlemail.com>\nSigned-off-by: David S. Miller <davem@davemloft.net>",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "net/netrom/af_netrom.c",
+  "func_name": "",
+  "raw_func_from_json": "static int nr_recvmsg(struct kiocb *iocb, struct socket *sock,\n\t\t      struct msghdr *msg, size_t size, int flags)\n{\n\tstruct sock *sk = sock->sk;\n\tstruct sockaddr_ax25 *sax = (struct sockaddr_ax25 *)msg->msg_name;\n\tsize_t copied;\n\tstruct sk_buff *skb;\n\tint er;\n\n\t/*\n\t * This works for seqpacket too. The receiver has ordered the queue for\n\t * us! We do one quick check first though\n\t */\n\n\tlock_sock(sk);\n\tif (sk->sk_state != TCP_ESTABLISHED) {\n\t\trelease_sock(sk);\n\t\treturn -ENOTCONN;\n\t}\n\n\t/* Now we can treat all alike */\n\tif ((skb = skb_recv_datagram(sk, flags & ~MSG_DONTWAIT, flags & MSG_DONTWAIT, &er)) == NULL) {\n\t\trelease_sock(sk);\n\t\treturn er;\n\t}\n\n\tskb_reset_transport_header(skb);\n\tcopied     = skb->len;\n\n\tif (copied > size) {\n\t\tcopied = size;\n\t\tmsg->msg_flags |= MSG_TRUNC;\n\t}\n\n\ter = skb_copy_datagram_iovec(skb, 0, msg->msg_iov, copied);\n\tif (er < 0) {\n\t\tskb_free_datagram(sk, skb);\n\t\trelease_sock(sk);\n\t\treturn er;\n \t}\n \n \tif (sax != NULL) {\n \t\tsax->sax25_family = AF_NETROM;\n \t\tskb_copy_from_linear_data_offset(skb, 7, sax->sax25_call.ax25_call,\n \t\t\t      AX25_ADDR_LEN);\n\t}\n\n\tmsg->msg_namelen = sizeof(*sax);\n\n\tskb_free_datagram(sk, skb);\n\n\trelease_sock(sk);\n\treturn copied;\n}\n",
+  "diff_func": "@@ -1173,6 +1173,7 @@ static int nr_recvmsg(struct kiocb *iocb, struct socket *sock,\n \t}\n \n \tif (sax != NULL) {\n+\t\tmemset(sax, 0, sizeof(sax));\n \t\tsax->sax25_family = AF_NETROM;\n \t\tskb_copy_from_linear_data_offset(skb, 7, sax->sax25_call.ax25_call,\n \t\t\t      AX25_ADDR_LEN);",
+  "project": "linux",
+  "commit_id": "3ce5efad47b62c57a4f5c54248347085a750ce0e",
+  "target": 1,
+  "func": "static int nr_recvmsg(struct kiocb *iocb, struct socket *sock,\n\t\t      struct msghdr *msg, size_t size, int flags)\n{\n\tstruct sock *sk = sock->sk;\n\tstruct sockaddr_ax25 *sax = (struct sockaddr_ax25 *)msg->msg_name;\n\tsize_t copied;\n\tstruct sk_buff *skb;\n\tint er;\n\n\t/*\n\t * This works for seqpacket too. The receiver has ordered the queue for\n\t * us! We do one quick check first though\n\t */\n\n\tlock_sock(sk);\n\tif (sk->sk_state != TCP_ESTABLISHED) {\n\t\trelease_sock(sk);\n\t\treturn -ENOTCONN;\n\t}\n\n\t/* Now we can treat all alike */\n\tif ((skb = skb_recv_datagram(sk, flags & ~MSG_DONTWAIT, flags & MSG_DONTWAIT, &er)) == NULL) {\n\t\trelease_sock(sk);\n\t\treturn er;\n\t}\n\n\tskb_reset_transport_header(skb);\n\tcopied     = skb->len;\n\n\tif (copied > size) {\n\t\tcopied = size;\n\t\tmsg->msg_flags |= MSG_TRUNC;\n\t}\n\n\ter = skb_copy_datagram_iovec(skb, 0, msg->msg_iov, copied);\n\tif (er < 0) {\n\t\tskb_free_datagram(sk, skb);\n\t\trelease_sock(sk);\n\t\treturn er;\n \t}\n \n \tif (sax != NULL) {\n \t\tsax->sax25_family = AF_NETROM;\n \t\tskb_copy_from_linear_data_offset(skb, 7, sax->sax25_call.ax25_call,\n \t\t\t      AX25_ADDR_LEN);\n\t}\n\n\tmsg->msg_namelen = sizeof(*sax);\n\n\tskb_free_datagram(sk, skb);\n\n\trelease_sock(sk);\n\treturn copied;\n}\n",
+  "big_vul_idx": 179207,
+  "idx": 1001,
+  "hash": 180984074270992013207621097845470989444
+}

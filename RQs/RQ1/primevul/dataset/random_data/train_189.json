@@ -1,0 +1,21 @@
+{
+  "id": 189,
+  "language": "unknown",
+  "cwe": "CWE-20",
+  "commit_url": "https://github.com/mindw/freetype-cmake-win32/commit/135c3faebb96f8f550bd4f318716f2e1e095a969",
+  "commit_sha": "135c3faebb96f8f550bd4f318716f2e1e095a969",
+  "commit_msg": "Fix Savannah bug #41697, part 2.\n\n* src/cff/cf2ft.c (cf2_initLocalRegionBuffer,\ncf2_initGlobalRegionBuffer): It is possible for a charstring to call\na subroutine if no subroutines exist.  This is an error but should\nnot trigger an assert.  Split the assert to account for this.",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "ChangeLog",
+  "func_name": "",
+  "raw_func_from_json": "  cf2_initGlobalRegionBuffer( CFF_Decoder*  decoder,\n                               CF2_UInt      idx,\n                               CF2_Buffer    buf )\n   {\n    FT_ASSERT( decoder && decoder->globals );\n \n     FT_ZERO( buf );\n \n    idx += decoder->globals_bias;\n     if ( idx >= decoder->num_globals )\n       return TRUE;     /* error */\n \n     buf->start =\n     buf->ptr   = decoder->globals[idx];\n     buf->end   = decoder->globals[idx + 1];\n  }\n",
+  "diff_func": "@@ -1,3 +1,12 @@\n+2014-02-28  Dave Arnold  <darnold@adobe.com>\n+\n+\t[cff] Fix Savannah bug #41697, part 2.\n+\n+\t* src/cff/cf2ft.c (cf2_initLocalRegionBuffer,\n+\tcf2_initGlobalRegionBuffer): It is possible for a charstring to call\n+\ta subroutine if no subroutines exist.  This is an error but should\n+\tnot trigger an assert.  Split the assert to account for this.\n+\n 2014-02-28  Dave Arnold  <darnold@adobe.com>\n \n \t[cff] Fix Savannah bug #41697, part 1.",
+  "project": "savannah",
+  "commit_id": "135c3faebb96f8f550bd4f318716f2e1e095a969",
+  "target": 1,
+  "func": "  cf2_initGlobalRegionBuffer( CFF_Decoder*  decoder,\n                               CF2_UInt      idx,\n                               CF2_Buffer    buf )\n   {\n    FT_ASSERT( decoder && decoder->globals );\n \n     FT_ZERO( buf );\n \n    idx += decoder->globals_bias;\n     if ( idx >= decoder->num_globals )\n       return TRUE;     /* error */\n \n     buf->start =\n     buf->ptr   = decoder->globals[idx];\n     buf->end   = decoder->globals[idx + 1];\n  }\n",
+  "big_vul_idx": 178393,
+  "idx": 394,
+  "hash": 57508056900925331860444886992748368704
+}

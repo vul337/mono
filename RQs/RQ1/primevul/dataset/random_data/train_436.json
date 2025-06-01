@@ -1,0 +1,21 @@
+{
+  "id": 436,
+  "language": "c",
+  "cwe": "CWE-200",
+  "commit_url": "https://github.com/ljalves/linux_media/commit/7b07f8eb75aa3097cdfd4f6eac3da49db787381d",
+  "commit_sha": "7b07f8eb75aa3097cdfd4f6eac3da49db787381d",
+  "commit_msg": "dccp: fix info leak via getsockopt(DCCP_SOCKOPT_CCID_TX_INFO)\n\nThe CCID3 code fails to initialize the trailing padding bytes of struct\ntfrc_tx_info added for alignment on 64 bit architectures. It that for\npotentially leaks four bytes kernel stack via the getsockopt() syscall.\nAdd an explicit memset(0) before filling the structure to avoid the\ninfo leak.\n\nSigned-off-by: Mathias Krause <minipli@googlemail.com>\nCc: Gerrit Renker <gerrit@erg.abdn.ac.uk>\nSigned-off-by: David S. Miller <davem@davemloft.net>",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "net/dccp/ccids/ccid3.c",
+  "func_name": "",
+  "raw_func_from_json": "static int ccid3_hc_tx_getsockopt(struct sock *sk, const int optname, int len,\n\t\t\t\t  u32 __user *optval, int __user *optlen)\n{\n\tconst struct ccid3_hc_tx_sock *hc = ccid3_hc_tx_sk(sk);\n\tstruct tfrc_tx_info tfrc;\n\tconst void *val;\n\n\tswitch (optname) {\n \tcase DCCP_SOCKOPT_CCID_TX_INFO:\n \t\tif (len < sizeof(tfrc))\n \t\t\treturn -EINVAL;\n \t\ttfrc.tfrctx_x\t   = hc->tx_x;\n \t\ttfrc.tfrctx_x_recv = hc->tx_x_recv;\n \t\ttfrc.tfrctx_x_calc = hc->tx_x_calc;\n\t\ttfrc.tfrctx_rtt\t   = hc->tx_rtt;\n\t\ttfrc.tfrctx_p\t   = hc->tx_p;\n\t\ttfrc.tfrctx_rto\t   = hc->tx_t_rto;\n\t\ttfrc.tfrctx_ipi\t   = hc->tx_t_ipi;\n\t\tlen = sizeof(tfrc);\n\t\tval = &tfrc;\n\t\tbreak;\n\tdefault:\n\t\treturn -ENOPROTOOPT;\n\t}\n\n\tif (put_user(len, optlen) || copy_to_user(optval, val, len))\n\t\treturn -EFAULT;\n\n\treturn 0;\n}\n",
+  "diff_func": "@@ -535,6 +535,7 @@ static int ccid3_hc_tx_getsockopt(struct sock *sk, const int optname, int len,\n \tcase DCCP_SOCKOPT_CCID_TX_INFO:\n \t\tif (len < sizeof(tfrc))\n \t\t\treturn -EINVAL;\n+\t\tmemset(&tfrc, 0, sizeof(tfrc));\n \t\ttfrc.tfrctx_x\t   = hc->tx_x;\n \t\ttfrc.tfrctx_x_recv = hc->tx_x_recv;\n \t\ttfrc.tfrctx_x_calc = hc->tx_x_calc;",
+  "project": "linux",
+  "commit_id": "7b07f8eb75aa3097cdfd4f6eac3da49db787381d",
+  "target": 1,
+  "func": "static int ccid3_hc_tx_getsockopt(struct sock *sk, const int optname, int len,\n\t\t\t\t  u32 __user *optval, int __user *optlen)\n{\n\tconst struct ccid3_hc_tx_sock *hc = ccid3_hc_tx_sk(sk);\n\tstruct tfrc_tx_info tfrc;\n\tconst void *val;\n\n\tswitch (optname) {\n \tcase DCCP_SOCKOPT_CCID_TX_INFO:\n \t\tif (len < sizeof(tfrc))\n \t\t\treturn -EINVAL;\n \t\ttfrc.tfrctx_x\t   = hc->tx_x;\n \t\ttfrc.tfrctx_x_recv = hc->tx_x_recv;\n \t\ttfrc.tfrctx_x_calc = hc->tx_x_calc;\n\t\ttfrc.tfrctx_rtt\t   = hc->tx_rtt;\n\t\ttfrc.tfrctx_p\t   = hc->tx_p;\n\t\ttfrc.tfrctx_rto\t   = hc->tx_t_rto;\n\t\ttfrc.tfrctx_ipi\t   = hc->tx_t_ipi;\n\t\tlen = sizeof(tfrc);\n\t\tval = &tfrc;\n\t\tbreak;\n\tdefault:\n\t\treturn -ENOPROTOOPT;\n\t}\n\n\tif (put_user(len, optlen) || copy_to_user(optval, val, len))\n\t\treturn -EFAULT;\n\n\treturn 0;\n}\n",
+  "big_vul_idx": 179357,
+  "idx": 1132,
+  "hash": 8536137024975475585022210917155420368
+}

@@ -1,0 +1,23 @@
+{
+  "id": 400,
+  "language": "cpp",
+  "cwe": "",
+  "commit_url": "https://github.com/josedelacerda835/https-github.com-facebook-hhvm/commit/1107228a5128d3ca1c4add8ac1635d933cbbe2e9",
+  "commit_sha": "1107228a5128d3ca1c4add8ac1635d933cbbe2e9",
+  "commit_msg": "CVE-2020-1899\n\nVariableUnserializer should only recognize type 'S' in APCSerialization mode",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "hphp/runtime/base/variable-unserializer.cpp",
+  "func_name": "",
+  "raw_func_from_json": "bool VariableUnserializer::matchString(folly::StringPiece str) {\n  const char* p = m_buf;\n  assertx(p <= m_end);\n  int total = 0;\n  if (*p == 'S') {\n    total = 2 + 8 + 1;\n    if (p + total > m_end) return false;\n    p++;\n    if (*p++ != ':') return false;\n    auto const sd = *reinterpret_cast<StringData*const*>(p);\n    assertx(sd->isStatic());\n    if (str.compare(sd->slice()) != 0) return false;\n    p += size_t(8);\n  } else {\n    const auto ss = str.size();\n    if (ss >= 100) return false;\n    int digits = ss >= 10 ? 2 : 1;\n    total = 2 + digits + 2 + ss + 2;\n    if (p + total > m_end) return false;\n    if (*p++ != 's') return false;\n    if (*p++ != ':') return false;\n    if (digits == 2) {\n      if (*p++ != '0' + ss/10) return false;\n      if (*p++ != '0' + ss%10) return false;\n    } else {\n      if (*p++ != '0' + ss) return false;\n    }\n    if (*p++ != ':') return false;\n    if (*p++ != '\\\"') return false;\n    if (memcmp(p, str.data(), ss)) return false;\n    p += ss;\n    if (*p++ != '\\\"') return false;\n  }\n  if (*p++ != ';') return false;\n  assertx(m_buf + total == p);\n  m_buf = p;\n  return true;\n}",
+  "diff_func": "@@ -485,7 +485,7 @@ bool VariableUnserializer::matchString(folly::StringPiece str) {\n   const char* p = m_buf;\n   assertx(p <= m_end);\n   int total = 0;\n-  if (*p == 'S') {\n+  if (*p == 'S' && type() == VariableUnserializer::Type::APCSerialize) {\n     total = 2 + 8 + 1;\n     if (p + total > m_end) return false;\n     p++;",
+  "func": "bool VariableUnserializer::matchString(folly::StringPiece str) {\n  const char* p = m_buf;\n  assertx(p <= m_end);\n  int total = 0;\n  if (*p == 'S') {\n    total = 2 + 8 + 1;\n    if (p + total > m_end) return false;\n    p++;\n    if (*p++ != ':') return false;\n    auto const sd = *reinterpret_cast<StringData*const*>(p);\n    assertx(sd->isStatic());\n    if (str.compare(sd->slice()) != 0) return false;\n    p += size_t(8);\n  } else {\n    const auto ss = str.size();\n    if (ss >= 100) return false;\n    int digits = ss >= 10 ? 2 : 1;\n    total = 2 + digits + 2 + ss + 2;\n    if (p + total > m_end) return false;\n    if (*p++ != 's') return false;\n    if (*p++ != ':') return false;\n    if (digits == 2) {\n      if (*p++ != '0' + ss/10) return false;\n      if (*p++ != '0' + ss%10) return false;\n    } else {\n      if (*p++ != '0' + ss) return false;\n    }\n    if (*p++ != ':') return false;\n    if (*p++ != '\\\"') return false;\n    if (memcmp(p, str.data(), ss)) return false;\n    p += ss;\n    if (*p++ != '\\\"') return false;\n  }\n  if (*p++ != ';') return false;\n  assertx(m_buf + total == p);\n  m_buf = p;\n  return true;\n}",
+  "project": "hhvm",
+  "hash": 18482593263502058733305746330590066804,
+  "size": 38,
+  "commit_id": "1107228a5128d3ca1c4add8ac1635d933cbbe2e9",
+  "message": "CVE-2020-1899\n\nVariableUnserializer should only recognize type 'S' in APCSerialization mode",
+  "target": 1,
+  "dataset": "other",
+  "idx": 195270
+}

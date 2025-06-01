@@ -1,0 +1,15 @@
+{
+  "id": 8131,
+  "language": "JavaScript",
+  "commit_url": "https://github.com/HumanSignal/label-studio/commit/a7a71e594f32ec4af8f3f800d5ccb8662e275da3",
+  "commit_sha": "a7a71e594f32ec4af8f3f800d5ccb8662e275da3",
+  "commit_msg": "fix: OPTIC-179: Properly ensure content is escaped (#4926)\n\n* fix: OPTIC-179: Properly ensure content is escaped\r\n\r\n* ci: Build frontend\r\n\r\nWorkflow run: https://github.com/HumanSignal/label-studio/actions/runs/6567480699\r\n\r\n* update types\r\n\r\n* ci: Build frontend\r\n\r\nWorkflow run: https://github.com/HumanSignal/label-studio/actions/runs/6567539053\r\n\r\n* update\r\n\r\n* ci: Build frontend\r\n\r\nWorkflow run: https://github.com/HumanSignal/label-studio/actions/runs/6568061660\r\n\r\n* update\r\n\r\n* Update label_studio/frontend/src/pages/DataManager/DataManager.js\r\n\r\n* ci: Build frontend\r\n\r\nWorkflow run: https://github.com/HumanSignal/label-studio/actions/runs/6568126554\r\n\r\n---------\r\n\r\nCo-authored-by: robot-ci-heartex <robot-ci-heartex@users.noreply.github.com>",
+  "pr_url": "https://github.com/HumanSignal/label-studio/pull/4926",
+  "pr_info": "no more info",
+  "file_name": "label_studio/frontend/dist/react-app/index.js",
+  "func_name": "apply",
+  "func_before": "function t(e){return function(){for(var t=[],n=0;n<arguments.length;n++)t[n]=arguments[n];var i=t.length>2?t[2]:void 0;if(i){var o=r,a=String(i);r=a,g(\"history\",{from:o,to:a})}return e.apply(this,t)}}",
+  "func_after": "function t(e){return\" \"===e||\"\\t\"===e||\"\\n\"===e||\"\\f\"===e||\"\\r\"===e}",
+  "diff_func": "--- func_before\n+++ func_after\n-function t(e){return function(){for(var t=[],n=0;n<arguments.length;n++)t[n]=arguments[n];var i=t.length>2?t[2]:void 0;if(i){var o=r,a=String(i);r=a,g(\"history\",{from:o,to:a})}return e.apply(this,t)}}\n+function t(e){return\" \"===e||\"\\t\"===e||\"\\n\"===e||\"\\f\"===e||\"\\r\"===e}",
+  "diff_source": "custom"
+}

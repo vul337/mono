@@ -1,0 +1,21 @@
+{
+  "id": 390,
+  "language": "c",
+  "cwe": "CWE-119",
+  "commit_url": "https://github.com/ljalves/linux_media/commit/a5cc68f3d63306d0d288f31edfc2ae6ef8ecd887",
+  "commit_sha": "a5cc68f3d63306d0d288f31edfc2ae6ef8ecd887",
+  "commit_msg": "af_key: fix info leaks in notify messages\n\nkey_notify_sa_flush() and key_notify_policy_flush() miss to initialize\nthe sadb_msg_reserved member of the broadcasted message and thereby\nleak 2 bytes of heap memory to listeners. Fix that.\n\nSigned-off-by: Mathias Krause <minipli@googlemail.com>\nCc: Steffen Klassert <steffen.klassert@secunet.com>\nCc: \"David S. Miller\" <davem@davemloft.net>\nCc: Herbert Xu <herbert@gondor.apana.org.au>\nSigned-off-by: David S. Miller <davem@davemloft.net>",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "net/key/af_key.c",
+  "func_name": "",
+  "raw_func_from_json": "static int key_notify_policy_flush(const struct km_event *c)\n{\n\tstruct sk_buff *skb_out;\n\tstruct sadb_msg *hdr;\n\n\tskb_out = alloc_skb(sizeof(struct sadb_msg) + 16, GFP_ATOMIC);\n\tif (!skb_out)\n\t\treturn -ENOBUFS;\n\thdr = (struct sadb_msg *) skb_put(skb_out, sizeof(struct sadb_msg));\n\thdr->sadb_msg_type = SADB_X_SPDFLUSH;\n\thdr->sadb_msg_seq = c->seq;\n\thdr->sadb_msg_pid = c->portid;\n\thdr->sadb_msg_version = PF_KEY_V2;\n \thdr->sadb_msg_errno = (uint8_t) 0;\n \thdr->sadb_msg_satype = SADB_SATYPE_UNSPEC;\n \thdr->sadb_msg_len = (sizeof(struct sadb_msg) / sizeof(uint64_t));\n \tpfkey_broadcast(skb_out, GFP_ATOMIC, BROADCAST_ALL, NULL, c->net);\n \treturn 0;\n \n}\n",
+  "diff_func": "@@ -1710,6 +1710,7 @@ static int key_notify_sa_flush(const struct km_event *c)\n \thdr->sadb_msg_version = PF_KEY_V2;\n \thdr->sadb_msg_errno = (uint8_t) 0;\n \thdr->sadb_msg_len = (sizeof(struct sadb_msg) / sizeof(uint64_t));\n+\thdr->sadb_msg_reserved = 0;\n \n \tpfkey_broadcast(skb, GFP_ATOMIC, BROADCAST_ALL, NULL, c->net);\n \n@@ -2699,6 +2700,7 @@ static int key_notify_policy_flush(const struct km_event *c)\n \thdr->sadb_msg_errno = (uint8_t) 0;\n \thdr->sadb_msg_satype = SADB_SATYPE_UNSPEC;\n \thdr->sadb_msg_len = (sizeof(struct sadb_msg) / sizeof(uint64_t));\n+\thdr->sadb_msg_reserved = 0;\n \tpfkey_broadcast(skb_out, GFP_ATOMIC, BROADCAST_ALL, NULL, c->net);\n \treturn 0;\n ",
+  "project": "linux",
+  "commit_id": "a5cc68f3d63306d0d288f31edfc2ae6ef8ecd887",
+  "target": 1,
+  "func": "static int key_notify_policy_flush(const struct km_event *c)\n{\n\tstruct sk_buff *skb_out;\n\tstruct sadb_msg *hdr;\n\n\tskb_out = alloc_skb(sizeof(struct sadb_msg) + 16, GFP_ATOMIC);\n\tif (!skb_out)\n\t\treturn -ENOBUFS;\n\thdr = (struct sadb_msg *) skb_put(skb_out, sizeof(struct sadb_msg));\n\thdr->sadb_msg_type = SADB_X_SPDFLUSH;\n\thdr->sadb_msg_seq = c->seq;\n\thdr->sadb_msg_pid = c->portid;\n\thdr->sadb_msg_version = PF_KEY_V2;\n \thdr->sadb_msg_errno = (uint8_t) 0;\n \thdr->sadb_msg_satype = SADB_SATYPE_UNSPEC;\n \thdr->sadb_msg_len = (sizeof(struct sadb_msg) / sizeof(uint64_t));\n \tpfkey_broadcast(skb_out, GFP_ATOMIC, BROADCAST_ALL, NULL, c->net);\n \treturn 0;\n \n}\n",
+  "big_vul_idx": 179246,
+  "idx": 1035,
+  "hash": 89775021181796415187010260408670555020
+}

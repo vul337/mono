@@ -1,0 +1,23 @@
+{
+  "id": 591,
+  "language": "cc",
+  "cwe": "",
+  "commit_url": "https://github.com/prividentity/tensorflow/commit/301ae88b331d37a2a16159b65b255f4f9eb39314",
+  "commit_sha": "301ae88b331d37a2a16159b65b255f4f9eb39314",
+  "commit_msg": "Fix null ptr deref in tf.raw_ops.RaggedTensorToTensor\n\nPiperOrigin-RevId: 384257511\nChange-Id: I0484ad285039d132d6c41b284a7fcdd2b774a38e",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "tensorflow/core/kernels/ragged_tensor_to_tensor_op.cc",
+  "func_name": "",
+  "raw_func_from_json": "  Status GetFirstDimensionSize(OpKernelContext* context, INDEX_TYPE* result) {\n    const Tensor first_partition_tensor =\n        context->input(kFirstPartitionInputIndex);\n    const RowPartitionType first_partition_type = row_partition_types_[0];\n    switch (first_partition_type) {\n      case RowPartitionType::FIRST_DIM_SIZE:\n        *result = first_partition_tensor.scalar<INDEX_TYPE>()();\n        return Status::OK();\n      case RowPartitionType::VALUE_ROWIDS:\n        return errors::InvalidArgument(\n            \"Cannot handle VALUE_ROWIDS in first dimension.\");\n      case RowPartitionType::ROW_SPLITS:\n        *result = first_partition_tensor.shape().dim_size(0) - 1;\n        return Status::OK();\n      default:\n        return errors::InvalidArgument(\n            \"Cannot handle type \",\n            RowPartitionTypeToString(first_partition_type));\n    }\n  }",
+  "diff_func": "@@ -348,6 +348,9 @@ class RaggedTensorToTensorBaseOp : public OpKernel {\n   Status GetFirstDimensionSize(OpKernelContext* context, INDEX_TYPE* result) {\n     const Tensor first_partition_tensor =\n         context->input(kFirstPartitionInputIndex);\n+    if (row_partition_types_.empty()) {\n+      return errors::InvalidArgument(\"No row_partition_types given.\");\n+    }\n     const RowPartitionType first_partition_type = row_partition_types_[0];\n     switch (first_partition_type) {\n       case RowPartitionType::FIRST_DIM_SIZE:",
+  "func": "  Status GetFirstDimensionSize(OpKernelContext* context, INDEX_TYPE* result) {\n    const Tensor first_partition_tensor =\n        context->input(kFirstPartitionInputIndex);\n    const RowPartitionType first_partition_type = row_partition_types_[0];\n    switch (first_partition_type) {\n      case RowPartitionType::FIRST_DIM_SIZE:\n        *result = first_partition_tensor.scalar<INDEX_TYPE>()();\n        return Status::OK();\n      case RowPartitionType::VALUE_ROWIDS:\n        return errors::InvalidArgument(\n            \"Cannot handle VALUE_ROWIDS in first dimension.\");\n      case RowPartitionType::ROW_SPLITS:\n        *result = first_partition_tensor.shape().dim_size(0) - 1;\n        return Status::OK();\n      default:\n        return errors::InvalidArgument(\n            \"Cannot handle type \",\n            RowPartitionTypeToString(first_partition_type));\n    }\n  }",
+  "project": "tensorflow",
+  "hash": 8875073086629769890154937833779819001,
+  "size": 20,
+  "commit_id": "301ae88b331d37a2a16159b65b255f4f9eb39314",
+  "message": "Fix null ptr deref in tf.raw_ops.RaggedTensorToTensor\n\nPiperOrigin-RevId: 384257511\nChange-Id: I0484ad285039d132d6c41b284a7fcdd2b774a38e",
+  "target": 1,
+  "dataset": "other",
+  "idx": 198407
+}

@@ -1,0 +1,15 @@
+{
+  "id": 1497,
+  "language": "Java",
+  "commit_url": "https://github.com/wildfly-security/wildfly-elytron/commit/8cfc5065c0e5714d36163dbe39de9c6e28ae76c7",
+  "commit_sha": "8cfc5065c0e5714d36163dbe39de9c6e28ae76c7",
+  "commit_msg": "[ELY-2419] Update GeneralName to make use of MessageDigest#isEqual to avoid a potential timing attack",
+  "pr_url": "https://github.com/wildfly-security/wildfly-elytron/pull/1776",
+  "pr_info": "https://issues.redhat.com/browse/ELY-2419",
+  "file_name": "x500/base/src/main/java/org/wildfly/security/x500/GeneralName.java",
+  "func_name": "equals",
+  "func_before": "public boolean equals(final EDIPartyName other) {\n            return other != null && Arrays.equals(encodedName, other.getName());\n        }",
+  "func_after": "public boolean equals(final EDIPartyName other) {\n            return other != null && MessageDigest.isEqual(encodedName, other.getName());\n        }",
+  "diff_func": "--- func_before\n+++ func_after\n@@ -189 +190 @@\n public boolean equals(final OtherName other) {\n-            return other != null && Arrays.equals(encodedName, other.getName());\n+            return other != null && MessageDigest.isEqual(encodedName, other.getName());\n }\n@@ -352 +353 @@\n public boolean equals(final X400Address other) {\n-            return other != null && Arrays.equals(encodedName, other.getName());\n+            return other != null && MessageDigest.isEqual(encodedName, other.getName());\n }\n@@ -471 +472 @@\n public boolean equals(final EDIPartyName other) {\n-            return other != null && Arrays.equals(encodedName, other.getName());\n+            return other != null && MessageDigest.isEqual(encodedName, other.getName());\n }",
+  "diff_source": "api"
+}

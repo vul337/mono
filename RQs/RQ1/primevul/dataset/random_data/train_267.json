@@ -1,0 +1,21 @@
+{
+  "id": 267,
+  "language": "c",
+  "cwe": "CWE-399",
+  "commit_url": "https://github.com/ljalves/linux_media/commit/ed6fe9d614fc1bca95eb8c0ccd0e92db00ef9d5d",
+  "commit_sha": "ed6fe9d614fc1bca95eb8c0ccd0e92db00ef9d5d",
+  "commit_msg": "Fix order of arguments to compat_put_time[spec|val]\n\nCommit 644595f89620 (\"compat: Handle COMPAT_USE_64BIT_TIME in\nnet/socket.c\") introduced a bug where the helper functions to take\neither a 64-bit or compat time[spec|val] got the arguments in the wrong\norder, passing the kernel stack pointer off as a user pointer (and vice\nversa).\n\nBecause of the user address range check, that in turn then causes an\nEFAULT due to the user pointer range checking failing for the kernel\naddress.  Incorrectly resuling in a failed system call for 32-bit\nprocesses with a 64-bit kernel.\n\nOn odder architectures like HP-PA (with separate user/kernel address\nspaces), it can be used read kernel memory.\n\nSigned-off-by: Mikulas Patocka <mpatocka@redhat.com>\nCc: stable@vger.kernel.org\nSigned-off-by: Linus Torvalds <torvalds@linux-foundation.org>",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "net/socket.c",
+  "func_name": "",
+  "raw_func_from_json": "static int do_siocgstamp(struct net *net, struct socket *sock,\n\t\t\t unsigned int cmd, void __user *up)\n{\n\tmm_segment_t old_fs = get_fs();\n\tstruct timeval ktv;\n\tint err;\n\n\tset_fs(KERNEL_DS);\n \terr = sock_do_ioctl(net, sock, cmd, (unsigned long)&ktv);\n \tset_fs(old_fs);\n \tif (!err)\n\t\terr = compat_put_timeval(up, &ktv);\n \n \treturn err;\n }\n",
+  "diff_func": "@@ -2604,7 +2604,7 @@ static int do_siocgstamp(struct net *net, struct socket *sock,\n \terr = sock_do_ioctl(net, sock, cmd, (unsigned long)&ktv);\n \tset_fs(old_fs);\n \tif (!err)\n-\t\terr = compat_put_timeval(up, &ktv);\n+\t\terr = compat_put_timeval(&ktv, up);\n \n \treturn err;\n }\n@@ -2620,7 +2620,7 @@ static int do_siocgstampns(struct net *net, struct socket *sock,\n \terr = sock_do_ioctl(net, sock, cmd, (unsigned long)&kts);\n \tset_fs(old_fs);\n \tif (!err)\n-\t\terr = compat_put_timespec(up, &kts);\n+\t\terr = compat_put_timespec(&kts, up);\n \n \treturn err;\n }",
+  "project": "linux",
+  "commit_id": "ed6fe9d614fc1bca95eb8c0ccd0e92db00ef9d5d",
+  "target": 1,
+  "func": "static int do_siocgstamp(struct net *net, struct socket *sock,\n\t\t\t unsigned int cmd, void __user *up)\n{\n\tmm_segment_t old_fs = get_fs();\n\tstruct timeval ktv;\n\tint err;\n\n\tset_fs(KERNEL_DS);\n \terr = sock_do_ioctl(net, sock, cmd, (unsigned long)&ktv);\n \tset_fs(old_fs);\n \tif (!err)\n\t\terr = compat_put_timeval(up, &ktv);\n \n \treturn err;\n }\n",
+  "big_vul_idx": 178708,
+  "idx": 579,
+  "hash": 324785292477380531106035548806009996367
+}

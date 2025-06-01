@@ -1,0 +1,15 @@
+{
+  "id": 3841,
+  "language": "C#",
+  "commit_url": "https://github.com/blogifierdotnet/Blogifier/commit/3e2ae11f6be8aab82128f223c2916fab5a408be5",
+  "commit_sha": "3e2ae11f6be8aab82128f223c2916fab5a408be5",
+  "commit_msg": "Tightening security in APIs",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "src/Core/Services/StorageService.cs",
+  "func_name": "VerifyPath",
+  "func_before": "void VerifyPath(string path)\n        {\n            if (!string.IsNullOrEmpty(path))\n            {\n                var dir = Path.Combine(Location, path);\n\n                if (!Directory.Exists(dir))\n                {\n                    CreateFolder(dir);\n                }\n            }\n        }",
+  "func_after": "void VerifyPath(string path)\n        {\n            path = path.SanitizePath();\n\n            if (!string.IsNullOrEmpty(path))\n            {\n                var dir = Path.Combine(Location, path);\n\n                if (!Directory.Exists(dir))\n                {\n                    CreateFolder(dir);\n                }\n            }\n        }",
+  "diff_func": "--- func_before\n+++ func_after\n void VerifyPath(string path)\n         {\n+            path = path.SanitizePath();\n+\n             if (!string.IsNullOrEmpty(path))\n             {\n                 var dir = Path.Combine(Location, path);\n \n                 if (!Directory.Exists(dir))\n                 {\n                     CreateFolder(dir);\n                 }\n             }\n         }",
+  "diff_source": "custom"
+}

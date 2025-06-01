@@ -1,0 +1,23 @@
+{
+  "id": 616,
+  "language": "c",
+  "cwe": "",
+  "commit_url": "https://github.com/nostradamuskenneh/httpd/commit/f990e5ecad40b100a8a5c7c1033c46044a9cb244",
+  "commit_sha": "f990e5ecad40b100a8a5c7c1033c46044a9cb244",
+  "commit_msg": "mod_htt2: fix incomplete sync with latest changes in github, adjust version number.\n\n\n\ngit-svn-id: https://svn.apache.org/repos/asf/httpd/httpd/trunk@1889119 13f79535-47bb-0310-9956-ffa450edef68",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "modules/http2/h2_stream.c",
+  "func_name": "",
+  "raw_func_from_json": "static void set_error_response(h2_stream *stream, int http_status)\n{\n    if (!h2_stream_is_ready(stream)) {\n        stream->rtmp->http_status = http_status;\n    }\n}",
+  "diff_func": "@@ -638,7 +638,7 @@ void h2_stream_set_request(h2_stream *stream, const h2_request *r)\n \n static void set_error_response(h2_stream *stream, int http_status)\n {\n-    if (!h2_stream_is_ready(stream)) {\n+    if (!h2_stream_is_ready(stream) && stream->rtmp) {\n         stream->rtmp->http_status = http_status;\n     }\n }",
+  "func": "static void set_error_response(h2_stream *stream, int http_status)\n{\n    if (!h2_stream_is_ready(stream)) {\n        stream->rtmp->http_status = http_status;\n    }\n}",
+  "project": "httpd",
+  "hash": 172068702792085315081162612263931698574,
+  "size": 6,
+  "commit_id": "f990e5ecad40b100a8a5c7c1033c46044a9cb244",
+  "message": "mod_htt2: fix incomplete sync with latest changes in github, adjust version number.\n\n\n\ngit-svn-id: https://svn.apache.org/repos/asf/httpd/httpd/trunk@1889119 13f79535-47bb-0310-9956-ffa450edef68",
+  "target": 1,
+  "dataset": "other",
+  "idx": 198837
+}

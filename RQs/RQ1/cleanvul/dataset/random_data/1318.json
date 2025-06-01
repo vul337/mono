@@ -1,0 +1,15 @@
+{
+  "id": 1318,
+  "language": "Java",
+  "commit_url": "https://github.com/omnirom/android_frameworks_base/commit/b0b1ddb4b4ba5db27f5616b02ae2cdca8b63496f",
+  "commit_sha": "b0b1ddb4b4ba5db27f5616b02ae2cdca8b63496f",
+  "commit_msg": "[RESTRICT AUTOMERGE] Fix bypass BG-FGS and BAL via package manager APIs\n\nOpt-in for BAL of PendingIntent for following APIs:\n\n* PackageInstaller.uninstall()\n* PackageInstaller.installExistingPackage()\n* PackageInstaller.uninstallExistingPackage()\n* PackageInstaller.Session.commit()\n* PackageInstaller.Session.commitTransferred()\n* PackageManager.freeStorage()\n\nBug: 230492955\nBug: 243377226\nTest: atest android.security.cts.PackageInstallerTest\nTest: atest CtsStagedInstallHostTestCases\nChange-Id: I9b6f801d69ea6d2244a38dbe689e81afa4e798bf",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "core/java/android/content/IntentSender.java",
+  "func_name": "sendIntent",
+  "func_before": "public void sendIntent(Context context, int code, Intent intent,\n            OnFinished onFinished, Handler handler, String requiredPermission)\n            throws SendIntentException {\n        try {\n            String resolvedType = intent != null ?\n                    intent.resolveTypeIfNeeded(context.getContentResolver())\n                    : null;\n            int res = ActivityManager.getService().sendIntentSender(mTarget, mWhitelistToken,\n                    code, intent, resolvedType,\n                    onFinished != null\n                            ? new FinishedDispatcher(this, onFinished, handler)\n                            : null,\n                    requiredPermission, null);\n            if (res < 0) {\n                throw new SendIntentException();\n            }\n        } catch (RemoteException e) {\n            throw new SendIntentException();\n        }\n    }",
+  "func_after": "public void sendIntent(Context context, int code, Intent intent,\n            OnFinished onFinished, Handler handler, String requiredPermission)\n            throws SendIntentException {\n        sendIntent(context, code, intent, onFinished, handler, requiredPermission,\n                null /* options */);\n    }",
+  "diff_func": "--- func_before\n+++ func_after\n@@ -154 +156 @@\n public void sendIntent(Context context, int code, Intent intent,\n OnFinished onFinished, Handler handler) throws SendIntentException {\n-        sendIntent(context, code, intent, onFinished, handler, null);\n+        sendIntent(context, code, intent, onFinished, handler, null, null /* options */);\n }\n@@ -186 +188 @@\n public void sendIntent(Context context, int code, Intent intent,\n+        sendIntent(context, code, intent, onFinished, handler, requiredPermission,\n+                null /* options */);\n+    }",
+  "diff_source": "api"
+}

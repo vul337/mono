@@ -1,0 +1,18 @@
+{
+  "id": 3876,
+  "language": "C/C++",
+  "commit_url": "https://github.com/haakonnessjoen/MAC-Telnet/commit/b69d11727d4f0f8cf719c79e3fb700f55ca03e9a",
+  "commit_sha": "b69d11727d4f0f8cf719c79e3fb700f55ca03e9a",
+  "commit_msg": "Merge pull request #20 from eyalitki/master\n\n2nd round security fixes from eyalitki",
+  "pr_url": "https://github.com/haakonnessjoen/MAC-Telnet/pull/20",
+  "pr_info": "Some more security fixes after a second round of examination.\n",
+  "file_name": "protocol.c",
+  "func_name": "mndp_add_attribute",
+  "func_before": "int mndp_add_attribute(struct mt_packet *packet, enum mt_mndp_attrtype attrtype, void *attrdata, unsigned short data_len) {\n\tunsigned char *data = packet->data + packet->size;\n\tunsigned short type = attrtype;\n\tunsigned short len = data_len;\n\n\t/* Something is really wrong. Packets should never become over 1500 bytes */\n\tif (packet->size + 4 + data_len > MT_PACKET_LEN) {\n\t\tfprintf(stderr, _(\"mndp_add_attribute: ERROR, too large packet. Exceeds %d bytes\\n\"), MT_PACKET_LEN);\n\t\treturn -1;\n\t}\n\n\ttype = htons(type);\n\tmemcpy(data, &type, sizeof(type));\n\n\tlen = htons(len);\n\tmemcpy(data + 2, &len, sizeof(len));\n\n\tmemcpy(data + 4, attrdata, data_len);\n\n\tpacket->size += 4 + data_len;\n\n\treturn 4 + data_len;\n}",
+  "func_after": "int mndp_add_attribute(struct mt_packet *packet, enum mt_mndp_attrtype attrtype, void *attrdata, unsigned short data_len) {\n\tunsigned char *data = packet->data + packet->size;\n\tunsigned short type = attrtype;\n\tunsigned short len = data_len;\n\n\t/* Something is really wrong. Packets should never become over 1500 bytes */\n\tif (data_len > MT_PACKET_LEN - 4 - packet->size) {\n\t\tfprintf(stderr, _(\"mndp_add_attribute: ERROR, too large packet. Exceeds %d bytes\\n\"), MT_PACKET_LEN);\n\t\treturn -1;\n\t}\n\n\ttype = htons(type);\n\tmemcpy(data, &type, sizeof(type));\n\n\tlen = htons(len);\n\tmemcpy(data + 2, &len, sizeof(len));\n\n\tmemcpy(data + 4, attrdata, data_len);\n\n\tpacket->size += 4 + data_len;\n\n\treturn 4 + data_len;\n}",
+  "diff_func": "--- func_before\n+++ func_after\n int mndp_add_attribute(struct mt_packet *packet, enum mt_mndp_attrtype attrtype, void *attrdata, unsigned short data_len) {\n \tunsigned char *data = packet->data + packet->size;\n \tunsigned short type = attrtype;\n \tunsigned short len = data_len;\n \n \t/* Something is really wrong. Packets should never become over 1500 bytes */\n-\tif (packet->size + 4 + data_len > MT_PACKET_LEN) {\n+\tif (data_len > MT_PACKET_LEN - 4 - packet->size) {\n \t\tfprintf(stderr, _(\"mndp_add_attribute: ERROR, too large packet. Exceeds %d bytes\\n\"), MT_PACKET_LEN);\n \t\treturn -1;\n \t}\n \n \ttype = htons(type);\n \tmemcpy(data, &type, sizeof(type));\n \n \tlen = htons(len);\n \tmemcpy(data + 2, &len, sizeof(len));\n \n \tmemcpy(data + 4, attrdata, data_len);\n \n \tpacket->size += 4 + data_len;\n \n \treturn 4 + data_len;\n }",
+  "diff_source": "custom",
+  "Bug Filter": "Security Vulnerability Fix\nConfidence Score: 0.95",
+  "Bug Filter Confidence": 0.95,
+  "Bug Filter Response": "\n\nThe patch modifies a condition to prevent packet overflow, aligning with the commit's mention of security fixes. It addresses a potential buffer overflow, a security issue.\n\n**Final Output:**\nAnalysis: The patch modifies a condition to prevent packet overflow, aligning with the commit's mention of security fixes. It addresses a potential buffer overflow, a security issue.\nFinal Classification: Security Vulnerability Fix\nConfidence Score: 0.95"
+}

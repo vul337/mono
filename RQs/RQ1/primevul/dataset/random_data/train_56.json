@@ -1,0 +1,21 @@
+{
+  "id": 56,
+  "language": "c",
+  "cwe": "",
+  "commit_url": "https://github.com/pol51/OpenSSL-CMake/commit/d8541d7e9e63bf5f343af24644046c8d96498c17",
+  "commit_sha": "d8541d7e9e63bf5f343af24644046c8d96498c17",
+  "commit_msg": "Add PSS parameter check.\n\nAvoid seg fault by checking mgf1 parameter is not NULL. This can be\ntriggered during certificate verification so could be a DoS attack\nagainst a client or a server enabling client authentication.\n\nThanks to Loïc Jonas Etienne (Qnective AG) for discovering this bug.\n\nCVE-2015-3194\n\nReviewed-by: Matt Caswell <matt@openssl.org>",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "crypto/rsa/rsa_ameth.c",
+  "func_name": "",
+  "raw_func_from_json": "static RSA_PSS_PARAMS *rsa_pss_decode(const X509_ALGOR *alg,\n                                      X509_ALGOR **pmaskHash)\n{\n    const unsigned char *p;\n    int plen;\n    RSA_PSS_PARAMS *pss;\n\n    *pmaskHash = NULL;\n\n    if (!alg->parameter || alg->parameter->type != V_ASN1_SEQUENCE)\n        return NULL;\n    p = alg->parameter->value.sequence->data;\n    plen = alg->parameter->value.sequence->length;\n    pss = d2i_RSA_PSS_PARAMS(NULL, &p, plen);\n\n    if (!pss)\n        return NULL;\n\n     if (pss->maskGenAlgorithm) {\n         ASN1_TYPE *param = pss->maskGenAlgorithm->parameter;\n         if (OBJ_obj2nid(pss->maskGenAlgorithm->algorithm) == NID_mgf1\n            && param->type == V_ASN1_SEQUENCE) {\n             p = param->value.sequence->data;\n             plen = param->value.sequence->length;\n             *pmaskHash = d2i_X509_ALGOR(NULL, &p, plen);\n        }\n    }\n\n    return pss;\n}\n",
+  "diff_func": "@@ -279,7 +279,7 @@ static RSA_PSS_PARAMS *rsa_pss_decode(const X509_ALGOR *alg,\n     if (pss->maskGenAlgorithm) {\n         ASN1_TYPE *param = pss->maskGenAlgorithm->parameter;\n         if (OBJ_obj2nid(pss->maskGenAlgorithm->algorithm) == NID_mgf1\n-            && param->type == V_ASN1_SEQUENCE) {\n+            && param && param->type == V_ASN1_SEQUENCE) {\n             p = param->value.sequence->data;\n             plen = param->value.sequence->length;\n             *pmaskHash = d2i_X509_ALGOR(NULL, &p, plen);",
+  "project": "openssl",
+  "commit_id": "d8541d7e9e63bf5f343af24644046c8d96498c17",
+  "target": 1,
+  "func": "static RSA_PSS_PARAMS *rsa_pss_decode(const X509_ALGOR *alg,\n                                      X509_ALGOR **pmaskHash)\n{\n    const unsigned char *p;\n    int plen;\n    RSA_PSS_PARAMS *pss;\n\n    *pmaskHash = NULL;\n\n    if (!alg->parameter || alg->parameter->type != V_ASN1_SEQUENCE)\n        return NULL;\n    p = alg->parameter->value.sequence->data;\n    plen = alg->parameter->value.sequence->length;\n    pss = d2i_RSA_PSS_PARAMS(NULL, &p, plen);\n\n    if (!pss)\n        return NULL;\n\n     if (pss->maskGenAlgorithm) {\n         ASN1_TYPE *param = pss->maskGenAlgorithm->parameter;\n         if (OBJ_obj2nid(pss->maskGenAlgorithm->algorithm) == NID_mgf1\n            && param->type == V_ASN1_SEQUENCE) {\n             p = param->value.sequence->data;\n             plen = param->value.sequence->length;\n             *pmaskHash = d2i_X509_ALGOR(NULL, &p, plen);\n        }\n    }\n\n    return pss;\n}\n",
+  "big_vul_idx": 177891,
+  "idx": 109,
+  "hash": 288105964239389158612588380167749525157
+}

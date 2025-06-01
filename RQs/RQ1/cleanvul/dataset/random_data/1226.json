@@ -1,0 +1,15 @@
+{
+  "id": 1226,
+  "language": "Java",
+  "commit_url": "https://github.com/omnirom/android_frameworks_base/commit/34683275498914ece5ee9435846b7b429ccfc964",
+  "commit_sha": "34683275498914ece5ee9435846b7b429ccfc964",
+  "commit_msg": "Update Parcel readLazyValue to ignore negative object lengths\n\nAddresses a security vulnerability where a (-8) length object would\ncause dataPosition to be reset back to the statt of the value, and be\nre-read again.\n\nBug: 240138294\nTest: atest ParcelTest BundleTest AmbiguousBundlesTest\nTest: manually ran PoC\nChange-Id: I1ab1df6f2a802d8cdf02c89c12959b09d7b1a5c4\nMerged-In: I1ab1df6f2a802d8cdf02c89c12959b09d7b1a5c4",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "core/java/android/os/Parcel.java",
+  "func_name": "readLazyValue",
+  "func_before": "@Nullable\n    public Object readLazyValue(@Nullable ClassLoader loader) {\n        int start = dataPosition();\n        int type = readInt();\n        if (isLengthPrefixed(type)) {\n            int objectLength = readInt();\n            int end = MathUtils.addOrThrow(dataPosition(), objectLength);\n            int valueLength = end - start;\n            setDataPosition(end);\n            return new LazyValue(this, start, valueLength, type, loader);\n        } else {\n            return readValue(type, loader, /* clazz */ null);\n        }\n    }",
+  "func_after": "@Nullable\n    public Object readLazyValue(@Nullable ClassLoader loader) {\n        int start = dataPosition();\n        int type = readInt();\n        if (isLengthPrefixed(type)) {\n            int objectLength = readInt();\n            if (objectLength < 0) {\n                return null;\n            }\n            int end = MathUtils.addOrThrow(dataPosition(), objectLength);\n            int valueLength = end - start;\n            setDataPosition(end);\n            return new LazyValue(this, start, valueLength, type, loader);\n        } else {\n            return readValue(type, loader, /* clazz */ null);\n        }\n    }",
+  "diff_func": "--- func_before\n+++ func_after\n @Nullable\n     public Object readLazyValue(@Nullable ClassLoader loader) {\n         int start = dataPosition();\n         int type = readInt();\n         if (isLengthPrefixed(type)) {\n             int objectLength = readInt();\n+            if (objectLength < 0) {\n+                return null;\n+            }\n             int end = MathUtils.addOrThrow(dataPosition(), objectLength);\n             int valueLength = end - start;\n             setDataPosition(end);\n             return new LazyValue(this, start, valueLength, type, loader);\n         } else {\n             return readValue(type, loader, /* clazz */ null);\n         }\n     }",
+  "diff_source": "custom"
+}

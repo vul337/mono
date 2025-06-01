@@ -1,0 +1,15 @@
+{
+  "id": 3105,
+  "language": "Java",
+  "commit_url": "https://github.com/CloudburstMC/Nukkit/commit/1d55f5d56eb4483bea2893bf9295c15e67d4c08d",
+  "commit_sha": "1d55f5d56eb4483bea2893bf9295c15e67d4c08d",
+  "commit_msg": "Patch some exploits (#1948)",
+  "pr_url": "https://github.com/CloudburstMC/Nukkit/pull/1948",
+  "pr_info": "no more info",
+  "file_name": "src/main/java/cn/nukkit/entity/data/Skin.java",
+  "func_name": "isValidResourcePatch",
+  "func_before": "private boolean isValidResourcePatch() {\n        if (skinResourcePatch == null) {\n            return false;\n        }\n        try {\n            JSONObject object = (JSONObject) JSONValue.parse(skinResourcePatch);\n            JSONObject geometry = (JSONObject) object.get(\"geometry\");\n            return geometry.containsKey(\"default\") && geometry.get(\"default\") instanceof String;\n        } catch (ClassCastException | NullPointerException e) {\n            return false;\n        }\n    }",
+  "func_after": "private boolean isValidResourcePatch() {\n        if (skinResourcePatch == null || skinResourcePatch.length() > 1000) {\n            return false;\n        }\n        try {\n            JSONObject object = (JSONObject) JSONValue.parse(skinResourcePatch);\n            JSONObject geometry = (JSONObject) object.get(\"geometry\");\n            return geometry.containsKey(\"default\") && geometry.get(\"default\") instanceof String;\n        } catch (ClassCastException | NullPointerException e) {\n            return false;\n        }\n    }",
+  "diff_func": "--- func_before\n+++ func_after\n private boolean isValidResourcePatch() {\n-        if (skinResourcePatch == null) {\n+        if (skinResourcePatch == null || skinResourcePatch.length() > 1000) {\n             return false;\n         }\n         try {\n             JSONObject object = (JSONObject) JSONValue.parse(skinResourcePatch);\n             JSONObject geometry = (JSONObject) object.get(\"geometry\");\n             return geometry.containsKey(\"default\") && geometry.get(\"default\") instanceof String;\n         } catch (ClassCastException | NullPointerException e) {\n             return false;\n         }\n     }",
+  "diff_source": "custom"
+}

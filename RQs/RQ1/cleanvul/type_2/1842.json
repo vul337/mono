@@ -1,0 +1,18 @@
+{
+  "id": 1842,
+  "language": "Java",
+  "commit_url": "https://github.com/AOSPA/android_frameworks_base/commit/e4e93991f3ea911a79df5aaed8fd3c544beac4a3",
+  "commit_sha": "e4e93991f3ea911a79df5aaed8fd3c544beac4a3",
+  "commit_msg": "Fix Wi-Fi level out of range crash\n\n- If the Wi-Fi level is less than the minimum level, use the minimum\n  level instead.\n\n- If the Wi-Fi level is greater than the maximum level, use the\n  maximum level instead.\n\nBug: 230457323\nTest: manual test\nmake RunSettingsLibRoboTests ROBOTEST_FILTER=WifiUtilsTest\n\nChange-Id: I7ec748ac200a7930ea08604ecf9cece6fcbfbb86",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "packages/SettingsLib/src/com/android/settingslib/wifi/WifiUtils.java",
+  "func_name": "getInternetIconResource",
+  "func_before": "public static int getInternetIconResource(int level, boolean noInternet) {\n        if (level < 0 || level >= WIFI_PIE.length) {\n            throw new IllegalArgumentException(\"No Wifi icon found for level: \" + level);\n        }\n        return noInternet ? NO_INTERNET_WIFI_PIE[level] : WIFI_PIE[level];\n    }",
+  "func_after": "public static int getInternetIconResource(int level, boolean noInternet) {\n        int wifiLevel = level;\n        if (wifiLevel < 0) {\n            Log.e(TAG, \"Wi-Fi level is out of range! level:\" + level);\n            wifiLevel = 0;\n        } else if (level >= WIFI_PIE.length) {\n            Log.e(TAG, \"Wi-Fi level is out of range! level:\" + level);\n            wifiLevel = WIFI_PIE.length - 1;\n        }\n        return noInternet ? NO_INTERNET_WIFI_PIE[wifiLevel] : WIFI_PIE[wifiLevel];\n    }",
+  "diff_func": "--- func_before\n+++ func_after\n public static int getInternetIconResource(int level, boolean noInternet) {\n+        int wifiLevel = level;\n+        if (wifiLevel < 0) {\n+            Log.e(TAG, \"Wi-Fi level is out of range! level:\" + level);\n+            wifiLevel = 0;\n-        if (level < 0 || level >= WIFI_PIE.length) {\n+        } else if (level >= WIFI_PIE.length) {\n-            throw new IllegalArgumentException(\"No Wifi icon found for level: \" + level);\n+            Log.e(TAG, \"Wi-Fi level is out of range! level:\" + level);\n+            wifiLevel = WIFI_PIE.length - 1;\n         }\n-        return noInternet ? NO_INTERNET_WIFI_PIE[level] : WIFI_PIE[level];\n+        return noInternet ? NO_INTERNET_WIFI_PIE[wifiLevel] : WIFI_PIE[wifiLevel];\n     }",
+  "diff_source": "custom",
+  "Bug Filter": "Defect Remediation & Feature Upgrades",
+  "Bug Filter Confidence": 0.85,
+  "Bug Filter Response": "\n\n**Final Output:**\n\nAnalysis: The patch addresses an out-of-range crash in the Wi-Fi level function. It modifies the function to clamp values instead of throwing exceptions, preventing crashes. While this could prevent a DoS, the context doesn't indicate a security exploit.\n\nFinal Classification: Defect Remediation & Feature Upgrades\n\nConfidence Score: 0.85"
+}

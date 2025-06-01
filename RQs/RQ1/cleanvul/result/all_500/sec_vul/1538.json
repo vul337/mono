@@ -1,0 +1,18 @@
+{
+  "id": 1538,
+  "language": "Java",
+  "commit_url": "https://github.com/dogtagpki/pki/commit/18b21e127f0292d36b16c088cc33d11553026e68",
+  "commit_sha": "18b21e127f0292d36b16c088cc33d11553026e68",
+  "commit_msg": "Disable access to external entities when parsing XML\n\nThis reduces the vulnerability of XML parsers to XXE (XML external\nentity) injection.\n\nThe best way to prevent XXE is to stop using XML altogether, which we do\nplan to do. Until that happens I consider it worthwhile to tighten the\nsecurity here though.",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "base/util/src/main/java/com/netscape/cmsutil/xml/XMLObject.java",
+  "func_name": "TransformerException",
+  "func_before": "public String toXMLString() throws TransformerConfigurationException, TransformerException {\n        TransformerFactory tranFactory = TransformerFactory.newInstance();\n        Transformer transformer = tranFactory.newTransformer();\n        Source src = new DOMSource(mDoc);\n        StreamResult dest = new StreamResult(new StringWriter());\n        transformer.transform(src, dest);\n        String xmlString = dest.getWriter().toString();\n        return xmlString;\n    }",
+  "func_after": "public String toXMLString() throws TransformerConfigurationException, TransformerException {\n        TransformerFactory tranFactory = TransformerFactory.newInstance();\n        tranFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, \"\");\n        tranFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, \"\");\n        Transformer transformer = tranFactory.newTransformer();\n        Source src = new DOMSource(mDoc);\n        StreamResult dest = new StreamResult(new StringWriter());\n        transformer.transform(src, dest);\n        String xmlString = dest.getWriter().toString();\n        return xmlString;\n    }",
+  "diff_func": "--- func_before\n+++ func_after\n public String toXMLString() throws TransformerConfigurationException, TransformerException {\n         TransformerFactory tranFactory = TransformerFactory.newInstance();\n+        tranFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, \"\");\n+        tranFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, \"\");\n         Transformer transformer = tranFactory.newTransformer();\n         Source src = new DOMSource(mDoc);\n         StreamResult dest = new StreamResult(new StringWriter());\n         transformer.transform(src, dest);\n         String xmlString = dest.getWriter().toString();\n         return xmlString;\n     }",
+  "diff_source": "custom",
+  "Bug Filter": "** Security Vulnerability Fix  \n**Confidence Score:** 1.0",
+  "Bug Filter Confidence": 1.0,
+  "Bug Filter Response": "\n\n**Analysis:**\n- **Commit Message:** The message explicitly states the intention to fix a security issue related to XXE (XML External Entity) injection by disabling access to external entities during XML parsing.\n- **Code Diff:** The patch modifies the TransformerFactory to disable access to external DTDs and stylesheets, which are common vectors for XXE attacks. This change directly addresses a known security vulnerability.\n\n**Final Classification:** Security Vulnerability Fix  \n**Confidence Score:** 1.0"
+}

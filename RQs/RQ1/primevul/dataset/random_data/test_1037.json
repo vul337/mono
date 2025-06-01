@@ -1,0 +1,23 @@
+{
+  "id": 1037,
+  "language": "c",
+  "cwe": "",
+  "commit_url": "https://github.com/HKL-Kevin/msm8998-mainline/commit/1680939e9ecf7764fba8689cfb3429c2fe2bb23c",
+  "commit_sha": "1680939e9ecf7764fba8689cfb3429c2fe2bb23c",
+  "commit_msg": "rpmsg: virtio: Fix possible double free in rpmsg_virtio_add_ctrl_dev()\n\nvch will be free in virtio_rpmsg_release_device() when\nrpmsg_ctrldev_register_device() fails. There is no need to call\nkfree() again.\n\nFixes: c486682ae1e2 (\"rpmsg: virtio: Register the rpmsg_char device\")\nSigned-off-by: Hangyu Hua <hbh25y@gmail.com>\nTested-by: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>\nLink: https://lore.kernel.org/r/20220426060536.15594-3-hbh25y@gmail.com\nSigned-off-by: Mathieu Poirier <mathieu.poirier@linaro.org>",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "drivers/rpmsg/virtio_rpmsg_bus.c",
+  "func_name": "",
+  "raw_func_from_json": "static struct rpmsg_device *rpmsg_virtio_add_ctrl_dev(struct virtio_device *vdev)\n{\n\tstruct virtproc_info *vrp = vdev->priv;\n\tstruct virtio_rpmsg_channel *vch;\n\tstruct rpmsg_device *rpdev_ctrl;\n\tint err = 0;\n\n\tvch = kzalloc(sizeof(*vch), GFP_KERNEL);\n\tif (!vch)\n\t\treturn ERR_PTR(-ENOMEM);\n\n\t/* Link the channel to the vrp */\n\tvch->vrp = vrp;\n\n\t/* Assign public information to the rpmsg_device */\n\trpdev_ctrl = &vch->rpdev;\n\trpdev_ctrl->ops = &virtio_rpmsg_ops;\n\n\trpdev_ctrl->dev.parent = &vrp->vdev->dev;\n\trpdev_ctrl->dev.release = virtio_rpmsg_release_device;\n\trpdev_ctrl->little_endian = virtio_is_little_endian(vrp->vdev);\n\n\terr = rpmsg_ctrldev_register_device(rpdev_ctrl);\n\tif (err) {\n\t\tkfree(vch);\n\t\treturn ERR_PTR(err);\n\t}\n\n\treturn rpdev_ctrl;\n}",
+  "diff_func": "@@ -851,7 +851,7 @@ static struct rpmsg_device *rpmsg_virtio_add_ctrl_dev(struct virtio_device *vdev\n \n \terr = rpmsg_ctrldev_register_device(rpdev_ctrl);\n \tif (err) {\n-\t\tkfree(vch);\n+\t\t/* vch will be free in virtio_rpmsg_release_device() */\n \t\treturn ERR_PTR(err);\n \t}\n ",
+  "func": "static struct rpmsg_device *rpmsg_virtio_add_ctrl_dev(struct virtio_device *vdev)\n{\n\tstruct virtproc_info *vrp = vdev->priv;\n\tstruct virtio_rpmsg_channel *vch;\n\tstruct rpmsg_device *rpdev_ctrl;\n\tint err = 0;\n\n\tvch = kzalloc(sizeof(*vch), GFP_KERNEL);\n\tif (!vch)\n\t\treturn ERR_PTR(-ENOMEM);\n\n\t/* Link the channel to the vrp */\n\tvch->vrp = vrp;\n\n\t/* Assign public information to the rpmsg_device */\n\trpdev_ctrl = &vch->rpdev;\n\trpdev_ctrl->ops = &virtio_rpmsg_ops;\n\n\trpdev_ctrl->dev.parent = &vrp->vdev->dev;\n\trpdev_ctrl->dev.release = virtio_rpmsg_release_device;\n\trpdev_ctrl->little_endian = virtio_is_little_endian(vrp->vdev);\n\n\terr = rpmsg_ctrldev_register_device(rpdev_ctrl);\n\tif (err) {\n\t\tkfree(vch);\n\t\treturn ERR_PTR(err);\n\t}\n\n\treturn rpdev_ctrl;\n}",
+  "project": "linux",
+  "hash": 335658023613701687732052520719637347357,
+  "size": 30,
+  "commit_id": "1680939e9ecf7764fba8689cfb3429c2fe2bb23c",
+  "message": "rpmsg: virtio: Fix possible double free in rpmsg_virtio_add_ctrl_dev()\n\nvch will be free in virtio_rpmsg_release_device() when\nrpmsg_ctrldev_register_device() fails. There is no need to call\nkfree() again.\n\nFixes: c486682ae1e2 (\"rpmsg: virtio: Register the rpmsg_char device\")\nSigned-off-by: Hangyu Hua <hbh25y@gmail.com>\nTested-by: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>\nLink: https://lore.kernel.org/r/20220426060536.15594-3-hbh25y@gmail.com\nSigned-off-by: Mathieu Poirier <mathieu.poirier@linaro.org>",
+  "target": 1,
+  "dataset": "other",
+  "idx": 210620
+}

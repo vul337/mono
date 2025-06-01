@@ -1,0 +1,15 @@
+{
+  "id": 8198,
+  "language": "JavaScript",
+  "commit_url": "https://github.com/linkedin/dustjs/commit/ddb6523832465d38c9d80189e9de60519ac307c3",
+  "commit_sha": "ddb6523832465d38c9d80189e9de60519ac307c3",
+  "commit_msg": "fix for prototype pollution vulnerability",
+  "pr_url": "https://github.com/linkedin/dustjs/pull/805",
+  "pr_info": "Refer https://github.com/linkedin/dustjs/issues/804",
+  "file_name": "dist/dust-full.min.js",
+  "func_name": "d",
+  "func_before": "function U(a){return a.concat([[\"line\",c()],[\"col\",d()]])}",
+  "func_after": "function U(a){return a.location=c(),a}",
+  "diff_func": "--- func_before\n+++ func_after\n-function U(a){return a.concat([[\"line\",c()],[\"col\",d()]])}\n+function U(a){return a.location=c(),a}",
+  "diff_source": "custom"
+}

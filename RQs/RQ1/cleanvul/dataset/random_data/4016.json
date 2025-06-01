@@ -1,0 +1,15 @@
+{
+  "id": 4016,
+  "language": "Python",
+  "commit_url": "https://github.com/bottlepy/bottle/commit/78f67d51965db11cb1ed0003f1eb7926458b5c2c",
+  "commit_sha": "78f67d51965db11cb1ed0003f1eb7926458b5c2c",
+  "commit_msg": "fix #913: redirect() doesn't filter \"\\r\\n\" leads to CRLF attack\n\nThe previous fix (6d7e13d) was incomplete.",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "bottle.py",
+  "func_name": "set_header",
+  "func_before": "def set_header(self, name, value):\n        ''' Create a new response header, replacing any previously defined\n            headers with the same name. '''\n        self._headers[_hkey(name)] = [str(value)]",
+  "func_after": "def set_header(self, name, value):\n        ''' Create a new response header, replacing any previously defined\n            headers with the same name. '''\n        self._headers[_hkey(name)] = [_hval(value)]",
+  "diff_func": "--- func_before\n+++ func_after\n def set_header(self, name, value):\n         ''' Create a new response header, replacing any previously defined\n             headers with the same name. '''\n-        self._headers[_hkey(name)] = [str(value)]\n+        self._headers[_hkey(name)] = [_hval(value)]",
+  "diff_source": "custom"
+}

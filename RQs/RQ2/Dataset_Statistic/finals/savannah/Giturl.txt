@@ -1,0 +1,10 @@
+http://git.savannah.gnu.org/gitweb/?p=gnash.git;a=commit;h=fa481c116e65ccf9137c7ddc8abc3cf05dc12f55
+http://git.savannah.gnu.org/gitweb/?p=libtasn1.git;a=commit;h=f435825c0f527a8e52e6ffbc3ad0bc60531d537e
+https://git.savannah.gnu.org/cgit/emacs.git/commit/?id=01a4035c869b91c153af9a9132c87adb7669ea1c
+http://git.savannah.gnu.org/cgit/freetype/freetype2.git/commit/?id=df14e6c0b9592cbb24d5381dfc6106b14f915e75
+http://git.savannah.gnu.org/gitweb/?p=gnutls.git;a=commit;h=bc8102405fda11ea00ca3b42acc4f4bce9d6e97b
+http://git.savannah.gnu.org/gitweb/?p=gnutls.git;a=commit;h=190cef6eed37d0e73a73c1e205eb31d45ab60a3c
+http://git.savannah.gnu.org/gitweb/?p=gnutls.git;a=commit;h=422214868061370aeeb0ac9cd0f021a5c350a57d
+http://git.savannah.gnu.org/gitweb/?p=gnulib.git;a=commit;h=94e01571
+http://git.savannah.gnu.org/gitweb/?p=libtasn1.git;a=commit;h=4d4f992826a4962790ecd0cce6fbba4a415ce149
+http://git.savannah.gnu.org/gitweb/?p=weechat.git;a=commit;h=efb795c74fe954b9544074aafcebb1be4452b03a

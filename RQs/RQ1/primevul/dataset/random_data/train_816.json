@@ -1,0 +1,21 @@
+{
+  "id": 816,
+  "language": "c",
+  "cwe": "",
+  "commit_url": "https://github.com/ljalves/linux_media/commit/b35cc8225845112a616e3a2266d2fde5ab13d3ab",
+  "commit_sha": "b35cc8225845112a616e3a2266d2fde5ab13d3ab",
+  "commit_msg": "ALSA: compress_core: integer overflow in snd_compr_allocate_buffer()\n\nThese are 32 bit values that come from the user, we need to check for\ninteger overflows or we could end up allocating a smaller buffer than\nexpected.\n\nSigned-off-by: Dan Carpenter <dan.carpenter@oracle.com>\nSigned-off-by: Takashi Iwai <tiwai@suse.de>",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "sound/core/compress_offload.c",
+  "func_name": "",
+  "raw_func_from_json": "static int snd_compr_allocate_buffer(struct snd_compr_stream *stream,\n\t\tstruct snd_compr_params *params)\n{\n \tunsigned int buffer_size;\n \tvoid *buffer;\n \n \tbuffer_size = params->buffer.fragment_size * params->buffer.fragments;\n \tif (stream->ops->copy) {\n \t\tbuffer = NULL;\n\t\t/* if copy is defined the driver will be required to copy\n\t\t * the data from core\n\t\t */\n\t} else {\n\t\tbuffer = kmalloc(buffer_size, GFP_KERNEL);\n\t\tif (!buffer)\n\t\t\treturn -ENOMEM;\n\t}\n\tstream->runtime->fragment_size = params->buffer.fragment_size;\n\tstream->runtime->fragments = params->buffer.fragments;\n\tstream->runtime->buffer = buffer;\n\tstream->runtime->buffer_size = buffer_size;\n\treturn 0;\n}\n",
+  "diff_func": "@@ -407,6 +407,10 @@ static int snd_compr_allocate_buffer(struct snd_compr_stream *stream,\n \tunsigned int buffer_size;\n \tvoid *buffer;\n \n+\tif (params->buffer.fragment_size == 0 ||\n+\t    params->buffer.fragments > SIZE_MAX / params->buffer.fragment_size)\n+\t\treturn -EINVAL;\n+\n \tbuffer_size = params->buffer.fragment_size * params->buffer.fragments;\n \tif (stream->ops->copy) {\n \t\tbuffer = NULL;",
+  "project": "linux",
+  "commit_id": "b35cc8225845112a616e3a2266d2fde5ab13d3ab",
+  "target": 1,
+  "func": "static int snd_compr_allocate_buffer(struct snd_compr_stream *stream,\n\t\tstruct snd_compr_params *params)\n{\n \tunsigned int buffer_size;\n \tvoid *buffer;\n \n \tbuffer_size = params->buffer.fragment_size * params->buffer.fragments;\n \tif (stream->ops->copy) {\n \t\tbuffer = NULL;\n\t\t/* if copy is defined the driver will be required to copy\n\t\t * the data from core\n\t\t */\n\t} else {\n\t\tbuffer = kmalloc(buffer_size, GFP_KERNEL);\n\t\tif (!buffer)\n\t\t\treturn -ENOMEM;\n\t}\n\tstream->runtime->fragment_size = params->buffer.fragment_size;\n\tstream->runtime->fragments = params->buffer.fragments;\n\tstream->runtime->buffer = buffer;\n\tstream->runtime->buffer_size = buffer_size;\n\treturn 0;\n}\n",
+  "big_vul_idx": 180782,
+  "idx": 2338,
+  "hash": 320223001183825300598401950795056162108
+}

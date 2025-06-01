@@ -1,0 +1,23 @@
+{
+  "id": 1000,
+  "language": "c",
+  "cwe": "",
+  "commit_url": "https://github.com/GitHubpaapki/AI/commit/399c297aa93afe2c0a39e2a1b3f972aebba44c9d",
+  "commit_sha": "399c297aa93afe2c0a39e2a1b3f972aebba44c9d",
+  "commit_msg": "patch 8.0.0322: possible overflow with corrupted spell file\n\nProblem:    Possible overflow with spell file where the tree length is\n            corrupted.\nSolution:   Check for an invalid length (suggested by shqking)",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "src/spellfile.c",
+  "func_name": "",
+  "raw_func_from_json": "spell_read_tree(\n    FILE\t*fd,\n    char_u\t**bytsp,\n    idx_T\t**idxsp,\n    int\t\tprefixtree,\t/* TRUE for the prefix tree */\n    int\t\tprefixcnt)\t/* when \"prefixtree\" is TRUE: prefix count */\n{\n    int\t\tlen;\n    int\t\tidx;\n    char_u\t*bp;\n    idx_T\t*ip;\n\n    /* The tree size was computed when writing the file, so that we can\n     * allocate it as one long block. <nodecount> */\n    len = get4c(fd);\n    if (len < 0)\n\treturn SP_TRUNCERROR;\n    if (len > 0)\n    {\n\t/* Allocate the byte array. */\n\tbp = lalloc((long_u)len, TRUE);\n\tif (bp == NULL)\n\t    return SP_OTHERERROR;\n\t*bytsp = bp;\n\n\t/* Allocate the index array. */\n\tip = (idx_T *)lalloc_clear((long_u)(len * sizeof(int)), TRUE);\n\tif (ip == NULL)\n\t    return SP_OTHERERROR;\n\t*idxsp = ip;\n\n\t/* Recursively read the tree and store it in the array. */\n\tidx = read_tree_node(fd, bp, ip, len, 0, prefixtree, prefixcnt);\n\tif (idx < 0)\n\t    return idx;\n    }\n    return 0;\n}",
+  "diff_func": "@@ -1595,6 +1595,9 @@ spell_read_tree(\n     len = get4c(fd);\n     if (len < 0)\n \treturn SP_TRUNCERROR;\n+    if (len >= 0x3ffffff)\n+\t/* Invalid length, multiply with sizeof(int) would overflow. */\n+\treturn SP_FORMERROR;\n     if (len > 0)\n     {\n \t/* Allocate the byte array. */",
+  "func": "spell_read_tree(\n    FILE\t*fd,\n    char_u\t**bytsp,\n    idx_T\t**idxsp,\n    int\t\tprefixtree,\t/* TRUE for the prefix tree */\n    int\t\tprefixcnt)\t/* when \"prefixtree\" is TRUE: prefix count */\n{\n    int\t\tlen;\n    int\t\tidx;\n    char_u\t*bp;\n    idx_T\t*ip;\n\n    /* The tree size was computed when writing the file, so that we can\n     * allocate it as one long block. <nodecount> */\n    len = get4c(fd);\n    if (len < 0)\n\treturn SP_TRUNCERROR;\n    if (len > 0)\n    {\n\t/* Allocate the byte array. */\n\tbp = lalloc((long_u)len, TRUE);\n\tif (bp == NULL)\n\t    return SP_OTHERERROR;\n\t*bytsp = bp;\n\n\t/* Allocate the index array. */\n\tip = (idx_T *)lalloc_clear((long_u)(len * sizeof(int)), TRUE);\n\tif (ip == NULL)\n\t    return SP_OTHERERROR;\n\t*idxsp = ip;\n\n\t/* Recursively read the tree and store it in the array. */\n\tidx = read_tree_node(fd, bp, ip, len, 0, prefixtree, prefixcnt);\n\tif (idx < 0)\n\t    return idx;\n    }\n    return 0;\n}",
+  "project": "vim",
+  "hash": 299704516071114356319960105952359505097,
+  "size": 38,
+  "commit_id": "399c297aa93afe2c0a39e2a1b3f972aebba44c9d",
+  "message": "patch 8.0.0322: possible overflow with corrupted spell file\n\nProblem:    Possible overflow with spell file where the tree length is\n            corrupted.\nSolution:   Check for an invalid length (suggested by shqking)",
+  "target": 1,
+  "dataset": "other",
+  "idx": 214366
+}

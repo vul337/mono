@@ -1,0 +1,18 @@
+{
+  "id": 4087,
+  "language": "C/C++",
+  "commit_url": "https://github.com/ImageMagick/ImageMagick/commit/b8c63b156bf26b52e710b1a0643c846a6cd01e56",
+  "commit_sha": "b8c63b156bf26b52e710b1a0643c846a6cd01e56",
+  "commit_msg": "https://github.com/ImageMagick/ImageMagick/issues/712",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "coders/xbm.c",
+  "func_name": "XBMInteger",
+  "func_before": "static unsigned int XBMInteger(Image *image,short int *hex_digits)\n{ \n  int\n    c;\n  \n  unsigned int\n    value;\n  \n  /*\n    Skip any leading whitespace.\n  */\n  do\n  { \n    c=ReadBlobByte(image);\n    if (c == EOF)\n      return(0);\n  } while ((c == ' ') || (c == '\\t') || (c == '\\n') || (c == '\\r'));\n  /*\n    Evaluate number.\n  */\n  value=0;\n  while (hex_digits[c] >= 0) { \n    if (value > (unsigned int) (INT_MAX/10))\n      break;\n    value*=16;\n    c&=0xff;\n    if (value > (unsigned int) (INT_MAX-hex_digits[c]))\n      break;\n    value+=hex_digits[c];\n    c=ReadBlobByte(image);\n    if (c == EOF)\n      return(0);\n  }\n  return(value);\n}",
+  "func_after": "static int XBMInteger(Image *image,short int *hex_digits)\n{ \n  int\n    c;\n  \n  unsigned int\n    value;\n  \n  /*\n    Skip any leading whitespace.\n  */\n  do\n  { \n    c=ReadBlobByte(image);\n    if (c == EOF)\n      return(-1);\n  } while ((c == ' ') || (c == '\\t') || (c == '\\n') || (c == '\\r'));\n  /*\n    Evaluate number.\n  */\n  value=0;\n  while (hex_digits[c] >= 0) { \n    if (value > (unsigned int) (INT_MAX/10))\n      break;\n    value*=16;\n    c&=0xff;\n    if (value > (unsigned int) (INT_MAX-hex_digits[c]))\n      break;\n    value+=hex_digits[c];\n    c=ReadBlobByte(image);\n    if (c == EOF)\n      return(-1);\n  }\n  return((int) value);\n}",
+  "diff_func": "--- func_before\n+++ func_after\n@@ -131 +131 @@\n-static unsigned int XBMInteger(Image *image,short int *hex_digits)\n+static int XBMInteger(Image *image,short int *hex_digits)\n {\n int\n c;\n-      value=XBMInteger(image,hex_digits);\n-      *p++=(unsigned char) value;\n+      c=XBMInteger(image,hex_digits);\n+      if (c < 0)\n+        break;\n+      *p++=(unsigned char) c;\n if ((padding == 0) || (((i+2) % bytes_per_line) != 0))\n-        *p++=(unsigned char) (value >> 8);\n+        *p++=(unsigned char) (c >> 8);\n }",
+  "diff_source": "api",
+  "Bug Filter": "Defect Remediation & Feature Upgrades",
+  "Bug Filter Confidence": 0.7,
+  "Bug Filter Response": "\n\nThe patch modifies the function to handle negative values, which suggests a bug fix related to improper handling of inputs. However, there's insufficient evidence to classify it as a security vulnerability.\n\n**Final Classification:** Defect Remediation & Feature Upgrades  \n**Confidence Score:** 0.7"
+}

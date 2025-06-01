@@ -1,0 +1,15 @@
+{
+  "id": 8303,
+  "language": "JavaScript",
+  "commit_url": "https://github.com/krayin/laravel-crm/commit/882dc2e7e7e9149b96cf1ccacf34900960b92fb7",
+  "commit_sha": "882dc2e7e7e9149b96cf1ccacf34900960b92fb7",
+  "commit_msg": "fixed xss issue at datagrid",
+  "pr_url": "https://github.com/krayin/laravel-crm/pull/195",
+  "pr_info": "fixed broken access control issue for account update\r\n* added check for additionally added parameter using any proxy system.",
+  "file_name": "packages/Webkul/UI/publishable/assets/js/ui.js",
+  "func_name": "max",
+  "func_before": "function jr(e,t,n){var r,a,i=n.length;for(r=0;r<i;++r)a=e._parseValue(n[r]),isNaN(a.min)||isNaN(a.max)||t.data[r].hidden||(e.min=Math.min(e.min,a.min),e.max=Math.max(e.max,a.max))}",
+  "func_after": "function jr(e,t,n){var r=[n.type,void 0===t&&void 0===n.stack?n.index:\"\",n.stack].join(\".\");return void 0===e[r]&&(e[r]={pos:[],neg:[]}),e[r]}",
+  "diff_func": "--- func_before\n+++ func_after\n-function jr(e,t,n){var r,a,i=n.length;for(r=0;r<i;++r)a=e._parseValue(n[r]),isNaN(a.min)||isNaN(a.max)||t.data[r].hidden||(e.min=Math.min(e.min,a.min),e.max=Math.max(e.max,a.max))}\n+function jr(e,t,n){var r=[n.type,void 0===t&&void 0===n.stack?n.index:\"\",n.stack].join(\".\");return void 0===e[r]&&(e[r]={pos:[],neg:[]}),e[r]}",
+  "diff_source": "custom"
+}

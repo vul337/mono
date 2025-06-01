@@ -1,0 +1,15 @@
+{
+  "id": 4675,
+  "language": "C/C++",
+  "commit_url": "https://github.com/contiki-ng/contiki-ng/commit/b53f9de9d2f8ef7d7a7c19c444b99d8642d09a89",
+  "commit_sha": "b53f9de9d2f8ef7d7a7c19c444b99d8642d09a89",
+  "commit_msg": "Add boundary checks to the DAO input functions.",
+  "pr_url": "https://github.com/contiki-ng/contiki-ng/pull/2435",
+  "pr_info": "no more info",
+  "file_name": "os/net/routing/rpl-classic/rpl-icmp6.c",
+  "func_name": "dao_input",
+  "func_before": "static void\ndao_input(void)\n{\n  rpl_instance_t *instance;\n  uint8_t instance_id;\n\n  /* Destination Advertisement Object */\n  LOG_INFO(\"Received a DAO from \");\n  LOG_INFO_6ADDR(&UIP_IP_BUF->srcipaddr);\n  LOG_INFO_(\"\\n\");\n\n  instance_id = UIP_ICMP_PAYLOAD[0];\n  instance = rpl_get_instance(instance_id);\n  if(instance == NULL) {\n    LOG_INFO(\"Ignoring a DAO for an unknown RPL instance(%u)\\n\",\n             instance_id);\n    goto discard;\n  }\n\n  if(RPL_IS_STORING(instance)) {\n    dao_input_storing();\n  } else if(RPL_IS_NON_STORING(instance)) {\n    dao_input_nonstoring();\n  }\n\ndiscard:\n  uipbuf_clear();\n}",
+  "func_after": "static void\ndao_input(void)\n{\n  rpl_instance_t *instance;\n  uint8_t instance_id;\n\n  /* Destination Advertisement Object */\n  LOG_INFO(\"Received a DAO from \");\n  LOG_INFO_6ADDR(&UIP_IP_BUF->srcipaddr);\n  LOG_INFO_(\"\\n\");\n\n  if(uip_len <= uip_l3_icmp_hdr_len) {\n    LOG_WARN(\"Ignoring DAO ICMPv6 message without DAO header\\n\");\n    goto discard;\n  }\n\n  instance_id = UIP_ICMP_PAYLOAD[0];\n  instance = rpl_get_instance(instance_id);\n  if(instance == NULL) {\n    LOG_INFO(\"Ignoring a DAO for an unknown RPL instance(%u)\\n\",\n             instance_id);\n    goto discard;\n  }\n\n  if(RPL_IS_STORING(instance)) {\n    dao_input_storing();\n  } else if(RPL_IS_NON_STORING(instance)) {\n    dao_input_nonstoring();\n  }\n\ndiscard:\n  uipbuf_clear();\n}",
+  "diff_func": "--- func_before\n+++ func_after\n static void\n dao_input(void)\n {\n   rpl_instance_t *instance;\n   uint8_t instance_id;\n \n   /* Destination Advertisement Object */\n   LOG_INFO(\"Received a DAO from \");\n   LOG_INFO_6ADDR(&UIP_IP_BUF->srcipaddr);\n   LOG_INFO_(\"\\n\");\n+\n+  if(uip_len <= uip_l3_icmp_hdr_len) {\n+    LOG_WARN(\"Ignoring DAO ICMPv6 message without DAO header\\n\");\n+    goto discard;\n+  }\n \n   instance_id = UIP_ICMP_PAYLOAD[0];\n   instance = rpl_get_instance(instance_id);\n   if(instance == NULL) {\n     LOG_INFO(\"Ignoring a DAO for an unknown RPL instance(%u)\\n\",\n              instance_id);\n     goto discard;\n   }\n \n   if(RPL_IS_STORING(instance)) {\n     dao_input_storing();\n   } else if(RPL_IS_NON_STORING(instance)) {\n     dao_input_nonstoring();\n   }\n \n discard:\n   uipbuf_clear();\n }",
+  "diff_source": "custom"
+}

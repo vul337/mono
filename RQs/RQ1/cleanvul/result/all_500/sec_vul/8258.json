@@ -1,0 +1,18 @@
+{
+  "id": 8258,
+  "language": "JavaScript",
+  "commit_url": "https://github.com/gophish/gophish/commit/b25f5ac5e468f6730e377f43c7995e18f8fccc2b",
+  "commit_sha": "b25f5ac5e468f6730e377f43c7995e18f8fccc2b",
+  "commit_msg": "Updated PapaParse config to prevent CSV injection.\n\nI've updated the PapaParse JS library to the latest version from the master branch which supports the `escapeForumlae` option in order to prevent malicious event entries from being parsed and executed by the Gophish user's spreadsheet software.\n\nWhen a new PapaParse release is created, I'll update this code to use the updated minified file.",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "static/js/dist/vendor.min.js",
+  "func_name": "ao",
+  "func_before": "function H(t){return ao(t,po),t}",
+  "func_after": "function H(t){return\"function\"==typeof t}",
+  "diff_func": "--- func_before\n+++ func_after\n-function H(t){return ao(t,po),t}\n+function H(t){return\"function\"==typeof t}",
+  "diff_source": "custom",
+  "Bug Filter": "Security Vulnerability Fix\n\nConfidence Score: 0.95",
+  "Bug Filter Confidence": 0.95,
+  "Bug Filter Response": "\n\n**Final Output:**\n\nAnalysis: The patch updates PapaParse to prevent CSV injection by enabling the `escapeFormulae` option, addressing a security vulnerability.\n\nFinal Classification: Security Vulnerability Fix\n\nConfidence Score: 0.95"
+}

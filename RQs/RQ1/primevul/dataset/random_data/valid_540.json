@@ -1,0 +1,23 @@
+{
+  "id": 540,
+  "language": "c",
+  "cwe": "",
+  "commit_url": "https://github.com/anandmishra22/pillow-docker/commit/6a83e4324738bb0452fbe8074a995b1c73f08de7",
+  "commit_sha": "6a83e4324738bb0452fbe8074a995b1c73f08de7",
+  "commit_msg": "Fix OOB Access on PcxDecode.c",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "src/libImaging/PcxDecode.c",
+  "func_name": "",
+  "raw_func_from_json": "ImagingPcxDecode(Imaging im, ImagingCodecState state, UINT8* buf, Py_ssize_t bytes)\n{\n    UINT8 n;\n    UINT8* ptr;\n\n    if (strcmp(im->mode, \"1\") == 0 && state->xsize > state->bytes * 8) {\n        state->errcode = IMAGING_CODEC_OVERRUN;\n        return -1;\n    } else if (strcmp(im->mode, \"P\") == 0 && state->xsize > state->bytes) {\n        state->errcode = IMAGING_CODEC_OVERRUN;\n        return -1;\n    }\n\n    ptr = buf;\n\n    for (;;) {\n\n\tif (bytes < 1)\n\t    return ptr - buf;\n\n\tif ((*ptr & 0xC0) == 0xC0) {\n\n\t    /* Run */\n\t    if (bytes < 2)\n\t\treturn ptr - buf;\n\n\t    n = ptr[0] & 0x3F;\n\n\t    while (n > 0) {\n\t\tif (state->x >= state->bytes) {\n\t\t    state->errcode = IMAGING_CODEC_OVERRUN;\n\t\t    break;\n\t\t}\n\t\tstate->buffer[state->x++] = ptr[1];\n\t\tn--;\n\t    }\n\n\t    ptr += 2; bytes -= 2;\n\n\t} else {\n\n\t    /* Literal */\n\t    state->buffer[state->x++] = ptr[0];\n\t    ptr++; bytes--;\n\n\t}\n\n\tif (state->x >= state->bytes) {\n        if (state->bytes % state->xsize && state->bytes > state->xsize) {\n            int bands = state->bytes / state->xsize;\n            int stride = state->bytes / bands;\n            int i;\n            for (i=1; i< bands; i++) {  // note -- skipping first band\n                memmove(&state->buffer[i*state->xsize],\n                        &state->buffer[i*stride],\n                        state->xsize);\n            }\n        }\n\t    /* Got a full line, unpack it */\n\t    state->shuffle((UINT8*) im->image[state->y + state->yoff] +\n\t\t\t   state->xoff * im->pixelsize, state->buffer,\n\t\t\t   state->xsize);\n\n\t    state->x = 0;\n\n\t    if (++state->y >= state->ysize) {\n\t\t/* End of file (errcode = 0) */\n\t\treturn -1;\n\t    }\n\t}\n\n    }\n}",
+  "diff_func": "@@ -22,10 +22,7 @@ ImagingPcxDecode(Imaging im, ImagingCodecState state, UINT8* buf, Py_ssize_t byt\n     UINT8 n;\n     UINT8* ptr;\n \n-    if (strcmp(im->mode, \"1\") == 0 && state->xsize > state->bytes * 8) {\n-        state->errcode = IMAGING_CODEC_OVERRUN;\n-        return -1;\n-    } else if (strcmp(im->mode, \"P\") == 0 && state->xsize > state->bytes) {\n+    if ((state->xsize * state->bits + 7) / 8 > state->bytes) {\n         state->errcode = IMAGING_CODEC_OVERRUN;\n         return -1;\n     }",
+  "func": "ImagingPcxDecode(Imaging im, ImagingCodecState state, UINT8* buf, Py_ssize_t bytes)\n{\n    UINT8 n;\n    UINT8* ptr;\n\n    if (strcmp(im->mode, \"1\") == 0 && state->xsize > state->bytes * 8) {\n        state->errcode = IMAGING_CODEC_OVERRUN;\n        return -1;\n    } else if (strcmp(im->mode, \"P\") == 0 && state->xsize > state->bytes) {\n        state->errcode = IMAGING_CODEC_OVERRUN;\n        return -1;\n    }\n\n    ptr = buf;\n\n    for (;;) {\n\n\tif (bytes < 1)\n\t    return ptr - buf;\n\n\tif ((*ptr & 0xC0) == 0xC0) {\n\n\t    /* Run */\n\t    if (bytes < 2)\n\t\treturn ptr - buf;\n\n\t    n = ptr[0] & 0x3F;\n\n\t    while (n > 0) {\n\t\tif (state->x >= state->bytes) {\n\t\t    state->errcode = IMAGING_CODEC_OVERRUN;\n\t\t    break;\n\t\t}\n\t\tstate->buffer[state->x++] = ptr[1];\n\t\tn--;\n\t    }\n\n\t    ptr += 2; bytes -= 2;\n\n\t} else {\n\n\t    /* Literal */\n\t    state->buffer[state->x++] = ptr[0];\n\t    ptr++; bytes--;\n\n\t}\n\n\tif (state->x >= state->bytes) {\n        if (state->bytes % state->xsize && state->bytes > state->xsize) {\n            int bands = state->bytes / state->xsize;\n            int stride = state->bytes / bands;\n            int i;\n            for (i=1; i< bands; i++) {  // note -- skipping first band\n                memmove(&state->buffer[i*state->xsize],\n                        &state->buffer[i*stride],\n                        state->xsize);\n            }\n        }\n\t    /* Got a full line, unpack it */\n\t    state->shuffle((UINT8*) im->image[state->y + state->yoff] +\n\t\t\t   state->xoff * im->pixelsize, state->buffer,\n\t\t\t   state->xsize);\n\n\t    state->x = 0;\n\n\t    if (++state->y >= state->ysize) {\n\t\t/* End of file (errcode = 0) */\n\t\treturn -1;\n\t    }\n\t}\n\n    }\n}",
+  "project": "Pillow",
+  "hash": 91336361060317802518241506144190852925,
+  "size": 73,
+  "commit_id": "6a83e4324738bb0452fbe8074a995b1c73f08de7",
+  "message": "Fix OOB Access on PcxDecode.c",
+  "target": 1,
+  "dataset": "other",
+  "idx": 197848
+}

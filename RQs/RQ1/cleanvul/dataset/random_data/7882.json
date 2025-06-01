@@ -1,0 +1,15 @@
+{
+  "id": 7882,
+  "language": "JavaScript",
+  "commit_url": "https://github.com/gocd/gocd/commit/c6aa644973b034305bbe9ea34b010dcf5b5790ce",
+  "commit_sha": "c6aa644973b034305bbe9ea34b010dcf5b5790ce",
+  "commit_msg": "Encode VSM node attributes for HTML",
+  "pr_url": "https://github.com/gocd/gocd/pull/11070",
+  "pr_info": "Improves escaping on\r\n- VSM renderer\r\n- Job/build detail pages (breadcrumb and sidebar build history)",
+  "file_name": "server/src/main/webapp/WEB-INF/rails/app/assets/javascripts/vsm_renderer.js",
+  "func_name": "renderWarning",
+  "func_before": "function renderWarning(node) {\n        var gui = '';\n        if (node.message) {\n            gui += '<div class=\"warning\"><span>' + node.message + '</span></div>';\n        }\n        return gui;\n    }",
+  "func_after": "function renderWarning(node) {\n        var gui = '';\n        if (node.message) {\n            gui += '<div class=\"warning\"><span>' + _.escape(node.message) + '</span></div>';\n        }\n        return gui;\n    }",
+  "diff_func": "--- func_before\n+++ func_after\n function renderWarning(node) {\n         var gui = '';\n         if (node.message) {\n-            gui += '<div class=\"warning\"><span>' + node.message + '</span></div>';\n+            gui += '<div class=\"warning\"><span>' + _.escape(node.message) + '</span></div>';\n         }\n         return gui;\n     }",
+  "diff_source": "custom"
+}

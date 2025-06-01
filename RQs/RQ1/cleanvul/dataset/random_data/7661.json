@@ -1,0 +1,15 @@
+{
+  "id": 7661,
+  "language": "JavaScript",
+  "commit_url": "https://github.com/diegohaz/bodymen/commit/5d52e8cf360410ee697afd90937e6042c3a8653b",
+  "commit_sha": "5d52e8cf360410ee697afd90937e6042c3a8653b",
+  "commit_msg": "Fix prototype pollution vulnerability (#23)\n\n* Fix prototype pollution vulnerability\r\n\r\n* Update .travis.yml",
+  "pr_url": "https://github.com/diegohaz/bodymen/pull/23",
+  "pr_info": "See tests",
+  "file_name": "src/index.js",
+  "func_name": "handler",
+  "func_before": "function handler (type, name, fn) {\n  if (arguments.length > 2) {\n    handlers[type][name] = fn\n  }\n\n  return handlers[type][name]\n}",
+  "func_after": "function handler (type, name, fn) {\n  if (\n    type === 'constructor' ||\n    type === '__proto__' ||\n    name === 'constructor' ||\n    name === '__proto__'\n  ) {\n    return\n  }\n  if (arguments.length > 2) {\n    handlers[type][name] = fn\n  }\n\n  return handlers[type][name]\n}",
+  "diff_func": "--- func_before\n+++ func_after\n function handler (type, name, fn) {\n+  if (\n+    type === 'constructor' ||\n+    type === '__proto__' ||\n+    name === 'constructor' ||\n+    name === '__proto__'\n+  ) {\n+    return\n+  }\n   if (arguments.length > 2) {\n     handlers[type][name] = fn\n   }\n \n   return handlers[type][name]\n }",
+  "diff_source": "custom"
+}

@@ -1,0 +1,15 @@
+{
+  "id": 2242,
+  "language": "Java",
+  "commit_url": "https://github.com/itext/itext-java/commit/0310e5e63df1cfa3584714fb57138a3484d8251d",
+  "commit_sha": "0310e5e63df1cfa3584714fb57138a3484d8251d",
+  "commit_msg": "Improve the security of XML parsers\n\nImprove the security of XML parsers to prevent XML attacks like XML bombs and XXE attacks.\nSet default configuration of xml parsers to throw an exception when it find DTD in the XML and implement factory logic to give an opportunity for customer to override the way of creation xml parsers.\n\nDEVSIX-3270",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "forms/src/main/java/com/itextpdf/forms/xfdf/XfdfFileUtils.java",
+  "func_name": "SAXException",
+  "func_before": "static Document createXfdfDocumentFromStream(InputStream inputStream) throws ParserConfigurationException, IOException, SAXException {\n        DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();\n        DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();\n        documentBuilder.setEntityResolver(new XfdfFileUtils.SafeEmptyEntityResolver());\n        return documentBuilder.parse(inputStream);\n    }",
+  "func_after": "static Document createXfdfDocumentFromStream(InputStream inputStream) {\n        try {\n            DocumentBuilder db = XmlProcessorCreator.createSafeDocumentBuilder(false, false);\n            return db.parse(inputStream);\n        } catch (Exception e) {\n            throw new PdfException(e.getMessage(), e);\n        }\n    }",
+  "diff_func": "--- func_before\n+++ func_after\n+static Document createXfdfDocumentFromStream(InputStream inputStream) {\n+        try {\n+            DocumentBuilder db = XmlProcessorCreator.createSafeDocumentBuilder(false, false);\n-static Document createXfdfDocumentFromStream(InputStream inputStream) throws ParserConfigurationException, IOException, SAXException {\n-        DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();\n-        DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();\n-        documentBuilder.setEntityResolver(new XfdfFileUtils.SafeEmptyEntityResolver());\n-        return documentBuilder.parse(inputStream);\n+            return db.parse(inputStream);\n+        } catch (Exception e) {\n+            throw new PdfException(e.getMessage(), e);\n+        }\n     }",
+  "diff_source": "custom"
+}

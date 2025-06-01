@@ -1,0 +1,21 @@
+{
+  "id": 738,
+  "language": "c",
+  "cwe": "CWE-284",
+  "commit_url": "https://github.com/ljalves/linux_media/commit/9842df62004f366b9fed2423e24df10542ee0dc5",
+  "commit_sha": "9842df62004f366b9fed2423e24df10542ee0dc5",
+  "commit_msg": "KVM: MTRR: remove MSR 0x2f8\n\nMSR 0x2f8 accessed the 124th Variable Range MTRR ever since MTRR support\nwas introduced by 9ba075a664df (\"KVM: MTRR support\").\n\n0x2f8 became harmful when 910a6aae4e2e (\"KVM: MTRR: exactly define the\nsize of variable MTRRs\") shrinked the array of VR MTRRs from 256 to 8,\nwhich made access to index 124 out of bounds.  The surrounding code only\nWARNs in this situation, thus the guest gained a limited read/write\naccess to struct kvm_arch_vcpu.\n\n0x2f8 is not a valid VR MTRR MSR, because KVM has/advertises only 16 VR\nMTRR MSRs, 0x200-0x20f.  Every VR MTRR is set up using two MSRs, 0x2f8\nwas treated as a PHYSBASE and 0x2f9 would be its PHYSMASK, but 0x2f9 was\nnot implemented in KVM, therefore 0x2f8 could never do anything useful\nand getting rid of it is safe.\n\nThis fixes CVE-2016-3713.\n\nFixes: 910a6aae4e2e (\"KVM: MTRR: exactly define the size of variable MTRRs\")\nCc: stable@vger.kernel.org\nReported-by: David Matlack <dmatlack@google.com>\nSigned-off-by: Andy Honig <ahonig@google.com>\nSigned-off-by: Radim Krčmář <rkrcmar@redhat.com>\nSigned-off-by: Paolo Bonzini <pbonzini@redhat.com>",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "arch/x86/kvm/mtrr.c",
+  "func_name": "",
+  "raw_func_from_json": "static bool msr_mtrr_valid(unsigned msr)\n{\n\tswitch (msr) {\n\tcase 0x200 ... 0x200 + 2 * KVM_NR_VAR_MTRR - 1:\n\tcase MSR_MTRRfix64K_00000:\n\tcase MSR_MTRRfix16K_80000:\n\tcase MSR_MTRRfix16K_A0000:\n\tcase MSR_MTRRfix4K_C0000:\n\tcase MSR_MTRRfix4K_C8000:\n\tcase MSR_MTRRfix4K_D0000:\n\tcase MSR_MTRRfix4K_D8000:\n\tcase MSR_MTRRfix4K_E0000:\n\tcase MSR_MTRRfix4K_E8000:\n\tcase MSR_MTRRfix4K_F0000:\n\tcase MSR_MTRRfix4K_F8000:\n \tcase MSR_MTRRdefType:\n \tcase MSR_IA32_CR_PAT:\n \t\treturn true;\n\tcase 0x2f8:\n\t\treturn true;\n \t}\n \treturn false;\n }\n",
+  "diff_func": "@@ -44,8 +44,6 @@ static bool msr_mtrr_valid(unsigned msr)\n \tcase MSR_MTRRdefType:\n \tcase MSR_IA32_CR_PAT:\n \t\treturn true;\n-\tcase 0x2f8:\n-\t\treturn true;\n \t}\n \treturn false;\n }",
+  "project": "linux",
+  "commit_id": "9842df62004f366b9fed2423e24df10542ee0dc5",
+  "target": 1,
+  "func": "static bool msr_mtrr_valid(unsigned msr)\n{\n\tswitch (msr) {\n\tcase 0x200 ... 0x200 + 2 * KVM_NR_VAR_MTRR - 1:\n\tcase MSR_MTRRfix64K_00000:\n\tcase MSR_MTRRfix16K_80000:\n\tcase MSR_MTRRfix16K_A0000:\n\tcase MSR_MTRRfix4K_C0000:\n\tcase MSR_MTRRfix4K_C8000:\n\tcase MSR_MTRRfix4K_D0000:\n\tcase MSR_MTRRfix4K_D8000:\n\tcase MSR_MTRRfix4K_E0000:\n\tcase MSR_MTRRfix4K_E8000:\n\tcase MSR_MTRRfix4K_F0000:\n\tcase MSR_MTRRfix4K_F8000:\n \tcase MSR_MTRRdefType:\n \tcase MSR_IA32_CR_PAT:\n \t\treturn true;\n\tcase 0x2f8:\n\t\treturn true;\n \t}\n \treturn false;\n }\n",
+  "big_vul_idx": 180517,
+  "idx": 2100,
+  "hash": 102963413536679714963473731056207974158
+}

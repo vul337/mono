@@ -1,0 +1,23 @@
+{
+  "id": 559,
+  "language": "unknown",
+  "cwe": "",
+  "commit_url": "https://github.com/upnpp/upnpp/commit/c805c1de1141cb22f74c0d94dd5664bda37398e0",
+  "commit_sha": "c805c1de1141cb22f74c0d94dd5664bda37398e0",
+  "commit_msg": "Fixes #177: NULL pointer dereference in FindServiceControlURLPath\n\nAlso fixes its dual bug in FindServiceEventURLPath.",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "ChangeLog",
+  "func_name": "",
+  "raw_func_from_json": "service_info *FindServiceEventURLPath(\n\tservice_table *table, const char *eventURLPath)\n{\n\tservice_info *finger = NULL;\n\turi_type parsed_url;\n\turi_type parsed_url_in;\n\n\tif (table &&\n\t\tparse_uri(eventURLPath, strlen(eventURLPath), &parsed_url_in) ==\n\t\t\tHTTP_SUCCESS) {\n\t\tfinger = table->serviceList;\n\t\twhile (finger) {\n\t\t\tif (finger->eventURL) {\n\t\t\t\tif (parse_uri(finger->eventURL,\n\t\t\t\t\t    strlen(finger->eventURL),\n\t\t\t\t\t    &parsed_url) == HTTP_SUCCESS) {\n\t\t\t\t\tif (!token_cmp(&parsed_url.pathquery,\n\t\t\t\t\t\t    &parsed_url_in.pathquery)) {\n\t\t\t\t\t\treturn finger;\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t\tfinger = finger->next;\n\t\t}\n\t}\n\n\treturn NULL;\n}",
+  "diff_func": "@@ -2,6 +2,12 @@\n Version 1.12.2\n *******************************************************************************\n \n+2020-06-04 Patrik Lantz pjlantz(at)github\n+\n+        Fixes #177\n+\n+        NULL pointer dereference in FindServiceControlURLPath\n+\n *******************************************************************************\n Version 1.12.1\n *******************************************************************************",
+  "func": "service_info *FindServiceEventURLPath(\n\tservice_table *table, const char *eventURLPath)\n{\n\tservice_info *finger = NULL;\n\turi_type parsed_url;\n\turi_type parsed_url_in;\n\n\tif (table &&\n\t\tparse_uri(eventURLPath, strlen(eventURLPath), &parsed_url_in) ==\n\t\t\tHTTP_SUCCESS) {\n\t\tfinger = table->serviceList;\n\t\twhile (finger) {\n\t\t\tif (finger->eventURL) {\n\t\t\t\tif (parse_uri(finger->eventURL,\n\t\t\t\t\t    strlen(finger->eventURL),\n\t\t\t\t\t    &parsed_url) == HTTP_SUCCESS) {\n\t\t\t\t\tif (!token_cmp(&parsed_url.pathquery,\n\t\t\t\t\t\t    &parsed_url_in.pathquery)) {\n\t\t\t\t\t\treturn finger;\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t\tfinger = finger->next;\n\t\t}\n\t}\n\n\treturn NULL;\n}",
+  "project": "pupnp",
+  "hash": 48140258843428848992487276517349841836,
+  "size": 28,
+  "commit_id": "c805c1de1141cb22f74c0d94dd5664bda37398e0",
+  "message": "Fixes #177: NULL pointer dereference in FindServiceControlURLPath\n\nAlso fixes its dual bug in FindServiceEventURLPath.",
+  "target": 1,
+  "dataset": "other",
+  "idx": 198108
+}

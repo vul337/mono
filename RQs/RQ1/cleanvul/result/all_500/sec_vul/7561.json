@@ -1,0 +1,18 @@
+{
+  "id": 7561,
+  "language": "JavaScript",
+  "commit_url": "https://github.com/Enalean/tuleap/commit/0b2945fbd260d37aa0aff2ca1c867d160f76188d",
+  "commit_sha": "0b2945fbd260d37aa0aff2ca1c867d160f76188d",
+  "commit_msg": "Fixes request #32629: XSS in the card field of the agile dashboard apps\n\nTried to keep the changes within the scope of the security issue. The\ntemplate engine of hybrids is bit abused but it is still better than\nbefore. A future contribution might want to consider removing angular\ncompletely from @tuleap/plugin-agiledashboard-card-fields.\n\nThis change also fixes the display of the legacy colors for selectbox\nusing them.\n\nChange-Id: I301ed6a72c324054a490605e881646bf317316fb",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "plugins/agiledashboard/scripts/lib/card-fields/src/highlight-filter.js",
+  "func_name": "TuleapHighlightFilter",
+  "func_before": "function TuleapHighlightFilter() {\n    function isTextSearchable(text, search) {\n        return text && (search || isNumber(search));\n    }\n\n    return function (text, search) {\n        if (!isTextSearchable(text, search)) {\n            return text ? text.toString() : text;\n        }\n\n        const classifier = Classifier(String(search));\n        const parts = classifier.classify(String(text)).map((highlighted_text) => {\n            if (!HighlightedText.isHighlight(highlighted_text)) {\n                return highlighted_text.content;\n            }\n            return `<span class=\"highlight\">${highlighted_text.content}</span>`;\n        });\n        return parts.join(\"\");\n    };\n}",
+  "func_after": "function TuleapHighlightFilter() {\n    function getHTMLStringFromTemplate(template) {\n        const element = document.createElement(\"div\");\n        template({}, element);\n\n        return element.innerHTML;\n    }\n\n    return function (text, search) {\n        if (text === null) {\n            return null;\n        }\n        return getHTMLStringFromTemplate(highlightFilterElements(text, search));\n    };\n}",
+  "diff_func": "--- func_before\n+++ func_after\n function TuleapHighlightFilter() {\n-    function isTextSearchable(text, search) {\n-        return text && (search || isNumber(search));\n+    function getHTMLStringFromTemplate(template) {\n+        const element = document.createElement(\"div\");\n+        template({}, element);\n+\n+        return element.innerHTML;\n     }\n \n     return function (text, search) {\n-        if (!isTextSearchable(text, search)) {\n-            return text ? text.toString() : text;\n+        if (text === null) {\n+            return null;\n         }\n+        return getHTMLStringFromTemplate(highlightFilterElements(text, search));\n-\n-        const classifier = Classifier(String(search));\n-        const parts = classifier.classify(String(text)).map((highlighted_text) => {\n-            if (!HighlightedText.isHighlight(highlighted_text)) {\n-                return highlighted_text.content;\n-            }\n-            return `<span class=\"highlight\">${highlighted_text.content}</span>`;\n-        });\n-        return parts.join(\"\");\n     };\n }",
+  "diff_source": "custom",
+  "Bug Filter": "Security Vulnerability Fix\n\nConfidence Score: 1.0",
+  "Bug Filter Confidence": 1.0,
+  "Bug Filter Response": "\n\n**Final Output:**\n\nAnalysis: The commit addresses an XSS vulnerability by modifying how text is rendered, ensuring proper escaping and preventing script execution.\n\nFinal Classification: Security Vulnerability Fix\n\nConfidence Score: 1.0"
+}

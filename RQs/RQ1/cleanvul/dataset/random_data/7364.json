@@ -1,0 +1,15 @@
+{
+  "id": 7364,
+  "language": "JavaScript",
+  "commit_url": "https://github.com/94fzb/zrlog/commit/b921c1ae03b8290f438657803eee05226755c941",
+  "commit_sha": "b921c1ae03b8290f438657803eee05226755c941",
+  "commit_msg": "Fix #55,#56 xxs inject",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "web/src/main/webapp/admin/summernote/summernote-bs4.min.js",
+  "func_name": "j",
+  "func_before": "function it(t){return j(t)?t.nodeValue.length:t?t.childNodes.length:0}",
+  "func_after": "function it(t){var e=nt(t);return 0===e||(!U(t)&&1===e&&t.innerHTML===ot||!(!B.all(t.childNodes,U)||\"\"!==t.innerHTML))}",
+  "diff_func": "--- func_before\n+++ func_after\n-function it(t){return j(t)?t.nodeValue.length:t?t.childNodes.length:0}\n+function it(t){var e=nt(t);return 0===e||(!U(t)&&1===e&&t.innerHTML===ot||!(!B.all(t.childNodes,U)||\"\"!==t.innerHTML))}",
+  "diff_source": "custom"
+}

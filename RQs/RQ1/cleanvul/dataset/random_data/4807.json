@@ -1,0 +1,15 @@
+{
+  "id": 4807,
+  "language": "C/C++",
+  "commit_url": "https://github.com/jsummers/imageworsener/commit/dc49c807926b96e503bd7c0dec35119eecd6c6fe",
+  "commit_sha": "dc49c807926b96e503bd7c0dec35119eecd6c6fe",
+  "commit_msg": "Double-check that the input image's density is valid\n\nFixes a bug that could result in division by zero, at least for a JPEG\nsource image.\nFixes issues #19, #20",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "src/imagew-api.c",
+  "func_name": "iw_get_input_density",
+  "func_before": "IW_IMPL(int) iw_get_input_density(struct iw_context *ctx,\n   double *px, double *py, int *pcode)\n{\n\t*px = 1.0;\n\t*py = 1.0;\n\t*pcode = ctx->img1.density_code;\n\tif(ctx->img1.density_code!=IW_DENSITY_UNKNOWN) {\n\t\t*px = ctx->img1.density_x;\n\t\t*py = ctx->img1.density_y;\n\t\treturn 1;\n\t}\n\treturn 0;\n}",
+  "func_after": "IW_IMPL(int) iw_get_input_density(struct iw_context *ctx,\n   double *px, double *py, int *pcode)\n{\n\t*px = 1.0;\n\t*py = 1.0;\n\t*pcode = IW_DENSITY_UNKNOWN;\n\n\tif(ctx->img1.density_code==IW_DENSITY_UNKNOWN) {\n\t\treturn 0;\n\t}\n\tif(!iw_is_valid_density(ctx->img1.density_x, ctx->img1.density_y,\n\t\tctx->img1.density_code))\n\t{\n\t\treturn 0;\n\t}\n\t*px = ctx->img1.density_x;\n\t*py = ctx->img1.density_y;\n\t*pcode = ctx->img1.density_code;\n\treturn 1;\n}",
+  "diff_func": "--- func_before\n+++ func_after\n IW_IMPL(int) iw_get_input_density(struct iw_context *ctx,\n    double *px, double *py, int *pcode)\n {\n \t*px = 1.0;\n \t*py = 1.0;\n+\t*pcode = IW_DENSITY_UNKNOWN;\n+\n+\tif(ctx->img1.density_code==IW_DENSITY_UNKNOWN) {\n+\t\treturn 0;\n+\t}\n+\tif(!iw_is_valid_density(ctx->img1.density_x, ctx->img1.density_y,\n+\t\tctx->img1.density_code))\n+\t{\n+\t\treturn 0;\n+\t}\n+\t*px = ctx->img1.density_x;\n+\t*py = ctx->img1.density_y;\n \t*pcode = ctx->img1.density_code;\n-\tif(ctx->img1.density_code!=IW_DENSITY_UNKNOWN) {\n-\t\t*px = ctx->img1.density_x;\n-\t\t*py = ctx->img1.density_y;\n-\t\treturn 1;\n+\treturn 1;\n-\t}\n-\treturn 0;\n }",
+  "diff_source": "custom"
+}

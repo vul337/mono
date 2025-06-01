@@ -1,0 +1,18 @@
+{
+  "id": 4633,
+  "language": "C/C++",
+  "commit_url": "https://github.com/stefanberger/libtpms/commit/2f30d62",
+  "commit_sha": "2f30d62",
+  "commit_msg": "tpm2: Reset TPM2B buffer sizes after test fails for valid buffer size\n\nReset the buffer size indicator in a TPM2B type of buffer after it failed\nthe test for the maximum buffer size it allows. This prevents having bad\nbuffer sizes in memory that can come to haunt us when writing the volatile\nstate for example.\n\nSigned-off-by: Stefan Berger <stefanb@linux.ibm.com>",
+  "pr_url": "https://github.com/stefanberger/libtpms/pull/223",
+  "pr_info": "Reset buffer size indicators that are found to be too large so that we don't have bad buffer sizes in memory that can cause issues when marshaling the data upon saving volatile data for example.\r\nCheck for the maximum size of a buffer when marshaling data so we do not overstep the TPM2B's buffer size.\r\n ",
+  "file_name": "src/tpm2/Unmarshal.c",
+  "func_name": "TPML_CC_Unmarshal",
+  "func_before": "TPM_RC\nTPML_CC_Unmarshal(TPML_CC *target, BYTE **buffer, INT32 *size)\n{\n    TPM_RC rc = TPM_RC_SUCCESS;\n    \n    UINT32 i;\n    if (rc == TPM_RC_SUCCESS) {\n\trc = UINT32_Unmarshal(&target->count, buffer, size);\n    }\n    if (rc == TPM_RC_SUCCESS) {\n\tif (target->count > MAX_CAP_CC) {\n\t    rc = TPM_RC_SIZE;\n\t}\n    }\n    for (i = 0 ; (rc == TPM_RC_SUCCESS) && (i < target->count) ; i++) {\n\trc = TPM_CC_Unmarshal(&target->commandCodes[i], buffer, size);\n    }\n    return rc;\n}",
+  "func_after": "TPM_RC\nTPML_CC_Unmarshal(TPML_CC *target, BYTE **buffer, INT32 *size)\n{\n    TPM_RC rc = TPM_RC_SUCCESS;\n    \n    UINT32 i;\n    if (rc == TPM_RC_SUCCESS) {\n\trc = UINT32_Unmarshal(&target->count, buffer, size);\n    }\n    if (rc == TPM_RC_SUCCESS) {\n\tif (target->count > MAX_CAP_CC) {\n\t    rc = TPM_RC_SIZE;\n\t    target->count = 0; // libtpms added\n\t}\n    }\n    for (i = 0 ; (rc == TPM_RC_SUCCESS) && (i < target->count) ; i++) {\n\trc = TPM_CC_Unmarshal(&target->commandCodes[i], buffer, size);\n    }\n    return rc;\n}",
+  "diff_func": "--- func_before\n+++ func_after\n TPM_RC\n TPML_CC_Unmarshal(TPML_CC *target, BYTE **buffer, INT32 *size)\n {\n     TPM_RC rc = TPM_RC_SUCCESS;\n     \n     UINT32 i;\n     if (rc == TPM_RC_SUCCESS) {\n \trc = UINT32_Unmarshal(&target->count, buffer, size);\n     }\n     if (rc == TPM_RC_SUCCESS) {\n \tif (target->count > MAX_CAP_CC) {\n \t    rc = TPM_RC_SIZE;\n+\t    target->count = 0; // libtpms added\n \t}\n     }\n     for (i = 0 ; (rc == TPM_RC_SUCCESS) && (i < target->count) ; i++) {\n \trc = TPM_CC_Unmarshal(&target->commandCodes[i], buffer, size);\n     }\n     return rc;\n }",
+  "diff_source": "custom",
+  "Bug Filter": "Security Vulnerability Fix\n\nConfidence Score: 0.95",
+  "Bug Filter Confidence": 0.95,
+  "Bug Filter Response": "\n\n**Final Output:**\n\nAnalysis: The patch addresses a buffer size issue in the TPM2B buffer, preventing invalid sizes that could lead to security vulnerabilities like buffer overflows.\n\nFinal Classification: Security Vulnerability Fix\n\nConfidence Score: 0.95"
+}

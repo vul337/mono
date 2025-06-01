@@ -1,0 +1,21 @@
+{
+  "id": 1096,
+  "language": "c",
+  "cwe": "CWE-476",
+  "commit_url": "https://github.com/bitlbee/bitlbee/commit/30d598ce7cd3f136ee9d7097f39fa9818a272441",
+  "commit_sha": "30d598ce7cd3f136ee9d7097f39fa9818a272441",
+  "commit_msg": "purple: Fix crash on ft requests from unknown contacts\n\nFollowup to 701ab81 (included in 3.5) which was a partial fix which only\nimproved things for non-libpurple file transfers (that is, just jabber)",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "protocols/purple/ft.c",
+  "func_name": "",
+  "raw_func_from_json": "static gboolean prplcb_xfer_new_send_cb(gpointer data, gint fd, b_input_condition cond)\n{\n\tPurpleXfer *xfer = data;\n\tstruct im_connection *ic = purple_ic_by_pa(xfer->account);\n\tstruct prpl_xfer_data *px = xfer->ui_data;\n\tPurpleBuddy *buddy;\n\tconst char *who;\n\n\tbuddy = purple_find_buddy(xfer->account, xfer->who);\n\twho = buddy ? purple_buddy_get_name(buddy) : xfer->who;\n\n \t/* TODO(wilmer): After spreading some more const goodness in BitlBee,\n \t   remove the evil cast below. */\n \tpx->ft = imcb_file_send_start(ic, (char *) who, xfer->filename, xfer->size);\n \tpx->ft->data = px;\n \n \tpx->ft->accept = prpl_xfer_accept;\n\tpx->ft->canceled = prpl_xfer_canceled;\n\tpx->ft->free = prpl_xfer_free;\n\tpx->ft->write_request = prpl_xfer_write_request;\n\n\treturn FALSE;\n}\n",
+  "diff_func": "@@ -145,6 +145,10 @@ static gboolean prplcb_xfer_new_send_cb(gpointer data, gint fd, b_input_conditio\n \t/* TODO(wilmer): After spreading some more const goodness in BitlBee,\n \t   remove the evil cast below. */\n \tpx->ft = imcb_file_send_start(ic, (char *) who, xfer->filename, xfer->size);\n+\n+\tif (!px->ft) {\n+\t\treturn FALSE;\n+\t}\n \tpx->ft->data = px;\n \n \tpx->ft->accept = prpl_xfer_accept;",
+  "project": "bitlbee",
+  "commit_id": "30d598ce7cd3f136ee9d7097f39fa9818a272441",
+  "target": 1,
+  "func": "static gboolean prplcb_xfer_new_send_cb(gpointer data, gint fd, b_input_condition cond)\n{\n\tPurpleXfer *xfer = data;\n\tstruct im_connection *ic = purple_ic_by_pa(xfer->account);\n\tstruct prpl_xfer_data *px = xfer->ui_data;\n\tPurpleBuddy *buddy;\n\tconst char *who;\n\n\tbuddy = purple_find_buddy(xfer->account, xfer->who);\n\twho = buddy ? purple_buddy_get_name(buddy) : xfer->who;\n\n \t/* TODO(wilmer): After spreading some more const goodness in BitlBee,\n \t   remove the evil cast below. */\n \tpx->ft = imcb_file_send_start(ic, (char *) who, xfer->filename, xfer->size);\n \tpx->ft->data = px;\n \n \tpx->ft->accept = prpl_xfer_accept;\n\tpx->ft->canceled = prpl_xfer_canceled;\n\tpx->ft->free = prpl_xfer_free;\n\tpx->ft->write_request = prpl_xfer_write_request;\n\n\treturn FALSE;\n}\n",
+  "big_vul_idx": 181552,
+  "idx": 2995,
+  "hash": 227444511891830241125468985312438204514
+}

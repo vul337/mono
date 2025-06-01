@@ -1,0 +1,21 @@
+{
+  "id": 1201,
+  "language": "unknown",
+  "cwe": "CWE-79",
+  "commit_url": "https://github.com/seatrips/monit/commit/328f60773057641c4b2075fab9820145e95b728c",
+  "commit_sha": "328f60773057641c4b2075fab9820145e95b728c",
+  "commit_msg": "Fixed: HTML escape the log file content when viewed via Monit GUI.",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "CHANGES",
+  "func_name": "",
+  "raw_func_from_json": "static void do_viewlog(HttpRequest req, HttpResponse res) {\n        if (is_readonly(req)) {\n                send_error(req, res, SC_FORBIDDEN, \"You do not have sufficient privileges to access this page\");\n                return;\n        }\n        do_head(res, \"_viewlog\", \"View log\", 100);\n        if ((Run.flags & Run_Log) && ! (Run.flags & Run_UseSyslog)) {\n                FILE *f = fopen(Run.files.log, \"r\");\n                if (f) {\n                        size_t n;\n                        char buf[512];\n                        StringBuffer_append(res->outputbuffer, \"<br><p><form><textarea cols=120 rows=30 readonly>\");\n                        while ((n = fread(buf, sizeof(char), sizeof(buf) - 1, f)) > 0) {\n                                buf[n] = 0;\n                                StringBuffer_append(res->outputbuffer, \"%s\", buf);\n                        }\n                        fclose(f);\n                        StringBuffer_append(res->outputbuffer, \"</textarea></form>\");\n                } else {\n                        StringBuffer_append(res->outputbuffer, \"Error opening logfile: %s\", STRERROR);\n                }\n        } else {\n                StringBuffer_append(res->outputbuffer,\n                                    \"<b>Cannot view logfile:</b><br>\");\n                if (! (Run.flags & Run_Log))\n                        StringBuffer_append(res->outputbuffer, \"Monit was started without logging\");\n                else\n                        StringBuffer_append(res->outputbuffer, \"Monit uses syslog\");\n        }\n        do_foot(res);\n}",
+  "diff_func": "@@ -27,6 +27,8 @@ MONIT_PROCESS_* variables.\n \n Fixed: The CPU user/system/wait statistics may show negative value if the system counter jumps back or wraps.\n \n+Fixed: HTML escape the log file content when viewed via Monit GUI.\n+\n \n Version 5.25.2\n ",
+  "project": "monit",
+  "commit_id": "328f60773057641c4b2075fab9820145e95b728c",
+  "target": 1,
+  "func": "static void do_viewlog(HttpRequest req, HttpResponse res) {\n        if (is_readonly(req)) {\n                send_error(req, res, SC_FORBIDDEN, \"You do not have sufficient privileges to access this page\");\n                return;\n        }\n        do_head(res, \"_viewlog\", \"View log\", 100);\n        if ((Run.flags & Run_Log) && ! (Run.flags & Run_UseSyslog)) {\n                FILE *f = fopen(Run.files.log, \"r\");\n                if (f) {\n                        size_t n;\n                        char buf[512];\n                        StringBuffer_append(res->outputbuffer, \"<br><p><form><textarea cols=120 rows=30 readonly>\");\n                        while ((n = fread(buf, sizeof(char), sizeof(buf) - 1, f)) > 0) {\n                                buf[n] = 0;\n                                StringBuffer_append(res->outputbuffer, \"%s\", buf);\n                        }\n                        fclose(f);\n                        StringBuffer_append(res->outputbuffer, \"</textarea></form>\");\n                } else {\n                        StringBuffer_append(res->outputbuffer, \"Error opening logfile: %s\", STRERROR);\n                }\n        } else {\n                StringBuffer_append(res->outputbuffer,\n                                    \"<b>Cannot view logfile:</b><br>\");\n                if (! (Run.flags & Run_Log))\n                        StringBuffer_append(res->outputbuffer, \"Monit was started without logging\");\n                else\n                        StringBuffer_append(res->outputbuffer, \"Monit uses syslog\");\n        }\n        do_foot(res);\n}",
+  "idx": 217176,
+  "hash": 44007244262753941920243993940600065355,
+  "dataset": "other"
+}

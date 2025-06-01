@@ -1,0 +1,15 @@
+{
+  "id": 4428,
+  "language": "Python",
+  "commit_url": "https://github.com/jumpserver/jumpserver/commit/0a58bba59cd275bab8e0ae58bf4b359fbc5eb74a",
+  "commit_sha": "0a58bba59cd275bab8e0ae58bf4b359fbc5eb74a",
+  "commit_msg": "fix: 修复 private storage permission",
+  "pr_url": "https://github.com/jumpserver/jumpserver/pull/11531",
+  "pr_info": "fix: 修复 private storage permission ",
+  "file_name": "apps/jumpserver/rewriting/storage/permissions.py",
+  "func_name": "allow_access",
+  "func_before": "def allow_access(private_file):\n    request = private_file.request\n    request_path = private_file.request.path\n    path_list = str(request_path)[1:].split('/')\n    path_base = path_list[1] if len(path_list) > 1 else None\n    path_perm = path_perms_map.get(path_base, None)\n\n    if not path_perm:\n        return False\n    if path_perm == '*' or request.user.has_perms([path_perm]):\n        return True\n    if path_perm == 'default':\n        return request.user.is_authenticated and request.user.is_staff\n    return False",
+  "func_after": "def allow_access(private_file):\n    request = private_file.request\n    request_path = private_file.request.path\n    path_list = str(request_path)[1:].split('/')\n    path_base = path_list[1] if len(path_list) > 1 else None\n    path_perm = path_perms_map.get(path_base, None)\n\n    if \"..\" in request_path:\n        return False\n    if not path_perm:\n        return False\n    if path_perm == '*' or request.user.has_perms([path_perm]):\n        return True\n    if path_perm == 'default':\n        return request.user.is_authenticated and request.user.is_staff\n    return False",
+  "diff_func": "--- func_before\n+++ func_after\n def allow_access(private_file):\n     request = private_file.request\n     request_path = private_file.request.path\n     path_list = str(request_path)[1:].split('/')\n     path_base = path_list[1] if len(path_list) > 1 else None\n     path_perm = path_perms_map.get(path_base, None)\n \n+    if \"..\" in request_path:\n+        return False\n     if not path_perm:\n         return False\n     if path_perm == '*' or request.user.has_perms([path_perm]):\n         return True\n     if path_perm == 'default':\n         return request.user.is_authenticated and request.user.is_staff\n     return False",
+  "diff_source": "custom"
+}

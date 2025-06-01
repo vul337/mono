@@ -1,0 +1,18 @@
+{
+  "id": 895,
+  "language": "Java",
+  "commit_url": "https://github.com/patzly/doodle-android/commit/b8fb524d6e4ec45857c74065d5ebd134667c9e1f",
+  "commit_sha": "b8fb524d6e4ec45857c74065d5ebd134667c9e1f",
+  "commit_msg": "Fix Implicit Internal Intent Vulnerability and fix crash caused by non-display intent",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "app/src/main/java/xyz/zedler/patrick/doodle/activity/MainActivity.java",
+  "func_name": "requestSettingsRefresh",
+  "func_before": "public void requestSettingsRefresh() {\n    Intent intent = new Intent();\n    intent.setAction(ACTION.SETTINGS_CHANGED);\n    sendBroadcast(intent);\n  }",
+  "func_after": "public void requestSettingsRefresh() {\n    Intent intent = new Intent();\n    intent.setPackage(getPackageName());\n    intent.setAction(ACTION.SETTINGS_CHANGED);\n    sendBroadcast(intent);\n  }",
+  "diff_func": "--- func_before\n+++ func_after\n public void requestSettingsRefresh() {\n     Intent intent = new Intent();\n+    intent.setPackage(getPackageName());\n     intent.setAction(ACTION.SETTINGS_CHANGED);\n     sendBroadcast(intent);\n   }",
+  "diff_source": "custom",
+  "Bug Filter": "Security Vulnerability Fix\nConfidence Score: 0.95",
+  "Bug Filter Confidence": 0.95,
+  "Bug Filter Response": "\n\nThe patch addresses a security vulnerability by making an intent explicit, preventing unauthorized interception. The fix also resolves a crash related to the same issue.\n\n**Final Output:**\nAnalysis: The patch fixes an implicit intent vulnerability by setting the package, preventing unauthorized interception, and resolves a crash. This addresses a security issue impacting availability and integrity.\nFinal Classification: Security Vulnerability Fix\nConfidence Score: 0.95"
+}

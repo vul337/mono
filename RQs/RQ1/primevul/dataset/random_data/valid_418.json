@@ -1,0 +1,23 @@
+{
+  "id": 418,
+  "language": "cc",
+  "cwe": "",
+  "commit_url": "https://github.com/google/asylo/commit/a37fb6a0e7daf30134dbbf357c9a518a1026aa02",
+  "commit_sha": "a37fb6a0e7daf30134dbbf357c9a518a1026aa02",
+  "commit_msg": "Check untrusted queue is in outside enclave\n\nPiperOrigin-RevId: 333370935\nChange-Id: Ic3f15d5db1302d95c7cb199b44172474fecb81ca",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "asylo/platform/host_call/trusted/concurrency.cc",
+  "func_name": "",
+  "raw_func_from_json": "int32_t *enc_untrusted_create_wait_queue() {\n  MessageWriter input;\n  MessageReader output;\n  input.Push<uint64_t>(sizeof(int32_t));\n  const auto status = NonSystemCallDispatcher(\n      ::asylo::host_call::kLocalLifetimeAllocHandler, &input, &output);\n  CheckStatusAndParamCount(status, output, \"enc_untrusted_create_wait_queue\",\n                           2);\n  int32_t *queue = reinterpret_cast<int32_t *>(output.next<uintptr_t>());\n  int klinux_errno = output.next<int>();\n  if (queue == nullptr) {\n    errno = FromkLinuxErrorNumber(klinux_errno);\n  }\n  enc_untrusted_disable_waiting(queue);\n  return queue;\n}",
+  "diff_func": "@@ -93,6 +93,10 @@ int32_t *enc_untrusted_create_wait_queue() {\n   CheckStatusAndParamCount(status, output, \"enc_untrusted_create_wait_queue\",\n                            2);\n   int32_t *queue = reinterpret_cast<int32_t *>(output.next<uintptr_t>());\n+  if (!TrustedPrimitives::IsOutsideEnclave(queue, sizeof(int32_t))) {\n+    TrustedPrimitives::BestEffortAbort(\n+        \"enc_untrusted_create_wait_queue: queue should be in untrusted memory\");\n+  }\n   int klinux_errno = output.next<int>();\n   if (queue == nullptr) {\n     errno = FromkLinuxErrorNumber(klinux_errno);",
+  "func": "int32_t *enc_untrusted_create_wait_queue() {\n  MessageWriter input;\n  MessageReader output;\n  input.Push<uint64_t>(sizeof(int32_t));\n  const auto status = NonSystemCallDispatcher(\n      ::asylo::host_call::kLocalLifetimeAllocHandler, &input, &output);\n  CheckStatusAndParamCount(status, output, \"enc_untrusted_create_wait_queue\",\n                           2);\n  int32_t *queue = reinterpret_cast<int32_t *>(output.next<uintptr_t>());\n  int klinux_errno = output.next<int>();\n  if (queue == nullptr) {\n    errno = FromkLinuxErrorNumber(klinux_errno);\n  }\n  enc_untrusted_disable_waiting(queue);\n  return queue;\n}",
+  "project": "asylo",
+  "hash": 37573905407616895373101266094510917833,
+  "size": 16,
+  "commit_id": "a37fb6a0e7daf30134dbbf357c9a518a1026aa02",
+  "message": "Check untrusted queue is in outside enclave\n\nPiperOrigin-RevId: 333370935\nChange-Id: Ic3f15d5db1302d95c7cb199b44172474fecb81ca",
+  "target": 1,
+  "dataset": "other",
+  "idx": 195697
+}

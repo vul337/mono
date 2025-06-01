@@ -1,0 +1,18 @@
+{
+  "id": 5661,
+  "language": "C/C++",
+  "commit_url": "https://github.com/torvalds/linux/commit/6cd88243c7e03845a450795e134b488fc2afb736",
+  "commit_sha": "6cd88243c7e03845a450795e134b488fc2afb736",
+  "commit_msg": "KVM: x86: do not report a vCPU as preempted outside instruction boundaries\n\nIf a vCPU is outside guest mode and is scheduled out, it might be in the\nprocess of making a memory access.  A problem occurs if another vCPU uses\nthe PV TLB flush feature during the period when the vCPU is scheduled\nout, and a virtual address has already been translated but has not yet\nbeen accessed, because this is equivalent to using a stale TLB entry.\n\nTo avoid this, only report a vCPU as preempted if sure that the guest\nis at an instruction boundary.  A rescheduling request will be delivered\nto the host physical CPU as an external interrupt, so for simplicity\nconsider any vmexit *not* instruction boundary except for external\ninterrupts.\n\nIt would in principle be okay to report the vCPU as preempted also\nif it is sleeping in kvm_vcpu_block(): a TLB flush IPI will incur the\nvmentry/vmexit overhead unnecessarily, and optimistic spinning is\nalso unlikely to succeed.  However, leave it for later because right\nnow kvm_vcpu_check_block() is doing memory accesses.  Even\nthough the TLB flush issue only applies to virtual memory address,\nit's very much preferrable to be conservative.\n\nReported-by: Jann Horn <jannh@google.com>\nSigned-off-by: Paolo Bonzini <pbonzini@redhat.com>",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "arch/x86/kvm/vmx/vmx.c",
+  "func_name": "handle_external_interrupt_irqoff",
+  "func_before": "static void handle_external_interrupt_irqoff(struct kvm_vcpu *vcpu)\n{\n\tu32 intr_info = vmx_get_intr_info(vcpu);\n\tunsigned int vector = intr_info & INTR_INFO_VECTOR_MASK;\n\tgate_desc *desc = (gate_desc *)host_idt_base + vector;\n\n\tif (KVM_BUG(!is_external_intr(intr_info), vcpu->kvm,\n\t    \"KVM: unexpected VM-Exit interrupt info: 0x%x\", intr_info))\n\t\treturn;\n\n\thandle_interrupt_nmi_irqoff(vcpu, gate_offset(desc));\n}",
+  "func_after": "static void handle_external_interrupt_irqoff(struct kvm_vcpu *vcpu)\n{\n\tu32 intr_info = vmx_get_intr_info(vcpu);\n\tunsigned int vector = intr_info & INTR_INFO_VECTOR_MASK;\n\tgate_desc *desc = (gate_desc *)host_idt_base + vector;\n\n\tif (KVM_BUG(!is_external_intr(intr_info), vcpu->kvm,\n\t    \"KVM: unexpected VM-Exit interrupt info: 0x%x\", intr_info))\n\t\treturn;\n\n\thandle_interrupt_nmi_irqoff(vcpu, gate_offset(desc));\n\tvcpu->arch.at_instruction_boundary = true;\n}",
+  "diff_func": "--- func_before\n+++ func_after\n static void handle_external_interrupt_irqoff(struct kvm_vcpu *vcpu)\n {\n \tu32 intr_info = vmx_get_intr_info(vcpu);\n \tunsigned int vector = intr_info & INTR_INFO_VECTOR_MASK;\n \tgate_desc *desc = (gate_desc *)host_idt_base + vector;\n \n \tif (KVM_BUG(!is_external_intr(intr_info), vcpu->kvm,\n \t    \"KVM: unexpected VM-Exit interrupt info: 0x%x\", intr_info))\n \t\treturn;\n \n \thandle_interrupt_nmi_irqoff(vcpu, gate_offset(desc));\n+\tvcpu->arch.at_instruction_boundary = true;\n }",
+  "diff_source": "custom",
+  "Bug Filter": "Security Vulnerability Fix  \nConfidence Score: 0.95",
+  "Bug Filter Confidence": 0.95,
+  "Bug Filter Response": "\n\n**Final Output:**\nAnalysis: The patch addresses a potential security flaw by ensuring that a vCPU is only reported as preempted at instruction boundaries, preventing the use of stale TLB entries that could be exploited. This directly impacts system security by mitigating unauthorized access risks.\n\nFinal Classification: Security Vulnerability Fix  \nConfidence Score: 0.95"
+}

@@ -1,0 +1,21 @@
+{
+  "id": 560,
+  "language": "c",
+  "cwe": "CWE-362",
+  "commit_url": "https://github.com/malvira/lpc31xx/commit/fc3a9157d3148ab91039c75423da8ef97be3e105",
+  "commit_sha": "fc3a9157d3148ab91039c75423da8ef97be3e105",
+  "commit_msg": "KVM: X86: Don't report L2 emulation failures to user-space\n\nThis patch prevents that emulation failures which result\nfrom emulating an instruction for an L2-Guest results in\nbeing reported to userspace.\nWithout this patch a malicious L2-Guest would be able to\nkill the L1 by triggering a race-condition between an vmexit\nand the instruction emulator.\nWith this patch the L2 will most likely only kill itself in\nthis situation.\n\nSigned-off-by: Joerg Roedel <joerg.roedel@amd.com>\nSigned-off-by: Marcelo Tosatti <mtosatti@redhat.com>",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "arch/x86/kvm/x86.c",
+  "func_name": "",
+  "raw_func_from_json": " static int handle_emulation_failure(struct kvm_vcpu *vcpu)\n {\n \t++vcpu->stat.insn_emulation_fail;\n \ttrace_kvm_emulate_insn_failed(vcpu);\n\tvcpu->run->exit_reason = KVM_EXIT_INTERNAL_ERROR;\n\tvcpu->run->internal.suberror = KVM_INTERNAL_ERROR_EMULATION;\n\tvcpu->run->internal.ndata = 0;\n \tkvm_queue_exception(vcpu, UD_VECTOR);\n\treturn EMULATE_FAIL;\n }\n",
+  "diff_func": "@@ -4314,13 +4314,19 @@ EXPORT_SYMBOL_GPL(kvm_inject_realmode_interrupt);\n \n static int handle_emulation_failure(struct kvm_vcpu *vcpu)\n {\n+\tint r = EMULATE_DONE;\n+\n \t++vcpu->stat.insn_emulation_fail;\n \ttrace_kvm_emulate_insn_failed(vcpu);\n-\tvcpu->run->exit_reason = KVM_EXIT_INTERNAL_ERROR;\n-\tvcpu->run->internal.suberror = KVM_INTERNAL_ERROR_EMULATION;\n-\tvcpu->run->internal.ndata = 0;\n+\tif (!is_guest_mode(vcpu)) {\n+\t\tvcpu->run->exit_reason = KVM_EXIT_INTERNAL_ERROR;\n+\t\tvcpu->run->internal.suberror = KVM_INTERNAL_ERROR_EMULATION;\n+\t\tvcpu->run->internal.ndata = 0;\n+\t\tr = EMULATE_FAIL;\n+\t}\n \tkvm_queue_exception(vcpu, UD_VECTOR);\n-\treturn EMULATE_FAIL;\n+\n+\treturn r;\n }\n \n static bool reexecute_instruction(struct kvm_vcpu *vcpu, gva_t gva)",
+  "project": "linux",
+  "commit_id": "fc3a9157d3148ab91039c75423da8ef97be3e105",
+  "target": 1,
+  "func": " static int handle_emulation_failure(struct kvm_vcpu *vcpu)\n {\n \t++vcpu->stat.insn_emulation_fail;\n \ttrace_kvm_emulate_insn_failed(vcpu);\n\tvcpu->run->exit_reason = KVM_EXIT_INTERNAL_ERROR;\n\tvcpu->run->internal.suberror = KVM_INTERNAL_ERROR_EMULATION;\n\tvcpu->run->internal.ndata = 0;\n \tkvm_queue_exception(vcpu, UD_VECTOR);\n\treturn EMULATE_FAIL;\n }\n",
+  "big_vul_idx": 179730,
+  "idx": 1420,
+  "hash": 279029284746417491104163201106928259226
+}

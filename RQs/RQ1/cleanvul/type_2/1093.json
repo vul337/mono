@@ -1,0 +1,18 @@
+{
+  "id": 1093,
+  "language": "Java",
+  "commit_url": "https://github.com/Col-E/Recaf/commit/52b419b7ee4ac8f66efb150c26515e539c3c4466",
+  "commit_sha": "52b419b7ee4ac8f66efb150c26515e539c3c4466",
+  "commit_msg": "Fix infinite loop in EXPR parser if same label offset visited twice",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "recaf-assembler/src/main/java/me/coley/recaf/assemble/compiler/JavassistASMTranslator.java",
+  "func_name": "visitBranchDestination",
+  "func_before": "@Override\n\tpublic void visitBranchDestination(int offset) {\n\t\tLabelNode l = getLabel(offset);\n\t\tlist.add(l);\n\t}",
+  "func_after": "@Override\n\tpublic void visitBranchDestination(int offset) {\n\t\tif (!visitedOffsets.contains(offset)) {\n\t\t\tLabelNode l = getLabel(offset);\n\t\t\tlist.add(l);\n\t\t\tvisitedOffsets.add(offset);\n\t\t}\n\t}",
+  "diff_func": "--- func_before\n+++ func_after\n @Override\n \tpublic void visitBranchDestination(int offset) {\n+\t\tif (!visitedOffsets.contains(offset)) {\n-\t\tLabelNode l = getLabel(offset);\n+\t\t\tLabelNode l = getLabel(offset);\n-\t\tlist.add(l);\n+\t\t\tlist.add(l);\n+\t\t\tvisitedOffsets.add(offset);\n+\t\t}\n \t}",
+  "diff_source": "custom",
+  "Bug Filter": "Defect Remediation & Feature Upgrades",
+  "Bug Filter Confidence": 0.8,
+  "Bug Filter Response": "\n\n**Final Output:**\n\nAnalysis: The patch addresses an infinite loop issue in the EXPR parser by tracking visited offsets, preventing the same label from being processed multiple times. While it could mitigate a potential DoS, the commit message doesn't specify an exploit, making it a functional bug fix.\n\nFinal Classification: Defect Remediation & Feature Upgrades\n\nConfidence Score: 0.8"
+}

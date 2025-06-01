@@ -1,0 +1,15 @@
+{
+  "id": 3608,
+  "language": "C/C++",
+  "commit_url": "https://github.com/the-tcpdump-group/tcpdump/commit/7335163a6ef82d46ff18f3e6099a157747241629",
+  "commit_sha": "7335163a6ef82d46ff18f3e6099a157747241629",
+  "commit_msg": "CVE-2017-13038/PPP: Do bounds checking.\n\nThis fixes a buffer over-read discovered by Brian 'geeknik' Carpenter.\n\nAdd a test using the capture file supplied by Katie Holly.",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "print-ppp.c",
+  "func_name": "handle_mlppp",
+  "func_before": "static void\nhandle_mlppp(netdissect_options *ndo,\n             const u_char *p, int length)\n{\n    if (!ndo->ndo_eflag)\n        ND_PRINT((ndo, \"MLPPP, \"));\n\n    ND_PRINT((ndo, \"seq 0x%03x, Flags [%s], length %u\",\n           (EXTRACT_16BITS(p))&0x0fff, /* only support 12-Bit sequence space for now */\n           bittok2str(ppp_ml_flag_values, \"none\", *p & 0xc0),\n           length));\n}",
+  "func_after": "static void\nhandle_mlppp(netdissect_options *ndo,\n             const u_char *p, int length)\n{\n    if (!ndo->ndo_eflag)\n        ND_PRINT((ndo, \"MLPPP, \"));\n\n    if (length < 2) {\n        ND_PRINT((ndo, \"[|mlppp]\"));\n        return;\n    }\n    if (!ND_TTEST_16BITS(p)) {\n        ND_PRINT((ndo, \"[|mlppp]\"));\n        return;\n    }\n\n    ND_PRINT((ndo, \"seq 0x%03x, Flags [%s], length %u\",\n           (EXTRACT_16BITS(p))&0x0fff, /* only support 12-Bit sequence space for now */\n           bittok2str(ppp_ml_flag_values, \"none\", *p & 0xc0),\n           length));\n}",
+  "diff_func": "--- func_before\n+++ func_after\n static void\n handle_mlppp(netdissect_options *ndo,\n              const u_char *p, int length)\n {\n     if (!ndo->ndo_eflag)\n         ND_PRINT((ndo, \"MLPPP, \"));\n \n+    if (length < 2) {\n+        ND_PRINT((ndo, \"[|mlppp]\"));\n+        return;\n+    }\n+    if (!ND_TTEST_16BITS(p)) {\n+        ND_PRINT((ndo, \"[|mlppp]\"));\n+        return;\n+    }\n+\n     ND_PRINT((ndo, \"seq 0x%03x, Flags [%s], length %u\",\n            (EXTRACT_16BITS(p))&0x0fff, /* only support 12-Bit sequence space for now */\n            bittok2str(ppp_ml_flag_values, \"none\", *p & 0xc0),\n            length));\n }",
+  "diff_source": "custom"
+}

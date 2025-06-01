@@ -1,0 +1,18 @@
+{
+  "id": 1197,
+  "language": "Java",
+  "commit_url": "https://github.com/omnirom/android_frameworks_base/commit/6aba151873bfae198ef9eceb10f943e18b52d58c",
+  "commit_sha": "6aba151873bfae198ef9eceb10f943e18b52d58c",
+  "commit_msg": "[RESTRICT AUTOMERGE] Fix bypass BG-FGS and BAL via package manager APIs\n\nOpt-in for BAL of PendingIntent for following APIs:\n\n* PackageInstaller.uninstall()\n* PackageInstaller.installExistingPackage()\n* PackageInstaller.uninstallExistingPackage()\n* PackageInstaller.Session.commit()\n* PackageInstaller.Session.commitTransferred()\n* PackageManager.freeStorage()\n\nBug: 230492955\nBug: 243377226\nTest: atest android.security.cts.PackageInstallerTest\nTest: atest CtsStagedInstallHostTestCases\nChange-Id: I9b6f801d69ea6d2244a38dbe689e81afa4e798bf\n(cherry picked from commit 03b77aee350696781b4d7a61768a172bedc3ac73)\nMerged-In: I9b6f801d69ea6d2244a38dbe689e81afa4e798bf",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "core/java/android/content/IntentSender.java",
+  "func_name": "sendIntent",
+  "func_before": "public void sendIntent(Context context, int code, Intent intent,\n            OnFinished onFinished, Handler handler, String requiredPermission)\n            throws SendIntentException {\n        try {\n            String resolvedType = intent != null ?\n                    intent.resolveTypeIfNeeded(context.getContentResolver())\n                    : null;\n            int res = ActivityManager.getService().sendIntentSender(mTarget, mWhitelistToken,\n                    code, intent, resolvedType,\n                    onFinished != null\n                            ? new FinishedDispatcher(this, onFinished, handler)\n                            : null,\n                    requiredPermission, null);\n            if (res < 0) {\n                throw new SendIntentException();\n            }\n        } catch (RemoteException e) {\n            throw new SendIntentException();\n        }\n    }",
+  "func_after": "public void sendIntent(Context context, int code, Intent intent,\n            OnFinished onFinished, Handler handler, String requiredPermission)\n            throws SendIntentException {\n        sendIntent(context, code, intent, onFinished, handler, requiredPermission,\n                null /* options */);\n    }",
+  "diff_func": "--- func_before\n+++ func_after\n@@ -158 +159 @@\n public void sendIntent(Context context, int code, Intent intent,\n OnFinished onFinished, Handler handler) throws SendIntentException {\n-        sendIntent(context, code, intent, onFinished, handler, null);\n+        sendIntent(context, code, intent, onFinished, handler, null, null /* options */);\n }\n@@ -190 +191 @@\n public void sendIntent(Context context, int code, Intent intent,\n+        sendIntent(context, code, intent, onFinished, handler, requiredPermission,\n+                null /* options */);\n+    }",
+  "diff_source": "api",
+  "Bug Filter": "Security Vulnerability Fix  \nConfidence Score: 0.95",
+  "Bug Filter Confidence": 0.95,
+  "Bug Filter Response": "\n\n**Final Output:**\n\nAnalysis: The commit addresses a security issue by preventing bypasses of certain security checks in package manager APIs. The code changes add parameters to enforce these checks, indicating a security fix.\n\nFinal Classification: Security Vulnerability Fix  \nConfidence Score: 0.95"
+}

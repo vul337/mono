@@ -1,0 +1,23 @@
+{
+  "id": 887,
+  "language": "cc",
+  "cwe": "",
+  "commit_url": "https://github.com/Cycling74/node-sqlite3/commit/593c9d498be2510d286349134537e3bf89401c4a",
+  "commit_sha": "593c9d498be2510d286349134537e3bf89401c4a",
+  "commit_msg": "bug: fix segfault of invalid toString() object (#1450)\n\n* bug: verify toString() returns valid data\r\n* test: faulty toString test",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "src/statement.cc",
+  "func_name": "",
+  "raw_func_from_json": "                   Statement::BindParameter(const Napi::Value source, T pos) {\n    if (source.IsString()) {\n        std::string val = source.As<Napi::String>().Utf8Value();\n        return new Values::Text(pos, val.length(), val.c_str());\n    }\n    else if (OtherInstanceOf(source.As<Object>(), \"RegExp\")) {\n        std::string val = source.ToString().Utf8Value();\n        return new Values::Text(pos, val.length(), val.c_str());\n    }\n    else if (source.IsNumber()) {\n        if (OtherIsInt(source.As<Napi::Number>())) {\n            return new Values::Integer(pos, source.As<Napi::Number>().Int32Value());\n        } else {\n            return new Values::Float(pos, source.As<Napi::Number>().DoubleValue());\n        }\n    }\n    else if (source.IsBoolean()) {\n        return new Values::Integer(pos, source.As<Napi::Boolean>().Value() ? 1 : 0);\n    }\n    else if (source.IsNull()) {\n        return new Values::Null(pos);\n    }\n    else if (source.IsBuffer()) {\n        Napi::Buffer<char> buffer = source.As<Napi::Buffer<char>>();\n        return new Values::Blob(pos, buffer.Length(), buffer.Data());\n    }\n    else if (OtherInstanceOf(source.As<Object>(), \"Date\")) {\n        return new Values::Float(pos, source.ToNumber().DoubleValue());\n    }\n    else if (source.IsObject()) {\n        std::string val = source.ToString().Utf8Value();\n        return new Values::Text(pos, val.length(), val.c_str());\n    }\n    else {\n        return NULL;\n    }\n}",
+  "diff_func": "@@ -205,7 +205,13 @@ template <class T> Values::Field*\n         return new Values::Float(pos, source.ToNumber().DoubleValue());\n     }\n     else if (source.IsObject()) {\n-        std::string val = source.ToString().Utf8Value();\n+        Napi::String napiVal = source.ToString();\n+        // Check whether toString returned a value that is not undefined.\n+        if(napiVal.Type() == 0) {\n+            return NULL;\n+        }\n+\n+        std::string val = napiVal.Utf8Value();\n         return new Values::Text(pos, val.length(), val.c_str());\n     }\n     else {",
+  "func": "                   Statement::BindParameter(const Napi::Value source, T pos) {\n    if (source.IsString()) {\n        std::string val = source.As<Napi::String>().Utf8Value();\n        return new Values::Text(pos, val.length(), val.c_str());\n    }\n    else if (OtherInstanceOf(source.As<Object>(), \"RegExp\")) {\n        std::string val = source.ToString().Utf8Value();\n        return new Values::Text(pos, val.length(), val.c_str());\n    }\n    else if (source.IsNumber()) {\n        if (OtherIsInt(source.As<Napi::Number>())) {\n            return new Values::Integer(pos, source.As<Napi::Number>().Int32Value());\n        } else {\n            return new Values::Float(pos, source.As<Napi::Number>().DoubleValue());\n        }\n    }\n    else if (source.IsBoolean()) {\n        return new Values::Integer(pos, source.As<Napi::Boolean>().Value() ? 1 : 0);\n    }\n    else if (source.IsNull()) {\n        return new Values::Null(pos);\n    }\n    else if (source.IsBuffer()) {\n        Napi::Buffer<char> buffer = source.As<Napi::Buffer<char>>();\n        return new Values::Blob(pos, buffer.Length(), buffer.Data());\n    }\n    else if (OtherInstanceOf(source.As<Object>(), \"Date\")) {\n        return new Values::Float(pos, source.ToNumber().DoubleValue());\n    }\n    else if (source.IsObject()) {\n        std::string val = source.ToString().Utf8Value();\n        return new Values::Text(pos, val.length(), val.c_str());\n    }\n    else {\n        return NULL;\n    }\n}",
+  "project": "node-sqlite3",
+  "hash": 144963976907476877879205773154137404855,
+  "size": 37,
+  "commit_id": "593c9d498be2510d286349134537e3bf89401c4a",
+  "message": "bug: fix segfault of invalid toString() object (#1450)\n\n* bug: verify toString() returns valid data\r\n* test: faulty toString test",
+  "target": 1,
+  "dataset": "other",
+  "idx": 204322
+}

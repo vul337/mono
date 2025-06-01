@@ -1,0 +1,141 @@
+example1: |
+  **Example 1: Clear Security Vulnerability Fix**
+  [INPUT]
+  - **Commit Message:** "Fix ignored dn_expand error"
+  - **Code Diff:** "--- func_before\n+++ func_after\n@@ -26,7 +26,8 @@\n     for (x = 0; x < mdns->questions; x++) {\n \n       name_len = dn_expand((u_char*)mdns, end, q, name, sizeof(name));\n-\n+      if (name_len == -1)\n+          return;\n       q = data + name_len;\n \n       if (q >= end || name_len == 0)"
+  - **Vulnerability Description:** "The mdns_spoof function in Ettercap 0.8.2 and earlier allows remote attackers to cause a denial of service (crash) via a crafted MDNS packet."
+  [OUTPUT]
+  - **Step1: Input Analysis:**  
+    **Commit Message:** \"Fix ignored dn_expand error\"  \n   \n2. **Vulnerability Description:** \"The mdns_spoof function in Ettercap 0.8.2 and earlier allows remote attackers to cause a denial of service (crash) via a crafted MDNS packet.\"  \n   - The description clearly refers to a denial-of-service (DoS) vulnerability caused by malformed MDNS packets.  \n   - Key terms: \"remote attackers,\" \"denial of service (crash),\" and \"crafted MDNS packet\" indicate a security issue.  \n3. **Code Diff:**  \n   - Identifies that the `dn_expand` function is being updated to check for a failure condition (i.e., when `name_len == -1`).  \n   - If this failure condition is met, the function returns immediately, preventing further processing.
+  - **Step2: Consistency Check:**  
+    1.The commit message (\"Fix ignored dn_expand error\") aligns with the code diff, which addresses an error in handling the return value from `dn_expand`.  
+    2.The vulnerability description refers to a denial-of-service caused by crafted MDNS packets. 
+  - **Step3: Purpose Evaluation:**  
+    1. The patch modifies core logic inside a function handling MDNS packets (`mdns_spoof`).  \n2. The purpose of the changes is to add a safeguard (`if (name_len == -1) return;`) to handle erroneous results from `dn_expand`, thus preventing crashes when name_len == -1.  \n3. This aligns with the description of preventing a DoS scenario caused by malformed MDNS packets.
+  - **Step4: Security Vulnerability Assessment:**  
+    1. The vulnerability description explicitly mentions a security implication: remote denial-of-service.  \n2. The patch prevents this issue by implementing proper error handling for `dn_expand`. Denial-of-service vulnerabilities (when exploitable remotely) are classified as security issues.  \n3. Although there is no explicit CVE/CWE mention in the materials provided and the patch cannot directly reveal the vulnerabilities, the vulnerability description is consistent with such cases.
+  - Step5: Non-Security Classification (skipped) 
+    Based on the above steps, the patch is classified as a "Security Vulnerability Fix."
+  - **Step6: Confidence Scoring:**  
+    - The vulnerability description, commit message, and code diff all align perfectly. There is no ambiguity or inconsistency in the provided details.  \n- The patch is clearly a security vulnerability fix for a denial-of-service scenario caused by improper error handling.\n**Confidence:** 0.95
+  - **Final Classification:** Security Vulnerability Fix; **Confidence:** 0.95
+
+example2: | 
+  **Example 2: Testing & Validation Updates**
+  [INPUT]
+  - **Commit Message:** "Add test case for CVE-2023-1234 validation"
+  - **Code Diff:** "New unit tests are added to validate input checking logic; core code remains unchanged."
+  - **Vulnerability Description:** "The test ensures the fix's effectiveness for a previously identified vulnerability."
+  [OUTPUT]
+  - **Step1: Input Analysis:**  
+    The commit message includes "test case", indicating a testing or debugging purpose. The code diff adds new tests without modifying core logic.
+  - **Step2: Consistency Check:**  
+    The code diff aligns with the commit message, focusing on adding tests to validate existing functionality.
+  - **Step3: Purpose Evaluation:**  
+    The patch's sole purpose is to add tests, not to fix defects or enhance features.
+  - **Step4: Security Vulnerability Assessment:**  
+    The patch does not address any security vulnerabilities directly; it is focused on testing.
+  - **Step5:  Non-Security Classification:**  
+    Based on the above steps, the patch is classified as "Testing & Validation Updates."
+  - **Step6: Confidence Scoring:**  
+    The clear indication of testing purpose and unchanged core code leads to a confidence score of 0.95.
+  - **Final Classification:** Testing & Validation Updates; **Confidence:** 0.95
+
+example3: |
+  **Example 3: Defect Remediation & Feature Upgrades**
+  [INPUT]
+  - **Commit Message:** "Optimize database query performance by adding index"
+  - **Code Diff:** |
+      --- schema_before.sql
+      +++ schema_after.sql
+      @@ -15,6 +15,7 @@
+         user_id INT PRIMARY KEY,
+         username VARCHAR(50),
+         email VARCHAR(100),
+      +  INDEX idx_email (email),
+         created_at TIMESTAMP
+       );
+  - **Vulnerability Description:** "Under high load, some queries were timing out due to full table scans."
+
+  [OUTPUT]
+  - **Step1: Input Analysis:**  
+    1. **Commit Message:** "Optimize database query performance by adding index"  
+       - Keywords: "Optimize" indicates performance improvement  
+    2. **Code Diff:**  
+       - Adds index on `email` field to prevent full table scans  
+    3. **Problem Description:**  
+       - Functional defect causing query timeouts under high load
+  - **Step2: Consistency Check:**  
+    1. Commit message aligns with index addition in SQL schema  
+    2. Code change directly addresses described performance issue
+  - **Step3: Purpose Evaluation:**  
+    1. Core logic modification: Database query optimization  
+    2. Non-security nature: No attack vectors mentioned and the description or code diff does not imply security implications
+  - **Step4: Security Vulnerability Assessment:**  
+    1. No security implications (CVE/CWE missing)  
+    2. Fixes functional defect, not security vulnerability  
+  - **Step5: Non-Security Classification:**  
+    1. **Defect Type:** Performance defect in data query logic  
+    2. **Impact:** Improved system stability and response time   
+  - **Step6: Confidence Scoring:**  
+    1. Clear alignment between commit, code, and description  
+    2. Minor deduction for potential hidden performance edge cases  
+    **Confidence:** 0.95
+  - **Final Classification:** Defect Remediation & Feature Upgrades; **Confidence:** 0.95
+ 
+
+
+example4: |
+  **Example 4: Supporting & Non-Core Improvements**
+  [INPUT]
+  - **Commit Message:** "Improve log readability with JSON formatting"
+  - **Code Diff:** |
+      --- logging_before.conf
+      +++ logging_after.conf
+      @@ -5,7 +5,7 @@
+      -appender.console.layout.type = PatternLayout
+      -appender.console.layout.pattern = %d{ISO8601} [%t] %-5p %c{1} - %m%n
+      +appender.console.layout.type = JsonLayout
+      +appender.console.layout.compact = true
+  - **Vulnerability Description:** "Enhance log parsing efficiency for operational analysis"
+
+  [OUTPUT]
+  - **Step1: Input Analysis:**  
+    1. **Commit Message:** "Improve log readability with JSON formatting"  
+       - Keywords: "Improve" indicates experience enhancement  
+    2. **Code Diff:**  
+       - Replaces pattern-based logging with JSON structured output  
+    3. **Problem Description:**  
+       - Focuses on operational efficiency rather than core functionality
+
+  - **Step2: Consistency Check:**  
+    1. Code changes match commit message's JSON formatting claim  
+    2. Logging pattern modification aligns with parsing efficiency goal
+
+  - **Step3: Purpose Evaluation:**  
+    1. **Core Function Impact:**  
+       - Does not modify business logic or data processing flows  
+       - Only affects logging output format (observability layer)  
+    2. **Auxiliary Update:**  
+       - Conform to non-core updates (including comments, updated documentation, and code style refactoring..)  
+
+  - **Step4: Security Vulnerability Assessment:**  
+    1. No security fixes or attack surface reduction  
+    2. Purely operational improvement
+
+  - **Step5: Non-Security Classification:**  
+    1. **Characteristic:**  
+       - Secondary system component optimization   
+    2. **Subclass:** Supporting & Non-Core Improvements  
+       - Definition: Adjustments that enhance ancillary systems without modifying core business logic
+
+  - **Step6: Confidence Scoring:**  
+    Clear operational improvement intent   
+    **Confidence:** 0.95
+
+  - **Final Classification:** Supporting & Non-Core Improvements; **Confidence:** 0.95
+
+
+
+
+

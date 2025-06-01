@@ -1,0 +1,21 @@
+{
+  "id": 426,
+  "language": "c",
+  "cwe": "CWE-264",
+  "commit_url": "https://github.com/ljalves/linux_media/commit/c903f0456bc69176912dee6dd25c6a66ee1aed00",
+  "commit_sha": "c903f0456bc69176912dee6dd25c6a66ee1aed00",
+  "commit_msg": "x86/msr: Add capabilities check\n\nAt the moment the MSR driver only relies upon file system\nchecks. This means that anything as root with any capability set\ncan write to MSRs. Historically that wasn't very interesting but\non modern processors the MSRs are such that writing to them\nprovides several ways to execute arbitary code in kernel space.\nSample code and documentation on doing this is circulating and\nMSR attacks are used on Windows 64bit rootkits already.\n\nIn the Linux case you still need to be able to open the device\nfile so the impact is fairly limited and reduces the security of\nsome capability and security model based systems down towards\nthat of a generic \"root owns the box\" setup.\n\nTherefore they should require CAP_SYS_RAWIO to prevent an\nelevation of capabilities. The impact of this is fairly minimal\non most setups because they don't have heavy use of\ncapabilities. Those using SELinux, SMACK or AppArmor rules might\nwant to consider if their rulesets on the MSR driver could be\ntighter.\n\nSigned-off-by: Alan Cox <alan@linux.intel.com>\nCc: Linus Torvalds <torvalds@linux-foundation.org>\nCc: Andrew Morton <akpm@linux-foundation.org>\nCc: Peter Zijlstra <a.p.zijlstra@chello.nl>\nCc: Horses <stable@kernel.org>\nSigned-off-by: Ingo Molnar <mingo@kernel.org>",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "arch/x86/kernel/msr.c",
+  "func_name": "",
+  "raw_func_from_json": "static int msr_open(struct inode *inode, struct file *file)\n{\n \tunsigned int cpu;\n \tstruct cpuinfo_x86 *c;\n \n \tcpu = iminor(file->f_path.dentry->d_inode);\n \tif (cpu >= nr_cpu_ids || !cpu_online(cpu))\n \t\treturn -ENXIO;\t/* No such CPU */\n\n\tc = &cpu_data(cpu);\n\tif (!cpu_has(c, X86_FEATURE_MSR))\n\t\treturn -EIO;\t/* MSR not supported */\n\n\treturn 0;\n}\n",
+  "diff_func": "@@ -174,6 +174,9 @@ static int msr_open(struct inode *inode, struct file *file)\n \tunsigned int cpu;\n \tstruct cpuinfo_x86 *c;\n \n+\tif (!capable(CAP_SYS_RAWIO))\n+\t\treturn -EPERM;\n+\n \tcpu = iminor(file->f_path.dentry->d_inode);\n \tif (cpu >= nr_cpu_ids || !cpu_online(cpu))\n \t\treturn -ENXIO;\t/* No such CPU */",
+  "project": "linux",
+  "commit_id": "c903f0456bc69176912dee6dd25c6a66ee1aed00",
+  "target": 1,
+  "func": "static int msr_open(struct inode *inode, struct file *file)\n{\n \tunsigned int cpu;\n \tstruct cpuinfo_x86 *c;\n \n \tcpu = iminor(file->f_path.dentry->d_inode);\n \tif (cpu >= nr_cpu_ids || !cpu_online(cpu))\n \t\treturn -ENXIO;\t/* No such CPU */\n\n\tc = &cpu_data(cpu);\n\tif (!cpu_has(c, X86_FEATURE_MSR))\n\t\treturn -EIO;\t/* MSR not supported */\n\n\treturn 0;\n}\n",
+  "big_vul_idx": 179338,
+  "idx": 1115,
+  "hash": 134954684690763782108810687579849886489
+}

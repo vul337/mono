@@ -1,0 +1,15 @@
+{
+  "id": 3809,
+  "language": "C/C++",
+  "commit_url": "https://github.com/10gen-archive/mongo-c-driver-legacy/commit/1a1f5e26a4309480d88598913f9eebf9e9cba8ca",
+  "commit_sha": "1a1f5e26a4309480d88598913f9eebf9e9cba8ca",
+  "commit_msg": "don't mix up int and size_t (first pass to fix that)",
+  "pr_url": "https://github.com/10gen-archive/mongo-c-driver-legacy/pull/63",
+  "pr_info": "There is a problem with 64bits system\n",
+  "file_name": "src/bson.c",
+  "func_name": "bson_append_binary",
+  "func_before": "MONGO_EXPORT int bson_append_binary( bson *b, const char *name, char type, const char *str, int len ) {\n    if ( type == BSON_BIN_BINARY_OLD ) {\n        int subtwolen = len + 4;\n        if ( bson_append_estart( b, BSON_BINDATA, name, 4+1+4+len ) == BSON_ERROR )\n            return BSON_ERROR;\n        bson_append32( b, &subtwolen );\n        bson_append_byte( b, type );\n        bson_append32( b, &len );\n        bson_append( b, str, len );\n    }\n    else {\n        if ( bson_append_estart( b, BSON_BINDATA, name, 4+1+len ) == BSON_ERROR )\n            return BSON_ERROR;\n        bson_append32( b, &len );\n        bson_append_byte( b, type );\n        bson_append( b, str, len );\n    }\n    return BSON_OK;\n}",
+  "func_after": "MONGO_EXPORT int bson_append_binary( bson *b, const char *name, char type, const char *str, size_t len ) {\n    if ( type == BSON_BIN_BINARY_OLD ) {\n        int subtwolen = len + 4;\n        if ( bson_append_estart( b, BSON_BINDATA, name, 4+1+4+len ) == BSON_ERROR )\n            return BSON_ERROR;\n        bson_append32_as_int( b, ( int )subtwolen );\n        bson_append_byte( b, type );\n        bson_append32_as_int( b, ( int )len );\n        bson_append( b, str, len );\n    }\n    else {\n        if ( bson_append_estart( b, BSON_BINDATA, name, 4+1+len ) == BSON_ERROR )\n            return BSON_ERROR;\n        bson_append32_as_int( b, ( int )len );\n        bson_append_byte( b, type );\n        bson_append( b, str, len );\n    }\n    return BSON_OK;\n}",
+  "diff_func": "--- func_before\n+++ func_after\n@@ -800 +805 @@\n-MONGO_EXPORT int bson_append_binary( bson *b, const char *name, char type, const char *str, int len ) {\n+MONGO_EXPORT int bson_append_binary( bson *b, const char *name, char type, const char *str, size_t len ) {\n if ( type == BSON_BIN_BINARY_OLD ) {\n int subtwolen = len + 4;\n if ( bson_append_estart( b, BSON_BINDATA, name, 4+1+4+len ) == BSON_ERROR )\n-        bson_append32( b, &subtwolen );\n+        bson_append32_as_int( b, ( int )subtwolen );\n bson_append_byte( b, type );\n-        bson_append32( b, &len );\n+        bson_append32_as_int( b, ( int )len );\n bson_append( b, str, len );\n }\n else {\n-        bson_append32( b, &len );\n+        bson_append32_as_int( b, ( int )len );\n bson_append_byte( b, type );\n bson_append( b, str, len );\n }",
+  "diff_source": "api"
+}

@@ -1,0 +1,23 @@
+{
+  "id": 604,
+  "language": "cpp",
+  "cwe": "",
+  "commit_url": "https://github.com/AcademySoftwareFoundation/openexr/commit/2a18ed424a854598c2a20b5dd7e782b436a1e753",
+  "commit_sha": "2a18ed424a854598c2a20b5dd7e782b436a1e753",
+  "commit_msg": "Avoid overflow in calculateNumTiles when size=MAX_INT (#825)\n\n* Avoid overflow in calculateNumTiles when size=MAX_INT\r\n\r\nSigned-off-by: Cary Phillips <cary@ilm.com>\r\n\r\n* Compute level size with 64 bits to avoid overflow\r\n\r\nSigned-off-by: Cary Phillips <cary@ilm.com>",
+  "pr_url": "https://github.com/AcademySoftwareFoundation/openexr/pull/825",
+  "pr_info": "Addresses https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=25297\r\n\r\nSigned-off-by: Cary Phillips <cary@ilm.com>",
+  "file_name": "OpenEXR/IlmImf/ImfTiledMisc.cpp",
+  "func_name": "",
+  "raw_func_from_json": "calculateNumTiles (int *numTiles,\n\t\t   int numLevels,\n\t\t   int min, int max,\n\t\t   int size,\n\t\t   LevelRoundingMode rmode)\n{\n    for (int i = 0; i < numLevels; i++)\n    {\n        int l = levelSize (min, max, i, rmode);\n        if (l > std::numeric_limits<int>::max() - size + 1)\n            throw IEX_NAMESPACE::ArgExc (\"Invalid size.\");\n\n        numTiles[i] = (l + size - 1) / size;\n    }\n}",
+  "diff_func": "@@ -301,10 +301,8 @@ calculateNumTiles (int *numTiles,\n {\n     for (int i = 0; i < numLevels; i++)\n     {\n-        int l = levelSize (min, max, i, rmode);\n-        if (l > std::numeric_limits<int>::max() - size + 1)\n-            throw IEX_NAMESPACE::ArgExc (\"Invalid size.\");\n-\n+        // use 64 bits to avoid int overflow if size is large.\n+        Int64 l = levelSize (min, max, i, rmode);\n         numTiles[i] = (l + size - 1) / size;\n     }\n }",
+  "func": "calculateNumTiles (int *numTiles,\n\t\t   int numLevels,\n\t\t   int min, int max,\n\t\t   int size,\n\t\t   LevelRoundingMode rmode)\n{\n    for (int i = 0; i < numLevels; i++)\n    {\n        int l = levelSize (min, max, i, rmode);\n        if (l > std::numeric_limits<int>::max() - size + 1)\n            throw IEX_NAMESPACE::ArgExc (\"Invalid size.\");\n\n        numTiles[i] = (l + size - 1) / size;\n    }\n}",
+  "project": "openexr",
+  "hash": 245031744365829335891668455873877538315,
+  "size": 15,
+  "commit_id": "2a18ed424a854598c2a20b5dd7e782b436a1e753",
+  "message": "Avoid overflow in calculateNumTiles when size=MAX_INT (#825)\n\n* Avoid overflow in calculateNumTiles when size=MAX_INT\r\n\r\nSigned-off-by: Cary Phillips <cary@ilm.com>\r\n\r\n* Compute level size with 64 bits to avoid overflow\r\n\r\nSigned-off-by: Cary Phillips <cary@ilm.com>",
+  "target": 1,
+  "dataset": "other",
+  "idx": 198573
+}

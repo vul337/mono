@@ -1,0 +1,23 @@
+{
+  "id": 696,
+  "language": "c",
+  "cwe": "",
+  "commit_url": "https://github.com/chipcraft-ic/toolchain-component-linux/commit/919f4ebc598701670e80e31573a58f1f2d2bf918",
+  "commit_sha": "919f4ebc598701670e80e31573a58f1f2d2bf918",
+  "commit_msg": "KVM: x86: hyper-v: Fix Hyper-V context null-ptr-deref\n\nReported by syzkaller:\n\n    KASAN: null-ptr-deref in range [0x0000000000000140-0x0000000000000147]\n    CPU: 1 PID: 8370 Comm: syz-executor859 Not tainted 5.11.0-syzkaller #0\n    RIP: 0010:synic_get arch/x86/kvm/hyperv.c:165 [inline]\n    RIP: 0010:kvm_hv_set_sint_gsi arch/x86/kvm/hyperv.c:475 [inline]\n    RIP: 0010:kvm_hv_irq_routing_update+0x230/0x460 arch/x86/kvm/hyperv.c:498\n    Call Trace:\n     kvm_set_irq_routing+0x69b/0x940 arch/x86/kvm/../../../virt/kvm/irqchip.c:223\n     kvm_vm_ioctl+0x12d0/0x2800 arch/x86/kvm/../../../virt/kvm/kvm_main.c:3959\n     vfs_ioctl fs/ioctl.c:48 [inline]\n     __do_sys_ioctl fs/ioctl.c:753 [inline]\n     __se_sys_ioctl fs/ioctl.c:739 [inline]\n     __x64_sys_ioctl+0x193/0x200 fs/ioctl.c:739\n     do_syscall_64+0x2d/0x70 arch/x86/entry/common.c:46\n     entry_SYSCALL_64_after_hwframe+0x44/0xae\n\nHyper-V context is lazily allocated until Hyper-V specific MSRs are accessed\nor SynIC is enabled. However, the syzkaller testcase sets irq routing table\ndirectly w/o enabling SynIC. This results in null-ptr-deref when accessing\nSynIC Hyper-V context. This patch fixes it.\n\nsyzkaller source: https://syzkaller.appspot.com/x/repro.c?x=163342ccd00000\n\nReported-by: syzbot+6987f3b2dbd9eda95f12@syzkaller.appspotmail.com\nFixes: 8f014550dfb1 (\"KVM: x86: hyper-v: Make Hyper-V emulation enablement conditional\")\nSigned-off-by: Wanpeng Li <wanpengli@tencent.com>\nMessage-Id: <1614326399-5762-1-git-send-email-wanpengli@tencent.com>\nSigned-off-by: Paolo Bonzini <pbonzini@redhat.com>",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "arch/x86/kvm/hyperv.c",
+  "func_name": "",
+  "raw_func_from_json": "static struct kvm_vcpu_hv_synic *synic_get(struct kvm *kvm, u32 vpidx)\n{\n\tstruct kvm_vcpu *vcpu;\n\tstruct kvm_vcpu_hv_synic *synic;\n\n\tvcpu = get_vcpu_by_vpidx(kvm, vpidx);\n\tif (!vcpu)\n\t\treturn NULL;\n\tsynic = to_hv_synic(vcpu);\n\treturn (synic->active) ? synic : NULL;\n}",
+  "diff_func": "@@ -159,7 +159,7 @@ static struct kvm_vcpu_hv_synic *synic_get(struct kvm *kvm, u32 vpidx)\n \tstruct kvm_vcpu_hv_synic *synic;\n \n \tvcpu = get_vcpu_by_vpidx(kvm, vpidx);\n-\tif (!vcpu)\n+\tif (!vcpu || !to_hv_vcpu(vcpu))\n \t\treturn NULL;\n \tsynic = to_hv_synic(vcpu);\n \treturn (synic->active) ? synic : NULL;",
+  "func": "static struct kvm_vcpu_hv_synic *synic_get(struct kvm *kvm, u32 vpidx)\n{\n\tstruct kvm_vcpu *vcpu;\n\tstruct kvm_vcpu_hv_synic *synic;\n\n\tvcpu = get_vcpu_by_vpidx(kvm, vpidx);\n\tif (!vcpu)\n\t\treturn NULL;\n\tsynic = to_hv_synic(vcpu);\n\treturn (synic->active) ? synic : NULL;\n}",
+  "project": "linux",
+  "hash": 276482777374283635842814384243075236447,
+  "size": 11,
+  "commit_id": "919f4ebc598701670e80e31573a58f1f2d2bf918",
+  "message": "KVM: x86: hyper-v: Fix Hyper-V context null-ptr-deref\n\nReported by syzkaller:\n\n    KASAN: null-ptr-deref in range [0x0000000000000140-0x0000000000000147]\n    CPU: 1 PID: 8370 Comm: syz-executor859 Not tainted 5.11.0-syzkaller #0\n    RIP: 0010:synic_get arch/x86/kvm/hyperv.c:165 [inline]\n    RIP: 0010:kvm_hv_set_sint_gsi arch/x86/kvm/hyperv.c:475 [inline]\n    RIP: 0010:kvm_hv_irq_routing_update+0x230/0x460 arch/x86/kvm/hyperv.c:498\n    Call Trace:\n     kvm_set_irq_routing+0x69b/0x940 arch/x86/kvm/../../../virt/kvm/irqchip.c:223\n     kvm_vm_ioctl+0x12d0/0x2800 arch/x86/kvm/../../../virt/kvm/kvm_main.c:3959\n     vfs_ioctl fs/ioctl.c:48 [inline]\n     __do_sys_ioctl fs/ioctl.c:753 [inline]\n     __se_sys_ioctl fs/ioctl.c:739 [inline]\n     __x64_sys_ioctl+0x193/0x200 fs/ioctl.c:739\n     do_syscall_64+0x2d/0x70 arch/x86/entry/common.c:46\n     entry_SYSCALL_64_after_hwframe+0x44/0xae\n\nHyper-V context is lazily allocated until Hyper-V specific MSRs are accessed\nor SynIC is enabled. However, the syzkaller testcase sets irq routing table\ndirectly w/o enabling SynIC. This results in null-ptr-deref when accessing\nSynIC Hyper-V context. This patch fixes it.\n\nsyzkaller source: https://syzkaller.appspot.com/x/repro.c?x=163342ccd00000\n\nReported-by: syzbot+6987f3b2dbd9eda95f12@syzkaller.appspotmail.com\nFixes: 8f014550dfb1 (\"KVM: x86: hyper-v: Make Hyper-V emulation enablement conditional\")\nSigned-off-by: Wanpeng Li <wanpengli@tencent.com>\nMessage-Id: <1614326399-5762-1-git-send-email-wanpengli@tencent.com>\nSigned-off-by: Paolo Bonzini <pbonzini@redhat.com>",
+  "target": 1,
+  "dataset": "other",
+  "idx": 202898
+}

@@ -1,0 +1,15 @@
+{
+  "id": 2300,
+  "language": "Java",
+  "commit_url": "https://github.com/fosslight/fosslight/commit/7c1222e56b2b08a64551162bb579eb431f4e9798",
+  "commit_sha": "7c1222e56b2b08a64551162bb579eb431f4e9798",
+  "commit_msg": "Fix the vulnerability for public method that return private type\n\nChange public method that return private type to public method that\nreturn copy.\n\nSigned-off-by: yugeeklab <yugeeklab@gmail.com>",
+  "pr_url": "https://github.com/fosslight/fosslight/pull/266",
+  "pr_info": "Change public method that return private type to public method that return copy.\r\n\r\nSigned-off-by: yugeeklab <yugeeklab@gmail.com>\r\n\r\n## Description\r\n<!-- \r\nPlease describe what this PR do.\r\n -->\r\n\r\n\r\n## Type of change\r\n<!--\r\nPlease insert 'x' one of the type of change.\r\n -->\r\n- [ ] Bug fix (non-breaking change which fixes an issue)\r\n- [ ] New feature (non-breaking change which adds functionality)\r\n- [ ] Documentation update\r\n- [x] Refactoring, Maintenance\r\n- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)\r\n",
+  "file_name": "src/main/java/oss/fosslight/domain/File.java",
+  "func_name": "getFileSeqs",
+  "func_before": "public String[] getFileSeqs() {\n\t\treturn fileSeqs;\n\t}",
+  "func_after": "public String[] getFileSeqs() {\n        return fileSeqs != null ? fileSeqs.clone() : null;\n\t}",
+  "diff_func": "--- func_before\n+++ func_after\n public String[] getFileSeqs() {\n-\t\treturn fileSeqs;\n+        return fileSeqs != null ? fileSeqs.clone() : null;\n \t}",
+  "diff_source": "custom"
+}

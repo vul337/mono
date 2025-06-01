@@ -1,0 +1,15 @@
+{
+  "id": 2816,
+  "language": "Java",
+  "commit_url": "https://github.com/PANTHEONtech/lighty/commit/bd35981edc0b123f8b1c5a902a409b75304546fe",
+  "commit_sha": "bd35981edc0b123f8b1c5a902a409b75304546fe",
+  "commit_msg": "Fix Security Hotspot reported by SonnarCloud\n\nSigned-off-by: Peter Suna <peter.suna@pantheon.tech>",
+  "pr_url": "https://github.com/PANTHEONtech/lighty/pull/826",
+  "pr_info": "cherry-picks #815",
+  "file_name": "lighty-modules/lighty-gnmi/lighty-gnmi-device-simulator/src/main/java/io/lighty/modules/gnmi/simulatordevice/gnoi/GnoiFileService.java",
+  "func_name": "get",
+  "func_before": "@Override\n    public void get(final FileOuterClass.GetRequest request,\n                    final StreamObserver<FileOuterClass.GetResponse> responseObserver) {\n        LOG.info(\"Received get rpc: {}\", request);\n        try {\n            final MessageDigest md = MessageDigest.getInstance(\"MD5\");\n            readFileAndCompleteObserver(md, responseObserver);\n        } catch (final NoSuchAlgorithmException e) {\n            responseObserver.onError(e);\n        }\n    }",
+  "func_after": "@Override\n    public void get(final FileOuterClass.GetRequest request,\n                    final StreamObserver<FileOuterClass.GetResponse> responseObserver) {\n        LOG.info(\"Received get rpc: {}\", request);\n        try {\n            final MessageDigest md = MessageDigest.getInstance(\"SHA-512\");\n            readFileAndCompleteObserver(md, responseObserver);\n        } catch (final NoSuchAlgorithmException e) {\n            responseObserver.onError(e);\n        }\n    }",
+  "diff_func": "--- func_before\n+++ func_after\n @Override\n     public void get(final FileOuterClass.GetRequest request,\n                     final StreamObserver<FileOuterClass.GetResponse> responseObserver) {\n         LOG.info(\"Received get rpc: {}\", request);\n         try {\n-            final MessageDigest md = MessageDigest.getInstance(\"MD5\");\n+            final MessageDigest md = MessageDigest.getInstance(\"SHA-512\");\n             readFileAndCompleteObserver(md, responseObserver);\n         } catch (final NoSuchAlgorithmException e) {\n             responseObserver.onError(e);\n         }\n     }",
+  "diff_source": "custom"
+}

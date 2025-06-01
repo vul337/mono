@@ -1,0 +1,8 @@
+func_before,func_after,commit_url,file_name,language,date
+"@Override
+    public String toString() {
+        return Objects.toString(this);
+    }","@Override
+    public String toString() {
+        return Strings.toString(this);
+    }",https://github.com/elastic/elasticsearch/commit/fd4b2c9491a2952085473708d4ea4a6872f457a5,server/src/main/java/org/elasticsearch/search/profile/aggregation/AggregationProfileShardResult.java,Java,2022-12-16T09:16:17Z

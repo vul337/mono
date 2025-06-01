@@ -1,0 +1,15 @@
+{
+  "id": 2154,
+  "language": "Java",
+  "commit_url": "https://github.com/JetBrains/Arend/commit/c7675a60e66700994b065d439006d6e4c15a7149",
+  "commit_sha": "c7675a60e66700994b065d439006d6e4c15a7149",
+  "commit_msg": "Fix stack overflow",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "base/src/main/java/org/arend/core/expr/visitor/FieldsCollector.java",
+  "func_name": "getFields",
+  "func_before": "public static Set<ClassField> getFields(Body body, Binding thisBinding, Set<? extends ClassField> fields) {\n    Set<ClassField> result = new HashSet<>();\n    if (!fields.isEmpty()) {\n      FieldsCollector collector = new FieldsCollector(thisBinding, fields, result);\n      if (body instanceof IntervalElim) {\n        for (IntervalElim.CasePair pair : ((IntervalElim) body).getCases()) {\n          pair.proj1.accept(collector, null);\n          pair.proj2.accept(collector, null);\n        }\n        body = ((IntervalElim) body).getOtherwise();\n      }\n      if (body instanceof Expression) {\n        ((Expression) body).accept(collector, null);\n      } else if (body instanceof ElimBody) {\n        collector.visitElimBody((ElimBody) body, null);\n      }\n    }\n    return result;\n  }",
+  "func_after": "public static Set<ClassField> getFields(Body body, Binding thisBinding, Set<? extends ClassField> fields) {\n    Set<ClassField> result = new HashSet<>();\n    if (!fields.isEmpty()) {\n      new FieldsCollector(thisBinding, fields, result).visitBody(body, null);\n    }\n    return result;\n  }",
+  "diff_func": "--- func_before\n+++ func_after\n public static Set<ClassField> getFields(Body body, Binding thisBinding, Set<? extends ClassField> fields) {\n     Set<ClassField> result = new HashSet<>();\n     if (!fields.isEmpty()) {\n+      new FieldsCollector(thisBinding, fields, result).visitBody(body, null);\n-      FieldsCollector collector = new FieldsCollector(thisBinding, fields, result);\n-      if (body instanceof IntervalElim) {\n-        for (IntervalElim.CasePair pair : ((IntervalElim) body).getCases()) {\n-          pair.proj1.accept(collector, null);\n-          pair.proj2.accept(collector, null);\n-        }\n-        body = ((IntervalElim) body).getOtherwise();\n-      }\n-      if (body instanceof Expression) {\n-        ((Expression) body).accept(collector, null);\n-      } else if (body instanceof ElimBody) {\n-        collector.visitElimBody((ElimBody) body, null);\n-      }\n     }\n     return result;\n   }",
+  "diff_source": "custom"
+}

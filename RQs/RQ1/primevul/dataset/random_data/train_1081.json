@@ -1,0 +1,21 @@
+{
+  "id": 1081,
+  "language": "c",
+  "cwe": "CWE-119",
+  "commit_url": "https://github.com/palmerc/libplist/commit/fbd8494d5e4e46bf2e90cb6116903e404374fb56",
+  "commit_sha": "fbd8494d5e4e46bf2e90cb6116903e404374fb56",
+  "commit_msg": "bplist: Make sure to bail out if malloc() fails in parse_string_node()\n\nCredit to Wang Junjie <zhunkibatu@gmail.com> (#93)",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "src/bplist.c",
+  "func_name": "",
+  "raw_func_from_json": "static plist_t parse_string_node(const char **bnode, uint64_t size)\n{\n    plist_data_t data = plist_new_plist_data();\n \n     data->type = PLIST_STRING;\n     data->strval = (char *) malloc(sizeof(char) * (size + 1));\n     memcpy(data->strval, *bnode, size);\n     data->strval[size] = '\\0';\n     data->length = strlen(data->strval);\n\n    return node_create(NULL, data);\n}\n",
+  "diff_func": "@@ -289,6 +289,11 @@ static plist_t parse_string_node(const char **bnode, uint64_t size)\n \n     data->type = PLIST_STRING;\n     data->strval = (char *) malloc(sizeof(char) * (size + 1));\n+    if (!data->strval) {\n+        plist_free_data(data);\n+        PLIST_BIN_ERR(\"%s: Could not allocate %\" PRIu64 \" bytes\\n\", __func__, sizeof(char) * (size + 1));\n+        return NULL;\n+    }\n     memcpy(data->strval, *bnode, size);\n     data->strval[size] = '\\0';\n     data->length = strlen(data->strval);",
+  "project": "libplist",
+  "commit_id": "fbd8494d5e4e46bf2e90cb6116903e404374fb56",
+  "target": 1,
+  "func": "static plist_t parse_string_node(const char **bnode, uint64_t size)\n{\n    plist_data_t data = plist_new_plist_data();\n \n     data->type = PLIST_STRING;\n     data->strval = (char *) malloc(sizeof(char) * (size + 1));\n     memcpy(data->strval, *bnode, size);\n     data->strval[size] = '\\0';\n     data->length = strlen(data->strval);\n\n    return node_create(NULL, data);\n}\n",
+  "big_vul_idx": 181507,
+  "idx": 2960,
+  "hash": 231582573904587877918857611482686935245
+}

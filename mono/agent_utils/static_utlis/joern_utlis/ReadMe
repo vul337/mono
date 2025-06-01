@@ -1,0 +1,112 @@
+其实可以考虑用cflow和javalang做一些文件筛查
+podman run --rm -d \
+  -p 2000:2000 \
+  -v ./workspace:/workspace \
+  -v $(pwd):/app:rw \
+  -w /app \
+  -t ghcr.io/joernio/joern:nightly \
+  joern --dep io.circe:circe-core_3:0.14.6 --dep io.circe:circe-generic_3:0.14.6 --server --server-host 0.0.0.0 --server-port 2000
+
+
+podman stop $(podman ps -q)
+
+for p in {2000..2005}; do podman run --rm -d -p $p:$p -v ./workspace:/workspace -v $(pwd):/app:rw -w /app -t ghcr.io/joernio/joern:nightly joern --server --server-host 0.0.0.0 --server-port $p; done
+
+
+podman run --rm -d \
+  -p 2000:2000 \
+  -v ./workspace:/workspace \
+  -v $(pwd):/app:rw \
+  -w /app \
+  -t ghcr.io/joernio/joern:nightly \
+  joern --server --server-host 0.0.0.0 --server-port 2000
+  
+podman run --rm -d \
+  -p 2001:2001 \
+  -v ./workspace:/workspace \
+  -v $(pwd):/app:rw \
+  -w /app \
+  -t ghcr.io/joernio/joern:nightly \
+  joern --server --server-host 0.0.0.0 --server-port 2001
+
+podman run --rm -d \
+  -p 2002:2002 \
+  -v ./workspace:/workspace \
+  -v $(pwd):/app:rw \
+  -w /app \
+  -t ghcr.io/joernio/joern:nightly \
+  joern --server --server-host 0.0.0.0 --server-port 2002
+
+podman run --rm -d \
+  -p 2003:2003 \
+  -v ./workspace:/workspace \
+  -v $(pwd):/app:rw \
+  -w /app \
+  -t ghcr.io/joernio/joern:nightly \
+  joern --server --server-host 0.0.0.0 --server-port 2003
+
+podman run --rm -d \
+  -p 2004:2004 \
+  -v ./workspace:/workspace \
+  -v $(pwd):/app:rw \
+  -w /app \
+  -t ghcr.io/joernio/joern:nightly \
+  joern --server --server-host 0.0.0.0 --server-port 2004
+
+podman run --rm -d \
+  -p 2005:2005 \
+  -v ./workspace:/workspace \
+  -v $(pwd):/app:rw \
+  -w /app \
+  -t ghcr.io/joernio/joern:nightly \
+  joern --server --server-host 0.0.0.0 --server-port 2005
+
+podman run --rm -d \
+  -p 2006:2006 \
+  -v ./workspace:/workspace \
+  -v $(pwd):/app:rw \
+  -w /app \
+  -t ghcr.io/joernio/joern:nightly \
+  joern --server --server-host 0.0.0.0 --server-port 2006
+
+podman run --rm -d \
+  -p 2007:2007 \
+  -v ./workspace:/workspace \
+  -v $(pwd):/app:rw \
+  -w /app \
+  -t ghcr.io/joernio/joern:nightly \
+  joern --server --server-host 0.0.0.0 --server-port 2007
+
+podman run --rm -d \
+  -p 2008:2008 \
+  -v ./workspace:/workspace \
+  -v $(pwd):/app:rw \
+  -w /app \
+  -t ghcr.io/joernio/joern:nightly \
+  joern --server --server-host 0.0.0.0 --server-port 2008
+
+
+
+
+
+
+
+
+
+版本:
+2.448
+ghcr.io/joernio/joern@sha256:1b67f819e4d6ad2cfe47b65bd3bfe0bcafc00862ea9c68d06b59799a013841bd 
+ghcr.io/joernio/joern@sha256:ea171557e15ac433b0b248006e5e03876092a0b9795bcfbf740eda8f72131528
+
+ghcr.io/joernio/joern:2.327
+
+podman:
+
+
+  cpg.method
+        .filter(m => m.code != "<empty>" 
+                && m.code != "<global>" 
+                && m.filename == "json-path/src/main/java/com/jayway/jsonpath/internal/path/PathCompiler.java"
+                && m.name == "readBracketPropertyToken")
+        .map(m => (m.id, m.code, m.lineNumber, m.lineNumberEnd, m.fullName))
+        .l

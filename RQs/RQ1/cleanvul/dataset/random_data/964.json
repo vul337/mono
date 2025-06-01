@@ -1,0 +1,15 @@
+{
+  "id": 964,
+  "language": "Java",
+  "commit_url": "https://github.com/wildfly/wildfly-core/commit/0df12c6f17406eef85d11ee709ea6c7c476832ed",
+  "commit_sha": "0df12c6f17406eef85d11ee709ea6c7c476832ed",
+  "commit_msg": "[WFCORE-5594] Restriction of XML External Entity Reference (XXE)\n\nFixes https://issues.redhat.com/browse/WFCORE-5594",
+  "pr_url": "https://github.com/wildfly/wildfly-core/pull/4772",
+  "pr_info": "Fixes https://issues.redhat.com/browse/WFCORE-5594\r\n\r\n",
+  "file_name": "host-controller/src/main/java/org/jboss/as/host/controller/discovery/S3Util.java",
+  "func_name": "createXMLReader",
+  "func_before": "static XMLReader createXMLReader() {\n            try {\n                return XMLReaderFactory.createXMLReader();\n            } catch (SAXException e) {\n                // oops, lets try doing this (needed in 1.4)\n                System.setProperty(\"org.xml.sax.driver\", \"org.apache.crimson.parser.XMLReaderImpl\");\n            }\n            try {\n                // try once more\n                return XMLReaderFactory.createXMLReader();\n            } catch (SAXException e) {\n                throw HostControllerLogger.ROOT_LOGGER.cannotInitializeSaxDriver();\n            }\n        }",
+  "func_after": "static XMLReader createXMLReader() {\n            try {\n                return XMLReaderFactoryUtil.create();\n            } catch (SAXException e) {\n                // oops, lets try doing this (needed in 1.4)\n                System.setProperty(\"org.xml.sax.driver\", \"org.apache.crimson.parser.XMLReaderImpl\");\n            }\n            try {\n                // try once more\n                return XMLReaderFactoryUtil.create();\n            } catch (SAXException e) {\n                throw HostControllerLogger.ROOT_LOGGER.cannotInitializeSaxDriver();\n            }\n        }",
+  "diff_func": "--- func_before\n+++ func_after\n static XMLReader createXMLReader() {\n             try {\n-                return XMLReaderFactory.createXMLReader();\n+                return XMLReaderFactoryUtil.create();\n             } catch (SAXException e) {\n                 // oops, lets try doing this (needed in 1.4)\n                 System.setProperty(\"org.xml.sax.driver\", \"org.apache.crimson.parser.XMLReaderImpl\");\n             }\n             try {\n                 // try once more\n-                return XMLReaderFactory.createXMLReader();\n+                return XMLReaderFactoryUtil.create();\n             } catch (SAXException e) {\n                 throw HostControllerLogger.ROOT_LOGGER.cannotInitializeSaxDriver();\n             }\n         }",
+  "diff_source": "custom"
+}

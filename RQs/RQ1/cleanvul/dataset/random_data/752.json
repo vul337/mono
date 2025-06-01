@@ -1,0 +1,15 @@
+{
+  "id": 752,
+  "language": "Java",
+  "commit_url": "https://github.com/PixelExperience/frameworks_base/commit/6aba151873bfae198ef9eceb10f943e18b52d58c",
+  "commit_sha": "6aba151873bfae198ef9eceb10f943e18b52d58c",
+  "commit_msg": "[RESTRICT AUTOMERGE] Fix bypass BG-FGS and BAL via package manager APIs\n\nOpt-in for BAL of PendingIntent for following APIs:\n\n* PackageInstaller.uninstall()\n* PackageInstaller.installExistingPackage()\n* PackageInstaller.uninstallExistingPackage()\n* PackageInstaller.Session.commit()\n* PackageInstaller.Session.commitTransferred()\n* PackageManager.freeStorage()\n\nBug: 230492955\nBug: 243377226\nTest: atest android.security.cts.PackageInstallerTest\nTest: atest CtsStagedInstallHostTestCases\nChange-Id: I9b6f801d69ea6d2244a38dbe689e81afa4e798bf\n(cherry picked from commit 03b77aee350696781b4d7a61768a172bedc3ac73)\nMerged-In: I9b6f801d69ea6d2244a38dbe689e81afa4e798bf",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "services/core/java/com/android/server/pm/InstallPackageHelper.java",
+  "func_name": "onRestoreComplete",
+  "func_before": "private static void onRestoreComplete(int returnCode, Context context, IntentSender target) {\n        Intent fillIn = new Intent();\n        fillIn.putExtra(PackageInstaller.EXTRA_STATUS,\n                PackageManager.installStatusToPublicStatus(returnCode));\n        try {\n            target.sendIntent(context, 0, fillIn, null, null);\n        } catch (IntentSender.SendIntentException ignored) {\n        }\n    }",
+  "func_after": "private static void onRestoreComplete(int returnCode, Context context, IntentSender target) {\n        Intent fillIn = new Intent();\n        fillIn.putExtra(PackageInstaller.EXTRA_STATUS,\n                PackageManager.installStatusToPublicStatus(returnCode));\n        try {\n            final BroadcastOptions options = BroadcastOptions.makeBasic();\n            options.setPendingIntentBackgroundActivityLaunchAllowed(false);\n            target.sendIntent(context, 0, fillIn, null /* onFinished*/, null /* handler */,\n                    null /* requiredPermission */, options.toBundle());\n        } catch (IntentSender.SendIntentException ignored) {\n        }\n    }",
+  "diff_func": "--- func_before\n+++ func_after\n private static void onRestoreComplete(int returnCode, Context context, IntentSender target) {\n         Intent fillIn = new Intent();\n         fillIn.putExtra(PackageInstaller.EXTRA_STATUS,\n                 PackageManager.installStatusToPublicStatus(returnCode));\n         try {\n+            final BroadcastOptions options = BroadcastOptions.makeBasic();\n+            options.setPendingIntentBackgroundActivityLaunchAllowed(false);\n-            target.sendIntent(context, 0, fillIn, null, null);\n+            target.sendIntent(context, 0, fillIn, null /* onFinished*/, null /* handler */,\n+                    null /* requiredPermission */, options.toBundle());\n         } catch (IntentSender.SendIntentException ignored) {\n         }\n     }",
+  "diff_source": "custom"
+}

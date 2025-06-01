@@ -1,0 +1,23 @@
+{
+  "id": 546,
+  "language": "cc",
+  "cwe": "",
+  "commit_url": "https://github.com/google/asylo/commit/382da2b8b09cbf928668a2445efb778f76bd9c8a",
+  "commit_sha": "382da2b8b09cbf928668a2445efb778f76bd9c8a",
+  "commit_msg": "Check output of ecall_restore is outside enclave\n\nPiperOrigin-RevId: 334265380\nChange-Id: Ifbaead6bce56f01b2a4d69f53ca508d0138f6f61",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "asylo/platform/primitives/sgx/ecalls.cc",
+  "func_name": "",
+  "raw_func_from_json": "int ecall_restore(const char *input, uint64_t input_len, char **output,\n                  uint64_t *output_len) {\n  if (!asylo::primitives::TrustedPrimitives::IsOutsideEnclave(input,\n                                                              input_len) ||\n      !asylo::primitives::TrustedPrimitives::IsOutsideEnclave(\n          output_len, sizeof(uint64_t))) {\n    asylo::primitives::TrustedPrimitives::BestEffortAbort(\n        \"ecall_restore: input/output found to not be in untrusted memory.\");\n  }\n  int result = 0;\n  size_t tmp_output_len;\n  try {\n    result = asylo::Restore(input, static_cast<size_t>(input_len), output,\n                            &tmp_output_len);\n  } catch (...) {\n    LOG(FATAL) << \"Uncaught exception in enclave\";\n  }\n\n  if (output_len) {\n    *output_len = static_cast<uint64_t>(tmp_output_len);\n  }\n  return result;\n}",
+  "diff_func": "@@ -64,7 +64,9 @@ int ecall_restore(const char *input, uint64_t input_len, char **output,\n   if (!asylo::primitives::TrustedPrimitives::IsOutsideEnclave(input,\n                                                               input_len) ||\n       !asylo::primitives::TrustedPrimitives::IsOutsideEnclave(\n-          output_len, sizeof(uint64_t))) {\n+          output_len, sizeof(uint64_t)) ||\n+      !asylo::primitives::TrustedPrimitives::IsOutsideEnclave(output,\n+                                                              *output_len)) {\n     asylo::primitives::TrustedPrimitives::BestEffortAbort(\n         \"ecall_restore: input/output found to not be in untrusted memory.\");\n   }",
+  "func": "int ecall_restore(const char *input, uint64_t input_len, char **output,\n                  uint64_t *output_len) {\n  if (!asylo::primitives::TrustedPrimitives::IsOutsideEnclave(input,\n                                                              input_len) ||\n      !asylo::primitives::TrustedPrimitives::IsOutsideEnclave(\n          output_len, sizeof(uint64_t))) {\n    asylo::primitives::TrustedPrimitives::BestEffortAbort(\n        \"ecall_restore: input/output found to not be in untrusted memory.\");\n  }\n  int result = 0;\n  size_t tmp_output_len;\n  try {\n    result = asylo::Restore(input, static_cast<size_t>(input_len), output,\n                            &tmp_output_len);\n  } catch (...) {\n    LOG(FATAL) << \"Uncaught exception in enclave\";\n  }\n\n  if (output_len) {\n    *output_len = static_cast<uint64_t>(tmp_output_len);\n  }\n  return result;\n}",
+  "project": "asylo",
+  "hash": 104108689796384044909836162554974524043,
+  "size": 23,
+  "commit_id": "382da2b8b09cbf928668a2445efb778f76bd9c8a",
+  "message": "Check output of ecall_restore is outside enclave\n\nPiperOrigin-RevId: 334265380\nChange-Id: Ifbaead6bce56f01b2a4d69f53ca508d0138f6f61",
+  "target": 1,
+  "dataset": "other",
+  "idx": 197910
+}

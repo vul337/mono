@@ -1,0 +1,15 @@
+{
+  "id": 3313,
+  "language": "C/C++",
+  "commit_url": "https://github.com/uriparser/uriparser/commit/f58c25069cf4a986fe17a80c5b38687e31feb539",
+  "commit_sha": "f58c25069cf4a986fe17a80c5b38687e31feb539",
+  "commit_msg": "ResetUri: Protect against NULL",
+  "pr_url": "https://github.com/uriparser/uriparser/pull/35",
+  "pr_info": "For #26 ",
+  "file_name": "src/UriCommon.c",
+  "func_name": "URI_TYPE",
+  "func_before": "void URI_FUNC(ResetUri)(URI_TYPE(Uri) * uri) {\n\tmemset(uri, 0, sizeof(URI_TYPE(Uri)));\n}",
+  "func_after": "void URI_FUNC(ResetUri)(URI_TYPE(Uri) * uri) {\n\tif (uri == NULL) {\n\t\treturn;\n\t}\n\tmemset(uri, 0, sizeof(URI_TYPE(Uri)));\n}",
+  "diff_func": "--- func_before\n+++ func_after\n void URI_FUNC(ResetUri)(URI_TYPE(Uri) * uri) {\n+\tif (uri == NULL) {\n+\t\treturn;\n+\t}\n \tmemset(uri, 0, sizeof(URI_TYPE(Uri)));\n }",
+  "diff_source": "custom"
+}

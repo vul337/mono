@@ -1,0 +1,18 @@
+{
+  "id": 3260,
+  "language": "C/C++",
+  "commit_url": "https://github.com/u-boot/u-boot/commit/8f8c04bf1ebbd2f72f1643e7ad9617dafa6e5409",
+  "commit_sha": "8f8c04bf1ebbd2f72f1643e7ad9617dafa6e5409",
+  "commit_msg": "i2c: fix stack buffer overflow vulnerability in i2c md command\n\nWhen running \"i2c md 0 0 80000100\", the function do_i2c_md parses the\nlength into an unsigned int variable named length. The value is then\nmoved to a signed variable:\n\n    int nbytes = length;\n    #define DISP_LINE_LEN 16\n    int linebytes = (nbytes > DISP_LINE_LEN) ? DISP_LINE_LEN : nbytes;\n    ret = dm_i2c_read(dev, addr, linebuf, linebytes);\n\nOn systems where integers are 32 bits wide, 0x80000100 is a negative\nvalue to \"nbytes > DISP_LINE_LEN\" is false and linebytes gets assigned\n0x80000100 instead of 16.\n\nThe consequence is that the function which reads from the i2c device\n(dm_i2c_read or i2c_read) is called with a 16-byte stack buffer to fill\nbut with a size parameter which is too large. In some cases, this could\ntrigger a crash. But with some i2c drivers, such as drivers/i2c/nx_i2c.c\n(used with \"nexell,s5pxx18-i2c\" bus), the size is actually truncated to\na 16-bit integer. This is because function i2c_transfer expects an\nunsigned short length. In such a case, an attacker who can control the\nresponse of an i2c device can overwrite the return address of a function\nand execute arbitrary code through Return-Oriented Programming.\n\nFix this issue by using unsigned integers types in do_i2c_md. While at\nit, make also alen unsigned, as signed sizes can cause vulnerabilities\nwhen people forgot to check that they can be negative.\n\nSigned-off-by: Nicolas Iooss <nicolas.iooss+uboot@ledger.fr>\nReviewed-by: Heiko Schocher <hs@denx.de>",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "cmd/i2c.c",
+  "func_name": "get_alen",
+  "func_before": "static uint get_alen(char *arg, int default_len)\n{\n\tint\tj;\n\tint\talen;\n\n\talen = default_len;\n\tfor (j = 0; j < 8; j++) {\n\t\tif (arg[j] == '.') {\n\t\t\talen = arg[j+1] - '0';\n\t\t\tbreak;\n\t\t} else if (arg[j] == '\\0')\n\t\t\tbreak;\n\t}\n\treturn alen;\n}",
+  "func_after": "static uint get_alen(char *arg, uint default_len)\n{\n\tuint\tj;\n\tuint\talen;\n\n\talen = default_len;\n\tfor (j = 0; j < 8; j++) {\n\t\tif (arg[j] == '.') {\n\t\t\talen = arg[j+1] - '0';\n\t\t\tbreak;\n\t\t} else if (arg[j] == '\\0')\n\t\t\tbreak;\n\t}\n\treturn alen;\n}",
+  "diff_func": "--- func_before\n+++ func_after\n@@ -200 +200 @@\n-static uint get_alen(char *arg, int default_len)\n+static uint get_alen(char *arg, uint default_len)\n {\n-\tint\tj;\n-\tint\talen;\n+\tuint\tj;\n+\tuint\talen;\n \n alen = default_len;\n for (j = 0; j < 8; j++) {",
+  "diff_source": "api",
+  "Bug Filter": "Security Vulnerability Fix  \nConfidence Score: 1.0",
+  "Bug Filter Confidence": 1.0,
+  "Bug Filter Response": "\n\nThe patch addresses a buffer overflow vulnerability by correcting the use of signed and unsigned integers, preventing potential code execution attacks.\n\n**Final Output:**\n\nAnalysis: The patch fixes a security vulnerability by correcting integer handling to prevent buffer overflow, which could allow arbitrary code execution.\n\nFinal Classification: Security Vulnerability Fix  \nConfidence Score: 1.0"
+}

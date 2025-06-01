@@ -1,0 +1,18 @@
+{
+  "id": 6097,
+  "language": "C/C++",
+  "commit_url": "https://github.com/torvalds/linux/commit/cadfad870154e14f745ec845708bc17d166065f2",
+  "commit_sha": "cadfad870154e14f745ec845708bc17d166065f2",
+  "commit_msg": "x86/ioperm: Fix io bitmap invalidation on Xen PV\n\ntss_invalidate_io_bitmap() wasn't wired up properly through the pvop\nmachinery, so the TSS and Xen's io bitmap would get out of sync\nwhenever disabling a valid io bitmap.\n\nAdd a new pvop for tss_invalidate_io_bitmap() to fix it.\n\nThis is XSA-329.\n\nFixes: 22fe5b0439dd (\"x86/ioperm: Move TSS bitmap update to exit to user work\")\nSigned-off-by: Andy Lutomirski <luto@kernel.org>\nSigned-off-by: Thomas Gleixner <tglx@linutronix.de>\nReviewed-by: Juergen Gross <jgross@suse.com>\nReviewed-by: Thomas Gleixner <tglx@linutronix.de>\nCc: stable@vger.kernel.org\nLink: https://lkml.kernel.org/r/d53075590e1f91c19f8af705059d3ff99424c020.1595030016.git.luto@kernel.org",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "arch/x86/kernel/process.c",
+  "func_name": "switch_to_bitmap",
+  "func_before": "static inline void switch_to_bitmap(unsigned long tifp)\n{\n\t/*\n\t * Invalidate I/O bitmap if the previous task used it. This prevents\n\t * any possible leakage of an active I/O bitmap.\n\t *\n\t * If the next task has an I/O bitmap it will handle it on exit to\n\t * user mode.\n\t */\n\tif (tifp & _TIF_IO_BITMAP)\n\t\ttss_invalidate_io_bitmap(this_cpu_ptr(&cpu_tss_rw));\n}",
+  "func_after": "static inline void switch_to_bitmap(unsigned long tifp)\n{\n\t/*\n\t * Invalidate I/O bitmap if the previous task used it. This prevents\n\t * any possible leakage of an active I/O bitmap.\n\t *\n\t * If the next task has an I/O bitmap it will handle it on exit to\n\t * user mode.\n\t */\n\tif (tifp & _TIF_IO_BITMAP)\n\t\ttss_invalidate_io_bitmap();\n}",
+  "diff_func": "--- func_before\n+++ func_after\n static inline void switch_to_bitmap(unsigned long tifp)\n {\n \t/*\n \t * Invalidate I/O bitmap if the previous task used it. This prevents\n \t * any possible leakage of an active I/O bitmap.\n \t *\n \t * If the next task has an I/O bitmap it will handle it on exit to\n \t * user mode.\n \t */\n \tif (tifp & _TIF_IO_BITMAP)\n-\t\ttss_invalidate_io_bitmap(this_cpu_ptr(&cpu_tss_rw));\n+\t\ttss_invalidate_io_bitmap();\n }",
+  "diff_source": "custom",
+  "Bug Filter": "Security Vulnerability Fix  \nConfidence Score: 0.95",
+  "Bug Filter Confidence": 0.95,
+  "Bug Filter Response": "\n\n**Final Output:**\nAnalysis: The patch addresses a security issue (XSA-329) related to I/O bitmap invalidation, preventing unauthorized access. The code change modifies how tss_invalidate_io_bitmap is called to ensure proper synchronization, mitigating a potential security vulnerability.\n\nFinal Classification: Security Vulnerability Fix  \nConfidence Score: 0.95"
+}

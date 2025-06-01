@@ -1,0 +1,15 @@
+{
+  "id": 6876,
+  "language": "C/C++",
+  "commit_url": "https://github.com/gacholio/openj9/commit/0c0b7dbb999c25e7fc18331c89f2ace5d33152c0",
+  "commit_sha": "0c0b7dbb999c25e7fc18331c89f2ace5d33152c0",
+  "commit_msg": "Correctly load/initialize classes when using ConstantPool\n\n- do not load classes in the \"ifLoaded\" calls\n- never intitialize classes in the natives\n- do not update the constant pool when querying from the natives\n\nFixes: #12016\n\n[ci skip]\n\nSigned-off-by: Graham Chapman <graham_chapman@ca.ibm.com>",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "runtime/jcl/common/sun_reflect_ConstantPool.c",
+  "func_name": "Java_sun_reflect_ConstantPool_getMethodAtIfLoaded0",
+  "func_before": "jobject JNICALL\nJava_sun_reflect_ConstantPool_getMethodAtIfLoaded0(JNIEnv *env, jobject unusedObject, jobject constantPoolOop, jint cpIndex)\n{\n\treturn getMethodAt(env, constantPoolOop, cpIndex, J9_RESOLVE_FLAG_JIT_COMPILE_TIME | J9_RESOLVE_FLAG_NO_THROW_ON_FAIL);\n}",
+  "func_after": "jobject JNICALL\nJava_sun_reflect_ConstantPool_getMethodAtIfLoaded0(JNIEnv *env, jobject unusedObject, jobject constantPoolOop, jint cpIndex)\n{\n\treturn getMethodAt(env, constantPoolOop, cpIndex, J9_RESOLVE_FLAG_NO_CLASS_LOAD);\n}",
+  "diff_func": "--- func_before\n+++ func_after\n jobject JNICALL\n Java_sun_reflect_ConstantPool_getMethodAtIfLoaded0(JNIEnv *env, jobject unusedObject, jobject constantPoolOop, jint cpIndex)\n {\n-\treturn getMethodAt(env, constantPoolOop, cpIndex, J9_RESOLVE_FLAG_JIT_COMPILE_TIME | J9_RESOLVE_FLAG_NO_THROW_ON_FAIL);\n+\treturn getMethodAt(env, constantPoolOop, cpIndex, J9_RESOLVE_FLAG_NO_CLASS_LOAD);\n }",
+  "diff_source": "custom"
+}

@@ -1,0 +1,23 @@
+{
+  "id": 691,
+  "language": "c",
+  "cwe": "",
+  "commit_url": "https://github.com/chipcraft-ic/toolchain-component-linux/commit/d1f82808877bb10d3deee7cf3374a4eb3fb582db",
+  "commit_sha": "d1f82808877bb10d3deee7cf3374a4eb3fb582db",
+  "commit_msg": "io_uring: truncate lengths larger than MAX_RW_COUNT on provide buffers\n\nRead and write operations are capped to MAX_RW_COUNT. Some read ops rely on\nthat limit, and that is not guaranteed by the IORING_OP_PROVIDE_BUFFERS.\n\nTruncate those lengths when doing io_add_buffers, so buffer addresses still\nuse the uncapped length.\n\nAlso, take the chance and change struct io_buffer len member to __u32, so\nit matches struct io_provide_buffer len member.\n\nThis fixes CVE-2021-3491, also reported as ZDI-CAN-13546.\n\nFixes: ddf0322db79c (\"io_uring: add IORING_OP_PROVIDE_BUFFERS\")\nReported-by: Billy Jheng Bing-Jhong (@st424204)\nSigned-off-by: Thadeu Lima de Souza Cascardo <cascardo@canonical.com>\nSigned-off-by: Jens Axboe <axboe@kernel.dk>",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "fs/io_uring.c",
+  "func_name": "",
+  "raw_func_from_json": "static int io_add_buffers(struct io_provide_buf *pbuf, struct io_buffer **head)\n{\n\tstruct io_buffer *buf;\n\tu64 addr = pbuf->addr;\n\tint i, bid = pbuf->bid;\n\n\tfor (i = 0; i < pbuf->nbufs; i++) {\n\t\tbuf = kmalloc(sizeof(*buf), GFP_KERNEL);\n\t\tif (!buf)\n\t\t\tbreak;\n\n\t\tbuf->addr = addr;\n\t\tbuf->len = pbuf->len;\n\t\tbuf->bid = bid;\n\t\taddr += pbuf->len;\n\t\tbid++;\n\t\tif (!*head) {\n\t\t\tINIT_LIST_HEAD(&buf->list);\n\t\t\t*head = buf;\n\t\t} else {\n\t\t\tlist_add_tail(&buf->list, &(*head)->list);\n\t\t}\n\t}\n\n\treturn i ? i : -ENOMEM;\n}",
+  "diff_func": "@@ -251,7 +251,7 @@ struct io_rsrc_data {\n struct io_buffer {\n \tstruct list_head list;\n \t__u64 addr;\n-\t__s32 len;\n+\t__u32 len;\n \t__u16 bid;\n };\n \n@@ -3986,7 +3986,7 @@ static int io_add_buffers(struct io_provide_buf *pbuf, struct io_buffer **head)\n \t\t\tbreak;\n \n \t\tbuf->addr = addr;\n-\t\tbuf->len = pbuf->len;\n+\t\tbuf->len = min_t(__u32, pbuf->len, MAX_RW_COUNT);\n \t\tbuf->bid = bid;\n \t\taddr += pbuf->len;\n \t\tbid++;",
+  "func": "static int io_add_buffers(struct io_provide_buf *pbuf, struct io_buffer **head)\n{\n\tstruct io_buffer *buf;\n\tu64 addr = pbuf->addr;\n\tint i, bid = pbuf->bid;\n\n\tfor (i = 0; i < pbuf->nbufs; i++) {\n\t\tbuf = kmalloc(sizeof(*buf), GFP_KERNEL);\n\t\tif (!buf)\n\t\t\tbreak;\n\n\t\tbuf->addr = addr;\n\t\tbuf->len = pbuf->len;\n\t\tbuf->bid = bid;\n\t\taddr += pbuf->len;\n\t\tbid++;\n\t\tif (!*head) {\n\t\t\tINIT_LIST_HEAD(&buf->list);\n\t\t\t*head = buf;\n\t\t} else {\n\t\t\tlist_add_tail(&buf->list, &(*head)->list);\n\t\t}\n\t}\n\n\treturn i ? i : -ENOMEM;\n}",
+  "project": "linux",
+  "hash": 97053759323757789573775019463585321454,
+  "size": 26,
+  "commit_id": "d1f82808877bb10d3deee7cf3374a4eb3fb582db",
+  "message": "io_uring: truncate lengths larger than MAX_RW_COUNT on provide buffers\n\nRead and write operations are capped to MAX_RW_COUNT. Some read ops rely on\nthat limit, and that is not guaranteed by the IORING_OP_PROVIDE_BUFFERS.\n\nTruncate those lengths when doing io_add_buffers, so buffer addresses still\nuse the uncapped length.\n\nAlso, take the chance and change struct io_buffer len member to __u32, so\nit matches struct io_provide_buffer len member.\n\nThis fixes CVE-2021-3491, also reported as ZDI-CAN-13546.\n\nFixes: ddf0322db79c (\"io_uring: add IORING_OP_PROVIDE_BUFFERS\")\nReported-by: Billy Jheng Bing-Jhong (@st424204)\nSigned-off-by: Thadeu Lima de Souza Cascardo <cascardo@canonical.com>\nSigned-off-by: Jens Axboe <axboe@kernel.dk>",
+  "target": 1,
+  "dataset": "other",
+  "idx": 202741
+}

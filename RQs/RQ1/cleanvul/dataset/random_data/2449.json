@@ -1,0 +1,15 @@
+{
+  "id": 2449,
+  "language": "Java",
+  "commit_url": "https://github.com/omnirom/android_frameworks_base/commit/14f9771c72797dd269eb3cde43eca1ff64cd9097",
+  "commit_sha": "14f9771c72797dd269eb3cde43eca1ff64cd9097",
+  "commit_msg": "Tuner APIs: add locks to runnables to avoid crashes caused by NPE\n\nThe executor can be run in a different thread, which can cause race\ncondition. Adding the lock can help avoid the NPE reported.\n\nBug: 193604292\nTest: atest android.media.tv.tuner.cts.TunerTest\nChange-Id: I647ea2b428c1510b1df7f6cecc686bb7eb288a18",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "media/java/android/media/tv/tuner/Tuner.java",
+  "func_name": "onAnalogSifStandard",
+  "func_before": "private void onAnalogSifStandard(int sif) {\n        synchronized (mScanCallbackLock) {\n            if (mScanCallbackExecutor != null && mScanCallback != null) {\n                mScanCallbackExecutor.execute(() -> mScanCallback.onAnalogSifStandardReported(sif));\n            }\n        }\n    }",
+  "func_after": "private void onAnalogSifStandard(int sif) {\n        synchronized (mScanCallbackLock) {\n            if (mScanCallbackExecutor != null && mScanCallback != null) {\n                mScanCallbackExecutor.execute(() -> {\n                    synchronized (mScanCallbackLock) {\n                        if (mScanCallback != null) {\n                            mScanCallback.onAnalogSifStandardReported(sif);\n                        }\n                    }\n                });\n            }\n        }\n    }",
+  "diff_func": "--- func_before\n+++ func_after\n private void onAnalogSifStandard(int sif) {\n         synchronized (mScanCallbackLock) {\n             if (mScanCallbackExecutor != null && mScanCallback != null) {\n-                mScanCallbackExecutor.execute(() -> mScanCallback.onAnalogSifStandardReported(sif));\n+                mScanCallbackExecutor.execute(() -> {\n+                    synchronized (mScanCallbackLock) {\n+                        if (mScanCallback != null) {\n+                            mScanCallback.onAnalogSifStandardReported(sif);\n+                        }\n+                    }\n+                });\n             }\n         }\n     }",
+  "diff_source": "custom"
+}

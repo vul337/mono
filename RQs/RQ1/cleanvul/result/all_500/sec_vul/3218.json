@@ -1,0 +1,18 @@
+{
+  "id": 3218,
+  "language": "Python",
+  "commit_url": "https://github.com/hydralabs/pyamf/commit/f081dbfed0d650d9e62eb482206e8269991a7b01",
+  "commit_sha": "f081dbfed0d650d9e62eb482206e8269991a7b01",
+  "commit_msg": "Switch to use defusedxml as the default xml loader.\n\nBy default, PyAMF will not support potentially vulnerable payloads. See\nhttps://www.owasp.org/index.php/XML_External_Entity_(XXE)_Processing.\n\nAll the standard XML processing libs that PyAMF previously supported are still supported.\n\nThere may be people who use DTD/Entities as part of their AMF payloads - they will have\nto continue to use an old version or make an issue to see how their use case can still be\nsupported.",
+  "pr_url": "https://github.com/hydralabs/pyamf/pull/58",
+  "pr_info": "By default, PyAMF will not support potentially vulnerable XML payloads. See\nhttps://www.owasp.org/index.php/XML_External_Entity_(XXE)_Processing.\n\nWrap all calls to `etree.fromstring()` with `defusedxml`. All the standard XML processing libs that PyAMF previously supported are still supported.\n\nThere may be people who use DTD/Entities as part of their AMF payloads - they will have\nto continue to use an old version or make an issue to see how their use case can still be\nsupported.\n",
+  "file_name": "pyamf/amf0.py",
+  "func_name": "readXML",
+  "func_before": "def readXML(self):\n        \"\"\"\n        Read XML.\n        \"\"\"\n        data = self.readLongString()\n        root = xml.fromstring(data)\n\n        self.context.addObject(root)\n\n        return root",
+  "func_after": "def readXML(self):\n        \"\"\"\n        Read XML.\n        \"\"\"\n        data = self.readLongString()\n        root = xml.fromstring(\n            data,\n            forbid_dtd=self.context.forbid_dtd,\n            forbid_entities=self.context.forbid_entities,\n        )\n\n        self.context.addObject(root)\n\n        return root",
+  "diff_func": "--- func_before\n+++ func_after\n def readXML(self):\n         \"\"\"\n         Read XML.\n         \"\"\"\n         data = self.readLongString()\n-        root = xml.fromstring(data)\n+        root = xml.fromstring(\n+            data,\n+            forbid_dtd=self.context.forbid_dtd,\n+            forbid_entities=self.context.forbid_entities,\n+        )\n \n         self.context.addObject(root)\n \n         return root",
+  "diff_source": "custom",
+  "Bug Filter": "** Security Vulnerability Fix  \n**Confidence Score:** 1.0",
+  "Bug Filter Confidence": 1.0,
+  "Bug Filter Response": "\n\nThe patch modifies the XML parsing function to use defusedxml, adding parameters to forbid DTD and entities. This addresses a known security vulnerability (XXE) by preventing the parsing of potentially malicious XML data.\n\n**Final Classification:** Security Vulnerability Fix  \n**Confidence Score:** 1.0"
+}

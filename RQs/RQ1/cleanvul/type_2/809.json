@@ -1,0 +1,18 @@
+{
+  "id": 809,
+  "language": "Java",
+  "commit_url": "https://github.com/PixelExperience/frameworks_base/commit/1555d1d2108d3afe89968eb7aa76f16062d20811",
+  "commit_sha": "1555d1d2108d3afe89968eb7aa76f16062d20811",
+  "commit_msg": "Add wrappers around IO functions to check the return values\n\nOs.read and Os.write don't throw exceptions if\n`fd` is closed on the other end.\n\nBug: 231345789\nTest: save a snapshot\nTest: use clipboard both, check if there is no\nTest: infinite loops which sets the clipboard\nSigned-off-by: Roman Kiryanov <rkir@google.com>\nChange-Id: If98fb3adf58f2e4e13d483b78ea05ea9d8d61b58\nMerged-In: If98fb3adf58f2e4e13d483b78ea05ea9d8d61b58",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "services/core/java/com/android/server/clipboard/EmulatorClipboardMonitor.java",
+  "func_name": "InterruptedIOException",
+  "func_before": "private byte[] receiveMessage() throws ErrnoException, InterruptedIOException {\n        final byte[] lengthBits = new byte[4];\n        Os.read(mPipe, lengthBits, 0, lengthBits.length);\n\n        final ByteBuffer bb = ByteBuffer.wrap(lengthBits);\n        bb.order(ByteOrder.LITTLE_ENDIAN);\n        final int msgLen = bb.getInt();\n\n        final byte[] msg = new byte[msgLen];\n        Os.read(mPipe, msg, 0, msg.length);\n\n        return msg;\n    }",
+  "func_after": "private byte[] receiveMessage() throws ErrnoException, InterruptedIOException, EOFException {\n        final byte[] lengthBits = new byte[4];\n        readFully(mPipe, lengthBits, 0, lengthBits.length);\n\n        final ByteBuffer bb = ByteBuffer.wrap(lengthBits);\n        bb.order(ByteOrder.LITTLE_ENDIAN);\n        final int msgLen = bb.getInt();\n\n        final byte[] msg = new byte[msgLen];\n        readFully(mPipe, msg, 0, msg.length);\n\n        return msg;\n    }",
+  "diff_func": "--- func_before\n+++ func_after\n-private byte[] receiveMessage() throws ErrnoException, InterruptedIOException {\n+private byte[] receiveMessage() throws ErrnoException, InterruptedIOException, EOFException {\n         final byte[] lengthBits = new byte[4];\n-        Os.read(mPipe, lengthBits, 0, lengthBits.length);\n+        readFully(mPipe, lengthBits, 0, lengthBits.length);\n \n         final ByteBuffer bb = ByteBuffer.wrap(lengthBits);\n         bb.order(ByteOrder.LITTLE_ENDIAN);\n         final int msgLen = bb.getInt();\n \n         final byte[] msg = new byte[msgLen];\n-        Os.read(mPipe, msg, 0, msg.length);\n+        readFully(mPipe, msg, 0, msg.length);\n \n         return msg;\n     }",
+  "diff_source": "custom",
+  "Bug Filter": "Defect Remediation & Feature Upgrades",
+  "Bug Filter Confidence": 0.9,
+  "Bug Filter Response": "\n\nThe patch addresses a bug where IO functions didn't handle closed file descriptors properly, leading to potential crashes or data loss. It adds exception handling and uses a wrapper for better IO management. This is a functional bug fix without security implications.\n\n**Final Classification:** Defect Remediation & Feature Upgrades  \n**Confidence Score:** 0.9"
+}

@@ -1,0 +1,18 @@
+{
+  "id": 8009,
+  "language": "JavaScript",
+  "commit_url": "https://github.com/snipe/snipe-it/commit/fc5efd857f61f7e45c61db567bb66612bcb53128",
+  "commit_sha": "fc5efd857f61f7e45c61db567bb66612bcb53128",
+  "commit_msg": "Merge pull request #10171 from snipe/fixes/xss_svg_in_file_uploads\n\nFixed SVG XSS vuln",
+  "pr_url": "https://github.com/snipe/snipe-it/pull/10171",
+  "pr_info": "This fixes an SVG XSS vulnerability where a user who is authorized to upload user, asset, or license files could potentially upload poisoned SVG files. We sanitize SVGs on item image uploads, but were not doing that for regular files. \r\n\r\nThis was reported [here on Huntr.dev](https://huntr.dev/bounties/1dbc8d79-1b53-44a3-a576-faec78f29ba0/).\r\n\r\nIt's a little copypasta, if I'm honest, and we should probably create a method/request to handle this instead moving forward, but this should solve the issue for now. ",
+  "file_name": "public/js/dist/all.js",
+  "func_name": "extend",
+  "func_before": "function Be(t,e){var i,n,r=C.ajaxSettings.flatOptions||{};for(i in e)void 0!==e[i]&&((r[i]?t:n||(n={}))[i]=e[i]);return n&&C.extend(!0,t,n),t}",
+  "func_after": "function Be(t,e){return Array.isArray(t)?t.indexOf(e)>-1:\"string\"==typeof t?t.split(\",\").indexOf(e)>-1:(i=t,\"[object RegExp]\"===a.call(i)&&t.test(e));var i}",
+  "diff_func": "--- func_before\n+++ func_after\n-function Be(t,e){var i,n,r=C.ajaxSettings.flatOptions||{};for(i in e)void 0!==e[i]&&((r[i]?t:n||(n={}))[i]=e[i]);return n&&C.extend(!0,t,n),t}\n+function Be(t,e){return Array.isArray(t)?t.indexOf(e)>-1:\"string\"==typeof t?t.split(\",\").indexOf(e)>-1:(i=t,\"[object RegExp]\"===a.call(i)&&t.test(e));var i}",
+  "diff_source": "custom",
+  "Bug Filter": "Security Vulnerability Fix\n\nConfidence Score: 0.95",
+  "Bug Filter Confidence": 0.95,
+  "Bug Filter Response": "\n\n**Final Output:**\nAnalysis: The commit message explicitly mentions fixing an SVG XSS vulnerability. The code changes modify a function involved in validation, which is crucial for preventing XSS attacks. This indicates a security fix aimed at preventing unauthorized code execution.\n\nFinal Classification: Security Vulnerability Fix\n\nConfidence Score: 0.95"
+}

@@ -1,0 +1,15 @@
+{
+  "id": 8113,
+  "language": "JavaScript",
+  "commit_url": "https://github.com/HumanSignal/label-studio/commit/a7a71e594f32ec4af8f3f800d5ccb8662e275da3",
+  "commit_sha": "a7a71e594f32ec4af8f3f800d5ccb8662e275da3",
+  "commit_msg": "fix: OPTIC-179: Properly ensure content is escaped (#4926)\n\n* fix: OPTIC-179: Properly ensure content is escaped\r\n\r\n* ci: Build frontend\r\n\r\nWorkflow run: https://github.com/HumanSignal/label-studio/actions/runs/6567480699\r\n\r\n* update types\r\n\r\n* ci: Build frontend\r\n\r\nWorkflow run: https://github.com/HumanSignal/label-studio/actions/runs/6567539053\r\n\r\n* update\r\n\r\n* ci: Build frontend\r\n\r\nWorkflow run: https://github.com/HumanSignal/label-studio/actions/runs/6568061660\r\n\r\n* update\r\n\r\n* Update label_studio/frontend/src/pages/DataManager/DataManager.js\r\n\r\n* ci: Build frontend\r\n\r\nWorkflow run: https://github.com/HumanSignal/label-studio/actions/runs/6568126554\r\n\r\n---------\r\n\r\nCo-authored-by: robot-ci-heartex <robot-ci-heartex@users.noreply.github.com>",
+  "pr_url": "https://github.com/HumanSignal/label-studio/pull/4926",
+  "pr_info": "no more info",
+  "file_name": "label_studio/frontend/dist/react-app/index.js",
+  "func_name": "Cr",
+  "func_before": "function jr(e,t,n,r,i,o,a){var s=se((function(s){var l=i[s],u=1!=l.level;return Cr(br(e,ot(n,u?l.to:l.from,u?\"before\":\"after\"),\"line\",t,r),o,a,!0)}),0,i.length-1),l=i[s];if(s>0){var u=1!=l.level,c=br(e,ot(n,u?l.from:l.to,u?\"after\":\"before\"),\"line\",t,r);Cr(c,o,a,!0)&&c.top>a&&(l=i[s-1])}return l}",
+  "func_after": "function jr(e,t,n,r,i,o,a){var s=Sr(e,t,r,a),l=s.begin,c=s.end;/\\s/.test(t.text.charAt(c-1))&&c--;for(var u=null,d=null,f=0;f<i.length;f++){var p=i[f];if(!(p.from>=c||p.to<=l)){var h=rr(e,r,1!=p.level?Math.min(c,p.to)-1:Math.max(l,p.from)).right,m=h<o?o-h+1e9:h-o;(!u||d>m)&&(u=p,d=m)}}return u||(u=i[i.length-1]),u.from<l&&(u={from:l,to:u.to,level:u.level}),u.to>c&&(u={from:u.from,to:c,level:u.level}),u}",
+  "diff_func": "--- func_before\n+++ func_after\n-function jr(e,t,n,r,i,o,a){var s=se((function(s){var l=i[s],u=1!=l.level;return Cr(br(e,ot(n,u?l.to:l.from,u?\"before\":\"after\"),\"line\",t,r),o,a,!0)}),0,i.length-1),l=i[s];if(s>0){var u=1!=l.level,c=br(e,ot(n,u?l.from:l.to,u?\"after\":\"before\"),\"line\",t,r);Cr(c,o,a,!0)&&c.top>a&&(l=i[s-1])}return l}\n+function jr(e,t,n,r,i,o,a){var s=Sr(e,t,r,a),l=s.begin,c=s.end;/\\s/.test(t.text.charAt(c-1))&&c--;for(var u=null,d=null,f=0;f<i.length;f++){var p=i[f];if(!(p.from>=c||p.to<=l)){var h=rr(e,r,1!=p.level?Math.min(c,p.to)-1:Math.max(l,p.from)).right,m=h<o?o-h+1e9:h-o;(!u||d>m)&&(u=p,d=m)}}return u||(u=i[i.length-1]),u.from<l&&(u={from:l,to:u.to,level:u.level}),u.to>c&&(u={from:u.from,to:c,level:u.level}),u}",
+  "diff_source": "custom"
+}

@@ -1,0 +1,15 @@
+{
+  "id": 4447,
+  "language": "Python",
+  "commit_url": "https://github.com/pallets/werkzeug/commit/517cac5a804e8c4dc4ed038bb20dacd038e7a9f1",
+  "commit_sha": "517cac5a804e8c4dc4ed038bb20dacd038e7a9f1",
+  "commit_msg": "Merge pull request from GHSA-xg9f-g7g7-2323\n\nlimit the maximum number of multipart form parts",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "src/werkzeug/formparser.py",
+  "func_name": "_parse_multipart",
+  "func_before": "def _parse_multipart(\n        self,\n        stream: t.IO[bytes],\n        mimetype: str,\n        content_length: t.Optional[int],\n        options: t.Dict[str, str],\n    ) -> \"t_parse_result\":\n        parser = MultiPartParser(\n            self.stream_factory,\n            self.charset,\n            self.errors,\n            max_form_memory_size=self.max_form_memory_size,\n            cls=self.cls,\n        )\n        boundary = options.get(\"boundary\", \"\").encode(\"ascii\")\n\n        if not boundary:\n            raise ValueError(\"Missing boundary\")\n\n        form, files = parser.parse(stream, boundary, content_length)\n        return stream, form, files",
+  "func_after": "def _parse_multipart(\n        self,\n        stream: t.IO[bytes],\n        mimetype: str,\n        content_length: t.Optional[int],\n        options: t.Dict[str, str],\n    ) -> \"t_parse_result\":\n        parser = MultiPartParser(\n            self.stream_factory,\n            self.charset,\n            self.errors,\n            max_form_memory_size=self.max_form_memory_size,\n            cls=self.cls,\n            max_form_parts=self.max_form_parts,\n        )\n        boundary = options.get(\"boundary\", \"\").encode(\"ascii\")\n\n        if not boundary:\n            raise ValueError(\"Missing boundary\")\n\n        form, files = parser.parse(stream, boundary, content_length)\n        return stream, form, files",
+  "diff_func": "--- func_before\n+++ func_after\n def _parse_multipart(\n         self,\n         stream: t.IO[bytes],\n         mimetype: str,\n         content_length: t.Optional[int],\n         options: t.Dict[str, str],\n     ) -> \"t_parse_result\":\n         parser = MultiPartParser(\n             self.stream_factory,\n             self.charset,\n             self.errors,\n             max_form_memory_size=self.max_form_memory_size,\n             cls=self.cls,\n+            max_form_parts=self.max_form_parts,\n         )\n         boundary = options.get(\"boundary\", \"\").encode(\"ascii\")\n \n         if not boundary:\n             raise ValueError(\"Missing boundary\")\n \n         form, files = parser.parse(stream, boundary, content_length)\n         return stream, form, files",
+  "diff_source": "custom"
+}

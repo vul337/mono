@@ -1,0 +1,18 @@
+{
+  "id": 3851,
+  "language": "C/C++",
+  "commit_url": "https://github.com/libming/libming/commit/ea70414984f297958684acee0bb037ac11fb30b8",
+  "commit_sha": "ea70414984f297958684acee0bb037ac11fb30b8",
+  "commit_msg": "Fix heap overflows in parser.c\n\nPatch by Marcel Böhme\n\nCloses https://github.com/libming/libming/issues/68",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "util/parser.c",
+  "func_name": "parseSWF_FOCALGRADIENT",
+  "func_before": "void\nparseSWF_FOCALGRADIENT (FILE * f, struct SWF_FOCALGRADIENT *gradient, int level)\n{\n  int i;\n  gradient->SpreadMode = readBits(f, 2);\n  gradient->InterpolationMode = readBits(f, 2);\n  gradient->NumGradients = readBits (f, 4);\n  if(gradient->NumGradients > 15) {\n\t  fprintf(stderr, \"%d gradients in SWF_FOCALGRADIENT, expected a max of 15\\n\", gradient->NumGradients );\n\t  /*exit(1);*/\n  }\n\n  for (i = 0; i < gradient->NumGradients; i++)\n    parseSWF_GRADIENTRECORD (f, &(gradient->GradientRecords[i]), level);\n  \n  gradient->FocalPoint = readUInt16(f); \n}",
+  "func_after": "void\nparseSWF_FOCALGRADIENT (FILE * f, struct SWF_FOCALGRADIENT *gradient, int level)\n{\n  int i;\n  gradient->SpreadMode = readBits(f, 2);\n  gradient->InterpolationMode = readBits(f, 2);\n  gradient->NumGradients = readBits (f, 4);\n  if(gradient->NumGradients > 15) {\n\t  fprintf(stderr, \"%d gradients in SWF_FOCALGRADIENT, expected a max of 15\\n\", gradient->NumGradients );\n\t  gradient->NumGradients = 15;\n\t  /*exit(1);*/\n  }\n\n  for (i = 0; i < gradient->NumGradients; i++)\n    parseSWF_GRADIENTRECORD (f, &(gradient->GradientRecords[i]), level);\n  \n  gradient->FocalPoint = readUInt16(f); \n}",
+  "diff_func": "--- func_before\n+++ func_after\n void\n parseSWF_FOCALGRADIENT (FILE * f, struct SWF_FOCALGRADIENT *gradient, int level)\n {\n   int i;\n   gradient->SpreadMode = readBits(f, 2);\n   gradient->InterpolationMode = readBits(f, 2);\n   gradient->NumGradients = readBits (f, 4);\n   if(gradient->NumGradients > 15) {\n \t  fprintf(stderr, \"%d gradients in SWF_FOCALGRADIENT, expected a max of 15\\n\", gradient->NumGradients );\n+\t  gradient->NumGradients = 15;\n \t  /*exit(1);*/\n   }\n \n   for (i = 0; i < gradient->NumGradients; i++)\n     parseSWF_GRADIENTRECORD (f, &(gradient->GradientRecords[i]), level);\n   \n   gradient->FocalPoint = readUInt16(f); \n }",
+  "diff_source": "custom",
+  "Bug Filter": "Security Vulnerability Fix\nConfidence Score: 1.0",
+  "Bug Filter Confidence": 1.0,
+  "Bug Filter Response": "\n\n**Final Output:**\nAnalysis: Step 1: The commit message indicates a fix for heap overflows in parser.c, specifically addressing issue #68. The code diff modifies the function parseSWF_FOCALGRADIENT by adding a line that caps gradient->NumGradients at 15 if it exceeds this value. This prevents heap overflow by ensuring the buffer does not exceed its allocated size. Step 2: The patch addresses a defect that could lead to heap overflow, which is a security issue as it can cause arbitrary code execution. Step 4: High confidence in classification as it clearly fixes a security vulnerability.\nFinal Classification: Security Vulnerability Fix\nConfidence Score: 1.0"
+}

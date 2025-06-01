@@ -1,0 +1,21 @@
+{
+  "id": 178,
+  "language": "c",
+  "cwe": "CWE-189",
+  "commit_url": "https://github.com/pascal-cuoq/libtasn1-fork/commit/1c3ccb3e040bf13e342ee60bc23b21b97b11923f",
+  "commit_sha": "1c3ccb3e040bf13e342ee60bc23b21b97b11923f",
+  "commit_msg": "Do not return illegal values in asn1_get_bit_der().",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "lib/decoding.c",
+  "func_name": "",
+  "raw_func_from_json": "asn1_get_bit_der (const unsigned char *der, int der_len,\n \t\t  int *ret_len, unsigned char *str, int str_size,\n \t\t  int *bit_len)\n {\n  int len_len, len_byte;\n \n   if (der_len <= 0)\n     return ASN1_GENERIC_ERROR;\n  len_byte = asn1_get_length_der (der, der_len, &len_len) - 1;\n  if (len_byte < 0)\n    return ASN1_DER_ERROR;\n \n   *ret_len = len_byte + len_len + 1;\n   *bit_len = len_byte * 8 - der[len_len];\n \n   if (str_size >= len_byte)\n     memcpy (str, der + len_len + 1, len_byte);\n    }\n",
+  "diff_func": "@@ -249,7 +249,7 @@ asn1_get_octet_der (const unsigned char *der, int der_len,\n \t\t    int *ret_len, unsigned char *str, int str_size,\n \t\t    int *str_len)\n {\n-  int len_len;\n+  int len_len = 0;\n \n   if (der_len <= 0)\n     return ASN1_GENERIC_ERROR;\n@@ -371,7 +371,7 @@ asn1_get_bit_der (const unsigned char *der, int der_len,\n \t\t  int *ret_len, unsigned char *str, int str_size,\n \t\t  int *bit_len)\n {\n-  int len_len, len_byte;\n+  int len_len = 0, len_byte;\n \n   if (der_len <= 0)\n     return ASN1_GENERIC_ERROR;\n@@ -381,6 +381,9 @@ asn1_get_bit_der (const unsigned char *der, int der_len,\n \n   *ret_len = len_byte + len_len + 1;\n   *bit_len = len_byte * 8 - der[len_len];\n+  \n+  if (*bit_len <= 0)\n+    return ASN1_DER_ERROR;\n \n   if (str_size >= len_byte)\n     memcpy (str, der + len_len + 1, len_byte);",
+  "project": "savannah",
+  "commit_id": "1c3ccb3e040bf13e342ee60bc23b21b97b11923f",
+  "target": 1,
+  "func": "asn1_get_bit_der (const unsigned char *der, int der_len,\n \t\t  int *ret_len, unsigned char *str, int str_size,\n \t\t  int *bit_len)\n {\n  int len_len, len_byte;\n \n   if (der_len <= 0)\n     return ASN1_GENERIC_ERROR;\n  len_byte = asn1_get_length_der (der, der_len, &len_len) - 1;\n  if (len_byte < 0)\n    return ASN1_DER_ERROR;\n \n   *ret_len = len_byte + len_len + 1;\n   *bit_len = len_byte * 8 - der[len_len];\n \n   if (str_size >= len_byte)\n     memcpy (str, der + len_len + 1, len_byte);\n    }\n",
+  "big_vul_idx": 178349,
+  "idx": 364,
+  "hash": 41675434541008202288249540494015225926
+}

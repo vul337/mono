@@ -1,0 +1,18 @@
+{
+  "id": 7441,
+  "language": "JavaScript",
+  "commit_url": "https://github.com/sindresorhus/hide-files-on-github/commit/dbf540d3cc99a8eba6c3b02301d679f81b54f27f",
+  "commit_sha": "dbf540d3cc99a8eba6c3b02301d679f81b54f27f",
+  "commit_msg": "Avoid self-XSS",
+  "pr_url": "https://github.com/sindresorhus/hide-files-on-github/pull/73",
+  "pr_info": "Classic `innerHTML = userString`",
+  "file_name": "extension/options.js",
+  "func_name": "update",
+  "func_before": "function update() {\n\tfor (const line of regexField.value.split('\\n')) {\n\t\t// Don't allow delimiters in RegExp string\n\t\tif (delimiters.test(line)) {\n\t\t\treturn setValidity(`Use <code>${line.replace(/^\\/|\\/$/g, '')}</code> instead of <code>${line}</code>. Slashes are not required.`);\n\t\t}\n\n\t\t// Fully test each RegExp\n\t\ttry {\n\t\t\t// eslint-disable-next-line no-new\n\t\t\tnew RegExp(line);\n\t\t} catch (error) {\n\t\t\treturn setValidity(error.message);\n\t\t}\n\t}\n\n\tsetValidity();\n\tsaveOptions();\n}",
+  "func_after": "function update() {\n\tfor (const line of regexField.value.split('\\n')) {\n\t\t// Don't allow delimiters in RegExp string\n\t\tif (delimiters.test(line)) {\n\t\t\treturn setValidity(escapeTag`Use <code>${line.replace(/^\\/|\\/$/g, '')}</code> instead of <code>${line}</code>. Slashes are not required.`);\n\t\t}\n\n\t\t// Fully test each RegExp\n\t\ttry {\n\t\t\t// eslint-disable-next-line no-new\n\t\t\tnew RegExp(line);\n\t\t} catch (error) {\n\t\t\treturn setValidity(error.message);\n\t\t}\n\t}\n\n\tsetValidity();\n\tsaveOptions();\n}",
+  "diff_func": "--- func_before\n+++ func_after\n function update() {\n \tfor (const line of regexField.value.split('\\n')) {\n \t\t// Don't allow delimiters in RegExp string\n \t\tif (delimiters.test(line)) {\n-\t\t\treturn setValidity(`Use <code>${line.replace(/^\\/|\\/$/g, '')}</code> instead of <code>${line}</code>. Slashes are not required.`);\n+\t\t\treturn setValidity(escapeTag`Use <code>${line.replace(/^\\/|\\/$/g, '')}</code> instead of <code>${line}</code>. Slashes are not required.`);\n \t\t}\n \n \t\t// Fully test each RegExp\n \t\ttry {\n \t\t\t// eslint-disable-next-line no-new\n \t\t\tnew RegExp(line);\n \t\t} catch (error) {\n \t\t\treturn setValidity(error.message);\n \t\t}\n \t}\n \n \tsetValidity();\n \tsaveOptions();\n }",
+  "diff_source": "custom",
+  "Bug Filter": "Security Vulnerability Fix\nConfidence Score: 0.95",
+  "Bug Filter Confidence": 0.95,
+  "Bug Filter Response": "\n\n**Final Output:**\nAnalysis: The commit aims to prevent self-XSS by escaping user input in validity messages, directly addressing a security vulnerability.\nFinal Classification: Security Vulnerability Fix\nConfidence Score: 0.95"
+}

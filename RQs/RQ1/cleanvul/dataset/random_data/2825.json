@@ -1,0 +1,15 @@
+{
+  "id": 2825,
+  "language": "Java",
+  "commit_url": "https://github.com/sakaiproject/sakai/commit/f949180908ab973d1724f8b945b7f89146206fb2",
+  "commit_sha": "f949180908ab973d1724f8b945b7f89146206fb2",
+  "commit_msg": "SAK-46007 stackoverflow caused by DateManagerServiceImpl.addAllSubpages (#9591)",
+  "pr_url": "https://github.com/sakaiproject/sakai/pull/9591",
+  "pr_info": "https://jira.sakaiproject.org/browse/SAK-46007\r\n\r\nUsed the same approach as in other areas to deal with lessons cyclical hierarchy: keep track of the item IDs we see and bail if we encounter one we've already processed.",
+  "file_name": "site-manage/datemanager/impl/src/java/org/sakaiproject/datemanager/impl/DateManagerServiceImpl.java",
+  "func_name": "getLessonsForContext",
+  "func_before": "@Override\n\tpublic JSONArray getLessonsForContext(String siteId) {\n\t\tJSONArray jsonLessons = new JSONArray();\n\t\tjsonLessons = addAllSubpages(simplePageToolDao.findItemsInSite(siteId), null, jsonLessons, \"false\");\n\t\treturn jsonLessons;\n\t}",
+  "func_after": "@Override\n\tpublic JSONArray getLessonsForContext(String siteId) {\n\t\tJSONArray jsonLessons = new JSONArray();\n\t\tList<Long> processedItemIDs = new ArrayList<>();\n\t\tjsonLessons = addAllSubpages(simplePageToolDao.findItemsInSite(siteId), null, jsonLessons, \"false\", processedItemIDs);\n\t\treturn jsonLessons;\n\t}",
+  "diff_func": "--- func_before\n+++ func_after\n @Override\n \tpublic JSONArray getLessonsForContext(String siteId) {\n \t\tJSONArray jsonLessons = new JSONArray();\n+\t\tList<Long> processedItemIDs = new ArrayList<>();\n-\t\tjsonLessons = addAllSubpages(simplePageToolDao.findItemsInSite(siteId), null, jsonLessons, \"false\");\n+\t\tjsonLessons = addAllSubpages(simplePageToolDao.findItemsInSite(siteId), null, jsonLessons, \"false\", processedItemIDs);\n \t\treturn jsonLessons;\n \t}",
+  "diff_source": "custom"
+}

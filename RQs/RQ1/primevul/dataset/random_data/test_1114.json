@@ -1,0 +1,23 @@
+{
+  "id": 1114,
+  "language": "c",
+  "cwe": "",
+  "commit_url": "https://github.com/mate-desktop/atril/commit/f4291fd62f7dfe6460d2406a979ccfac0c68dd59",
+  "commit_sha": "f4291fd62f7dfe6460d2406a979ccfac0c68dd59",
+  "commit_msg": "comics: make the files containing \"--checkpoint-action=\" unsupported\n\nFixes #257",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "backend/comics/comics-document.c",
+  "func_name": "",
+  "raw_func_from_json": "extract_argv (EvDocument *document, gint page)\n{\n\tComicsDocument *comics_document = COMICS_DOCUMENT (document);\n\tchar **argv;\n\tchar *command_line, *quoted_archive, *quoted_filename;\n\tGError *err = NULL;\n\n        if (page >= comics_document->page_names->len)\n                return NULL;\n\n\tif (comics_document->regex_arg) {\n\t\tquoted_archive = g_shell_quote (comics_document->archive);\n\t\tquoted_filename =\n\t\t\tcomics_regex_quote (comics_document->page_names->pdata[page]);\n\t} else {\n\t\tquoted_archive = g_shell_quote (comics_document->archive);\n\t\tquoted_filename = g_shell_quote (comics_document->page_names->pdata[page]);\n\t}\n\n\tcommand_line = g_strdup_printf (\"%s %s %s\",\n\t\t\t\t\tcomics_document->extract_command,\n\t\t\t\t\tquoted_archive,\n\t\t\t\t\tquoted_filename);\n\tg_free (quoted_archive);\n\tg_free (quoted_filename);\n\n\tg_shell_parse_argv (command_line, NULL, &argv, &err);\n\tg_free (command_line);\n\n\tif (err) {\n\t\tg_warning (_(\"Error %s\"), err->message);\n\t\tg_error_free (err);\n\t\treturn NULL;\n\t}\n\n\treturn argv;\n}",
+  "diff_func": "@@ -983,6 +983,12 @@ extract_argv (EvDocument *document, gint page)\n \tchar *command_line, *quoted_archive, *quoted_filename;\n \tGError *err = NULL;\n \n+\tif (g_strrstr (comics_document->page_names->pdata[page], \"--checkpoint-action=\"))\n+\t{\n+\t\tg_warning (\"File unsupported\\n\");\n+\t\tgtk_main_quit ();\n+\t}\n+\n         if (page >= comics_document->page_names->len)\n                 return NULL;\n ",
+  "func": "extract_argv (EvDocument *document, gint page)\n{\n\tComicsDocument *comics_document = COMICS_DOCUMENT (document);\n\tchar **argv;\n\tchar *command_line, *quoted_archive, *quoted_filename;\n\tGError *err = NULL;\n\n        if (page >= comics_document->page_names->len)\n                return NULL;\n\n\tif (comics_document->regex_arg) {\n\t\tquoted_archive = g_shell_quote (comics_document->archive);\n\t\tquoted_filename =\n\t\t\tcomics_regex_quote (comics_document->page_names->pdata[page]);\n\t} else {\n\t\tquoted_archive = g_shell_quote (comics_document->archive);\n\t\tquoted_filename = g_shell_quote (comics_document->page_names->pdata[page]);\n\t}\n\n\tcommand_line = g_strdup_printf (\"%s %s %s\",\n\t\t\t\t\tcomics_document->extract_command,\n\t\t\t\t\tquoted_archive,\n\t\t\t\t\tquoted_filename);\n\tg_free (quoted_archive);\n\tg_free (quoted_filename);\n\n\tg_shell_parse_argv (command_line, NULL, &argv, &err);\n\tg_free (command_line);\n\n\tif (err) {\n\t\tg_warning (_(\"Error %s\"), err->message);\n\t\tg_error_free (err);\n\t\treturn NULL;\n\t}\n\n\treturn argv;\n}",
+  "project": "atril",
+  "hash": 5221502165965543150113388489824773188,
+  "size": 37,
+  "commit_id": "f4291fd62f7dfe6460d2406a979ccfac0c68dd59",
+  "message": "comics: make the files containing \"--checkpoint-action=\" unsupported\n\nFixes #257",
+  "target": 1,
+  "dataset": "other",
+  "idx": 212917
+}

@@ -1,0 +1,23 @@
+{
+  "id": 887,
+  "language": "c",
+  "cwe": "",
+  "commit_url": "https://github.com/thevipwan/linux-pam/commit/9dcead87e6d7f66d34e7a56d11a30daca367dffb",
+  "commit_sha": "9dcead87e6d7f66d34e7a56d11a30daca367dffb",
+  "commit_msg": "pam_timestamp: fix potential directory traversal issue (ticket #27)\n\npam_timestamp uses values of PAM_RUSER and PAM_TTY as components of\nthe timestamp pathname it creates, so extra care should be taken to\navoid potential directory traversal issues.\n\n* modules/pam_timestamp/pam_timestamp.c (check_tty): Treat\n\".\" and \"..\" tty values as invalid.\n(get_ruser): Treat \".\" and \"..\" ruser values, as well as any ruser\nvalue containing '/', as invalid.\n\nFixes CVE-2014-2583.\n\nReported-by: Sebastian Krahmer <krahmer@suse.de>",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "modules/pam_timestamp/pam_timestamp.c",
+  "func_name": "",
+  "raw_func_from_json": "check_tty(const char *tty)\n{\n\t/* Check that we're not being set up to take a fall. */\n\tif ((tty == NULL) || (strlen(tty) == 0)) {\n\t\treturn NULL;\n\t}\n\t/* Pull out the meaningful part of the tty's name. */\n\tif (strchr(tty, '/') != NULL) {\n\t\tif (strncmp(tty, \"/dev/\", 5) != 0) {\n\t\t\t/* Make sure the device node is actually in /dev/,\n\t\t\t * noted by Michal Zalewski. */\n\t\t\treturn NULL;\n\t\t}\n\t\ttty = strrchr(tty, '/') + 1;\n\t}\n\t/* Make sure the tty wasn't actually a directory (no basename). */\n\tif (strlen(tty) == 0) {\n\t\treturn NULL;\n\t}\n\treturn tty;\n}",
+  "diff_func": "@@ -158,7 +158,7 @@ check_tty(const char *tty)\n \t\ttty = strrchr(tty, '/') + 1;\n \t}\n \t/* Make sure the tty wasn't actually a directory (no basename). */\n-\tif (strlen(tty) == 0) {\n+\tif (!strlen(tty) || !strcmp(tty, \".\") || !strcmp(tty, \"..\")) {\n \t\treturn NULL;\n \t}\n \treturn tty;\n@@ -243,6 +243,17 @@ get_ruser(pam_handle_t *pamh, char *ruserbuf, size_t ruserbuflen)\n \t\tif (pwd != NULL) {\n \t\t\truser = pwd->pw_name;\n \t\t}\n+\t} else {\n+\t\t/*\n+\t\t * This ruser is used by format_timestamp_name as a component\n+\t\t * of constructed timestamp pathname, so \".\", \"..\", and '/'\n+\t\t * are disallowed to avoid potential path traversal issues.\n+\t\t */\n+\t\tif (!strcmp(ruser, \".\") ||\n+\t\t    !strcmp(ruser, \"..\") ||\n+\t\t    strchr(ruser, '/')) {\n+\t\t\truser = NULL;\n+\t\t}\n \t}\n \tif (ruser == NULL || strlen(ruser) >= ruserbuflen) {\n \t\t*ruserbuf = '\\0';",
+  "func": "check_tty(const char *tty)\n{\n\t/* Check that we're not being set up to take a fall. */\n\tif ((tty == NULL) || (strlen(tty) == 0)) {\n\t\treturn NULL;\n\t}\n\t/* Pull out the meaningful part of the tty's name. */\n\tif (strchr(tty, '/') != NULL) {\n\t\tif (strncmp(tty, \"/dev/\", 5) != 0) {\n\t\t\t/* Make sure the device node is actually in /dev/,\n\t\t\t * noted by Michal Zalewski. */\n\t\t\treturn NULL;\n\t\t}\n\t\ttty = strrchr(tty, '/') + 1;\n\t}\n\t/* Make sure the tty wasn't actually a directory (no basename). */\n\tif (strlen(tty) == 0) {\n\t\treturn NULL;\n\t}\n\treturn tty;\n}",
+  "project": "linux-pam",
+  "hash": 336131573636879399421041172856936495490,
+  "size": 21,
+  "commit_id": "9dcead87e6d7f66d34e7a56d11a30daca367dffb",
+  "message": "pam_timestamp: fix potential directory traversal issue (ticket #27)\n\npam_timestamp uses values of PAM_RUSER and PAM_TTY as components of\nthe timestamp pathname it creates, so extra care should be taken to\navoid potential directory traversal issues.\n\n* modules/pam_timestamp/pam_timestamp.c (check_tty): Treat\n\".\" and \"..\" tty values as invalid.\n(get_ruser): Treat \".\" and \"..\" ruser values, as well as any ruser\nvalue containing '/', as invalid.\n\nFixes CVE-2014-2583.\n\nReported-by: Sebastian Krahmer <krahmer@suse.de>",
+  "target": 1,
+  "dataset": "other",
+  "idx": 210171
+}

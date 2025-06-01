@@ -1,0 +1,18 @@
+{
+  "id": 628,
+  "language": "Java",
+  "commit_url": "https://github.com/google/ExoPlayer/commit/084dfc04c5a72a26dc87f923437018d9249f1f8f",
+  "commit_sha": "084dfc04c5a72a26dc87f923437018d9249f1f8f",
+  "commit_msg": "Fix Basic authentication header\n\nIssue: google/ExoPlayer#9544\n\nThe header must include the word \"Basic\", but the word is missing.\n\n#minor-release\n\nPiperOrigin-RevId: 443386880",
+  "pr_url": "https://github.com/google/ExoPlayer/pull/10349",
+  "pr_info": "no more info",
+  "file_name": "library/rtsp/src/main/java/com/google/android/exoplayer2/source/rtsp/RtspAuthenticationInfo.java",
+  "func_name": "getBasicAuthorizationHeaderValue",
+  "func_before": "private String getBasicAuthorizationHeaderValue(RtspAuthUserInfo authUserInfo) {\n    return Base64.encodeToString(\n        RtspMessageUtil.getStringBytes(authUserInfo.username + \":\" + authUserInfo.password),\n        Base64.DEFAULT);\n  }",
+  "func_after": "private String getBasicAuthorizationHeaderValue(RtspAuthUserInfo authUserInfo) {\n    return Util.formatInvariant(\n        BASIC_AUTHORIZATION_HEADER_FORMAT,\n        Base64.encodeToString(\n            RtspMessageUtil.getStringBytes(authUserInfo.username + \":\" + authUserInfo.password),\n            Base64.DEFAULT));\n  }",
+  "diff_func": "--- func_before\n+++ func_after\n private String getBasicAuthorizationHeaderValue(RtspAuthUserInfo authUserInfo) {\n+    return Util.formatInvariant(\n+        BASIC_AUTHORIZATION_HEADER_FORMAT,\n-    return Base64.encodeToString(\n+        Base64.encodeToString(\n-        RtspMessageUtil.getStringBytes(authUserInfo.username + \":\" + authUserInfo.password),\n+            RtspMessageUtil.getStringBytes(authUserInfo.username + \":\" + authUserInfo.password),\n-        Base64.DEFAULT);\n+            Base64.DEFAULT));\n   }",
+  "diff_source": "custom",
+  "Bug Filter": "Defect Remediation & Feature Upgrades",
+  "Bug Filter Confidence": 0.95,
+  "Bug Filter Response": "\n\n**Final Output:**\n\nAnalysis:\n1. The patch corrects the Basic authentication header by adding the missing \"Basic\" keyword.\n2. The issue was a functional defect causing incorrect header formatting.\n3. This fix does not address a security vulnerability but ensures proper authentication header construction.\n\nFinal Classification: Defect Remediation & Feature Upgrades  \nConfidence Score: 0.95"
+}

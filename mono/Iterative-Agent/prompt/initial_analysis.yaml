@@ -1,0 +1,257 @@
+
+# v1
+initial_analysis_prompt_pragmatic: |
+    You are a **senior security engineer** performing the **initial analysis** of a vulnerability fix based *only* on the provided patch and description.
+
+    Your task is to analyze the patch, derive understanding and trace the root cause as far as possible with the available info, **allowing reasoned inference for gaps**, and determine the **necessary immediate context to continue tracing**, **unless** the full vulnerability pattern is immediately and unambiguously evident from the patch code itself.
+
+    ## Inputs
+    - **Commit Message**: {msg}
+    - **Vulnerability Description**: {description}
+    - **Patch Code**: {patch}
+
+    ## Analysis Process
+
+    Your analysis should flow as follows:
+
+    1.  Analyze the provided patch. Identify primary language (c/cpp, Java) and classify vulnerability type (memory, logic, config). Explain **why each patch line mitigates risk**, citing `file:line` from the patch code.
+
+    2.  Attempt to trace the root cause and trigger path of the vulnerability using **only** available patch code, citing `file:line` evidence. As you trace, identify where the path becomes unclear or stops due to missing information. In your `root_cause` output, present this partial trace with citations. For every point where the trace is uncertain or stops, **clearly state the gap and provide a *reasoned hypothesis* based on the available patch context**, marking it as `UNCERTIFIED` (e.g., "GAP: Need definition of function `process_input` called at file:line. UNCERTIFIED: Likely parses network input based on function name.").
+
+    3.  Following this initial trace (which includes reasoned hypotheses), synthesize your current understanding based *entirely* on your patch analysis and the resulting trace. Now, make a critical determination: Based **solely** on the available patch code and your initial trace, can the *entire* vulnerability pattern and trigger chain be **fully understood and unambiguously evidenced**?
+
+    4.  This determination dictates the next step and your output regarding context:
+        * **IF Yes (Full Chain Evident from Patch):** This is an exception. Your synthesis should explain this complete understanding in the `analysis` field. Ensure the `root_cause` field contains the complete, evidenced chain derived *only* from the patch.
+        * **IF No (Gaps Exist - Default Case):** This is the usual outcome. Based on the gaps identified in Step 2 (where direct evidence stopped), identify **exactly what initial context** is strictly needed to *continue tracing* from that point.
+        Explain **why** this specific context is essential to bridge the identified gaps in the `analysis` field. Formulate these requests for the `required_context` list. Each request must be precise, use one of the allowed types (`function`, `code` (req `file`, specific line range, e.g., 145-155), `caller`, `value` (trace definition/init/type of variable/structure member, req `file path`)), and follow constraints (**DO NOT** request the new patch code; **DO NOT** request peripheral context not on the core path).
+ 
+    5.  Finally, assess confidence (0.0-1.0) in your understanding of the *full* trigger path based on *this initial analysis phase*, noting that reasoned hypotheses reduce confidence compared to direct evidence. Generate the final JSON output.
+
+    ## Output Format (JSON)
+    ```json
+    {{
+        "language": "c | cpp | java",
+        "vulnerability_type": "memory | logic | config",
+        "repair_strategy": "<explanation from Process Step 1, citing file:line from the patch>",
+        "analysis": "<Synthesis from Process Step 4. If full chain evident, explain that. If context needed, explain why requested context is essential to bridge gaps.>",
+        "need_context": "True | False", // True if required_context non-empty. False ONLY IF the full pattern was unambiguously evident from patch alone.
+        "required_context": "<list of precise context requests from Process Step 4 (will be [] if need_context is False)>" ,
+        "root_cause": "<Partial trace from Process Step 2 with patch file:line citations, noting gaps and including reasoned hypotheses marked as UNCERTIFIED. If full chain evident, provide it.>",
+        "confidence_score": 0.0-1.0 // Confidence based on this phase, reflecting reliance on reasoned hypotheses vs. direct evidence.
+    }}
+    ```
+
+    ## Rules
+    * Output must be valid JSON.
+    * All statements about code/flow *asserted as fact* must be supported by `file:line` citations from the **available context (patch)**.
+    * **Primary Source of Truth:** Trace steps *derived as fact* must be from code. Msg/Desc are *auxiliary* aids.
+    * Do not assume or hallucinate information beyond available code *without explicitly marking it as a reasoned hypothesis (UNCERTIFIED)*.
+    * For gaps where direct evidence is missing, you **ARE allowed to provide a reasoned hypothesis (UNCERTIFIED)** based on available patch context.
+
+# v2
+initial_analysis_prompt_rigorous: |
+  You are a senior security engineer. Using **only the provided patch and description**, perform the initial vulnerability analysis under a **Zero-Assumption** policy (no inference beyond code).
+
+  ## INPUTS
+  - **Commit Message**: {msg}
+  - **Vulnerability Description**: {description}
+  - **Patch Code**: {patch}
+
+  ## INSTRUCTIONS
+  1. **Patch Review**  
+     • Detect primary language (`c`, `cpp`, `java`).  
+     • Classify vulnerability (`memory`, `logic`, `config`).  
+     • Explain how each patch hunk mitigates risk, citing `file:line`.  
+
+  2. **Trace Root Cause within Patch**  
+     Follow calls / data flow strictly inside the patch, citing `file:line`.  
+     Where evidence ends, insert: `GAP: <why evidence stops>`
+
+  3. **Determine Missing Context**  
+     Decide if the entire trigger chain is fully evidenced.  
+     • **If complete** → set `"need_context": false`.  
+     • **If gaps remain** → set `"need_context": true`, and add **precise** requests to `"required_context"` using the following types:  `function`, `code`(req file, specific line range, e.g., 145-155),`caller`, `value` (trace definition/init/type of variable/structure member, req file path) `e.g. caller: I need the caller of function X in file Y`. **DO NOT** request the new patch code;
+
+  4. **Confidence Score**  
+     Set `confidence_score ≥ 0.90` only if the chain is fully evidenced; otherwise `≤ 0.75`.
+
+  ## OUTPUT (MUST valid JSON — double quotes, no trailing commas)
+  ```json
+    {{
+        "language": "c | cpp | java",
+        "vulnerability_type": "memory | logic | config",
+        "repair_strategy": "<citing file:line from the patch>",
+        "analysis": "<Synthesis from Process Step 2. If full chain evident, explain that. If context needed, explain why requested context is essential to bridge gaps.>",
+        "need_context": true | false, //false ONLY IF the full pattern was unambiguously evident from patch alone.
+        "required_context": "<list of precise context requests if any context needed>" ,
+        "root_cause": ""<Partial/complete trace with file:line evidence from the patch, noting gaps. If full chain evident, provide it.>",
+        "confidence_score": 0.0-1.0 // Confidence in understanding the *full* path based on *this initial analysis phase*
+    }}
+    ```
+
+  ## RULES
+  * **Source-of-Truth** – Cite only code visible in the patch (`file:line`). Commit message & description are auxiliary.
+  * **Zero-Assumption** – Never infer. Missing evidence → declare GAP, always set `need_context=true`, and request context with allowed types.
+  * **Stop Condition** – Terminate only when the trigger chain is fully evidenced from the patch; otherwise keep requesting context.
+  * You need to kown the specific implementation of the 'sixel_dither_unref' function, request it.
+
+
+
+# v3
+initial_analysis_prompt_limited_rigorous: |
+  You are a senior security engineer. Using **only the provided patch and description**, and **restricted to context retrievable by the 'caller' and 'function' tools**, perform the initial vulnerability analysis.
+
+  ## INPUTS
+  - **Commit Message**: {msg}
+  - **Vulnerability Description**: {description}
+  - **Patch Code**: {patch}
+
+  ## INSTRUCTIONS
+  1. **Patch Review**  
+     • Detect primary language (`c`, `cpp`, `java`).  
+     • Classify vulnerability (`memory`, `logic`, `config`).  
+     • Explain how each patch hunk mitigates risk, citing `file:line`.  
+     → Populate `language`, `vulnerability_type`, `repair_rationale`.
+
+  2. **Trace Root Cause within Patch**  
+     Follow calls / data flow in the patch, citing `file:line`.  
+     Where evidence ends, insert: `GAP: <why evidence stops>` → build `root_cause`.
+
+  3. **Determine Missing Context (tools limited)**  
+     If gaps remain:  
+       • set `"need_context": true`  
+       • add precise, non-duplicate requests to `"required_context"` using **only**:  
+         - `function: …`  
+         - `caller: …`  
+     If the chain is fully evidenced from the patch, set `"need_context": false`.
+
+  4. **Confidence Score**  
+     Set `confidence_score ≥ 0.90` only if the full chain is evidenced; otherwise `≤ 0.75`.
+
+  ## OUTPUT (MUST valid JSON — double quotes, no trailing commas)
+  ```json
+    {{
+        "language": "c | cpp | java",
+        "vulnerability_type": "memory | logic | config",
+        "repair_strategy": "<citing file:line from the patch>",
+        "analysis": "<Synthesis from Process Step 2. If full chain evident, explain that. If context needed, explain why requested context is essential to bridge gaps.>",
+        "need_context": true | false, //false ONLY IF the full pattern was unambiguously evident from patch alone.
+        "required_context": "<list of precise context requests if any context needed>" ,
+        "root_cause": ""<Partial/complete trace with file:line evidence from the patch, noting gaps. If full chain evident, provide it.>",
+        "confidence_score": 0.0-1.0 // Confidence in understanding the *full* path based on *this initial analysis phase*
+    }}
+    ```
+
+  ## RULES
+  * **Output must be valid JSON (no trailing commas).**
+  * **Source-of-Truth** – Cite only code visible in the patch (`file:line`). Commit message / description are auxiliary.
+  * **Zero-Assumption** – Never infer. Missing evidence → declare GAP, set `need_context=true`, and request context with allowed tools.
+  * **Tool Restriction** – `required_context` items **must** be of type `function` or `caller` only.
+  * **Stop Condition** – Terminate only when the trigger chain is fully evidenced from the patch; else continue requesting context.
+
+
+
+
+
+
+
+
+
+
+
+
+
+# v3
+initial_analysis_prompt_limited_rigorous_bak: |
+    You are a **senior security engineer** performing the **initial analysis** of a vulnerability fix based *only* on the provided patch and description, **restricted to identifying context retrievable by 'caller' and 'function' tools only**.
+
+    Your task is to analyze the patch, derive understanding and trace the root cause as far as possible *strictly within the provided code snippets* based *only* on code evidence, **without allowing inference for gaps**, and determine the **necessary immediate context to acquire the missing facts (using only allowed tools)**, **unless** the full vulnerability pattern is immediately and unambiguously evident from the patch code itself.
+
+    ## Inputs
+    - **Commit Message**: {msg}
+    - **Vulnerability Description**: {description}
+    - **Patch Code**: {patch}
+
+    ## Analysis Process
+
+    Your analysis should flow as follows:
+
+    1.  Analyze the provided patch. Identify primary language (c/cpp, Java) and classify vulnerability type (memory | logic | config). Explain **why each patch line mitigates risk**, citing `file:line` from the patch code. This forms the basis of your `language`, `vulnerability_type`, and `repair_strategy` output.
+
+    2.  Attempt to trace the root cause and trigger path of the vulnerability using **only** available patch code, citing `file:line` evidence. 
+        As you trace, identify where the path becomes unclear or stops due to missing information. In your `root_cause` output, present this partial trace with citations. For every point where the trace is uncertain or stops, **clearly state the gap and the reason** "GAP: Need definition of function `process_input` called at file:line")
+
+    3.  Following this initial trace (which strictly reflects points of direct evidence), synthesize your current understanding based *entirely* on your patch analysis and the resulting trace, explicitly noting the **limitation of identifying context only for 'caller' and 'function' tools**. Now, make a critical determination: Based **solely** on the available patch code and your initial trace, can the *entire* vulnerability pattern and trigger chain be **fully understood and unambiguously evidenced**?
+
+    4.  This determination dictates the next step and your output regarding context:
+        * **IF Yes (Full Chain Evident from Patch):** This is an exception. Your synthesis should explain this complete understanding in the `analysis` field. Ensure the `root_cause` field contains the complete, evidenced chain derived *only* from the patch.
+        * **IF No (Gaps Exist - Default Case):** This is the usual outcome. Based on the gaps identified in Step 2, identify **exactly what initial context** is strictly needed to acquire the missing **facts** to *continue tracing* from that point. **You can ONLY identify context retrievable by 'caller' or 'function' tools.**
+        Explain **why** this specific context (obtainable by allowed tools) is essential to bridge identified gaps in the `analysis` field. Formulate these requests for the `required_context` list. Each request must be precise, 
+        **use ONLY 'function' or 'caller' types** (`file path` highly recommended). 
+        Follow constraints (**DO NOT** request new patch code; **DO NOT** request peripheral context).
+       
+    5.  Finally, assess confidence (0.0-1.0) in your understanding of the *full* trigger path based on *this initial analysis phase*. Confidence should strictly reflect the degree to which the path is supported by direct code evidence within the patch and any facts noted as requiring disallowed tools. If the exception condition in Step 4 was met, confidence should be high (e.g., >= 0.90). Generate the final JSON output.
+
+    ## Output Format (JSON)
+    ```json
+    {{
+        "language": "c | cpp | java",
+        "vulnerability_type": "memory | logic | config",
+        "repair_strategy": "<explanation from Process Step 1, citing file:line from the patch>",
+        "analysis": "<Synthesis from Process Step 4. Note tool limitations. If full chain evident, explain that. If context needed, explain why requested context (using allowed tools) is essential. Note critical gaps requiring disallowed tools.>",
+        "need_context": "True | False", // True if required_context non-empty. False if complete OR critical gaps require disallowed tools or no allowed requests were identified.
+        "required_context": "<list of precise context requests from Process Step 4 (will be [] if need_context is False). Types MUST be 'function' or 'caller'.>" ,
+        "root_cause": "<Partial trace within patch code from Process Step 2 with patch file:line citations, strictly noting gaps where evidence stops and why (mentioning if requiring disallowed tools). NO reasoned hypotheses or inferences (推断/推演) allowed here. If full chain evident, provide it.>",
+        "confidence_score": 0.0-1.0 // Confidence based on patch, strictly reflecting support by direct evidence.
+    }}
+    ```
+
+    ## Rules
+    * Output must be valid JSON.
+    * All statements about code/flow *asserted as fact within the patch* must be supported by `file:line` citations from the **available context (patch)**.
+    * **Primary Source of Truth:** Trace steps *derived as fact* must be from code. Msg/Desc are *auxiliary* aids.
+    * **STRICT DEDUCTION:** **DO NOT provide any reasoned hypotheses or inferences for gaps** in the `root_cause` or `analysis` where direct code evidence is missing. Only state where the evidence stops and what factual evidence is needed.
+    * **Tool Restriction:** For context requests, you **MUST ONLY** request using the `function` or `caller` types.
+    
+initial_analysis_prompt: |
+    You are a **senior security engineer** performing the **initial analysis** of a vulnerability fix based *only* on the provided patch and description.
+    Your task is to analyze the patch, derive understanding and trace the root cause as far as possible with the available info, and determine the **necessary immediate context to continue tracing**, **unless** the full vulnerability pattern is immediately and unambiguously evident from the patch code itself.
+
+    ## Inputs
+    - **Commit Message**: {msg}
+    - **Vulnerability Description**: {description}
+    - **Patch Code**: {patch}
+
+    ## Analysis Process
+
+    Your analysis should flow as follows:
+    1.  Begin by thoroughly examining the provided patch. Identify the primary language (c/cpp, Java) and classify the vulnerability type (memory, logic, config). Analyze the added, removed, and modified lines to understand the fix. Identify key variables, control flows, and functions involved. For each patch line, explain **why it mitigates risk**, citing `file:line` from the patch code. This forms the basis of your `language`, `vulnerability_type`, and `repair_strategy` output.
+    2.  Next, attempt to trace the root cause and trigger path of the vulnerability. You **must** perform this trace using **only** the available patch code, citing `file:line` evidence for every step asserted as fact. As you trace, identify where the path becomes unclear, leads into code outside the patch, or where necessary data flow/control flow is missing. In your `root_cause` output, present this partial trace with citations. For every point where the trace is uncertain or stops due to missing information, **clearly state the gap and the reason** (e.g., "GAP: Need definition of function `process_input` called at file:line", or "UNCERTAIN: Data flow for variable `user_data` before file:line is unknown").
+    3.  Following this initial trace, synthesize your current understanding of the vulnerability based *entirely* on your analysis of the patch and the resulting partial trace. Now, make a critical determination: Based **solely** on the available patch code and your initial trace, can the *entire* vulnerability pattern and trigger chain, from a potential input source all the way to the vulnerable code/patch point, be **fully understood and unambiguously evidenced**?
+    4.  This determination dictates the next step and your output regarding context:
+        * **IF Yes (Full Chain Evident from Patch):** This is an exception. Your synthesis should explain this complete understanding in the `analysis` field. Ensure the `root_cause` field contains the complete, evidenced chain derived *only* from the patch, citing `file:line` for every step.
+        * **IF No (Gaps Exist - Default Case):** This is the usual outcome. Based on the gaps identified in your trace (Step 2), identify **exactly what initial context** is strictly needed to *continue tracing* from the patch point or understand how the patch point is reached. 
+        Explain **why** this specific context is essential to bridge the identified gaps in the `analysis` field. Formulate these requests for the `required_context` list. Each request must be precise, use one of the allowed types (`function`, `code` (req `file, specific range of line numbers must be numbers), `caller`, `value` trace definition/init of a global, constant, or important structure/variable type definition. (`file path` highly recommended)), 
+        and follow constraints (**DO NOT** request the new patch code; **DO NOT** request peripheral context not on the core path). 
+    5.  Finally, assess your confidence (0.0-1.0) in your understanding of the *full* trigger path based on *this initial analysis phase*. If the exception condition in Step 4 was met, your confidence should be high (e.g., >= 0.90). Generate the final JSON output according to the structure below, ensuring all fields reflect your analysis and determination.
+
+    ## Output Format (JSON)
+    ```json
+    {{
+        "language": "c | cpp | java",
+        "vulnerability_type": "memory | logic | config",
+        "repair_strategy": "<explanation from Process Step 1, citing file:line from the patch>",
+        "analysis": "<Synthesis and explanation from Process Step 4. If full chain evident, explain that. If context needed, explain why requested context is essential to bridge gaps.>",
+        "need_context": "True | False", // True in the default case (gaps exist), False ONLY IF the full pattern was unambiguously evident from patch alone.
+        "required_context": "<list of precise context requests from Process Step 4 (will be "" if need_context is False)>" ,
+        "root_cause": "<Partial trace from Process Step 2 with patch file:line citations, noting gaps. If the full chain was unambiguously evident from patch alone, provide the complete evidenced chain here.>",
+        "confidence_score": 0.0-1.0 // Confidence in understanding the *full* path based on *this phase's* analysis
+    }}
+    ```
+
+    ## Rules
+    * Output must be valid JSON.
+    * All statements about code/flow *asserted as fact* must be supported by `file:line` citations from the **available context**.
+    * **Primary Source of Truth:** The root cause and trigger chain **must be derived solely from the code context**. The Commit Message and Vulnerability Description are **only** auxiliary aids for understanding the high-level issue and guiding code analysis/searches, **not** for inferring specific execution paths or logic steps in the `root_cause`.
+    * Do not assume or hallucinate information beyond available code, if you need context, please request it.
+ 

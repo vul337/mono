@@ -1,0 +1,18 @@
+{
+  "id": 806,
+  "language": "Java",
+  "commit_url": "https://github.com/PixelExperience/frameworks_base/commit/80bc46c48cb693ede724fac070a87df30d813efc",
+  "commit_sha": "80bc46c48cb693ede724fac070a87df30d813efc",
+  "commit_msg": "Fix bypass BAL via LocationManager.requestFlush\n\nBug: 235823542\nTest: atest LocationProviderManagerTest and manual tests\nChange-Id: I2a0fa7b99c3ad5ae839d8018ec70cb5c26e33240",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "services/core/java/com/android/server/location/provider/LocationProviderManager.java",
+  "func_name": "deliverOnFlushComplete",
+  "func_before": "void deliverOnFlushComplete(int requestCode) throws Exception;",
+  "func_after": "@Override\n        public void deliverOnFlushComplete(int requestCode) throws PendingIntent.CanceledException {\n            BroadcastOptions options = BroadcastOptions.makeBasic();\n            options.setDontSendToRestrictedApps(true);\n            options.setPendingIntentBackgroundActivityLaunchAllowed(false);\n\n            mPendingIntent.send(mContext, 0, new Intent().putExtra(KEY_FLUSH_COMPLETE, requestCode),\n                    null, null, null, options.toBundle());\n        }",
+  "diff_func": "--- func_before\n+++ func_after\n+@Override\n-void deliverOnFlushComplete(int requestCode) throws Exception;\n+        public void deliverOnFlushComplete(int requestCode) throws PendingIntent.CanceledException {\n+            BroadcastOptions options = BroadcastOptions.makeBasic();\n+            options.setDontSendToRestrictedApps(true);\n+            options.setPendingIntentBackgroundActivityLaunchAllowed(false);\n+\n+            mPendingIntent.send(mContext, 0, new Intent().putExtra(KEY_FLUSH_COMPLETE, requestCode),\n+                    null, null, null, options.toBundle());\n+        }",
+  "diff_source": "custom",
+  "Bug Filter": "Security Vulnerability Fix\n\nConfidence Score: 0.95",
+  "Bug Filter Confidence": 0.95,
+  "Bug Filter Response": "\n\n**Final Output:**\n\nAnalysis: The patch addresses a security issue where bypassing Background Activity Launch (BAL) was possible via LocationManager.requestFlush. The code changes add security checks to prevent unauthorized app launches, indicating a security vulnerability fix.\n\nFinal Classification: Security Vulnerability Fix\n\nConfidence Score: 0.95"
+}

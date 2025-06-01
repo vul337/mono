@@ -1,0 +1,23 @@
+{
+  "id": 482,
+  "language": "cc",
+  "cwe": "",
+  "commit_url": "https://github.com/google/asylo/commit/6ff3b77ffe110a33a2f93848a6333f33616f02c4",
+  "commit_sha": "6ff3b77ffe110a33a2f93848a6333f33616f02c4",
+  "commit_msg": "Check for result size in dst in inet_ntop\n\nPiperOrigin-RevId: 333814318\nChange-Id: Id7766ed598809f5df42d457f224d6f3dea06c224",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "asylo/platform/host_call/trusted/host_calls.cc",
+  "func_name": "",
+  "raw_func_from_json": "const char *enc_untrusted_inet_ntop(int af, const void *src, char *dst,\n                                    socklen_t size) {\n  if (!src || !dst) {\n    errno = EFAULT;\n    return nullptr;\n  }\n  size_t src_size = 0;\n  if (af == AF_INET) {\n    src_size = sizeof(struct in_addr);\n  } else if (af == AF_INET6) {\n    src_size = sizeof(struct in6_addr);\n  } else {\n    errno = EAFNOSUPPORT;\n    return nullptr;\n  }\n\n  MessageWriter input;\n  input.Push<int>(TokLinuxAfFamily(af));\n  input.PushByReference(Extent{reinterpret_cast<const char *>(src), src_size});\n  input.Push(size);\n  MessageReader output;\n\n  const auto status = NonSystemCallDispatcher(\n      ::asylo::host_call::kInetNtopHandler, &input, &output);\n  CheckStatusAndParamCount(status, output, \"enc_untrusted_inet_ntop\", 2);\n\n  auto result = output.next();\n  int klinux_errno = output.next<int>();\n  if (result.empty()) {\n    errno = FromkLinuxErrorNumber(klinux_errno);\n    return nullptr;\n  }\n\n  memcpy(dst, result.data(),\n         std::min(static_cast<size_t>(size),\n                  static_cast<size_t>(INET6_ADDRSTRLEN)));\n  return dst;\n}",
+  "diff_func": "@@ -1325,9 +1325,10 @@ const char *enc_untrusted_inet_ntop(int af, const void *src, char *dst,\n     return nullptr;\n   }\n \n-  memcpy(dst, result.data(),\n-         std::min(static_cast<size_t>(size),\n-                  static_cast<size_t>(INET6_ADDRSTRLEN)));\n+  memcpy(\n+      dst, result.data(),\n+      std::min({static_cast<size_t>(size), static_cast<size_t>(result.size()),\n+                static_cast<size_t>(INET6_ADDRSTRLEN)}));\n   return dst;\n }\n ",
+  "func": "const char *enc_untrusted_inet_ntop(int af, const void *src, char *dst,\n                                    socklen_t size) {\n  if (!src || !dst) {\n    errno = EFAULT;\n    return nullptr;\n  }\n  size_t src_size = 0;\n  if (af == AF_INET) {\n    src_size = sizeof(struct in_addr);\n  } else if (af == AF_INET6) {\n    src_size = sizeof(struct in6_addr);\n  } else {\n    errno = EAFNOSUPPORT;\n    return nullptr;\n  }\n\n  MessageWriter input;\n  input.Push<int>(TokLinuxAfFamily(af));\n  input.PushByReference(Extent{reinterpret_cast<const char *>(src), src_size});\n  input.Push(size);\n  MessageReader output;\n\n  const auto status = NonSystemCallDispatcher(\n      ::asylo::host_call::kInetNtopHandler, &input, &output);\n  CheckStatusAndParamCount(status, output, \"enc_untrusted_inet_ntop\", 2);\n\n  auto result = output.next();\n  int klinux_errno = output.next<int>();\n  if (result.empty()) {\n    errno = FromkLinuxErrorNumber(klinux_errno);\n    return nullptr;\n  }\n\n  memcpy(dst, result.data(),\n         std::min(static_cast<size_t>(size),\n                  static_cast<size_t>(INET6_ADDRSTRLEN)));\n  return dst;\n}",
+  "project": "asylo",
+  "hash": 196708809535667675417539795756372316314,
+  "size": 38,
+  "commit_id": "6ff3b77ffe110a33a2f93848a6333f33616f02c4",
+  "message": "Check for result size in dst in inet_ntop\n\nPiperOrigin-RevId: 333814318\nChange-Id: Id7766ed598809f5df42d457f224d6f3dea06c224",
+  "target": 1,
+  "dataset": "other",
+  "idx": 197039
+}

@@ -1,0 +1,15 @@
+{
+  "id": 4631,
+  "language": "C/C++",
+  "commit_url": "https://github.com/stefanberger/libtpms/commit/2f30d62",
+  "commit_sha": "2f30d62",
+  "commit_msg": "tpm2: Reset TPM2B buffer sizes after test fails for valid buffer size\n\nReset the buffer size indicator in a TPM2B type of buffer after it failed\nthe test for the maximum buffer size it allows. This prevents having bad\nbuffer sizes in memory that can come to haunt us when writing the volatile\nstate for example.\n\nSigned-off-by: Stefan Berger <stefanb@linux.ibm.com>",
+  "pr_url": "https://github.com/stefanberger/libtpms/pull/223",
+  "pr_info": "Reset buffer size indicators that are found to be too large so that we don't have bad buffer sizes in memory that can cause issues when marshaling the data upon saving volatile data for example.\r\nCheck for the maximum size of a buffer when marshaling data so we do not overstep the TPM2B's buffer size.\r\n ",
+  "file_name": "src/tpm2/Unmarshal.c",
+  "func_name": "TPM2B_SENSITIVE_Unmarshal",
+  "func_before": "TPM_RC\nTPM2B_SENSITIVE_Unmarshal(TPM2B_SENSITIVE *target, BYTE **buffer, INT32 *size)\n{\n    TPM_RC rc = TPM_RC_SUCCESS;\n    \n    INT32 startSize;\n    if (rc == TPM_RC_SUCCESS) {\n\trc = UINT16_Unmarshal(&target->size, buffer, size);\n    }\n    if (target->size != 0) {\n\tif (rc == TPM_RC_SUCCESS) {\n\t    startSize = *size;\n\t}\n\tif (rc == TPM_RC_SUCCESS) {\n\t    rc = TPMT_SENSITIVE_Unmarshal(&target->sensitiveArea, buffer, size);\n\t}\n\tif (rc == TPM_RC_SUCCESS) {\n\t    if (target->size != startSize - *size) {\n\t\trc = TPM_RC_SIZE;\n\t    }\n\t}\n    }\n    return rc;\n}",
+  "func_after": "TPM_RC\nTPM2B_SENSITIVE_Unmarshal(TPM2B_SENSITIVE *target, BYTE **buffer, INT32 *size)\n{\n    TPM_RC rc = TPM_RC_SUCCESS;\n    \n    INT32 startSize;\n    if (rc == TPM_RC_SUCCESS) {\n\trc = UINT16_Unmarshal(&target->size, buffer, size);\n    }\n    if (target->size != 0) {\n\tif (rc == TPM_RC_SUCCESS) {\n\t    startSize = *size;\n\t}\n\tif (rc == TPM_RC_SUCCESS) {\n\t    rc = TPMT_SENSITIVE_Unmarshal(&target->sensitiveArea, buffer, size);\n\t}\n\tif (rc == TPM_RC_SUCCESS) {\n\t    if (target->size != startSize - *size) {\n\t\trc = TPM_RC_SIZE;\n\t\ttarget->size = 0; // libtpms added\n\t    }\n\t}\n    }\n    return rc;\n}",
+  "diff_func": "--- func_before\n+++ func_after\n TPM_RC\n TPM2B_SENSITIVE_Unmarshal(TPM2B_SENSITIVE *target, BYTE **buffer, INT32 *size)\n {\n     TPM_RC rc = TPM_RC_SUCCESS;\n     \n     INT32 startSize;\n     if (rc == TPM_RC_SUCCESS) {\n \trc = UINT16_Unmarshal(&target->size, buffer, size);\n     }\n     if (target->size != 0) {\n \tif (rc == TPM_RC_SUCCESS) {\n \t    startSize = *size;\n \t}\n \tif (rc == TPM_RC_SUCCESS) {\n \t    rc = TPMT_SENSITIVE_Unmarshal(&target->sensitiveArea, buffer, size);\n \t}\n \tif (rc == TPM_RC_SUCCESS) {\n \t    if (target->size != startSize - *size) {\n \t\trc = TPM_RC_SIZE;\n+\t\ttarget->size = 0; // libtpms added\n \t    }\n \t}\n     }\n     return rc;\n }",
+  "diff_source": "custom"
+}

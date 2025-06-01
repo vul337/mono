@@ -1,0 +1,28 @@
+{
+  "id": 1042,
+  "language": "unknown",
+  "cwe": [
+    "CWE-787"
+  ],
+  "commit_url": "https://github.com/ShiftMediaProject/nettle/commit/ae3801a0e5cce276c270973214385c86048d5f7b",
+  "commit_sha": "ae3801a0e5cce276c270973214385c86048d5f7b",
+  "commit_msg": "Similar fix for eddsa.\n\n* eddsa-hash.c (_eddsa_hash): Ensure result is canonically\nreduced. Two of the three call sites need that.\n\n(cherry picked from commit d9b564e4b3b3a5691afb9328c7342b3f7ca64288)",
+  "pr_url": null,
+  "pr_info": null,
+  "file_name": "ChangeLog",
+  "func_name": "",
+  "raw_func_from_json": "_eddsa_hash (const struct ecc_modulo *m,\n\t     mp_limb_t *rp, size_t digest_size, const uint8_t *digest)\n{\n  mp_size_t nlimbs = (8*digest_size + GMP_NUMB_BITS - 1) / GMP_NUMB_BITS;\n\n  mpn_set_base256_le (rp, nlimbs, digest, digest_size);\n\n  if (nlimbs > 2*m->size)\n    {\n      /* Special case for Ed448: reduce rp to 2*m->size limbs.\n\t After decoding rp from a hash of size 2*rn:\n\n\t rp = r2 || r1 || r0\n\n\t where r0 and r1 have m->size limbs.  Reduce this to:\n\n\t rp = r1' || r0\n\n\t where r1' has m->size limbs.  */\n      mp_limb_t hi = rp[2*m->size];\n      assert (nlimbs == 2*m->size + 1);\n\n      hi = mpn_addmul_1 (rp + m->size, m->B, m->size, hi);\n      assert (hi <= 1);\n      hi = mpn_cnd_add_n (hi, rp + m->size, rp + m->size, m->B, m->size);\n      assert (hi == 0);\n    }\n  m->mod (m, rp, rp);\n}",
+  "diff_func": "@@ -1,5 +1,8 @@\n 2021-03-13  Niels Möller  <nisse@lysator.liu.se>\n \n+\t* eddsa-hash.c (_eddsa_hash): Ensure result is canonically\n+\treduced. Two of the three call sites need that.\n+\n \t* ecc-gostdsa-verify.c (ecc_gostdsa_verify): Use ecc_mod_mul_canonical\n \tto compute the scalars used for ecc multiplication.\n ",
+  "func": "_eddsa_hash (const struct ecc_modulo *m,\n\t     mp_limb_t *rp, size_t digest_size, const uint8_t *digest)\n{\n  mp_size_t nlimbs = (8*digest_size + GMP_NUMB_BITS - 1) / GMP_NUMB_BITS;\n\n  mpn_set_base256_le (rp, nlimbs, digest, digest_size);\n\n  if (nlimbs > 2*m->size)\n    {\n      /* Special case for Ed448: reduce rp to 2*m->size limbs.\n\t After decoding rp from a hash of size 2*rn:\n\n\t rp = r2 || r1 || r0\n\n\t where r0 and r1 have m->size limbs.  Reduce this to:\n\n\t rp = r1' || r0\n\n\t where r1' has m->size limbs.  */\n      mp_limb_t hi = rp[2*m->size];\n      assert (nlimbs == 2*m->size + 1);\n\n      hi = mpn_addmul_1 (rp + m->size, m->B, m->size, hi);\n      assert (hi <= 1);\n      hi = mpn_cnd_add_n (hi, rp + m->size, rp + m->size, m->B, m->size);\n      assert (hi == 0);\n    }\n  m->mod (m, rp, rp);\n}",
+  "target": 1,
+  "project": "nettle",
+  "commit_id": "ae3801a0e5cce276c270973214385c86048d5f7b",
+  "hash": 268891952040565861726467544094713063054,
+  "size": 29,
+  "message": "Similar fix for eddsa.\n\n* eddsa-hash.c (_eddsa_hash): Ensure result is canonically\nreduced. Two of the three call sites need that.\n\n(cherry picked from commit d9b564e4b3b3a5691afb9328c7342b3f7ca64288)",
+  "dataset": "other",
+  "idx": 216084,
+  "Bug Filter": "Security Vulnerability Fix  \nConfidence Score: 0.9",
+  "Bug Filter Confidence": 0.9,
+  "Bug Filter Response": "\n\n**Final Output:**\n\nAnalysis: The patch modifies the _eddsa_hash function to ensure canonical reduction of results, which addresses a potential security issue by preventing attacks that exploit non-canonical values. This is a security vulnerability fix as it mitigates risks in cryptographic operations.\n\nFinal Classification: Security Vulnerability Fix  \nConfidence Score: 0.9"
+}
