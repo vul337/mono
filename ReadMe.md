@@ -1,6 +1,8 @@
 # mono: Is Your Vulnerability Dataset Truly Clean? Exposing and Trapping Undecidable Patches
 
-This document describes the artifacts accompanying our paper: "mono: Is Your Vulnerability Dataset Truly Clean? Exposing and Trapping Undecidable Patches". The artifacts are organized in the following directories:
+This document describes the artifacts accompanying our paper: "mono: Is Your Vulnerability Dataset Truly Clean? Exposing and Trapping Undecidable Patches".
+mono represents **M**ulti-agent **O**perated **N**oise **O**utfilter.
+The artifacts are organized in the following directories:
 
 ## `mono`
 
