@@ -142,7 +142,6 @@ class VulAgentContext:
             structured_traces = {}
             unstructured_traces = []
 
-            # 1. 按 struct_type 分组 traces
             for trace in self.valueTraces:
                 if trace.struct_type and trace.struct_definition:
                     if trace.struct_type not in structured_traces:

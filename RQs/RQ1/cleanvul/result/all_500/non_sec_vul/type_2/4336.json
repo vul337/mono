@@ -1,0 +1,18 @@
+{
+  "id": 4336,
+  "language": "C/C++",
+  "commit_url": "https://github.com/torvalds/linux/commit/6c4841c2b6c32a134f9f36e5e08857138cc12b10",
+  "commit_sha": "6c4841c2b6c32a134f9f36e5e08857138cc12b10",
+  "commit_msg": "[POWERPC] Never panic when taking altivec exceptions from userspace\n\nAt the moment we rely on a cpu feature bit or a firmware property to\ndetect altivec. If we dont have either of these and the cpu does in fact\nsupport altivec we can cause a panic from userspace.\n\nIt seems safer to always send a signal if we manage to get an 0xf20\nexception from userspace.\n\nSigned-off-by: Anton Blanchard <anton@samba.org>\nSigned-off-by: Paul Mackerras <paulus@samba.org>",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "arch/powerpc/kernel/traps.c",
+  "func_name": "altivec_unavailable_exception",
+  "func_before": "void altivec_unavailable_exception(struct pt_regs *regs)\n{\n#if !defined(CONFIG_ALTIVEC)\n\tif (user_mode(regs)) {\n\t\t/* A user program has executed an altivec instruction,\n\t\t   but this kernel doesn't support altivec. */\n\t\t_exception(SIGILL, regs, ILL_ILLOPC, regs->nip);\n\t\treturn;\n\t}\n#endif\n\tprintk(KERN_EMERG \"Unrecoverable VMX/Altivec Unavailable Exception \"\n\t\t\t\"%lx at %lx\\n\", regs->trap, regs->nip);\n\tdie(\"Unrecoverable VMX/Altivec Unavailable Exception\", regs, SIGABRT);\n}",
+  "func_after": "void altivec_unavailable_exception(struct pt_regs *regs)\n{\n\tif (user_mode(regs)) {\n\t\t/* A user program has executed an altivec instruction,\n\t\t   but this kernel doesn't support altivec. */\n\t\t_exception(SIGILL, regs, ILL_ILLOPC, regs->nip);\n\t\treturn;\n\t}\n\n\tprintk(KERN_EMERG \"Unrecoverable VMX/Altivec Unavailable Exception \"\n\t\t\t\"%lx at %lx\\n\", regs->trap, regs->nip);\n\tdie(\"Unrecoverable VMX/Altivec Unavailable Exception\", regs, SIGABRT);\n}",
+  "diff_func": "--- func_before\n+++ func_after\n void altivec_unavailable_exception(struct pt_regs *regs)\n {\n-#if !defined(CONFIG_ALTIVEC)\n \tif (user_mode(regs)) {\n \t\t/* A user program has executed an altivec instruction,\n \t\t   but this kernel doesn't support altivec. */\n \t\t_exception(SIGILL, regs, ILL_ILLOPC, regs->nip);\n \t\treturn;\n \t}\n-#endif\n+\n \tprintk(KERN_EMERG \"Unrecoverable VMX/Altivec Unavailable Exception \"\n \t\t\t\"%lx at %lx\\n\", regs->trap, regs->nip);\n \tdie(\"Unrecoverable VMX/Altivec Unavailable Exception\", regs, SIGABRT);\n }",
+  "diff_source": "custom",
+  "Bug Filter": "Defect Remediation & Feature Upgrades",
+  "Bug Filter Confidence": 0.9,
+  "Bug Filter Response": "\n\n**Final Output:**\nAnalysis: The patch modifies the handling of altivec exceptions to prevent kernel panics from userspace. It changes the behavior from causing a panic to sending a signal, enhancing system stability. While it prevents a crash, it doesn't address a direct security exploit.\n\nFinal Classification: Defect Remediation & Feature Upgrades\nConfidence Score: 0.9"
+}

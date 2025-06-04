@@ -1,0 +1,18 @@
+{
+  "id": 2686,
+  "language": "Java",
+  "commit_url": "https://github.com/apache/httpcomponents-client/commit/8f31e6339de0bfdc282c1d2818c0befb3d309a7f",
+  "commit_sha": "8f31e6339de0bfdc282c1d2818c0befb3d309a7f",
+  "commit_msg": "HTTPCLIENT-2147: fixed broken preemptive auth in HC Fluent",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "httpclient5-fluent/src/main/java/org/apache/hc/client5/http/fluent/Executor.java",
+  "func_name": "authPreemptiveProxy",
+  "func_before": "public Executor authPreemptiveProxy(final HttpHost proxy) {\n        if (this.credentialsStore != null) {\n            final Credentials credentials = this.credentialsStore.getCredentials(new AuthScope(proxy), null);\n            if (credentials == null) {\n                final BasicScheme basicScheme = new BasicScheme();\n                basicScheme.initPreemptive(credentials);\n                this.authCache.put(proxy, basicScheme);\n            }\n        }\n        return this;\n    }",
+  "func_after": "public Executor authPreemptiveProxy(final HttpHost proxy) {\n        if (this.credentialsStore != null) {\n            final Credentials credentials = this.credentialsStore.getCredentials(new AuthScope(proxy), null);\n            if (credentials != null) {\n                final BasicScheme basicScheme = new BasicScheme();\n                basicScheme.initPreemptive(credentials);\n                this.authCache.put(proxy, basicScheme);\n            }\n        }\n        return this;\n    }",
+  "diff_func": "--- func_before\n+++ func_after\n public Executor authPreemptiveProxy(final HttpHost proxy) {\n         if (this.credentialsStore != null) {\n             final Credentials credentials = this.credentialsStore.getCredentials(new AuthScope(proxy), null);\n-            if (credentials == null) {\n+            if (credentials != null) {\n                 final BasicScheme basicScheme = new BasicScheme();\n                 basicScheme.initPreemptive(credentials);\n                 this.authCache.put(proxy, basicScheme);\n             }\n         }\n         return this;\n     }",
+  "diff_source": "custom",
+  "Bug Filter": "Defect Remediation & Feature Upgrades",
+  "Bug Filter Confidence": 0.8,
+  "Bug Filter Response": "\n\n**Final Output:**\n\nAnalysis: The patch corrects a functional issue in the preemptive authentication mechanism by properly handling credentials. It doesn't address a security exploit but fixes a bug that could cause authentication failures.\n\nFinal Classification: Defect Remediation & Feature Upgrades\n\nConfidence Score: 0.8"
+}

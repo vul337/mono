@@ -45,14 +45,7 @@ def extract_analysis_results(log):
         r"RUNERROR: (\d+)",
         re.DOTALL
     )
-#     --- Overall Summary Across All Files ---
-# 05/18/2025 09:26:22 PM - [INFO]: Total CSV files processed: 10
-# 05/18/2025 09:26:22 PM - [INFO]: Total Valid Pairs Processed: 941
-# 05/18/2025 09:26:22 PM - [INFO]: Overall (1,0): 200
-# 05/18/2025 09:26:22 PM - [INFO]: Overall (1,1): 291
-# 05/18/2025 09:26:22 PM - [INFO]: Overall (0,0): 255
-# 05/18/2025 09:26:22 PM - [INFO]: Overall (0,1): 195
-# 05/18/2025 09:26:22 PM - [INFO]: Overall RUNERROR: 191
+
     overall_pattern = re.compile(
         r"--- Overall Summary Across All Files ---.*?"
         r"Total Valid Pairs Processed: (\d+).*?"

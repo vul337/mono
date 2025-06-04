@@ -15,7 +15,7 @@ PROMPT_VERSION = "default" # "pragmatic"
 MODEL_NAME = "Qwen/Qwen3-32B"
 # MODEL_NAME = "gpt-4o-2024-11-20"
 
-TEMPERATURE = 0.6
+TEMPERATURE = 0.8
 NUM_CONTAINERS = 4
 
 platform = "kernel"  

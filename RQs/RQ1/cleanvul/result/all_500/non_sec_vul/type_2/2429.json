@@ -1,0 +1,18 @@
+{
+  "id": 2429,
+  "language": "Java",
+  "commit_url": "https://github.com/omnirom/android_frameworks_base/commit/93992527af701c99ca3fb4abe265d1cc7c0995d8",
+  "commit_sha": "93992527af701c99ca3fb4abe265d1cc7c0995d8",
+  "commit_msg": "Fix sandman crash\n\nIt was possible for the system to crash when trying to handle sandman\nbecause the DisplayGroupPowerStateMapper was being accessed without\nholding the Power Lock.\n\nThis change ensures that DisplayGroupPowerStateMapper is only accessed\nwhile holding the lock which prevents this crash from happening.\n\nBug: 185419869\nChange-Id: I96ca47335430023b6e2ac4b6f6e499fa3dc5a53b",
+  "pr_url": null,
+  "pr_info": "no more info",
+  "file_name": "services/core/java/com/android/server/power/PowerManagerService.java",
+  "func_name": "scheduleSandmanLocked",
+  "func_before": "private void scheduleSandmanLocked() {\n        if (!mSandmanScheduled) {\n            mSandmanScheduled = true;\n            Message msg = mHandler.obtainMessage(MSG_SANDMAN);\n            msg.setAsynchronous(true);\n            mHandler.sendMessage(msg);\n        }\n    }",
+  "func_after": "private void scheduleSandmanLocked() {\n        if (!mSandmanScheduled) {\n            mSandmanScheduled = true;\n            for (int id : mDisplayGroupPowerStateMapper.getDisplayGroupIdsLocked()) {\n                if (mDisplayGroupPowerStateMapper.isSandmanSupported(id)) {\n                    Message msg = mHandler.obtainMessage(MSG_SANDMAN);\n                    msg.arg1 = id;\n                    msg.setAsynchronous(true);\n                    mHandler.sendMessage(msg);\n                }\n            }\n        }\n    }",
+  "diff_func": "--- func_before\n+++ func_after\n private void scheduleSandmanLocked() {\n         if (!mSandmanScheduled) {\n             mSandmanScheduled = true;\n+            for (int id : mDisplayGroupPowerStateMapper.getDisplayGroupIdsLocked()) {\n+                if (mDisplayGroupPowerStateMapper.isSandmanSupported(id)) {\n-            Message msg = mHandler.obtainMessage(MSG_SANDMAN);\n+                    Message msg = mHandler.obtainMessage(MSG_SANDMAN);\n+                    msg.arg1 = id;\n-            msg.setAsynchronous(true);\n+                    msg.setAsynchronous(true);\n-            mHandler.sendMessage(msg);\n+                    mHandler.sendMessage(msg);\n+                }\n+            }\n         }\n     }",
+  "diff_source": "custom",
+  "Bug Filter": "Defect Remediation & Feature Upgrades",
+  "Bug Filter Confidence": 0.9,
+  "Bug Filter Response": "\n\n**Final Output:**\n\nAnalysis: The patch addresses a crash caused by improper access to DisplayGroupPowerStateMapper without the Power Lock. The fix ensures the lock is held, preventing the crash. While important, it doesn't mitigate a security exploit but rather a functional defect.\n\nFinal Classification: Defect Remediation & Feature Upgrades\n\nConfidence Score: 0.9"
+}

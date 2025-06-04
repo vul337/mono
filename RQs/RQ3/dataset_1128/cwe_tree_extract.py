@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 
-TARGET_CWE_NUMBERS = ['435', '693', '284', '664', '682', '697', '703', '707', '691', '710']
+TARGET_CWE_NUMBERS = ['693', '284', '664', '682', '703', '707', '691', '710']
 # https://cwe.mitre.org/data/definitions/1000.html
 def load_html(file_path):
     with open(file_path, 'r', encoding='utf-8') as f:

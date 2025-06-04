@@ -1026,24 +1026,6 @@ def cwes_to_str(cwe: List[str]) -> str:
     return "\n".join([f"{cwe}:{cwe_info[cwe]}: " for cwe in cwe if cwe in cwe_info])
 
 
-def get_zero_shot_cot_prompt_with_context(
-    code: str, cwe: List[str], context: str, method: List[str]
-) -> str:
-    return f"""Your task is to evaluate whether the following code contains a {', '.join(cwe)} vulnerability.
-```CWE
-{cwes_to_str(cwe)}
-```
-```Context
-{context}
-```
-```Code
-{code}
-```
-Assumptions: 
-1. All context (callee functions, etc.) are vulnerablity-free. You only need to check whether methods {', '.join(method)} is vulnerable.
-Check whether methods {', '.join(method)} contains a {', '.join(cwe)} vulnerability.
-Let's analyze step by step before providing the final answer. Finally, return either **HAS_VUL** or **NO_VUL**."""
-
 def format_context(context: VulAgentContext) -> str: 
     return str(context)
 
@@ -1055,29 +1037,15 @@ def get_zero_shot_cot_prompt_with_more_context(
 ) -> str:
     context = pair.context
 
-    # Select methods and visited lines based on is_vuln
     methods = pair.vuln if is_vuln else pair.patched
     
     marked_methods = []
     for method in methods:
         marked_code = []
         code_lines = method.raw_code.split("\n") # function code : 1
-        patch_start = method.patch_start # patch start line
-        patch_count = method.patch_count # patch count
-        patch_lines_relative = set(range(
-            patch_start,
-            patch_start + patch_count
-        ))
 
         for i, line in enumerate(code_lines, 1):
-            if i in patch_lines_relative:
-                # if context_on:
-                    # marked_code.append(f"{line} // potential")
-                    # marked_code.append(f"{line}") # we don't need to add // potential in the prompt
-                # else:
-                marked_code.append(line)
-            else:
-                marked_code.append(line)
+            marked_code.append(line)
 
         joined_code = "\n".join(marked_code)
         marked_methods.append(
@@ -1087,23 +1055,6 @@ def get_zero_shot_cot_prompt_with_more_context(
             f"{joined_code}"
         )
     
-    # Prepare parameter information
-    # param_info = []
-    # for method_name, params in context.visitedParams.items():
-    #     if params:
-    #         param_info.append(
-    #             f"In method {method_name}, these parameters are potential: {', '.join(params)}"
-    #         )
-    # if len(param_info) > 0:
-    #     param_description = "\n".join(param_info)
-    #     param_description += "\n\nParams not in Parameter Information is not relevant to the vulnerability."
-    # else:
-    #     param_description = "All params are not vulnerable."
-
-    # if feedback_info:
-    #     feedback = f"```Feedback: {feedback_info}.\n The cuases in feedback are checked to be vulnerable-free. You should check whether the code contains other vulnerabilities.```"
-    # else:
-    #     feedback = ""
     all_marked_methods = "\n\n".join(marked_methods)
 
 
@@ -1132,46 +1083,4 @@ Analyze the Code step by step to determine if any of the specified vulnerabiliti
 Analyze the code step by step to determine if any of the specified vulnerabilities are present. In your final response, list all detected vulnerabilities and indicate "HAS_VUL" if any are found. If no vulnerabilities are detected, respond with "NO_VUL."
 """
 
-# 1.  **Analyze Code & Context for CWE Characteristics:** Identify the purpose of the code, relevant variables/data flow, and **code patterns or conditions** that align with the specified `CWE`. Utilize the **entire** `Context` to understand the code's environment and how it might be used. Look for **potential trigger points** or inputs that could activate the suspected vulnerability.
-# 2.  **Evaluate Vulnerability Conditions:** Based on the analysis in step 1, assess if the identified CWE-related patterns or conditions are **critical** and **lacking sufficient mitigation** within the provided `Code` and `Context`. Consider if the potential trigger points appear accessible.
-# 3.  **Determine Vulnerability (HAS_VUL or NO_VUL):**
-#     * If the analysis identifies **clear code patterns, critical conditions, or exploitable trigger points** that significantly align with the `CWE` and **lack sufficient mitigation** based **strictly** on the provided `Code` and `Context` -> **Result: HAS_VUL**. (Focus on the presence of the vulnerability characteristics).
-#     * If the analysis **does not identify clear CWE-related patterns**, or if identified patterns are **sufficiently mitigated**, or if **essential elements for the CWE are clearly absent** based **strictly** on the provided `Code` and `Context` -> **Result: NO_VUL**.
-# 4.  **Provide Reasoning:**
-#     * Explain your step-by-step analysis, highlighting the identified code patterns, variables, data flow, and potential trigger points relevant to the CWE.
-#     * Cite code/flow facts with `file:line` references.
-#     * Explain **why** the identified characteristics led to the conclusion (HAS_VUL or NO_VUL), focusing on the presence/absence/mitigation of the critical CWE conditions based **only** on the provided evidence. If you attempted to trace a simple trigger scenario, describe that.
-
-
-#     if context_on:
-#         return f"""Your task is to evaluate whether the following code contains any of the following vulnerabilities : {', '.join(pair.cwe)}.
-# ```Vulnerabilities to Check
-# {cwes_to_str(pair.cwe)}
-# ```
-# ```Context
-# {format_context(context)}
-# ```
-# ```Code
-# {all_marked_methods}
-# ```
-# ```Parameter Information
-# {param_description}
-# ```
-# {feedback}
-# ```Assumptions
-# 1. Ignore lines that do not contain comments indicating potential vulnerabilities (i.e., lines without // potential).
-# 2. Parameters not list in "Parameter Information" should be ignored.
-# ```
-# Analyze the code step by step to determine if any of the specified vulnerabilities are present. In your final response, list all detected vulnerabilities and indicate "HAS_VUL" if any are found. If no vulnerabilities are detected, respond with "NO_VUL."
-# """
-#     else:
-#         return f"""Your task is to evaluate whether the following code contains any of the following vulnerabilities : {', '.join(pair.cwe)}.
-# ```Vulnerabilities to Check
-# {cwes_to_str(pair.cwe)}
-# ```
-# ```Code
-# {all_marked_methods}
-# ```
-# Analyze the code step by step to determine if any of the specified vulnerabilities are present. In your final response, list all detected vulnerabilities and indicate "HAS_VUL" if any are found. If no vulnerabilities are detected, respond with "NO_VUL."
-# """
 
