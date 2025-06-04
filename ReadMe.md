@@ -1,6 +1,6 @@
-# mono: An LLM Framework for Noise-Reduced Vulnerability Dataset Construction
+# mono: Is Your Vulnerability Dataset Truly Clean? Exposing and Trapping Undecidable Patches
 
-This document describes the artifacts accompanying our paper: mono: An LLM Framework for Noise-Reduced Vulnerability Dataset Construction. The artifacts are organized in the following directories:
+This document describes the artifacts accompanying our paper: "mono: Is Your Vulnerability Dataset Truly Clean? Exposing and Trapping Undecidable Patches". The artifacts are organized in the following directories:
 
 ## `mono`
 
