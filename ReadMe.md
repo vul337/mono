@@ -48,3 +48,19 @@ This directory is dedicated to the research questions (RQs) addressed in our pap
 - The final results obtained for that RQ.
 
 Each RQ subfolder also includes its own `ReadMe.md` file providing more detailed information specific to that research question.
+
+# Bibtex
+
+If this work is helpful for your research, please consider citing the following BibTeX entry.
+
+```
+@misc{gao2025monocleanvulnerabilitydataset,
+      title={Mono: Is Your "Clean" Vulnerability Dataset Really Solvable? Exposing and Trapping Undecidable Patches and Beyond}, 
+      author={Zeyu Gao and Junlin Zhou and Bolun Zhang and Yi He and Chao Zhang and Yuxin Cui and Hao Wang},
+      year={2025},
+      eprint={2506.03651},
+      archivePrefix={arXiv},
+      primaryClass={cs.CR},
+      url={https://arxiv.org/abs/2506.03651}, 
+}
+```
