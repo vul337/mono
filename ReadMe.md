@@ -1,6 +1,6 @@
 # mono: Is Your "Clean" Vulnerability Dataset Really Solvable? Exposing and Trapping Undecidable Patches and Beyond
 
-This document describes the artifacts accompanying our paper: "mono: Is Your "Clean" Vulnerability Dataset Really Solvable? Exposing and Trapping Undecidable Patches and Beyond".
+This document describes the artifacts accompanying our paper: "[mono: Is Your "Clean" Vulnerability Dataset Really Solvable? Exposing and Trapping Undecidable Patches and Beyond](https://arxiv.org/abs/2506.03651)".
 'mono' represents **M**ulti-agent **O**perated **N**oise **O**utfilter.
 The artifacts are organized in the following directories:
 
