@@ -21,7 +21,6 @@ def read_config_file() -> dict:
 
     github_tokens = []
     github_username = []
-    # eg: Z3r4Y::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
     for token in github_token_path.open(mode='r').readlines():
         username, token = token.split('::')
         if token.startswith('ghp') or token.startswith('gho') or token.startswith('github'):
