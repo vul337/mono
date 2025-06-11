@@ -55,7 +55,7 @@ If this work is helpful for your research, please consider citing the following 
 
 ```
 @misc{gao2025monocleanvulnerabilitydataset,
-      title={Mono: Is Your "Clean" Vulnerability Dataset Really Solvable? Exposing and Trapping Undecidable Patches and Beyond}, 
+      title={mono: Is Your "Clean" Vulnerability Dataset Really Solvable? Exposing and Trapping Undecidable Patches and Beyond}, 
       author={Zeyu Gao and Junlin Zhou and Bolun Zhang and Yi He and Chao Zhang and Yuxin Cui and Hao Wang},
       year={2025},
       eprint={2506.03651},
